@@ -1,5 +1,7 @@
 #script for one run of a ph_comstruct; to run in parallel. 
+#todo: edit output so that it is task ID AND jobID. 
 
+start_time<-format(Sys.time(), "%H:%M:%S") #identify start time of script
 
 #install.packages("phylocomr", repos = "http://cran.us.r-project.org")
 #install.packages("ape", repos = "http://cran.us.r-project.org")
@@ -22,7 +24,8 @@ typeof(res_sample_cluster)
 
 path <- "/u/home/m/mchari/output_phylo/"
 fileName = paste(path, "phcom_out",n,".csv", sep = '')
+fileName_time = paste(path, "phcom_out",n,"time.txt", sep = '')#filepath for time outputs. 
 write.csv(res_sample_cluster, file = fileName) #this i believe is the output file. I think it's maybe better than table?
 
-
-
+end_time<-format(Sys.time(), "%H:%M:%S") #identify end time of script
+write.table(c(start_time, end_time, file == fileName_time
