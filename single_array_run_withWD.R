@@ -1,5 +1,32 @@
 #script for one run of a ph_comstruct; to run in parallel. 
 #todo: edit output so that it is task ID AND jobID. 
+#this script just gets environmental variables 
+
+
+
+a<-Sys.getenv(x = "JOB_ID")
+#this is the syntax for accessing one element in the environmental variable list.
+
+folder <- paste(a, "output_files", sep = "_")
+folder2 <- paste(a, "times", sep = "_")
+if (file.exists(folder)) {
+  
+  cat("The folder already exists")
+  
+} else {
+  
+  dir.create(folder)
+  
+}
+if (file.exists(folder2)) {
+  
+  cat("The folder already exists")
+  
+} else {
+  
+  dir.create(folder2)
+
+#created new directories to hold the outputs.   
 
 start_time<-format(Sys.time(), "%H:%M:%S") #identify start time of script
 
@@ -27,17 +54,22 @@ typeof(res_sample_cluster)
 
 print("ph_comstruct successfully applied")
 
-path <- "/u/home/m/mchari/output_phylo/"
-fileName = paste(path, "phcom_out",n,".csv", sep = '')
-fileName_time = paste(path, "phcom_out",n,"time.txt", sep = '')#filepath for time outputs. 
-write.csv(res_sample_cluster, file = fileName) #this i believe is the output file. I think it's maybe better than table?
+#path <- "/u/home/m/mchari/output_phylo/"
+#fileName = paste(path, "phcom_out",n,".csv", sep = '')
+#fileName_time = paste(path, "phcom_out",n,"time.txt", sep = '')#filepath for time outputs. 
+
+
+fileIDcsv = paste("/",folder,"/","n.csv", sep = '') #this fileID can be applied to all outputs.
+fileIDtxt = paste("/",folder,"/","n.txt", sep = '') #this fileID can be applied to$
+
+write.csv(res_sample_cluster, file = fileIDcsv) #this i believe is the output file. I think it's maybe better than table?
 
 print("data output")
 
 end_time<-format(Sys.time(), "%H:%M:%S") #identify end time of script
 
 times_list <- c(start_time, end_time)
-write.table(times_list, file = fileName_time)
-#write.table(c(start_time, end_time), file = fileName_time))
+write.table(times_list, file = fileIDtxt)
+#write.table(c(start_time, end_time), file = folder2))
 
 #print("times output")
