@@ -1,7 +1,7 @@
 #!/bin/bash
 #$ -cwd #uses current working directory
 # error = Merged with joblog
-#$ -o /u/home/m/mchari/joblog_$JOB_ID/joblog.$JOB_ID.$TASK_ID #creates a file called joblog.jobidnumber.taskidnumber to write to. 
+#$ -o /u/home/m/mchari/bird/joblog_$JOB_ID/joblog.$JOB_ID.$TASK_ID #creates a file called joblog.jobidnumber.taskidnumber to write to. 
 #$ -j y 
 #$ -l h_rt=0:30:00,h_data=2G #requests 30 minutes, 2GB of data (per core)
 #$ -pe shared 2 #requests 2 cores
@@ -19,4 +19,4 @@ echo ${SGE_TASK_ID}
 
 # run julia code
 echo Running phylo_code for n = ${SGE_TASK_ID} #prints this quote to joblog.jobidnumber
-Rscript single_array_run_withWD.R ${SGE_TASK_ID}  > /u/home/m/mchari/joblog_$JOB_ID/output.$JOB_ID.${SGE_TASK_ID}
+Rscript single_array_run_withWD.R ${SGE_TASK_ID}  > /u/home/m/mchari/bird/joblog_$JOB_ID/output.$JOB_ID.${SGE_TASK_ID}
