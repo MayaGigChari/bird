@@ -25,8 +25,11 @@ if (file.exists(folder2)) {
 } else {
   
   dir.create(folder2)
+}
 
 #created new directories to hold the outputs.   
+
+
 
 start_time<-format(Sys.time(), "%H:%M:%S") #identify start time of script
 
@@ -54,13 +57,15 @@ typeof(res_sample_cluster)
 
 print("ph_comstruct successfully applied")
 
-#path <- "/u/home/m/mchari/output_phylo/"
+path_to_output <- "/u/home/m/mchari/bird/"
 #fileName = paste(path, "phcom_out",n,".csv", sep = '')
 #fileName_time = paste(path, "phcom_out",n,"time.txt", sep = '')#filepath for time outputs. 
 
+path_csv<-file.path(path_to_output, folder)#trying to formally make file paths
+path_txt<-file.path(path_to_output,folder2)
 
-fileIDcsv = paste("/",folder,"/","n.csv", sep = '') #this fileID can be applied to all outputs.
-fileIDtxt = paste("/",folder,"/","n.txt", sep = '') #this fileID can be applied to$
+fileIDcsv = paste(path_csv,n, ".csv", sep = '') #this fileID can be applied to all outputs.
+fileIDtxt = paste(path_txt, n, ".txt", sep = '') #this fileID can be applied to$
 
 write.csv(res_sample_cluster, file = fileIDcsv) #this i believe is the output file. I think it's maybe better than table?
 
