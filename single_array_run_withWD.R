@@ -59,7 +59,7 @@ print("ph_comstruct successfully applied")
 
 path_to_output <- "/u/home/m/mchari/bird"
 #fileName = paste(path, "phcom_out",n,".csv", sep = '')
-#fileName_time = paste(path, "phcom_out",n,"time.txt", sep = '')#filepath for time outputs. 
+#fileName_time = paste(path, "phcom_out",n,"time.csv", sep = '')#filepath for time outputs. 
 
 path_csv<-file.path(path_to_output, folder)#trying to formally make file paths
 path_txt<-file.path(path_to_output,folder2)
@@ -67,11 +67,11 @@ path_txt<-file.path(path_to_output,folder2)
 print(path_csv)
 print(path_txt)
 
-fileIDcsv = paste(path_csv,"/",n, ".csv", sep = '') #this fileID can be applied to all outputs.
-fileIDtxt = paste(path_txt,"/", n, ".txt", sep = '') #this fileID can be applied to$
+fileIDcsv = paste(path_csv,"/",n, "out.csv", sep = '') #this fileID can be applied to all outputs.
+fileIDtimes = paste(path_txt,"/", n, "time.csv", sep = '') #this fileID can be applied to$
 
 print(fileIDcsv)
-print(fileIDtxt)
+print(fileIDtimes)
 
 write.csv(res_sample_cluster, file = fileIDcsv) #this i believe is the output file. I think it's maybe better than table?
 
@@ -79,8 +79,12 @@ print("data output")
 
 end_time<-format(Sys.time(), "%H:%M:%S") #identify end time of script
 
-times_list <- c(start_time, end_time)
-write.table(times_list, file = fileIDtxt)
+times = c(start_time, end_time)
+point = c(1,2)
+df_times = data.frame (time = times, point = point)
+write.csv(df_times, file = fileIDtimes)
+
+#write.table(times_list, file = fileIDtxt)
 #write.table(c(start_time, end_time), file = folder2))
 
 #print("times output")
