@@ -57,15 +57,21 @@ typeof(res_sample_cluster)
 
 print("ph_comstruct successfully applied")
 
-path_to_output <- "/u/home/m/mchari/bird/"
+path_to_output <- "/u/home/m/mchari/bird"
 #fileName = paste(path, "phcom_out",n,".csv", sep = '')
 #fileName_time = paste(path, "phcom_out",n,"time.txt", sep = '')#filepath for time outputs. 
 
 path_csv<-file.path(path_to_output, folder)#trying to formally make file paths
 path_txt<-file.path(path_to_output,folder2)
 
-fileIDcsv = paste(path_csv,n, ".csv", sep = '') #this fileID can be applied to all outputs.
-fileIDtxt = paste(path_txt, n, ".txt", sep = '') #this fileID can be applied to$
+print(path_csv)
+print(path_txt)
+
+fileIDcsv = paste(path_csv,"/",n, ".csv", sep = '') #this fileID can be applied to all outputs.
+fileIDtxt = paste(path_txt,"/", n, ".txt", sep = '') #this fileID can be applied to$
+
+print(fileIDcsv)
+print(fileIDtxt)
 
 write.csv(res_sample_cluster, file = fileIDcsv) #this i believe is the output file. I think it's maybe better than table?
 
