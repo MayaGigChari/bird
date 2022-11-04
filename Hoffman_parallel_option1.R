@@ -54,7 +54,8 @@ n = as.integer(args[1]) #makes the SGE_TASK_ID an integer
 #this line separates and assigns jobs to different parameter combinations (in this case tree sizes )
 
 
-current_index = n %/% 1000
+current_index = n %/% n_rand
+
 sample_size = params[current_index] #this gives us a sample size for the 
 
 print("args successfully loaded")
@@ -82,6 +83,8 @@ path_txt<-file.path(path_to_output,folder2)
 
 print(path_csv)
 print(path_txt)
+
+print(sample_size)
 
 fileIDcsv = paste(path_csv,"/",sample_size,"_",n, "out.csv", sep = '') #this fileID can be applied to all outputs.
 fileIDtimes = paste(path_txt,"/",sample_size,"_",n, "time.csv", sep = '') #this fileID can be applied to$
