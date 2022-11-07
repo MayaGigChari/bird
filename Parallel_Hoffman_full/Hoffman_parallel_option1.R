@@ -74,7 +74,7 @@ typeof(res_sample_cluster)
 
 print("ph_comstruct successfully applied")
 
-path_to_output <- "/u/home/m/mchari/bird"
+path_to_output <- "/u/home/m/mchari/bird/Parallel_Hoffman_full"
 #fileName = paste(path, "phcom_out",n,".csv", sep = '')
 #fileName_time = paste(path, "phcom_out",n,"time.csv", sep = '')#filepath for time outputs. 
 
