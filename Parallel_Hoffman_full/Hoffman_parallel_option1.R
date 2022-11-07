@@ -61,7 +61,7 @@ sample_size = params[current_index] #this gives us a sample size for the
 print("args successfully loaded")
 
 #load the trees 
-sample_tree_filename = paste("sample_tree_cluster", sample_size)
+sample_tree_filename = paste("sample_tree_cluster", sample_size, sep = "")
 sample_tree_cluster<-read.tree(file = sample_tree_filename)
 full_tree_cluster<-read.tree(file = "full_tree_for_cluster.tre")
 
