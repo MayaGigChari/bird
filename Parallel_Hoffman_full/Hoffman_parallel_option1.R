@@ -54,11 +54,8 @@ n = as.integer(args[1]) #makes the SGE_TASK_ID an integer
 #this line separates and assigns jobs to different parameter combinations (in this case tree sizes )
 
 
-current_index = n %/% n_rand
-<<<<<<< HEAD
-=======
+current_index = n %/% n_rand +1 
 
->>>>>>> 9ea6a46c91e2b32fa5923fbb3428bc2cf804d2f6
 sample_size = params[current_index] #this gives us a sample size for the 
 
 print("args successfully loaded")
