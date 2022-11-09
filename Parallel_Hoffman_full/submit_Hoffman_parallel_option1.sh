@@ -11,6 +11,8 @@
 ##$ -m bea #sends you an email (b) when the job begins (e) when job ends (a) when job is aborted (error)
 #$ -t 1-25:1 # 1 to 25, with step size of 1
 
+sleep $(( RANDOM % 60))  #added this line to try to stagger jobs 
+
 # load the job environment:
 . /u/local/Modules/default/init/modules.sh
 module load R
