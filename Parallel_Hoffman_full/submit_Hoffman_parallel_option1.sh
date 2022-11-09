@@ -9,7 +9,7 @@
 #$ -M $USER@mail #don't change this line, finds your email in the system 
 # Notify when
 ##$ -m bea #sends you an email (b) when the job begins (e) when job ends (a) when job is aborted (error)
-#$ -t 1-25:1 # 1 to 10, with step size of 1
+#$ -t 1-25:1 # 1 to 25, with step size of 1
 
 # load the job environment:
 . /u/local/Modules/default/init/modules.sh
