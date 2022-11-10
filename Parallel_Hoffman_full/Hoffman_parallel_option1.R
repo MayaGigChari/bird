@@ -4,7 +4,7 @@
 #define global variables/ variables to change. 
 
 #number of randomizations
-n_rand = 5
+n_rand = 1000
 
 
 #create new directories to hold outputs

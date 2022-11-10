@@ -1,0 +1,10 @@
+Loading R/4.0.2
+  Loading requirement: intel/.2019.2 curl/7.70.0
+5000
+Running phylo_code for n = 5000
+Error in file(file, "r") : cannot open the connection
+Calls: read.tree -> scan -> file
+In addition: Warning message:
+In file(file, "r") :
+  cannot open file 'sample_tree_clusterNULL': No such file or directory
+Execution halted
