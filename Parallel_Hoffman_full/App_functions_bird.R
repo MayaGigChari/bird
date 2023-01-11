@@ -58,7 +58,7 @@
 
 
 
-#function to readin the data (list of species)
+#function to readin the data (list of species) with different species on each line
 read<-function(txt_file)
 {
   species_list<-read.table(file = txt_file, sep = '\n')
@@ -108,6 +108,9 @@ sample_tree_generator<-function(sample, master_phylogeny)
 
 tree_test<-sample_tree_generator(species_list_pruned,full_fish_phylo)
 
+
+
+
 #functon to produce a figure of all the taxa you have seen laid out on a tree. uses the helper function below called helper_whereontree
 
 visualize_sample<-function(sample, master_phylogeny)
@@ -131,6 +134,15 @@ helper_whereOnTree<-function(parent_tree, sample_tree) #function for taking a tr
   nodes_in_sample_return = which(names(ordered_tips_names_func)%in%sample_tree$tip.label)
   return(nodes_in_sample_return)
 }
+
+
+
+
+
+
+
+
+
 
 
 #the following functions are for diversity index analyses
