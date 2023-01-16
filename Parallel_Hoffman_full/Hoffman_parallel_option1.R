@@ -45,7 +45,7 @@ library(ape)
 
 #these are tree sizes of "sample input trees" In this case these are the "params" we will be parallelizing over. 
 
-params = list(10,50,100,200,1000) #this is a list of tree sizes. 
+params = list(10,25,50,100,250,350,500, 700, 900, 1000) #this is a list of tree sizes. 
 
 args = commandArgs(trailingOnly=TRUE) #not sure what this part does, but I think it allows us to accept args when the script is sent. 
 print(args) #prints the arguments which here should be equivalent to each SGE_TASK_ID
