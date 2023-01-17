@@ -39,7 +39,7 @@ start_time<-format(Sys.time(), "%H:%M:%S") #identify start time of script
 
 
 install.packages("phylocomr", repos = "http://cran.us.r-project.org")
-#install.packages("ape", repos = "http://cran.us.r-project.org")
+install.packages("ape", repos = "http://cran.us.r-project.org")
 library(phylocomr)
 library(ape)
 

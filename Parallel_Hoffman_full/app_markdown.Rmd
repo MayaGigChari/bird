@@ -1,0 +1,188 @@
+---
+title: "PD application"
+author: "Maya Chari"
+output:
+  html_document:
+    df_print: paged
+  html_notebook: default
+  pdf_document: default
+---
+
+
+```{r}
+list.of.packages <- c("dplyr", "ape", "phytools", "data.table", "ggtree")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+```
+
+#### STEP 1: Read in the list of species and build an associated tree 
+
+```{r}
+read<-function(txt_file) #takes a text file with endline separated entries and produces a species list dataframe
+{
+  species_list<-read.table(file = txt_file, sep = '\n')
+  colnames(species_list)[1]<- "name" #set the first column to be species 
+  #species_list$name<-paste0(""",species_list$name,""")
+  species_list$name <- sub(" ", "_", species_list$name)
+  print(species_list)
+  #df1
+}
+
+produce_tree<- function(tree_file) #takes a .tre file (the master tree) and builds/saves a tree object
+{
+  library(ape)
+  tree<-read.tree(tree_file)
+  return(tree)
+}
+
+check_taxa<-function(species_list, master_phylogeny) #run this with tree_test as the tree object. 
+#This function checks the species list against the master phylogeny and returns species that do not exist in master phylogeny 
+{
+  library(dplyr)
+  unmatched_species<-species_list%>%
+    filter(!(species_list$name%in%master_phylogeny$tip.label))
+  print("the following species on your list are not members of the larger phylogeny")
+  print(unmatched_species$name)
+  return(unmatched_species)
+}
+
+remove_taxa<- function(species_list, master_phylogeny) #takes the output from check_taxa and removes them from the original dataframe of species
+{
+  matched_species<-species_list%>% 
+    filter((species_list$name%in%master_phylogeny$tip.label))
+  return(matched_species)
+}
+
+sample_tree_generator<-function(sample, master_phylogeny) #generates a tree datatype from the cleaned sample data
+{
+  library(phytools)
+  library(ape)
+  list_species<- c(sample$name)
+  sample_tree<-keep.tip(master_phylogeny, list_species) #maybe try to print this tree somehow later. 
+  return(sample_tree)
+}
+```
+
+#### Step 2: Calculate true sample PD 
+
+```{r}
+pd_app<- function (sample_tree,master_phylogeny) #calculate PD of sample
+{
+  library(phylocomr)
+  df_touse<-data.frame(sample = "species", occurrence = 1, names = sample_tree$tip.label)
+  return(ph_pd(df_touse, master_phylogeny))
+}
+```
+#### Step 3 (Intermediary): construct surface equations from Hoffman2 data (preprocessed in R)
+
+```{r}
+fitmodels<- function(datafilename)
+{
+  library(data.table)
+  df_surf<- data.frame(read.csv(datafilename, header = TRUE)) #read in the data
+  low <- df_surf[1,]
+  med <- df_surf[3,]
+  high<- df_surf[2,]
+  tree_sizes<- c(10,50,100,200,1000) #this is subject to change.
+  t_low <-transpose(low)
+  t_med <- transpose(med)
+  t_high <-transpose(high) 
+  t_low2 = data.frame(t_low[-1,])
+
+  colnames(t_low2) <- c("mpd")
+  t_low2$mpd = as.double(t_low2$mpd)
+  t_low2["sizes"] = tree_sizes
+  X_low = t_low2$sizes
+  Y_low = t_low2$mpd
+
+  t_med2 = data.frame(t_med[-1,])
+  colnames(t_med2) <- c("mpd")
+  t_med2$mpd = as.double(t_med2$mpd)
+  t_med2["sizes"] = tree_sizes
+  X_med = t_med2$sizes
+  Y_med = t_high2$mpd
+
+  t_high2 = data.frame(t_high[-1,])
+  colnames(t_high2) <- c("mpd")
+  t_high2$mpd = as.double(t_high2$mpd)
+  t_high2["sizes"] = tree_sizes
+  X_high = t_med2$sizes
+  Y_high = t_high2$mpd
+  
+  model_low <- drm(Y_low ~ X_low, fct = MM.3())
+  model_med <- drm(Y_med ~ X_med, fct = MM.3())
+  model_high <- drm(Y_high ~ X_high, fct = MM.3())
+  
+  return(c(model_low, model_med, model_high))
+}
+
+
+###TODO: figure out how to extract parameter values from models (manual rn)
+
+
+
+```
+
+#### Step 4: Compare the true PD to the expected range (95% CI lower and upper bounds of expected PD)
+
+```{r}
+range_pred<- function(sample_size) #need to connect this to the models. 
+{
+  lower <- 187.43493 + (285.79165 -187.43493)/(1+ 4.80982/sample_size)
+  upper<- 167.86292 + (286.30946-167.86292)/(1+3.06938/sample_size)
+  return(c(lower,upper))
+}
+
+is_significant<-function(low_lim,upp_lim, true_pd) #boolean function for whether the observed pd lies within the 95% CI
+{
+  return(between(true_pred, low_lim, upp_lim))
+}
+```
+
+
+#### Step 5: Visualizations (for the user to see)
+
+```{r}
+helper_whereOnTree<-function(parent_tree, sample_tree) #function for taking a tree and a sample and returns nodes in tree that exist in sample
+{
+  is_tip<-parent_tree$edge[,2]<=length(parent_tree$tip.label) #label each node with true/false depending on if it is a tip. 
+  ordered_tips_func<-parent_tree$edge[is_tip,2] #get the nodes that return true. 
+  ordered_tips_names_func =parent_tree$tip.label[ordered_tips_func] #extracts only the tip names in the order of the ordered tips? 
+  names(ordered_tips_names_func)= ordered_tips_names_func #these two lines of code asssign names to each tip.
+  nodes_in_sample_return = which(names(ordered_tips_names_func)%in%sample_tree$tip.label)
+  return(nodes_in_sample_return)
+}
+
+visualize_sample<-function(sample, master_phylogeny) #visualizes a tree datatype. change this to accomodate variable file names. 
+  #TODO: change file path 
+{
+  library(ggtree)
+  nodes<- helper_whereOnTree(master_phylogeny, sample)
+  print(nodes)
+  png(file="~/Desktop/FishPICCCC.png",
+      width=600, height=350)
+  ggtree(master_phylogeny, layout = "circular")+
+    geom_tiplab( geom = "text",aes(subset=(node %in% nodes)), size = 1.4, colour = "red", check.overlap = "TRUE", family = "serif")
+}
+
+##for model visualization
+
+#define models: TODO: automate this
+
+#need to connect this to everything. 
+plot_CI<- function(tree_size, pd)
+{
+  
+  y_low<- 187.43493 + (285.79165 -187.43493)/(1+ 4.80982/x)
+  y_med<- 181.75421 + (286.05480-181.75421)/(1+4.01521/x)
+  y_high<-167.86292 + (286.30946-167.86292)/(1+3.06938/x)
+  
+  plot(x,y_low,type = "l", xlab = "tree size", ylab = "pd", main = "true PD for a 200 taxa sample compared to expected")
+  lines(x, y_high, type = "l", col = 2)
+  polygon(c(x, rev(x)), c(y_low, rev(y_high)),
+        col = "#6BD7AF")+points(tree_size,pd)
+}
+
+
+```
+
