@@ -5,7 +5,7 @@
 
 #number of randomizations
 
-.libPaths("/home/mayachari/R")
+
 n_rand = 200
 
 
@@ -40,14 +40,11 @@ start_time<-format(Sys.time(), "%H:%M:%S") #identify start time of script
 
 
 
-<<<<<<< HEAD
-install.packages("phylocomr",repos = "http://cran.us.r-project.org")
-=======
-install.packages("phylocomr", repos = "http://cran.us.r-project.org")
->>>>>>> bbca8be2635e1d6a3c21d6feb60b213fcd9e8bf5
-install.packages("ape", repos = "http://cran.us.r-project.org")
-library(phylocomr)
-library(ape)
+.libPaths("u/home/m/mchari/R")
+install.packages("phylocomr",repos = "http://cran.us.r-project.org", lib = "/u/home/m/mchari/R")
+install.packages("ape", repos = "http://cran.us.r-project.org", lib = "/u/home/m/mchari/R")
+library("phylocomr",lib.loc)
+library("ape", lib.loc)
 
 #these are tree sizes of "sample input trees" In this case these are the "params" we will be parallelizing over. 
 
