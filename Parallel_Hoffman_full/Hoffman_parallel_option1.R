@@ -4,6 +4,8 @@
 #define global variables/ variables to change. 
 
 #number of randomizations
+
+.libPaths("/home/mayachari/R")
 n_rand = 200
 
 
