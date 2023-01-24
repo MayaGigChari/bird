@@ -1,0 +1,9 @@
+Loading R/4.2.2
+  Loading requirement: intel/2020.4
+625
+Running phylo_code for n = 625
+Warning in install.packages("phylocomr", repos = "http://cran.us.r-project.org") :
+  'lib = "/u/local/apps/R/4.2.2/gcc-4.8.5/intel-2020.4/lib64/R/library"' is not writable
+Error in install.packages("phylocomr", repos = "http://cran.us.r-project.org") : 
+  unable to install packages
+Execution halted
