@@ -69,8 +69,8 @@ low_pred<- function(sample_size)
   upper<- 167.86292 + (286.30946-167.86292)/(1+3.06938/sample_size)
   return(c(lower,upper))
 }
-plot(x,y_high,type = "l", xlab = "tree size", ylab = "pd", main = "true PD for a 200 taxa sample compared to expected")
-lines(x, y_low, type = "l", col = 2)
+plot(x,y_low,type = "l", xlab = "tree size", ylab = "pd", main = "true PD for a 200 taxa sample compared to expected")
+lines(x, y_high, type = "l", col = 2)
 polygon(c(x, rev(x)), c(y_low, rev(y_high)),
         col = "#6BD7AF")+points(200,265)
 

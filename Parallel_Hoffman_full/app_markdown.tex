@@ -1,0 +1,310 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  pdftitle={PD application},
+  pdfauthor={Maya Chari},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{PD application}
+\author{Maya Chari}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{list.of.packages }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"dplyr"}\NormalTok{, }\StringTok{"ape"}\NormalTok{, }\StringTok{"phytools"}\NormalTok{, }\StringTok{"data.table"}\NormalTok{, }\StringTok{"ggtree"}\NormalTok{)}
+\NormalTok{new.packages }\OtherTok{\textless{}{-}}\NormalTok{ list.of.packages[}\SpecialCharTok{!}\NormalTok{(list.of.packages }\SpecialCharTok{\%in\%} \FunctionTok{installed.packages}\NormalTok{()[,}\StringTok{"Package"}\NormalTok{])]}
+\ControlFlowTok{if}\NormalTok{(}\FunctionTok{length}\NormalTok{(new.packages)) }\FunctionTok{install.packages}\NormalTok{(new.packages)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{step-1-read-in-the-list-of-species-and-build-an-associated-tree}{%
+\paragraph{STEP 1: Read in the list of species and build an associated
+tree}\label{step-1-read-in-the-list-of-species-and-build-an-associated-tree}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{read}\OtherTok{\textless{}{-}}\ControlFlowTok{function}\NormalTok{(txt\_file) }\CommentTok{\#takes a text file with endline separated entries and produces a species list dataframe}
+\NormalTok{\{}
+\NormalTok{  species\_list}\OtherTok{\textless{}{-}}\FunctionTok{read.table}\NormalTok{(}\AttributeTok{file =}\NormalTok{ txt\_file, }\AttributeTok{sep =} \StringTok{\textquotesingle{}}\SpecialCharTok{\textbackslash{}n}\StringTok{\textquotesingle{}}\NormalTok{)}
+  \FunctionTok{colnames}\NormalTok{(species\_list)[}\DecValTok{1}\NormalTok{]}\OtherTok{\textless{}{-}} \StringTok{"name"} \CommentTok{\#set the first column to be species }
+  \CommentTok{\#species\_list$name\textless{}{-}paste0(""",species\_list$name,""")}
+\NormalTok{  species\_list}\SpecialCharTok{$}\NormalTok{name }\OtherTok{\textless{}{-}} \FunctionTok{sub}\NormalTok{(}\StringTok{" "}\NormalTok{, }\StringTok{"\_"}\NormalTok{, species\_list}\SpecialCharTok{$}\NormalTok{name)}
+  \FunctionTok{print}\NormalTok{(species\_list)}
+  \CommentTok{\#df1}
+\NormalTok{\}}
+
+\NormalTok{produce\_tree}\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(tree\_file) }\CommentTok{\#takes a .tre file (the master tree) and builds/saves a tree object}
+\NormalTok{\{}
+  \FunctionTok{library}\NormalTok{(ape)}
+\NormalTok{  tree}\OtherTok{\textless{}{-}}\FunctionTok{read.tree}\NormalTok{(tree\_file)}
+  \FunctionTok{return}\NormalTok{(tree)}
+\NormalTok{\}}
+
+\NormalTok{check\_taxa}\OtherTok{\textless{}{-}}\ControlFlowTok{function}\NormalTok{(species\_list, master\_phylogeny) }\CommentTok{\#run this with tree\_test as the tree object. }
+\CommentTok{\#This function checks the species list against the master phylogeny and returns species that do not exist in master phylogeny }
+\NormalTok{\{}
+  \FunctionTok{library}\NormalTok{(dplyr)}
+\NormalTok{  unmatched\_species}\OtherTok{\textless{}{-}}\NormalTok{species\_list}\SpecialCharTok{\%\textgreater{}\%}
+    \FunctionTok{filter}\NormalTok{(}\SpecialCharTok{!}\NormalTok{(species\_list}\SpecialCharTok{$}\NormalTok{name}\SpecialCharTok{\%in\%}\NormalTok{master\_phylogeny}\SpecialCharTok{$}\NormalTok{tip.label))}
+  \FunctionTok{print}\NormalTok{(}\StringTok{"the following species on your list are not members of the larger phylogeny"}\NormalTok{)}
+  \FunctionTok{print}\NormalTok{(unmatched\_species}\SpecialCharTok{$}\NormalTok{name)}
+  \FunctionTok{return}\NormalTok{(unmatched\_species)}
+\NormalTok{\}}
+
+\NormalTok{remove\_taxa}\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(species\_list, master\_phylogeny) }\CommentTok{\#takes the output from check\_taxa and removes them from the original dataframe of species}
+\NormalTok{\{}
+\NormalTok{  matched\_species}\OtherTok{\textless{}{-}}\NormalTok{species\_list}\SpecialCharTok{\%\textgreater{}\%} 
+    \FunctionTok{filter}\NormalTok{((species\_list}\SpecialCharTok{$}\NormalTok{name}\SpecialCharTok{\%in\%}\NormalTok{master\_phylogeny}\SpecialCharTok{$}\NormalTok{tip.label))}
+  \FunctionTok{return}\NormalTok{(matched\_species)}
+\NormalTok{\}}
+
+\NormalTok{sample\_tree\_generator}\OtherTok{\textless{}{-}}\ControlFlowTok{function}\NormalTok{(sample, master\_phylogeny) }\CommentTok{\#generates a tree datatype from the cleaned sample data}
+\NormalTok{\{}
+  \FunctionTok{library}\NormalTok{(phytools)}
+  \FunctionTok{library}\NormalTok{(ape)}
+\NormalTok{  list\_species}\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(sample}\SpecialCharTok{$}\NormalTok{name)}
+\NormalTok{  sample\_tree}\OtherTok{\textless{}{-}}\FunctionTok{keep.tip}\NormalTok{(master\_phylogeny, list\_species) }\CommentTok{\#maybe try to print this tree somehow later. }
+  \FunctionTok{return}\NormalTok{(sample\_tree)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{step-2-calculate-true-sample-pd}{%
+\paragraph{Step 2: Calculate true sample
+PD}\label{step-2-calculate-true-sample-pd}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pd\_app}\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{ (sample\_tree,master\_phylogeny) }\CommentTok{\#calculate PD of sample}
+\NormalTok{\{}
+  \FunctionTok{library}\NormalTok{(phylocomr)}
+\NormalTok{  df\_touse}\OtherTok{\textless{}{-}}\FunctionTok{data.frame}\NormalTok{(}\AttributeTok{sample =} \StringTok{"species"}\NormalTok{, }\AttributeTok{occurrence =} \DecValTok{1}\NormalTok{, }\AttributeTok{names =}\NormalTok{ sample\_tree}\SpecialCharTok{$}\NormalTok{tip.label)}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{ph\_pd}\NormalTok{(df\_touse, master\_phylogeny))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{step-3-intermediary-construct-surface-equations-from-hoffman2-data-preprocessed-in-r}{%
+\paragraph{Step 3 (Intermediary): construct surface equations from
+Hoffman2 data (preprocessed in
+R)}\label{step-3-intermediary-construct-surface-equations-from-hoffman2-data-preprocessed-in-r}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{fitmodels}\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(datafilename)}
+\NormalTok{\{}
+  \FunctionTok{library}\NormalTok{(data.table)}
+\NormalTok{  df\_surf}\OtherTok{\textless{}{-}} \FunctionTok{data.frame}\NormalTok{(}\FunctionTok{read.csv}\NormalTok{(datafilename, }\AttributeTok{header =} \ConstantTok{TRUE}\NormalTok{)) }\CommentTok{\#read in the data}
+\NormalTok{  low }\OtherTok{\textless{}{-}}\NormalTok{ df\_surf[}\DecValTok{1}\NormalTok{,]}
+\NormalTok{  med }\OtherTok{\textless{}{-}}\NormalTok{ df\_surf[}\DecValTok{3}\NormalTok{,]}
+\NormalTok{  high}\OtherTok{\textless{}{-}}\NormalTok{ df\_surf[}\DecValTok{2}\NormalTok{,]}
+\NormalTok{  tree\_sizes}\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\DecValTok{10}\NormalTok{,}\DecValTok{50}\NormalTok{,}\DecValTok{100}\NormalTok{,}\DecValTok{200}\NormalTok{,}\DecValTok{1000}\NormalTok{) }\CommentTok{\#this is subject to change.}
+\NormalTok{  t\_low }\OtherTok{\textless{}{-}}\FunctionTok{transpose}\NormalTok{(low)}
+\NormalTok{  t\_med }\OtherTok{\textless{}{-}} \FunctionTok{transpose}\NormalTok{(med)}
+\NormalTok{  t\_high }\OtherTok{\textless{}{-}}\FunctionTok{transpose}\NormalTok{(high) }
+\NormalTok{  t\_low2 }\OtherTok{=} \FunctionTok{data.frame}\NormalTok{(t\_low[}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,])}
+
+  \FunctionTok{colnames}\NormalTok{(t\_low2) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"mpd"}\NormalTok{)}
+\NormalTok{  t\_low2}\SpecialCharTok{$}\NormalTok{mpd }\OtherTok{=} \FunctionTok{as.double}\NormalTok{(t\_low2}\SpecialCharTok{$}\NormalTok{mpd)}
+\NormalTok{  t\_low2[}\StringTok{"sizes"}\NormalTok{] }\OtherTok{=}\NormalTok{ tree\_sizes}
+\NormalTok{  X\_low }\OtherTok{=}\NormalTok{ t\_low2}\SpecialCharTok{$}\NormalTok{sizes}
+\NormalTok{  Y\_low }\OtherTok{=}\NormalTok{ t\_low2}\SpecialCharTok{$}\NormalTok{mpd}
+
+\NormalTok{  t\_med2 }\OtherTok{=} \FunctionTok{data.frame}\NormalTok{(t\_med[}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,])}
+  \FunctionTok{colnames}\NormalTok{(t\_med2) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"mpd"}\NormalTok{)}
+\NormalTok{  t\_med2}\SpecialCharTok{$}\NormalTok{mpd }\OtherTok{=} \FunctionTok{as.double}\NormalTok{(t\_med2}\SpecialCharTok{$}\NormalTok{mpd)}
+\NormalTok{  t\_med2[}\StringTok{"sizes"}\NormalTok{] }\OtherTok{=}\NormalTok{ tree\_sizes}
+\NormalTok{  X\_med }\OtherTok{=}\NormalTok{ t\_med2}\SpecialCharTok{$}\NormalTok{sizes}
+\NormalTok{  Y\_med }\OtherTok{=}\NormalTok{ t\_high2}\SpecialCharTok{$}\NormalTok{mpd}
+
+\NormalTok{  t\_high2 }\OtherTok{=} \FunctionTok{data.frame}\NormalTok{(t\_high[}\SpecialCharTok{{-}}\DecValTok{1}\NormalTok{,])}
+  \FunctionTok{colnames}\NormalTok{(t\_high2) }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\StringTok{"mpd"}\NormalTok{)}
+\NormalTok{  t\_high2}\SpecialCharTok{$}\NormalTok{mpd }\OtherTok{=} \FunctionTok{as.double}\NormalTok{(t\_high2}\SpecialCharTok{$}\NormalTok{mpd)}
+\NormalTok{  t\_high2[}\StringTok{"sizes"}\NormalTok{] }\OtherTok{=}\NormalTok{ tree\_sizes}
+\NormalTok{  X\_high }\OtherTok{=}\NormalTok{ t\_med2}\SpecialCharTok{$}\NormalTok{sizes}
+\NormalTok{  Y\_high }\OtherTok{=}\NormalTok{ t\_high2}\SpecialCharTok{$}\NormalTok{mpd}
+  
+\NormalTok{  model\_low }\OtherTok{\textless{}{-}} \FunctionTok{drm}\NormalTok{(Y\_low }\SpecialCharTok{\textasciitilde{}}\NormalTok{ X\_low, }\AttributeTok{fct =} \FunctionTok{MM.3}\NormalTok{())}
+\NormalTok{  model\_med }\OtherTok{\textless{}{-}} \FunctionTok{drm}\NormalTok{(Y\_med }\SpecialCharTok{\textasciitilde{}}\NormalTok{ X\_med, }\AttributeTok{fct =} \FunctionTok{MM.3}\NormalTok{())}
+\NormalTok{  model\_high }\OtherTok{\textless{}{-}} \FunctionTok{drm}\NormalTok{(Y\_high }\SpecialCharTok{\textasciitilde{}}\NormalTok{ X\_high, }\AttributeTok{fct =} \FunctionTok{MM.3}\NormalTok{())}
+  
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{c}\NormalTok{(model\_low, model\_med, model\_high))}
+\NormalTok{\}}
+
+
+\DocumentationTok{\#\#\#TODO: figure out how to extract parameter values from models (manual rn)}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{step-4-compare-the-true-pd-to-the-expected-range-95-ci-lower-and-upper-bounds-of-expected-pd}{%
+\paragraph{Step 4: Compare the true PD to the expected range (95\% CI
+lower and upper bounds of expected
+PD)}\label{step-4-compare-the-true-pd-to-the-expected-range-95-ci-lower-and-upper-bounds-of-expected-pd}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{range\_pred}\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(sample\_size) }\CommentTok{\#need to connect this to the models. }
+\NormalTok{\{}
+\NormalTok{  lower }\OtherTok{\textless{}{-}} \FloatTok{187.43493} \SpecialCharTok{+}\NormalTok{ (}\FloatTok{285.79165} \SpecialCharTok{{-}}\FloatTok{187.43493}\NormalTok{)}\SpecialCharTok{/}\NormalTok{(}\DecValTok{1}\SpecialCharTok{+} \FloatTok{4.80982}\SpecialCharTok{/}\NormalTok{sample\_size)}
+\NormalTok{  upper}\OtherTok{\textless{}{-}} \FloatTok{167.86292} \SpecialCharTok{+}\NormalTok{ (}\FloatTok{286.30946{-}167.86292}\NormalTok{)}\SpecialCharTok{/}\NormalTok{(}\DecValTok{1}\FloatTok{+3.06938}\SpecialCharTok{/}\NormalTok{sample\_size)}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{c}\NormalTok{(lower,upper))}
+\NormalTok{\}}
+
+\NormalTok{is\_significant}\OtherTok{\textless{}{-}}\ControlFlowTok{function}\NormalTok{(low\_lim,upp\_lim, true\_pd) }\CommentTok{\#boolean function for whether the observed pd lies within the 95\% CI}
+\NormalTok{\{}
+  \FunctionTok{return}\NormalTok{(}\FunctionTok{between}\NormalTok{(true\_pred, low\_lim, upp\_lim))}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\hypertarget{step-5-visualizations-for-the-user-to-see}{%
+\paragraph{Step 5: Visualizations (for the user to
+see)}\label{step-5-visualizations-for-the-user-to-see}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{helper\_whereOnTree}\OtherTok{\textless{}{-}}\ControlFlowTok{function}\NormalTok{(parent\_tree, sample\_tree) }\CommentTok{\#function for taking a tree and a sample and returns nodes in tree that exist in sample}
+\NormalTok{\{}
+\NormalTok{  is\_tip}\OtherTok{\textless{}{-}}\NormalTok{parent\_tree}\SpecialCharTok{$}\NormalTok{edge[,}\DecValTok{2}\NormalTok{]}\SpecialCharTok{\textless{}=}\FunctionTok{length}\NormalTok{(parent\_tree}\SpecialCharTok{$}\NormalTok{tip.label) }\CommentTok{\#label each node with true/false depending on if it is a tip. }
+\NormalTok{  ordered\_tips\_func}\OtherTok{\textless{}{-}}\NormalTok{parent\_tree}\SpecialCharTok{$}\NormalTok{edge[is\_tip,}\DecValTok{2}\NormalTok{] }\CommentTok{\#get the nodes that return true. }
+\NormalTok{  ordered\_tips\_names\_func }\OtherTok{=}\NormalTok{parent\_tree}\SpecialCharTok{$}\NormalTok{tip.label[ordered\_tips\_func] }\CommentTok{\#extracts only the tip names in the order of the ordered tips? }
+  \FunctionTok{names}\NormalTok{(ordered\_tips\_names\_func)}\OtherTok{=}\NormalTok{ ordered\_tips\_names\_func }\CommentTok{\#these two lines of code asssign names to each tip.}
+\NormalTok{  nodes\_in\_sample\_return }\OtherTok{=} \FunctionTok{which}\NormalTok{(}\FunctionTok{names}\NormalTok{(ordered\_tips\_names\_func)}\SpecialCharTok{\%in\%}\NormalTok{sample\_tree}\SpecialCharTok{$}\NormalTok{tip.label)}
+  \FunctionTok{return}\NormalTok{(nodes\_in\_sample\_return)}
+\NormalTok{\}}
+
+\NormalTok{visualize\_sample}\OtherTok{\textless{}{-}}\ControlFlowTok{function}\NormalTok{(sample, master\_phylogeny) }\CommentTok{\#visualizes a tree datatype. change this to accomodate variable file names. }
+  \CommentTok{\#TODO: change file path }
+\NormalTok{\{}
+  \FunctionTok{library}\NormalTok{(ggtree)}
+\NormalTok{  nodes}\OtherTok{\textless{}{-}} \FunctionTok{helper\_whereOnTree}\NormalTok{(master\_phylogeny, sample)}
+  \FunctionTok{print}\NormalTok{(nodes)}
+  \FunctionTok{png}\NormalTok{(}\AttributeTok{file=}\StringTok{"\textasciitilde{}/Desktop/FishPICCCC.png"}\NormalTok{,}
+      \AttributeTok{width=}\DecValTok{600}\NormalTok{, }\AttributeTok{height=}\DecValTok{350}\NormalTok{)}
+  \FunctionTok{ggtree}\NormalTok{(master\_phylogeny, }\AttributeTok{layout =} \StringTok{"circular"}\NormalTok{)}\SpecialCharTok{+}
+    \FunctionTok{geom\_tiplab}\NormalTok{( }\AttributeTok{geom =} \StringTok{"text"}\NormalTok{,}\FunctionTok{aes}\NormalTok{(}\AttributeTok{subset=}\NormalTok{(node }\SpecialCharTok{\%in\%}\NormalTok{ nodes)), }\AttributeTok{size =} \FloatTok{1.4}\NormalTok{, }\AttributeTok{colour =} \StringTok{"red"}\NormalTok{, }\AttributeTok{check.overlap =} \StringTok{"TRUE"}\NormalTok{, }\AttributeTok{family =} \StringTok{"serif"}\NormalTok{)}
+\NormalTok{\}}
+
+\DocumentationTok{\#\#for model visualization}
+
+\CommentTok{\#define models: }\AlertTok{TODO}\CommentTok{: automate this}
+
+\CommentTok{\#need to connect this to everything. }
+\NormalTok{plot\_CI}\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(tree\_size, pd)}
+\NormalTok{\{}
+  
+\NormalTok{  y\_low}\OtherTok{\textless{}{-}} \FloatTok{187.43493} \SpecialCharTok{+}\NormalTok{ (}\FloatTok{285.79165} \SpecialCharTok{{-}}\FloatTok{187.43493}\NormalTok{)}\SpecialCharTok{/}\NormalTok{(}\DecValTok{1}\SpecialCharTok{+} \FloatTok{4.80982}\SpecialCharTok{/}\NormalTok{x)}
+\NormalTok{  y\_med}\OtherTok{\textless{}{-}} \FloatTok{181.75421} \SpecialCharTok{+}\NormalTok{ (}\FloatTok{286.05480{-}181.75421}\NormalTok{)}\SpecialCharTok{/}\NormalTok{(}\DecValTok{1}\FloatTok{+4.01521}\SpecialCharTok{/}\NormalTok{x)}
+\NormalTok{  y\_high}\OtherTok{\textless{}{-}}\FloatTok{167.86292} \SpecialCharTok{+}\NormalTok{ (}\FloatTok{286.30946{-}167.86292}\NormalTok{)}\SpecialCharTok{/}\NormalTok{(}\DecValTok{1}\FloatTok{+3.06938}\SpecialCharTok{/}\NormalTok{x)}
+  
+  \FunctionTok{plot}\NormalTok{(x,y\_low,}\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{xlab =} \StringTok{"tree size"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"pd"}\NormalTok{, }\AttributeTok{main =} \StringTok{"true PD for a 200 taxa sample compared to expected"}\NormalTok{)}
+  \FunctionTok{lines}\NormalTok{(x, y\_high, }\AttributeTok{type =} \StringTok{"l"}\NormalTok{, }\AttributeTok{col =} \DecValTok{2}\NormalTok{)}
+  \FunctionTok{polygon}\NormalTok{(}\FunctionTok{c}\NormalTok{(x, }\FunctionTok{rev}\NormalTok{(x)), }\FunctionTok{c}\NormalTok{(y\_low, }\FunctionTok{rev}\NormalTok{(y\_high)),}
+        \AttributeTok{col =} \StringTok{"\#6BD7AF"}\NormalTok{)}\SpecialCharTok{+}\FunctionTok{points}\NormalTok{(tree\_size,pd)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+
+\end{document}
