@@ -16,11 +16,15 @@ sleep $(( RANDOM % 250))  #added this line to try to stagger jobs
 # load the job environment:
 . /u/local/Modules/default/init/modules.sh
 module load R
+<<<<<<< HEAD
 export LD_LIBRARY_PATH=/path/to/libdir/if/needed:$LD_LIBRARY_PATH 
 if [ ! -d $SCRATCH/R_scratch ]; then
    mkdir $SCRATCH/R_scratch
 fi
 export TMPDIR=$SCRATCH
+=======
+export LD_LIBRARY_PATH=/path/to/libdir/if/needed:$LD_LIBRARY_PATH
+>>>>>>> bbca8be2635e1d6a3c21d6feb60b213fcd9e8bf5
 
 echo ${SGE_TASK_ID}
 
