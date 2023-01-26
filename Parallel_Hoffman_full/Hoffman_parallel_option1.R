@@ -5,11 +5,14 @@
 
 #number of randomizations
 
+#local variables for mod
+n_rand = 500 #want 500 randomizations for each tree size. 
+params = list(10,25,50,75,100,250,350,500, 700, 900, 1000,2000,3000,4000,5000,6000,7000,8000,9000,10000) #this is a list of tree sizes. 
+
+
 new_libPaths = .libPaths(c('/u/home/m/mchari/R',.libPaths()))
 .libPaths(new_libPaths)
 print(.libPaths())
-
-n_rand = 200
 
 
 #create new directories to hold outputs
@@ -51,7 +54,6 @@ library("ape", lib.loc = .libPaths())
 
 #these are tree sizes of "sample input trees" In this case these are the "params" we will be parallelizing over. 
 
-params = list(10,25,50,100,250,350,500, 700, 900, 1000) #this is a list of tree sizes. 
 
 args = commandArgs(trailingOnly=TRUE) #not sure what this part does, but I think it allows us to accept args when the script is sent. 
 print(args) #prints the arguments which here should be equivalent to each SGE_TASK_ID
@@ -62,21 +64,21 @@ n = as.integer(args[1]) #makes the SGE_TASK_ID an integer
 
 current_index = n %/% n_rand +1 
 
-sample_size = params[current_index] #this gives us a sample size for the 
+sample_size = params[current_index] #this gives us the "sample size"/tree size for the current run. 
 
-print("args successfully loaded")
+print("args successfully loaded") #another checkpoint
 
-#load the trees 
-sample_tree_filename = paste("sample_tree_cluster", sample_size, sep = "")
-sample_tree_cluster<-read.tree(file = sample_tree_filename)
-full_tree_cluster<-read.tree(file = "full_tree_for_cluster.tre")
+#load the tree
+
+sample_tree_filename = paste("/sample_trees/sample_tree_cluster", sample_size, sep = "") #folder that contains all the null generate tree data. 
+sample_tree_cluster<-read.tree(file = sample_tree_filename) 
+full_tree_cluster<-read.tree(file = "full_tree_for_cluster.tre") #this file should be contained in the same working directory. 
 
 print("trees read")
 
-df_touse_cluster<-data.frame(sample = "species", occurrence = 1, names = sample_tree_cluster$tip.label)
-res_sample_cluster<- ph_comstruct(sample = df_touse_cluster, phylo = full_tree_cluster, randomizations = 2)
-typeof(res_sample_cluster)
-
+df_touse_cluster<-data.frame(sample = "species", occurrence = 1, names = sample_tree_cluster$tip.label) #create a dataframe compatibile with phcomstruct function
+res_sample_cluster<- ph_comstruct(sample = df_touse_cluster, phylo = full_tree_cluster, randomizations = 2) #the real bulk of the program. Not sure why 2 randomizations but will keep this.  
+#typeof(res_sample_cluster)
 #write.table(res_sample_cluster, file = "sample_phcomstruct_output") #better to have csv maybe, easier to manipulate?
 
 print("ph_comstruct successfully applied")

@@ -6,7 +6,7 @@ library(ape)
 #read parent tree
 full_fish_phylo<-read.tree(file = "full_tree_for_cluster.tre")
 
-tree_sizes = list(25,350,500,700,900) #this has been edited. Can accomodate any sizes 
+tree_sizes = list(75,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000) #this has been edited. Can accomodate any sizes 
 
 for(i in tree_sizes)
 {
