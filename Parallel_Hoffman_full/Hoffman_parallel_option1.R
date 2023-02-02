@@ -5,10 +5,13 @@
 
 #number of randomizations
 
-#local variables for mod
-n_rand = 500 #want 500 randomizations for each tree size. 
-params = list(10,25,50,75,100,250,350,500, 700, 900, 1000,2000,3000,4000,5000,6000,7000,8000,9000,10000) #this is a list of tree sizes. 
+#local variables for mod. 
+#TODO: figure out a way to change these local variables without interacting with the code. 
 
+n_rand = 1000 #want 500 randomizations for each tree size. 
+params = (3:50) #this is a list of tree sizes. 
+
+#need 48000 randomizations. 
 
 new_libPaths = .libPaths(c('/u/home/m/mchari/R',.libPaths()))
 .libPaths(new_libPaths)
