@@ -9,7 +9,11 @@
 #$ -M $USER@mail #don't change this line, finds your email in the system 
 # Notify when
 ##$ -m bea #sends you an email (b) when the job begins (e) when job ends (a) when job is aborted (error)
+<<<<<<< HEAD
 #$ -t 1:10000 # 1 to 2000, with step size of 1
+=======
+#$ -t 1:48000 # 1 to 48000, with step size of 1
+>>>>>>> 4da4df0e2e7fdce670de0bbcbf555e0c8459e5e1
 
 sleep $(( RANDOM % 250))  #added this line to try to stagger jobs 
 
