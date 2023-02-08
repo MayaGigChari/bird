@@ -50,8 +50,8 @@ start_time<-format(Sys.time(), "%H:%M:%S") #identify start time of script
 
 
 
-install.packages("phylocomr",repos = "http://cran.us.r-project.org")
-install.packages("ape", repos = "http://cran.us.r-project.org", lib = "/u/home/m/mchari/R")
+#install.packages("phylocomr",repos = "http://cran.us.r-project.org")
+#install.packages("ape", repos = "http://cran.us.r-project.org", lib = "/u/home/m/mchari/R")
 library("phylocomr", lib.loc = .libPaths())
 library("ape", lib.loc = .libPaths())
 
@@ -73,14 +73,15 @@ print("args successfully loaded") #another checkpoint
 
 #load the tree
 
-sample_tree_filename = paste("/sample_trees/sample_tree_cluster", sample_size, sep = "") #folder that contains all the null generate tree data. 
-sample_tree_cluster<-read.tree(file = sample_tree_filename) 
+sample_tree_filename = paste("sample_tree_cluster", sample_size, sep = "") #folder that contains all the null generate tree data. 
+sample_tree_cluster<-read.tree(file = paste("~/bird/Parallel_Hoffman_full/sample_trees/", sample_tree_filename, sep = "")) 
 full_tree_cluster<-read.tree(file = "full_tree_for_cluster.tre") #this file should be contained in the same working directory. 
 
 print("trees read")
 
 df_touse_cluster<-data.frame(sample = "species", occurrence = 1, names = sample_tree_cluster$tip.label) #create a dataframe compatibile with phcomstruct function
-res_sample_cluster<- ph_comstruct(sample = df_touse_cluster, phylo = full_tree_cluster, randomizations = 2) #the real bulk of the program. Not sure why 2 randomizations but will keep this.  
+res_sample_cluster<- ph_comstruct(sample = df_touse_cluster, phylo = full_tree_cluster, randomizations = 1) #the real bulk of the program. Not sure why 2 randomizations but will keep this.  
+
 #typeof(res_sample_cluster)
 #write.table(res_sample_cluster, file = "sample_phcomstruct_output") #better to have csv maybe, easier to manipulate?
 
