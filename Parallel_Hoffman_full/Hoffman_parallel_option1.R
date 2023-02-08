@@ -9,9 +9,9 @@
 #TODO: figure out a way to change these local variables without interacting with the code. 
 
 n_rand = 1000 #want 500 randomizations for each tree size. 
-params = (3:50) #this is a list of tree sizes. 
+params = seq(55, 300, by=5) #this is a list of tree sizes. 
 
-#need 48000 randomizations. 
+#need 50000 randomizations. 
 
 new_libPaths = .libPaths(c('/u/home/m/mchari/R',.libPaths()))
 .libPaths(new_libPaths)
