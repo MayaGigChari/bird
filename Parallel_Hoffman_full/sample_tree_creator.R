@@ -8,8 +8,9 @@ full_fish_phylo<-read.tree(file = "full_tree_for_cluster.tre")
 
 #tree_sizes = list(75,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000) #this has been edited. Can accomodate any sizes 
 
-tree_sizes = c(3:50)
+#tree_sizes = c(3:50)
 
+tree_sizes = seq(55, 300, by=5)
 for(i in tree_sizes)
 {
   species_names_2<-full_fish_phylo$tip.label
