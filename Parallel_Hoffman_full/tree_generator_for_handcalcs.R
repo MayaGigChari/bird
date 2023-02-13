@@ -23,5 +23,49 @@ for(n in randomizations) #1000 times
     write.csv(res_sample, file = paste("/Users/mayachari/Desktop/bird_local/large_mpd_tree_", n, ".csv",  sep = ""))
   }
 }
+
+sample_tree<-read.tree("/Users/mayachari/Desktop/bird_local/large_mpd_tree_4.tre")
+
+library(ggtree)
+png(file="/Users/mayachari/Desktop/bird_local/sample_tree.png",
+    width=600, height=350)
+plot(sample_tree)
+edgelabels(sample_tree$edge.length, col="blue", font=2)
+
+visualize_sample<-function(sample, master_phylogeny)
+{
+  library(ggtree)
+  nodes<- helper_whereOnTree(master_phylogeny, sample)
+  print(nodes)
+  png(file="/Users/mayachari/Desktop/bird_local/sample_tree.png",
+      width=600, height=350)
+  ggtree(master_phylogeny, layout = "circular")+
+    geom_tiplab( geom = "text",aes(subset=(node %in% nodes)), size = 1.4, colour = "red", check.overlap = "TRUE", family = "serif")
+}
+
+helper_whereOnTree<-function(parent_tree, sample_tree) #function for taking a tree and a sample and returns nodes in tree that exist in sample
+{
+  is_tip<-parent_tree$edge[,2]<=length(parent_tree$tip.label) #label each node with true/false depending on if it is a tip. 
+  ordered_tips_func<-parent_tree$edge[is_tip,2] #get the nodes that return true. 
+  ordered_tips_names_func =parent_tree$tip.label[ordered_tips_func] #extracts only the tip names in the order of the ordered tips? 
+  names(ordered_tips_names_func)= ordered_tips_names_func #these two lines of code asssign names to each tip.
+  nodes_in_sample_return = which(names(ordered_tips_names_func)%in%sample_tree$tip.label)
+  return(nodes_in_sample_return)
+}
+visualize_sample(sample_tree, full_tree)
+
+#notes: meeting
+#use markdown and version control. 
+#don't use loops in R. r wants to do array operations
+  #llaply and faply apply functions in R. write this again in apply. 
+#need run randomziations, store them and then have function that deals with stored trees, grabs all trees 
+#store tree objects and separate. ape has a datastruct that can store multiple trees
+  #name trees by mpd
+#create df and put each tree into dataframe 
+#make a dummy collection of trees 
+  #cols: run number, newick file for tree, PD calculation/pd/mpd. 
+  #faster to generate newick of trees and then do operations on tree list. 
+#prepare a markdown document for next 
+
 #is this how I should be doing mpd calculations?? confused. 
 #don't know how to pull out the tree generated. 
