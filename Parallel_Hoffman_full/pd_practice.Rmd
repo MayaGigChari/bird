@@ -1,0 +1,211 @@
+---
+title: "pd_practice"
+output: html_document
+date: '2023-02-16'
+---
+
+### Step 1: create data (don't worry about running this it would take all day.)
+
+```{r}
+#library(ape)
+#library(phylocomr)
+# library(tictoc)
+# 
+# 
+# full_tree<-read.tree("full_tree_for_cluster.tre")
+# species_names<-full_tree$tip.label
+# 
+# cov_maker<- function(tree)
+# {
+#   cov<-data.frame(sample = "species", occurrence = 1, names = tree$tip.label)
+# }
+# 
+# comstruct_aid<-function(cov_mat)
+# {
+#   ph_comstruct(cov_mat, full_tree, randomizations = 1)
+# }
+# 
+# metric_extract<-function(data, metrics) #vector data is in the form of ph_comstruct output file 
+# {
+#   if(metrics == "mpd_random")
+#     name = "mpd.rnd"
+#   else if(metrics == "mpd_true")
+#     name = "mpd"
+#   else if(metrics == "mntd")
+#     name = "mntd.rnd"
+#   metric_list<-unlist(data)
+#   return(metric_list[name])
+#   
+# }
+# 
+# CI_calc<- function(mpd_metrics_list)
+# {
+#   mpd_metrics_unlist<-(as.numeric(unlist(mpd_metrics_list)))
+#   lower_bound<- quantile(mpd_metrics_unlist,.025)
+#   upper_bound<-quantile(mpd_metrics_unlist,0.975)
+#   return(c(lower_bound, upper_bound))
+# }
+# 
+# tree_writer<- function(tree_list)
+# {
+#   write.tree(tree_list)
+# }
+# 
+# tic()
+# randomizations = rep(5, each = 1000)
+# samples<-lapply(randomizations, sample, x = species_names)
+# trees<-lapply(samples, keep.tip, phy = full_tree)
+# dfs_touse<- lapply(trees, cov_maker)
+# res_sample<-lapply(dfs_touse, comstruct_aid)
+# toc()
+# 
+# mpd_rand_metrics<- lapply(res_sample, metric_extract, metrics = 'mpd_random')
+# mpd_true_metrics<-lapply(res_sample,metric_extract, metrics = "mpd_true")
+# 
+# write.csv(res_sample, file = "pd_calcs_sim.csv")
+# # the tic toc functions just give us some measure of time.. this program took 11 hours to run!
+# 
+# #visualizing the distribution of the true mpd values for all our random trees. 
+# 
+# mpd_vals_hist<-as.numeric((unlist(mpd_true_metrics)))
+# hist(mpd_vals_hist, main = "mpd's of 1000 random 5-tip trees",xlab = "mpd")
+# 
+# # get the 95% confidence intervals
+# CI_rand<- CI_calc(mpd_rand_metrics) #calculate CI's
+# CI_true<-CI_calc(mpd_true_metrics)
+# #find pd data that is outside the extremes of the CI and correlated tree data
+# 
+# mpd_below_range_index_true<- which(mpd_true_metrics < CI[1]) #indexes the same through the pd vector and the trees vector. 
+# mpd_above_range_index_true<- which(mpd_true_metrics > CI[2])
+# 
+# trees_above_CI_true<- trees[c(mpd_above_range_index_true)]
+# trees_below_CI_true<-trees[c(mpd_below_range_index_true)]
+# 
+# mpd_above_CI_true<- mpd_true_metrics[c(mpd_above_range_index_true)]
+# mpd_below_CI_true<-mpd_true_metrics[c(mpd_below_range_index_true)]
+# 
+# 
+# for(i in 1:length(trees_above_CI_true))
+# {
+#   write.tree(trees_above_CI_true[i], file = paste("above_CI_data/tree_above_CI",i, sep = ''))
+#   write.csv(mpd_above_CI_true[i], file = paste("above_CI_data/mpd_above_CI",i,sep = ''))
+# }
+# 
+# for(i in 1:length(trees_below_CI_true))
+# {
+#   write.tree(trees_below_CI_true[i], file = paste("below_CI_data/tree_below_CI",i, sep = ''))
+#   write.csv(mpd_below_CI_true[i], file = paste("below_CI_data/mpd_below_CI",i,sep = ''))
+# }
+# 
+# 
+# write.csv(as.numeric(unlist(mpd_true_metrics)),file= "mpd_metrics.csv",row.names=F)
+```
+
+## Load data
+
+###first let's load and visualize the histogram of generated mpd's.
+
+
+```{r cars}
+mpd_metrics_touse<- read.csv("mpd_metrics.csv")
+hist(mpd_metrics_touse[,1], xlab = "mpd", main = "mpd distribution 1000 rand")
+```
+
+#### We are interested in the boundary cases-- trees that have super high mpd or super low mpd. Let's take a look at a tree that has an mpd outside the upper limite of the expected value of mpd. You can find tree data for these trees in the above_CI_data folder. 
+
+```{r}
+library(ape)
+tree_high<-read.tree("above_CI_data/tree_above_CI25")
+mpd_high<-read.csv("above_CI_data/mpd_above_CI25")
+
+tree_low<-read.tree("below_CI_data/tree_below_CI14")
+mpd_low<-read.csv("below_CI_data/mpd_below_CI14")
+```
+#### Let's take a look at what the higher than expected mpd tree is like. 
+
+```{r}
+library(ggtree)
+ggtree(tree_high) + geom_tiplab(as_ylab=TRUE, color='firebrick') + geom_rootedge(50)#here's a way we can visualize the tree simply with tips labeled as speciies
+
+plot.new()
+
+plot(tree_high, main = "Sample tree with edge lengths", root.edge = TRUE)
+edgelabels(round(tree_high$edge.length, 3), cex = 0.7)
+
+plot.new()
+
+plot(tree_high, main = "Sample tree with edge labels", root.edge = TRUE)
+edgelabels( cex = 0.7)
+
+plot.new()
+plot(tree_high, main = "Sample tree with node and tip labels", root.edge = TRUE)
+nodelabels( cex = 0.7)
+tiplabels(cex = 0.7)
+
+```
+#### something to try on your own: try making tree visualizations with the internal nodes, edge lengths, edges and tips all labeled and legible. Refer to ggtree documentation. Also, do the same visualizations as above with the lower mpd than expected tree (use the space below)
+
+```{r}
+#TODO: play around with visualizations
+```
+
+#### Next, we will practice handcalcs for these trees. Let's start with PD. PD is the sum of all branch lengths. This is simple to calculate. 
+
+```{r}
+pdcalc<- function(tree)
+{
+  
+  return(sum(tree$edge.length))
+}
+low_pd<-pdcalc(tree_low)
+high_pd<-pdcalc(tree_high)
+```
+#### Now we will move to MPD. refer to the linked text to find the formula for MPD calculation. Here's how I implemented it, but feel free to experiment on your own. 
+```{r}
+edge_table_builder<- function(tree)
+{
+  edge_table <- cbind(tree$edge, tree$edge.length)
+  rownames(edge_table) <-  1:nrow(edge_table)
+  names<- as.numeric(rownames(edge_table))
+  rownames(edge_table)<- NULL
+  edge_table<-cbind(edge_table,names)
+  colnames(edge_table) <- c("parent", "child", "edge_length", "edge_number")
+  return(edge_table)
+}
+compute_mpd<- function(tree)
+{
+  edge_table<-edge_table_builder(tree)
+  sum_mpd = 0
+  tips<- tree$Nnode + 1 #number of tips is the number of nodes + 1. 
+  tip_combos<- data.frame(combn(tips, 2)) #get all possible combinations of tip values. 
+  tip_combos_t<-t(tip_combos)
+  for(i in 1:length(tip_combos))
+  {
+    path <- nodepath(tree, from = tip_combos_t[i,1], to = tip_combos_t[i,2])
+    list_temp_parent<- c()
+    list_temp_child <- c()
+    for(i in 1:length(path)-1)
+    {
+      list_temp_child[i] = path[i]
+      list_temp_parent[i] = path[i+1]
+    }
+    
+    edge_temp<-data.frame(c(list_temp_parent,list_temp_child), c(list_temp_child,list_temp_parent)) #this is very hacky. 
+    colnames(edge_temp)<-c("parent", "child")
+    
+    df_temp <- merge(x=edge_table,y=edge_temp, 
+                by=c("parent","child"))
+    sum_mpd = sum_mpd + sum(df_temp$edge_length)
+  }
+  result = (2/(tips*tips))*sum_mpd #some contention here: do we do tips*tips+1 or tips*tips? 
+  #result = (2/(tips*tips+1))*sum_mpd is technically algorithmically correct.
+  return(result)
+}
+
+compute_mpd(tree_high)
+compute_mpd(tree_low)
+
+## we can compare our handcalcs with the true values:
+mpd_high 
+mpd_low
+```
