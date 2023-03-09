@@ -1,6 +1,10 @@
-n_rand = 1000 #want 500 randomizations for each tree size. 
-params = seq(55, 300, by=5) #this is a list of tree sizes. 
+n_rand = 200 #want 200 randomizations for each tree size. internally each script will produce 5 random values. 
+params1 = seq(5, 400, by=5) #this is a list of tree sizes. 
+params2 = seq(500,1000, by = 100)
+params= c(params1, params2)
 num_randomizations = 5
+
+
 
 new_libPaths = .libPaths(c('/u/home/m/mchari/R',.libPaths()))
 .libPaths(new_libPaths)
