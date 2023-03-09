@@ -15,7 +15,6 @@ params = seq(55, 300, by=5) #this is a list of tree sizes.
 
 new_libPaths = .libPaths(c('/u/home/m/mchari/R',.libPaths()))
 .libPaths(new_libPaths)
-print(.libPaths())
 
 
 #create new directories to hold outputs

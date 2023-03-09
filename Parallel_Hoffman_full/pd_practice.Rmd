@@ -5,10 +5,17 @@ date: '2023-02-16'
 ---
 
 ### Step 1: create data (don't worry about running this it would take all day.)
+<<<<<<< HEAD
+#if you don't have ape and phylocomr, download them. also ggtree. 
+```{r}
+library(ape)
+library(phylocomr)
+=======
 
 ```{r}
 #library(ape)
 #library(phylocomr)
+>>>>>>> 3d2a83446fc0ec7c01051750e6e8c69081f6ce6e
 # library(tictoc)
 # 
 # 
@@ -129,6 +136,10 @@ ggtree(tree_high) + geom_tiplab(as_ylab=TRUE, color='firebrick') + geom_rootedge
 
 plot.new()
 
+<<<<<<< HEAD
+
+=======
+>>>>>>> 3d2a83446fc0ec7c01051750e6e8c69081f6ce6e
 plot(tree_high, main = "Sample tree with edge lengths", root.edge = TRUE)
 edgelabels(round(tree_high$edge.length, 3), cex = 0.7)
 
@@ -143,7 +154,11 @@ nodelabels( cex = 0.7)
 tiplabels(cex = 0.7)
 
 ```
+<<<<<<< HEAD
+#### something to try on your own: try making tree visualizations with the internal nodes, edge lengths, edges and tips all labeled and legible. Refer to ggtree documentation. Also, do the same visualizations as above with the lower mpd than expected tree (use the space below). use the ggtree documentation to learn how to save images and make mult-paneled figures. 
+=======
 #### something to try on your own: try making tree visualizations with the internal nodes, edge lengths, edges and tips all labeled and legible. Refer to ggtree documentation. Also, do the same visualizations as above with the lower mpd than expected tree (use the space below)
+>>>>>>> 3d2a83446fc0ec7c01051750e6e8c69081f6ce6e
 
 ```{r}
 #TODO: play around with visualizations
@@ -160,7 +175,11 @@ pdcalc<- function(tree)
 low_pd<-pdcalc(tree_low)
 high_pd<-pdcalc(tree_high)
 ```
+<<<<<<< HEAD
+#### Now we will move to MPD. refer to the linked text to find the formula for MPD calculation. Here's how I implemented it, but feel free to experiment on your own. MPD is the mean pairwise distance. See the attached paper for the formula.  
+=======
 #### Now we will move to MPD. refer to the linked text to find the formula for MPD calculation. Here's how I implemented it, but feel free to experiment on your own. 
+>>>>>>> 3d2a83446fc0ec7c01051750e6e8c69081f6ce6e
 ```{r}
 edge_table_builder<- function(tree)
 {
@@ -205,7 +224,55 @@ compute_mpd<- function(tree)
 compute_mpd(tree_high)
 compute_mpd(tree_low)
 
+<<<<<<< HEAD
+compute_mpd(full_tree) #this is very slow 
+
+=======
+>>>>>>> 3d2a83446fc0ec7c01051750e6e8c69081f6ce6e
 ## we can compare our handcalcs with the true values:
 mpd_high 
 mpd_low
 ```
+<<<<<<< HEAD
+#### On your own, look into the mntd documeentation and try to build your own function or do a handcalc. Also check out the picante package for siimilar functions. 
+
+```{r}
+##Here I will attempt to do this another way, using cophenetic matrix instead of tree traversal/
+
+install.packages("devtools")
+devtools::install_github("gdauby/spacodiR@main")
+library(ape)
+library(tictoc)
+library(phytools)
+library(dplyr)
+
+full_tree<-read.tree("full_tree_for_cluster.tre")
+species_names<-full_tree$tip.label
+
+tic()
+cophen_matrix<- cophenetic.phylo(full_tree)
+toc()
+
+
+#this takes forever
+#tic()
+#cophen_matrix_phtls<- vcvPhylo(full_tree)
+#toc()
+
+cophen_matrix_tree_high<-cophenetic.phylo(tree_high) #just to look at the datastructure.
+
+matrix_form_small<-as.data.frame(cophen_matrix_tree_high)
+#generate this matrix
+#shuffle the tips (this is true bootstrapping) but keep the variance covariance values? 
+#then resample. 
+
+reshuf<-matrix_form_small %>% sample_n(nrow(.))
+
+#notes: meeting
+#shuffling tip labels: just independently shuffle tip 
+
+```
+
+
+=======
+>>>>>>> 3d2a83446fc0ec7c01051750e6e8c69081f6ce6e
