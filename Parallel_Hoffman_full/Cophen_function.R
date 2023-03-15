@@ -8,6 +8,11 @@
 # library(picante)
 # library(phylocomr)
 
+new_libPaths = .libPaths(c('/u/home/m/mchari/R',.libPaths()))
+.libPaths(new_libPaths)
+install.packages("Rcpp",repos = "http://cran.us.r-project.org")
+library("Rcpp", lib.loc = .libPaths())
+
 Rcpp::sourceCpp("/u/home/m/mchari/bird/Parallel_Hoffman_full/Cophen.cpp")
 
 cophen <- function(phy) {
