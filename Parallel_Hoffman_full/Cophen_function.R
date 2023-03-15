@@ -5,7 +5,7 @@
 # install.packages("bigmemory")
 # library(bigmemory)
 # library(tictoc)
-# library(picante)
+ library(picante)
 # library(phylocomr)
 
 new_libPaths = .libPaths(c('/u/home/m/mchari/R',.libPaths()))
@@ -14,6 +14,7 @@ install.packages("Rcpp",repos = "http://cran.us.r-project.org")
 library("Rcpp", lib.loc = .libPaths())
 
 Rcpp::sourceCpp("/u/home/m/mchari/bird/Parallel_Hoffman_full/Cophen.cpp")
+#Rcpp::sourceCpp("Cophen.cpp") for local
 
 cophen <- function(phy) {
   n <- ape::Ntip(phy)
@@ -41,6 +42,10 @@ cophen_touse<- cophen(full_tree)
 cophen_touse<-as.matrix(cophen_touse)
 saveRDS(cophen_touse, file = "/u/home/m/mchari/bird/Parallel_Hoffman_full/cophenetic_matrix" )
 
+#saveRDS(cophen_touse, file = "cophenetic_matrix" ) for local 
+
+#here I'm saving cophenetic matrix, then I'm going to transfer it to my local copy of bird and then I'm going 
+#to try to move it to hoffman via globus
 
 
 

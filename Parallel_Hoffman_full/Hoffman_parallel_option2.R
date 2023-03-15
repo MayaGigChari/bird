@@ -47,6 +47,7 @@ library("ape", lib.loc = .libPaths())
 library("dplyr", lib.loc = )
 
 
+
 args = commandArgs(trailingOnly=TRUE) #not sure what this part does, but I think it allows us to accept args when the script is sent. 
 print(args) #prints the arguments which here should be equivalent to each SGE_TASK_ID
 n = as.integer(args[1]) #makes the SGE_TASK_ID an integer
@@ -59,6 +60,7 @@ print("args successfully loaded") #another checkpoint
 #here we will load all the data. we don't even need the larger tree here! Just need the sample tree.  
 sample_tree_filename = paste("sample_tree_cluster", sample_size, sep = "") #folder that contains all the null generate tree data. 
 sample_tree_cluster<-read.tree(file = paste("~/bird/Parallel_Hoffman_full/sample_trees/", sample_tree_filename, sep = "")) 
+full_tree<-read.tree(file = "~/bird/Parallel_Hoffman_full/full_tree_for_cluster.tre")
 cophen_read<-readRDS("~/bird/Parallel_Hoffman_full/cophenetic_matrix")
 
 commdata_maker<- function(tree)
