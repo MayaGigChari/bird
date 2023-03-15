@@ -1,12 +1,12 @@
 #this is a script for making the cophenetic matrix for a given parent tree. It requires a cpp file that 
 #contains code for the fastest produced cophenetic matrix. 
-install.packages("MASS")
-library(MASS)
-install.packages("bigmemory")
-library(bigmemory)
-library(tictoc)
-library(picante)
-library(phylocomr)
+# install.packages("MASS")
+# library(MASS)
+# install.packages("bigmemory")
+# library(bigmemory)
+# library(tictoc)
+# library(picante)
+# library(phylocomr)
 
 Rcpp::sourceCpp("/u/home/m/mchari/bird/Parallel_Hoffman_full/Cophen.cpp")
 
