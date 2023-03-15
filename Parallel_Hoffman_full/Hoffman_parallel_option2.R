@@ -9,6 +9,7 @@ num_randomizations = 5
 new_libPaths = .libPaths(c('/u/home/m/mchari/R',.libPaths()))
 .libPaths(new_libPaths)
 
+print("path created")
 
 #create new directories to hold outputs
 a<-Sys.getenv(x = "JOB_ID")
