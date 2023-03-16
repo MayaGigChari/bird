@@ -2,6 +2,7 @@ n_rand = 200 #want 200 randomizations for each tree size. internally each script
 params1 = seq(5, 400, by=5) #this is a list of tree sizes. 
 params2 = seq(500,1000, by = 100)
 params= c(params1, params2)
+length(params)*1000/5
 num_randomizations = 5
 
 
@@ -40,11 +41,11 @@ if (file.exists(folder2)) {
 
 start_time<-format(Sys.time(), "%H:%M:%S") #identify start time of script
 
-#install.packages("picante",repos = "http://cran.us.r-project.org")
-#install.packages("dplyr",repos = "http://cran.us.r-project.org")
+install.packages("picante",repos = "http://cran.us.r-project.org")
+install.packages("dplyr",repos = "http://cran.us.r-project.org")
 library("picante", lib.loc = .libPaths())
 library("ape", lib.loc = .libPaths())
-library("dplyr", lib.loc = .libPaths())
+library("dplyr", lib.loc = )
 
 
 

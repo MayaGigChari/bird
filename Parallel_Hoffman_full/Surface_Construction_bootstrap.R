@@ -1,4 +1,4 @@
-df_surf<- data.frame(read.csv("Sample_output_bootstrap.csv", header = TRUE)) #read in the data
+df_surf<- data.frame(read.csv("CI_mpd_output_bootstrap.csv", header = TRUE)) #read in the data
 
 low <- df_surf[1,]
 med <- df_surf[3,]
