@@ -1,0 +1,420 @@
+---
+title: "Application_workflow"
+output: html_document
+date: "2023-03-16"
+
+---
+
+```{r}
+list.of.packages <- c("dplyr", "ape", "phytools", "data.table", "ggtree")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+```
+#### Step 0.1: run randomizations on Hoffman2 for the parent tree  (requires a .sh submission script)
+
+```{r}
+n_rand = 200 #want 200 randomizations for each tree size. internally each script will produce 5 random values. 
+params1 = seq(5, 400, by=5) #this is a list of tree sizes. 
+params2 = seq(500,1000, by = 100)
+params= c(params1, params2)
+length(params)*1000/5
+num_randomizations = 5
+
+
+
+new_libPaths = .libPaths(c('/u/home/m/mchari/R',.libPaths()))
+.libPaths(new_libPaths)
+
+print("path created")
+
+#create new directories to hold outputs
+a<-Sys.getenv(x = "JOB_ID")
+
+folder <- paste(a, "output_files", sep = "_")
+folder2 <- paste(a, "times", sep = "_")
+if (file.exists(folder))
+{
+  
+  cat("The folder already exists")
+  
+} else {
+  
+  dir.create(folder)
+  
+}
+if (file.exists(folder2)) {
+  
+  cat("The folder already exists")
+  
+} else {
+  
+  dir.create(folder2)
+}
+
+#created new directories to hold the outputs.   
+
+
+start_time<-format(Sys.time(), "%H:%M:%S") #identify start time of script
+
+install.packages("picante",repos = "http://cran.us.r-project.org")
+install.packages("dplyr",repos = "http://cran.us.r-project.org")
+library("picante", lib.loc = .libPaths())
+library("ape", lib.loc = .libPaths())
+library("dplyr", lib.loc = )
+
+
+
+args = commandArgs(trailingOnly=TRUE) #not sure what this part does, but I think it allows us to accept args when the script is sent. 
+print(args) #prints the arguments which here should be equivalent to each SGE_TASK_ID
+n = as.integer(args[1]) #makes the SGE_TASK_ID an integer
+
+current_index = n %/% n_rand +1 
+sample_size = params[current_index] #this gives us the "sample size"/tree size for the current run. 
+
+print("args successfully loaded") #another checkpoint
+
+#here we will load all the data. we don't even need the larger tree here! Just need the sample tree.  
+sample_tree_filename = paste("sample_tree_cluster", sample_size, sep = "") #folder that contains all the null generate tree data. 
+sample_tree_cluster<-read.tree(file = paste("~/bird/Parallel_Hoffman_full/sample_trees/", sample_tree_filename, sep = "")) 
+full_tree<-read.tree(file = "~/bird/Parallel_Hoffman_full/full_tree_for_cluster.tre")
+cophen_read<-readRDS("~/bird/Parallel_Hoffman_full/cophenetic_matrix")
+
+commdata_maker<- function(tree)
+{
+  comm<-data.frame(row.names = tree$tip.label, clump1 = 1, clump2 = tree$tip.label)
+  comm2<-subset(comm, select = clump1)
+  return(t(as.matrix(comm2)))
+}
+
+comm_sample<-commdata_maker(sample_tree_cluster)
+
+v <- c(rep(1, num_randomizations))
+
+vectorized_stats_calculation<- function(v, coph_mat)
+{
+  #comm_sample<-commdata_maker(sample_tree)
+  a<-coph_mat
+  mpd<- picante::mpd(comm_sample, picante:::taxaShuffle(a))
+  mntd<-picante::mntd(comm_sample, picante::taxaShuffle(a))
+  pd<-picante::pd(comm_sample,picante:::tipShuffle(full_tree))
+  r<-c(pd$PD,mpd,mntd)
+  names(r)<-c("pd","mpd","mntd")
+  l<-r
+  #v<-(picante::mpd(comm_sample, coph_mat)) 
+}
+
+stats<-lapply(v, vectorized_stats_calculation, coph_mat = cophen_read)
+
+
+#prepare the data for export and export the data. 
+temp <- unlist(stats[1])
+if(num_randomizations>1)
+{
+  for(i in 2:num_randomizations)
+  {
+    temp<-cbind(unlist(stats[i]), temp)
+  }
+}
+colnames(temp) = rep("trial", num_randomizations)
+res_sample_cluster<-temp
+
+
+path_to_output <- "/u/home/m/mchari/bird/Parallel_Hoffman_full"
+path_csv<-file.path(path_to_output, folder)#trying to formally make file paths
+path_txt<-file.path(path_to_output,folder2)
+fileIDcsv = paste(path_csv,"/",sample_size,"_",n, "out.csv", sep = '') #this fileID can be applied to all outputs.
+fileIDtimes = paste(path_txt,"/",sample_size,"_",n, "time.csv", sep = '') #this fileID can be applied to$
+
+#checkpoint
+print(fileIDcsv)
+print(fileIDtimes)
+
+write.csv(res_sample_cluster, file = fileIDcsv, row.names = FALSE) #this i believe is the output file. I think it's maybe better than table?
+
+#checkpoint
+print("data output")
+
+#stuff for time calculation
+end_time<-format(Sys.time(), "%H:%M:%S") #identify end time of script
+
+times = c(start_time, end_time)
+point = c(1,2)
+df_times = data.frame (time = times, point = point)
+write.csv(df_times, file = fileIDtimes)
+
+#end of file. 
+
+
+
+
+```
+
+
+
+####Step 0.11 Submit randomizations to Hoffman2
+```{bash}
+#!/bin/bash
+#$ -cwd #uses current working directory
+# error = Merged with joblog
+#$ -o /u/home/m/mchari/bird/joblog_$JOB_ID/joblog.$JOB_ID.$TASK_ID #creates a file called joblog.jobidnumber.taskidnumber to write to.
+#$ -j y
+#$ -l h_rt=0:30:00,h_data=2G #requests 30 minutes, 2GB of data (per core)
+#$ -pe shared 2 #requests 2 cores
+# Email address to notify
+#$ -M $USER@mail #don't change this line, finds your email in the system
+# Notify when
+##$ -m bea #sends you an email (b) when the job begins (e) when job ends (a) when job is aborted (error)
+#$ -t 1:2 # 1 to 190000, with step size of 5
+
+#sleep $(( RANDOM % 250))  #added this line to try to stagger jobs
+
+# load the job environment:
+. /u/local/Modules/default/init/modules.sh
+module load R
+
+
+echo ${SGE_TASK_ID}
+
+# run julia code
+echo Running phylo_code for n = ${SGE_TASK_ID} #prints this quote to joblog.jobidnumber
+Rscript Hoffman_parallel_option2.R ${SGE_TASK_ID}  > /u/home/m/mchari/bird/joblog_$JOB_ID/output.$JOB_ID.${SGE_TASK_ID}
+
+
+```
+
+
+#### Step 0.2: pull data from Hoffman2 and wrangle in python
+```{python}
+#this is a script for compiling data that has been fully parallelized on the cluster. 
+
+#import packages
+import pandas as pd
+import matplotlib.pyplot as plt
+import string
+import fnmatch
+import os
+import matplotlib.pyplot as plt
+import numpy as np
+import scipy.stats as st
+import statistics
+import paramiko
+from paramiko import SSHClient
+from scp import SCPClient
+
+#Set local and environmental variables
+JobIDint = 6490104
+JOBID = str(JobIDint)
+tree_sizes_1 = list(range(5,305,5))
+tree_sizes_2 = [350,500,700, 900, 1000]
+tree_sizes = tree_sizes_1 + tree_sizes_2
+metric = 'mpd' #this might be negligible 
+num_files = 1 #predetermine the number of files/runs. This is equivalent to the array_ID from the r script. 
+transfer = True;
+
+#MAKE SURE THIS ONLY RUNS ONCE! transport data from hoffman2 to python. 
+if(transfer):
+    hoffman2_path_output = '/u/home/m/mchari/bird/Parallel_Hoffman_full/' + JOBID + '_output_files'
+    ssh_ob = SSHClient()
+    ssh_ob.load_system_host_keys()
+    ssh_ob.connect('hoffman2.idre.ucla.edu', username = 'mchari', password= 'Xf4p4D24')
+    scp = SCPClient(ssh_ob.get_transport())
+    scp.get(hoffman2_path_output, recursive = True)
+    print("transfer is done")
+    transfer = False;
+else:
+    print("transfer already complete")
+    
+#set up local direrctory and establish folder as target
+cwd = os.getcwd()
+target_directory = os.getcwd() + "/"+ JOBID +"_output_files/"
+
+
+#wrangle the data
+class my_dictionary(dict):
+ 
+  # __init__ function
+  def __init__(self):
+    self = dict()
+ 
+  # Function to add key:value
+  def add(self, key, value):
+    self[key] = value
+    
+def div_stats(tree_sizes, JobIDint, target_directory, target_statistic):
+    dict_mpd = my_dictionary() #initialize new dictionary 
+    
+    #i don't know why i did it this way. can't remember. 
+    if target_statistic == "mpd":
+        target_val = 'mpd'
+    elif target_statistic == "mntd":
+        target_val = 'mntd'
+    elif target_statistic == "pd":
+        target_val = 'pd'
+    else:
+        print("error") #add an error
+    for i in tree_sizes:
+        size = str(i) #gets the i'th data. 
+        count = 0
+        mpd_sum = 0
+        array_temp = []
+        name = target_statistic + str(i)
+        for file in os.listdir(target_directory): #search every file in the target directory. 
+            if file.startswith(size + "_"):
+                direct = target_directory + file #go to the directory
+                temp_df = pd.read_csv(direct) #read in the csv. 
+                temp_df.index =['pd', 'mpd', "mntd"]
+                stat_temp = temp_df.loc[target_val]
+                #mpd_sum = mpd_sum + temp_df.iloc[0][target_val]
+                #count  = count + 1
+                array_temp.extend(stat_temp)
+        #average_mpd_rnd.append(mpd_sum/count)
+        dict_mpd.add(name, array_temp)
+    
+    return dict_mpd
+    
+
+new_mpd = div_stats(tree_sizes, JobIDint, target_directory, 'mpd')
+new_mntd = div_stats(tree_sizes, JobIDint, target_directory, 'mntd')
+new_pd = div_stats(tree_sizes, JobIDint, target_directory, 'pd')
+
+#visualize the histograms of pd (todo: make this plastic)
+
+plt.hist(new_pd['pd5'],bins = 20)
+plt.hist(new_pd['pd10'],bins = 20)
+plt.hist(new_pd['pd15'],bins = 20)
+plt.hist(new_pd['pd20'],bins = 20)
+plt.hist(new_pd['pd25'],bins = 20)
+plt.hist(new_pd['pd30'],bins = 20)
+plt.hist(new_pd['pd35'],bins = 20)
+plt.hist(new_pd['pd40'],bins = 20)
+plt.hist(new_pd['pd45'],bins = 20)
+plt.hist(new_pd['pd50'],bins = 20)
+plt.hist(new_pd['pd100'],bins = 20)
+plt.hist(new_pd['pd200'],bins = 20)
+plt.hist(new_pd['pd500'],bins = 20)
+plt.hist(new_pd['pd1000'],bins = 20)
+#plt.hist(new_mpd['mpd50'])
+#plt.hist(new_mpd['mpd100'])
+#plt.hist(new_mpd['mpd1000'])
+plt.title('expected pd histograms across multiple tree sizes')
+plt.xlabel('pd')
+plt.ylabel('frequency')
+labels = ("5","10","15","20","25", "30", "35", "40", "45", "50", "100", "200", "500", "10000")
+plt.legend(labels)
+plt.savefig('pd_histograms.jpg', dpi=300)
+
+
+#Find confidence intervals 
+def CI_bootstrap(dictionary): #assuming normal distribution
+    low_array = []
+    high_array = []
+    mean_array = []
+    for key in dictionary.keys():
+        print(key)
+        data_temp = dictionary[key]
+        upper_bound_bootstrap = np.percentile(data_temp,97.5)
+        print(upper_bound_bootstrap)
+        lower_bound_bootstrap = np.percentile(data_temp,2.5)
+        low_array.append(lower_bound_bootstrap)
+        high_array.append(upper_bound_bootstrap)
+        mean_array.append(np.mean(dictionary[key]))
+    return(low_array,high_array,mean_array)
+
+
+
+CI_mpd_bootstrap = CI_bootstrap(new_mpd) #CI for mpd
+
+CI_export_mpd = pd.DataFrame(CI_mpd_bootstrap)
+CI_colnames = dict.keys(new_mpd)
+CI_export_mpd.columns = CI_colnames
+CI_export_mpd.index = ["Low", "High", "Mean"]
+CI_export_mpd.to_csv("CI_mpd_output_bootstrap.csv")
+
+
+CI_mntd_bootstrap = CI_bootstrap(new_mntd)  #CI for mntd
+
+CI_export_mntd = pd.DataFrame(CI_mntd_bootstrap)
+CI_colnames = dict.keys(new_mntd)
+CI_export_mntd.columns = CI_colnames
+CI_export_mntd.index = ["Low", "High", "Mean"]
+CI_export_mntd.to_csv("CI_mntd_output_bootstrap.csv")
+
+CI_pd_bootstrap = CI_bootstrap(new_pd)
+
+
+CI_export_pd = pd.DataFrame(CI_pd_bootstrap)
+CI_colnames = dict.keys(new_pd)
+CI_export_pd.columns = CI_colnames
+CI_export_pd.index = ["Low", "High", "Mean"]
+CI_export_pd.to_csv("CI_pd_output_bootstrap.csv")
+
+```
+
+
+### Step 3: Read in the list of species and build an associated tree
+
+```{r}
+read<-function(txt_file) #takes a text file with endline separated entries and produces a species list dataframe
+{
+  species_list<-read.table(file = txt_file, sep = '\n')
+  colnames(species_list)[1]<- "name" #set the first column to be species 
+  #species_list$name<-paste0(""",species_list$name,""")
+  species_list$name <- sub(" ", "_", species_list$name)
+  print(species_list)
+  #df1
+}
+
+produce_tree<- function(tree_file) #takes a .tre file (the master tree) and builds/saves a tree object
+{
+  library(ape)
+  tree<-read.tree(tree_file)
+  return(tree)
+}
+
+check_taxa<-function(species_list, master_phylogeny) #run this with tree_test as the tree object. 
+#This function checks the species list against the master phylogeny and returns species that do not exist in master phylogeny 
+{
+  library(dplyr)
+  unmatched_species<-species_list%>%
+    filter(!(species_list$name%in%master_phylogeny$tip.label))
+  print("the following species on your list are not members of the larger phylogeny")
+  print(unmatched_species$name)
+  return(unmatched_species)
+}
+
+remove_taxa<- function(species_list, master_phylogeny) #takes the output from check_taxa and removes them from the original dataframe of species
+{
+  matched_species<-species_list%>% 
+    filter((species_list$name%in%master_phylogeny$tip.label))
+  return(matched_species)
+}
+
+sample_tree_generator<-function(sample, master_phylogeny) #generates a tree datatype from the cleaned sample data
+{
+  library(phytools)
+  library(ape)
+  list_species<- c(sample$name)
+  sample_tree<-keep.tip(master_phylogeny, list_species) #maybe try to print this tree somehow later. 
+  return(sample_tree)
+}
+```
+
+#### Step 4: Calculate true sample PD
+
+You can also embed plots, for example:
+
+```{r}
+#todo: convert this to picante.
+pd_app<- function (sample_tree,master_phylogeny) #calculate PD of sample
+{
+  library(phylocomr)
+  df_touse<-data.frame(sample = "species", occurrence = 1, names = sample_tree$tip.label)
+  return(ph_pd(df_touse, master_phylogeny))
+}
+```
+#### Step 5: Compare true statistics to expected Range
+
+
+#### Step 6: Visualizations
+
+
