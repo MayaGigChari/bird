@@ -40,11 +40,11 @@ if (file.exists(folder2)) {
 
 start_time<-format(Sys.time(), "%H:%M:%S") #identify start time of script
 
-install.packages("picante",repos = "http://cran.us.r-project.org")
-install.packages("dplyr",repos = "http://cran.us.r-project.org")
+#install.packages("picante",repos = "http://cran.us.r-project.org")
+#install.packages("dplyr",repos = "http://cran.us.r-project.org")
 library("picante", lib.loc = .libPaths())
 library("ape", lib.loc = .libPaths())
-library("dplyr", lib.loc = )
+library("dplyr", lib.loc = .libPaths())
 
 
 
