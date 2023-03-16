@@ -9,11 +9,11 @@
 #$ -M $USER@mail #don't change this line, finds your email in the system
 # Notify when
 ##$ -m bea #sends you an email (b) when the job begins (e) when job ends (a) when job is aborted (error)
-#$ -t 1:2 # 1 to 190000, with step size of 5
+#$ -t 1:17200 # with step size of 1, each node runs 5 randomizations.
 
-#sleep $(( RANDOM % 250))  #added this line to try to stagger jobs
+#sleep $(( RANDOM % 250))  #added this line to try to stagger jobs. currently  commented out. 
 
-# load the job environment:
+# load the job environment:. 
 . /u/local/Modules/default/init/modules.sh
 module load R
 
