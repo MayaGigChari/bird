@@ -5,14 +5,14 @@ date: "2023-03-16"
 
 ---
 
-```{r}
-list.of.packages <- c("dplyr", "ape", "phytools", "data.table", "ggtree")
+```{r, eval = FALSE}
+list.of.packages <- c("dplyr", "ape", "phytools", "data.table", "ggtree", "reticulate")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 ```
 #### Step 0.1: run randomizations on Hoffman2 for the parent tree  (requires a .sh submission script)
 
-```{r}
+```{r, eval = FALSE}
 n_rand = 200 #want 200 randomizations for each tree size. internally each script will produce 5 random values. 
 params1 = seq(5, 400, by=5) #this is a list of tree sizes. 
 params2 = seq(500,1000, by = 100)
@@ -152,7 +152,7 @@ write.csv(df_times, file = fileIDtimes)
 
 
 ####Step 0.11 Submit randomizations to Hoffman2
-```{bash}
+```{bash,eval = FALSE}
 #!/bin/bash
 #$ -cwd #uses current working directory
 # error = Merged with joblog
@@ -184,9 +184,8 @@ Rscript Hoffman_parallel_option2.R ${SGE_TASK_ID}  > /u/home/m/mchari/bird/joblo
 
 
 #### Step 0.2: pull data from Hoffman2 and wrangle in python
-```{python}
+```{python, eval = FALSE}
 #this is a script for compiling data that has been fully parallelized on the cluster. 
-
 #import packages
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -353,16 +352,29 @@ CI_export_pd.to_csv("CI_pd_output_bootstrap.csv")
 
 ### Step 3: Read in the list of species and build an associated tree
 
-```{r}
-read<-function(txt_file) #takes a text file with endline separated entries and produces a species list dataframe
+#TODO: add functionality for accepting a bunch of species lists 
+
+```{r, eval = FALSE}
+
+read_folder<- function(folder)
+{
+  #TODO: make this work
+}
+  
+read_file<-function(txt_file) #takes a text file with endline separated entries and produces a species list dataframe
 {
   species_list<-read.table(file = txt_file, sep = '\n')
+  species_list<-data.frame(species_list)
   colnames(species_list)[1]<- "name" #set the first column to be species 
   #species_list$name<-paste0(""",species_list$name,""")
   species_list$name <- sub(" ", "_", species_list$name)
-  print(species_list)
+  #return(species_list)
   #df1
 }
+
+test<- read_file("/Users/mayachari/Desktop/bird/Parallel_Hoffman_full/fish_families/Agonidae.txt")
+
+remove_taxa(, full_fish)
 
 produce_tree<- function(tree_file) #takes a .tre file (the master tree) and builds/saves a tree object
 {
@@ -383,11 +395,13 @@ check_taxa<-function(species_list, master_phylogeny) #run this with tree_test as
 }
 
 remove_taxa<- function(species_list, master_phylogeny) #takes the output from check_taxa and removes them from the original dataframe of species
+#removed this
 {
   matched_species<-species_list%>% 
-    filter((species_list$name%in%master_phylogeny$tip.label))
-  return(matched_species)
+    filter(species_list$name%in%(master_phylogeny$tip.label))
+  #return(matched_species)
 }
+
 
 sample_tree_generator<-function(sample, master_phylogeny) #generates a tree datatype from the cleaned sample data
 {
@@ -401,20 +415,207 @@ sample_tree_generator<-function(sample, master_phylogeny) #generates a tree data
 
 #### Step 4: Calculate true sample PD
 
-You can also embed plots, for example:
-
-```{r}
+```{r, eval = FALSE}
 #todo: convert this to picante.
-pd_app<- function (sample_tree,master_phylogeny) #calculate PD of sample
+pd_app_fromtree<- function (sample_tree,master_phylogeny) #calculate PD of sample
 {
   library(phylocomr)
   df_touse<-data.frame(sample = "species", occurrence = 1, names = sample_tree$tip.label)
   return(ph_pd(df_touse, master_phylogeny))
 }
+
+
+pd_app_picante<-function(sample_tree, master_phylogeny)
+{
+  comm_sample<-data.frame(row.names = sample_tree$tip.label, clump1 = 1, clump2 = sample_tree$tip.label)
+  comm_sample_touse<-t(as.matrix(subset(comm_sample, select = clump1)))
+  pd_val<- pd(comm_sample_touse,master_phylogeny)
+  return(pd_val)
+}
+
+mpd_app_picante<-function(sample_tree,coph_mat)
+{
+  comm_sample<-data.frame(row.names = sample_tree$tip.label, clump1 = 1, clump2 = sample_tree$tip.label)
+  comm_sample_touse<-t(as.matrix(subset(comm_sample, select = clump1)))
+  mpd_val<- mpd(comm_sample_touse,coph_mat)
+  return(mpd_val)
+}
+
+mntd_app_picante<-function(sample_tree,coph_mat)
+{
+  comm_sample<-data.frame(row.names = sample_tree$tip.label, clump1 = 1, clump2 = sample_tree$tip.label)
+  comm_sample_touse<-t(as.matrix(subset(comm_sample, select = clump1)))
+  mntd_val<- mntd(comm_sample_touse,coph_mat)
+  return(mntd_val)
+}
+
+
+
 ```
 #### Step 5: Compare true statistics to expected Range
+```{r, eval = FALSE}
+
+#todo: change python output file to make this step easier. 
+library(data.table)
+library(drc)
+
+#define tree sizes
+tree_sizes_1= seq(5, 300, by=5) #this is a list of tree sizes. 
+tree_sizes_2 = c(350,500,700, 900, 1000)
+tree_sizes<- c(tree_sizes_1, tree_sizes_2)
+
+mntd_data<-read.csv("CI_mntd_output_bootstrap.csv")
+mpd_data<-read.csv("CI_mpd_output_bootstrap.csv")
+pd_data<-read.csv("CI_pd_output_bootstrap.csv")
+
+mpd_low <- transpose(mpd_data[1,])
+mpd_med <- transpose(mpd_data[3,])
+mpd_high<- transpose(mpd_data[2,])
+#tree sizes from above. reduce this redundancy.
+
+mpd_low <- data.frame(mpd_low[-1,])
+mpd_med<-data.frame(mpd_med[-1,])
+mpd_high<-data.frame(mpd_high[-1,])
+colnames(mpd_low) <- c("mpd")
+colnames(mpd_med)<-c("mpd")
+colnames(mpd_high)<-c("mpd")
+mpd_low$mpd = as.double(mpd_low$mpd)
+mpd_med$mpd = as.double(mpd_med$mpd)
+mpd_high$mpd = as.double(mpd_high$mpd)
+mpd_low["sizes"] = tree_sizes
+mpd_med["sizes"] = tree_sizes
+mpd_high["sizes"] = tree_sizes
 
 
-#### Step 6: Visualizations
+model_low <- drm(mpd_low$mpd ~ tree_sizes, fct = MM.3())
+model_med <- drm(mpd_med$mpd ~ tree_sizes, fct = MM.3())
+model_high <- drm(mpd_high$mpd ~ tree_sizes, fct = MM.3())
+
+plot(model_low)+
+plot(model_high)+
+plot(model_med)
+
+summary(model_low)
+summary(model_med)
+summary(model_high)
+
+```
+#### Step 6 Use model to define 95% CI's with equations
+```{r, eval = FALSE}
+range_pred_mpd<- function(sample_size, model_low, model_mean, model_high) #need to connect this to the models. This predicts the lower, mean and upper range for a given sample size. 
+{
+  
+  lower <- model_low$coefficients[1] + (model_low$coefficients[2] -model_low$coefficients[1])/(1+ model_low$coefficients[3]/sample_size)
+  mean <- model_mean$coefficients[1] + (model_mean$coefficients[2] -model_mean$coefficients[1])/(1+ model_mean$coefficients[3]/sample_size)
+  upper <- model_high$coefficients[1] + (model_high$coefficients[2] -model_high$coefficients[1])/(1+ model_high$coefficients[3]/sample_size)
+  return(c(lower[[1]], mean[[1]], upper[[1]]))
+}
+
+test<-range_pred(10, model_low, model_med, model_high)
+
+ 
+is_significant<-function(range_prediction, true_pd) #boolean function for whether the observed pd lies within the 95% CI
+{
+  low_lim = range_prediction[1]
+  upp_lim = range_prediction[3]
+  return(!(between(true_pd, low_lim, upp_lim))) #returns false if not significant and true if significant (false if falls in range. )
+}
+
+is_significant(test, 250)
+
+
+```
+#### Step 7: Visualizations
+TODO: jonah!
+
+#### Step 9: Practice with the Fish Families. TODO: make this work better. 
+
+```{r, eval = FALSE}
+
+library(picante)
+library(dplyr)
+install.packages("DataCombine")
+library(DataCombine)
+
+files <- list.files(path="/Users/mayachari/Desktop/bird/Parallel_Hoffman_full/fish_families", pattern="*.txt", full.names=TRUE, recursive=FALSE)
+cophen_matrix<-readRDS("~/Desktop/bird_local/cophenetic_matrix") #read in the cophen matrix
+
+#get the names of the families in the same order that the trees will be in. 
+base_files<- lapply(files, basename)
+file_names<-unlist(lapply(base_files,tools::file_path_sans_ext))
+
+full_fish<-read.tree("full_tree_for_cluster.tre")
+taxa_lists_fish<-lapply(files, read)
+taxa_lists_df<-lapply(taxa_lists_fish, data.frame)
+taxa_checked<-lapply(taxa_lists_df, remove_taxa,  master_phylogeny = full_fish)
+fish_fam_trees<-lapply(taxa_checked, sample_tree_generator, master_phylogeny = full_fish)
+#above is a vector of families. don't know how to further vectorize so will continue with a for loo
+#need to somehow get file names. 
+
+
+#BELOW: DO NOT RUN THIS AGAIN!
+mpd_vals<-rep(NA, length(fish_fam_trees))
+pd_vals<-rep(NA, length(fish_fam_trees))
+mntd_vals<-rep(NA, length(fish_fam_trees))
+family_sizes<-rep(NA, length(fish_fam_trees))
+mpd_significant<-rep(NA, length(fish_fam_trees))
+
+#current error: some empty values 
+
+
+for(i in 1:length(fish_fam_trees))
+{
+  phylo_temp<- fish_fam_trees[[i]]
+  if(length(phylo_temp$tip.label) <=1)
+  {
+   pd_vals[i]<-NA
+   mpd_vals[i]<-NA
+   mntd_vals[i]<-NA
+   family_sizes[i]<-1
+  }
+  else
+  {
+  #pd_vals[i]<-pd_app_fromlist(phylo_temp, full_fish)$PD
+  #mpd_vals[i]<-mpd_app_picante(phylo_temp, cophen_matrix)
+  #mntd_vals[i]<-mntd_app_picante(phylo_temp, cophen_matrix)
+  #family_sizes[i]<-length(phylo_temp$tip.label)
+  mpd_significant[i]<-is_significant(range_pred_mpd(family_sizes[i], model_low, model_med, model_high), mpd_vals[i])
+  }
+}
+
+fish_statistics<-data.frame(mpd_vals)
+fish_statistics$pd_vals<-pd_vals
+fish_statistics$mntd_vals<-mntd_vals
+fish_statistics$family_sizes<-family_sizes
+fish_statistics$mpd_significance<- mpd_significant
+rownames(fish_statistics)<-file_names
+fish_statistics_nonull<-DropNA(fish_statistics)
+#ABOVE: end part to not run again
+
+
+
+#need a column for family size. 
+
+```
+#### Step 10: Visualize fish family MPD on expected value surface
+
+```{r, eval = FALSE}
+
+#set x to be tree sizes
+
+x<-seq(0,max(fish_statistics$family_sizes)+5,1)
+ylow<- model_low$coefficients[1] + (model_low$coefficients[2] -model_low$coefficients[1])/(1+ model_low$coefficients[3]/x)
+yhigh<- model_high$coefficients[1] + (model_high$coefficients[2] -model_high$coefficients[1])/(1+ model_high$coefficients[3]/x)
+
+#this has to be plotted as a chunk
+plot(x, ylow, type = "l", ylab = "mpd", ylim = c(10,400), xlab = "tree size")
+lines(x, yhigh, type = "l", col = 2)
+points(fish_statistics_nonull$family_sizes, fish_statistics_nonull$mpd_vals,)
+polygon(c(x, rev(x)), c(ylow, rev(yhigh)),
+        col = "#6BD7AF")
+
+
+```
+
 
 

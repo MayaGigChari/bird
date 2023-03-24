@@ -1,0 +1,7 @@
+"Elops affinis"
+"Elops hawaiensis"
+"Elops lacerta"
+"Elops machnata"
+"Elops saurus"
+"Elops senegalensis"
+"Elops smithi"
