@@ -497,7 +497,7 @@ plot(model_med)
 
 summary(model_low)
 summary(model_med)
-summary(model_high)
+summary(model_high) 
 
 ```
 #### Step 6 Use model to define 95% CI's with equations
@@ -608,11 +608,16 @@ ylow<- model_low$coefficients[1] + (model_low$coefficients[2] -model_low$coeffic
 yhigh<- model_high$coefficients[1] + (model_high$coefficients[2] -model_high$coefficients[1])/(1+ model_high$coefficients[3]/x)
 
 #this has to be plotted as a chunk
-plot(x, ylow, type = "l", ylab = "mpd", ylim = c(10,400), xlab = "tree size")
+plot(x, ylow, type = "l", ylab = "mpd", ylim = c(10,400), xlab = "tree size", main = "95%CI of mpd compared with true fish fam values")
 lines(x, yhigh, type = "l", col = 2)
 points(fish_statistics_nonull$family_sizes, fish_statistics_nonull$mpd_vals,)
 polygon(c(x, rev(x)), c(ylow, rev(yhigh)),
         col = "#6BD7AF")
+
+
+plot(fish_statistics_nonull$family_sizes, fish_statistics_nonull$pd_vals, xlab = "family size", ylab = "true family pd", main = " true pd of fish families")
+
+plot(fish_statistics_nonull$family_sizes, fish_statistics_nonull$mntd_vals, xlab = "family size", ylab = "true family mntd", main = " true mntd of fish families")
 
 
 ```
