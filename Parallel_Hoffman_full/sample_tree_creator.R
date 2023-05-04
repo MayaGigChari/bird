@@ -3,20 +3,26 @@
 library(phylocomr)
 library(ape)
 
-#read parent tree
+#read parent tree (can amend to other types of trees)
 full_fish_phylo<-read.tree(file = "full_tree_for_cluster.tre")
+
+full_bird_phylo<-read.tree(file = "Bird_calibrated.tre")
 
 #tree_sizes = list(75,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000) #this has been edited. Can accomodate any sizes 
 
 #tree_sizes = c(3:50)
 
-tree_sizes = seq(55, 300, by=5)
-for(i in tree_sizes)
+maketrees<- function(parent_name)
 {
-  species_names_2<-full_fish_phylo$tip.label
-  random_sample_2<-sample(species_names_2,i)
-  random_sample_2l<- c(random_sample_2)
-  sample_tree_2<-keep.tip(full_fish_phylo, random_sample_2l) #maybe try to prit this tree somehow later. 
-  filename = paste("sample_tree_cluster", i, sep = "")
-  write.tree(sample_tree_2, file = filename)
+  tree_sizes = seq(55, 300, by=5)
+  for(i in tree_sizes)
+  {
+    species_names_2<-parent_name$tip.label
+    random_sample_2<-sample(species_names_2,i)
+    random_sample_2l<- c(random_sample_2)
+    sample_tree_2<-keep.tip(parent_name, random_sample_2l) #maybe try to prit this tree somehow later. 
+    filename = paste("sample_tree_cluster", i, sep = "")
+    write.tree(sample_tree_2, file = filename)
 }
+}
+maketrees(full_bird_phylo)

@@ -1,0 +1,406 @@
+---
+title: "Bird_tree_markdown"
+output: html_document
+date: "2023-04-25"
+---
+
+```{r}
+#script for time calibration of bird phylogeny
+
+
+library(picante)
+library(ape)
+library(stringr)
+library(dplyr)
+library(phytools) 
+library(ggtree)
+
+b_tree<- read.tree("Birds_7000.tre") 
+tree_touse<- b_tree[[1]] #this is the maximum likelihood tre
+labels<-tree_touse$tip.label
+
+#char_tokeep should take 2 if we want family and 3 if we want genus and 4 if species
+word_sep<- function(full_name, char_tokeep1, char_tokeep2 = char_tokeep1)
+{
+  if(grepl("-", full_name)){
+    new_name_temp<- word(full_name,2, sep = "-")
+    new_name<- word(new_name_temp, start = char_tokeep1, end = char_tokeep2,  sep = "_")
+    return(new_name)
+  }
+  else{
+    new_name<- word(full_name, start = char_tokeep1, end = char_tokeep2,  sep = "_")
+    return(new_name)
+  }
+  
+}
+
+
+group_sep<-function(full_name)
+{
+  return(word(full_name, 1, sep = "-"))
+}
+
+group<- group_sep(labels)
+genera<- unlist(lapply(labels, word_sep, 3))
+species<- unlist(lapply(labels, word_sep, 3, 4))
+families<- unlist(lapply(labels, word_sep, 2))
+
+tree_touse$tip.label<- genera #now we have a tree of just genera tip labels. 
+
+species_tree<- tree_touse
+species_tree$tip.label <- species
+
+write.tree(species_tree, "Bird_ML_700.tre") #write the maximum likelihood tree 
+
+
+test_tree<- read.tree("Bird_ML_700.tre")
+
+all_species<-test_tree$tip.label
+
+#code for finding where the strigops species is 
+grep("Strigops", labels)
+labels[4564]
+
+genus_tree<-tree_touse
+genus_tree$tip.label <- genera
+
+group_tree<- tree_touse
+group_tree$tip.label<-group
+
+family_tree<-tree_touse
+family_tree$tip.label <- families
+unique(group)
+
+
+
+
+S2<- "Cariama"
+name <- "Charadrius_vociferus"
+name %in% species_tree$tip.label 
+
+
+unique_genera<- sort(unique(genus_tree$tip.label))
+unique_families<- sort(unique(family_tree$tip.label))
+unique_groups<- sort(unique(group_tree$tip.label))
+species_tree$tip.label
+
+
+
+#now to get all the nodes for calibration
+Calib1_node<- findMRCA(species_tree, c("Falco_peregrinus", "Cariama_cristata"))
+
+Calib2_node<- findMRCA(species_tree, c("Alcippe_brunneicauda", "Pyrrhura_roseifrons"))
+
+Calib3_node<- findMRCA(species_tree, c("Falco_peregrinus", "Microhierax_caerulescens"))
+
+Calib4_node<- findMRCA(species_tree, c("Nestor_notabilis", "Strigops_habroptila"))
+
+Calib6_node<- findMRCA(species_tree, c("Calyptomena_viridis", "Corvus_corax"))
+
+Calib7_node<- findMRCA(species_tree, c("Menura_novaehollandiae", "Atrichornis_clamosus"))
+
+Calib8_node<- findMRCA(species_tree, c("Melipotes_fumigatus", "Pardalotus_punctatus"))
+
+Calib9_node<- findMRCA(species_tree, c("Orthonyx_temminckii", "Pomatostomus_temporalis"))
+
+Calib10_node<- findMRCA(species_tree, c("Daphoenositta_chrysoptera", "Mohoua_albicilla"))
+
+Calib11_node<- findMRCA(species_tree, c("Peltops_blainvillii",
+"Strepera_graculina"))
+
+Calib12_node<- findMRCA(species_tree, c("Ammodramus_savannarum", "Passerella_iliaca"))
+
+Calib13_node<- findMRCA(species_tree, c("Regulus_calendula", "Certhia_americana"))
+
+
+Jarvis2_node<- findMRCA(species_tree, c("Tinamus_guttatus", "Struthio_camelus"))
+
+Jarvis4_node<- findMRCA(species_tree, c("Struthio_camelus", "Anas_platyrhynchos"))
+
+Jarvis5_node<- findMRCA(species_tree, c("Anas_platyrhynchos", "Gallus_gallus"))
+
+
+Jarvis5_node<- findMRCA(species_tree, c("Anas_platyrhynchos", "Gallus_gallus"))
+
+Jarvis7_node<- findMRCA(species_tree, c("Mesitornis_unicolor", "Pterocles_gutturalis"))
+
+Jarvis9_node<- findMRCA(species_tree, c("Orthonyx_temminckii", "Pomatostomus_temporalis"))
+
+Jarvis12_node<- findMRCA(species_tree, c("Charadrius_vociferus", "Balearica_regulorum"))
+
+#throws an error
+Jarvis14_node<- findMRCA(species_tree, c("Chlamydotis_macqueenii",  "Tauraco_erythrolophus"))
+
+
+Jarvis21_node<- findMRCA(species_tree, c("Fulmarus_glacialis", "Aptenodytes_forsteri"))
+
+
+
+Jarvis22_node<- findMRCA(species_tree, c("Pelecanus_crispus", "Nipponia_nippon"))
+
+Jarvis23_node<- findMRCA(species_tree, c("Pelecanus_crispus", "Phalacrocorax_carbo"))
+
+
+Jarvis29_node<- findMRCA(species_tree, c("Apaloderma_vittatum", "Buceros_rhinoceros"))
+
+
+Jarvis31_node<- findMRCA(species_tree, c("Picoides_pubescens", "Buceros_rhinoceros"))
+
+
+Jarvis35_node<- findMRCA(species_tree, c("Calypte_anna", "Chaetura_pelagica"))
+
+
+Jarvis38_node<- findMRCA(species_tree, c("Manacus_vitellinus", "Corvus_brachyrhynchos"))
+
+
+calibration_nodes<- c(Calib1_node, Calib2_node, Calib3_node, Calib4_node, Calib6_node, Calib7_node, Calib8_node, Calib9_node, Calib10_node, Calib11_node, Calib12_node, Calib13_node, Jarvis2_node, Jarvis4_node, Jarvis5_node, Jarvis7_node, Jarvis9_node, Jarvis12_node, Jarvis21_node, Jarvis21_node, Jarvis22_node, Jarvis23_node, Jarvis29_node, Jarvis31_node, Jarvis35_node, Jarvis38_node) 
+
+ggtree(species_tree, layout = 'circular') + geom_point2(aes(subset = node%in% calibration_nodes),color = "green")
+
+
+#steps
+#Change the taxa names to only genus
+#edit the tree and time calibrate based on genera 
+#come back and change labels back to genus_species
+
+#make a supplementary figure and circle each node (more of a visual check)
+#cannot automate this unless we know for sure that topology supports the fossil assignment 
+#want to make sure that the nodes are correct. 
+#reduce to family level tree: can figure out what nodes should be constrained 
+#numsites = number of genomic sites
+  #the numsites: look at the burley tree and try to find how large the alignment is (how large the number of sites)
+  #nucleotides used for the tree 
+  #22 nuclear loci
+    #number of sites is size of alignment 
+    #in data matrix part of the methods
+    # 24739240
+#make a markdown file with citations and a bunch of sources. 
+#smoothing parameter = rate smoothing estimation 
+  #use default smoothing parameter
+#mathematical problem of chronogram: how can we say that the branches are coming from a distribution of rates 
+#that minimizes heterogenetiy of branches. 
+#don't have to do anything too crazy: check topology of burley tree against what's published 
+#just print out the jarvis trree phylogeny that shows where calibrations are and pnas tree (oliveras) and get 
+#table of calibrations for two papers. Double check burley tree captures same nodes (probably does). Then assume that splits 
+#are captured so that MRCA (give name corresponding with calibrations.)
+#most have maximum age
+#can run it with cross validation. better than arbitrary smoothing value. Need to run it both ways. 
+
+
+#michael also talked to people he can contact about the +1 program 
+print("no")
+
+bird_tree_calib<-read.tree("out_dates.tre")
+
+plot(bird_tree_calib, type = "fan", show.tip.label = FALSE )
+
+#now I will run the whole program on out_dates.tre 
+
+```
+
+## Notes for the calibration points
+
+OLIVERAS
+
+
+1. root of passerines? 
+
+Calibration 1: Root (basal split in Australaves)
+Minimum Age: 53.5 Ma
+Maximum Age: 66.5 Ma
+Taxa1: Falco peregrinus 
+Taxa2: Cariama cristata 
+
+2. split between Psittaciformes and Passeriformes
+Minimum Age: 51.81 Ma
+Maximum Age: 66.5 Ma
+Taxa1: Alcippe_brunneicauda (passiformes)
+Taxa2: Pyrrhura_roseifrons (psittaciformes)
+Note: this is not based on the paper phylogeny. This is just based on random taxa chosen 
+
+3. split between Falco and Microhierax
+NOTE: no falco in the tree. 
+Minimum Age: 16.0 Ma
+Maximum Age: 48.0 Ma
+Taxa1: Falco peregrinus 
+Taxa2: Microhierax caerulescens
+
+
+4. Crown Nestoridae (split between Strigops and Nestor) #for some reason Nestor isn't working. 
+Minimum Age: 15.9 Ma
+Maximum Age: 66.5 Ma
+Taxa1:Nestor notabilis
+Taxa2: Strigops habroptila
+Note: Nestor does not exist in tree
+
+5. Crown Acanthisittidae (split between Acanthisitta and Xenicus) #XENICUS not in tree. 
+Minimum Age: 15.9 Ma
+Maximum Age: 56.0 Ma
+Taxa1:Acanthisitta chloris
+Taxa2: 
+Note: Neither genus exists in thee tree. 
+
+6. Eupasseres (split between Suboscines and Oscines)
+Minimum Age: 27.25 Ma
+Maximum Age: 56.0 Ma
+Taxa1: Calyptomena_viridis (suboscines)
+Taxa2: Corvus_corax (oscines)
+
+
+7. Split between Atrichornis and Menura
+Minimum Age: 16.0 Ma
+Maximum Age: 56.0 Ma
+Taxa1: Menura_novaehollandiae (Menura)
+Taxa2: Atrichornis clamosus (Atrichornithidae)
+
+8. Split between Meliphagidae and Pardalotidae
+Minimum Age: 14.22 Ma
+Maximum Age: 56.0 Ma
+Taxa1: Melipotes fumigatus (Meliphagidae)
+Taxa2: Pardalotus punctatus (Paralotidae)
+
+
+9.  Split between Orthonyx and Pomatostomus
+Minimum Age: 17.72 Ma
+Maximum Age: 56.0 Ma
+Taxa1: Orthonyx temminckii
+Taxa2: Pomatostomus temporalis
+
+10. Stem Daphoenositta (split between Daphoenositta and Mohoua)
+Minimum Age: 11.6 Ma
+Maximum Age: 56.0 Ma
+Taxa1: Daphoenositta chrysoptera
+Taxa2: Mohoua albicilla
+
+11. Crown Cracticidae (split between Peltops and (Cracticus + Strepera))
+Minimum Age: 14.5 Ma
+Maximum Age: 56.0 Ma
+Taxa1: Peltops blainvillii
+Taxa 2: Strepera graculina
+
+
+12. stem Ammodramus (split between Ammodramus and other sparrows)
+Minimum Age: 7.5 Ma
+Maximum Age: 18.6 Ma
+Taxa1: Ammodramus savannarum
+Taxa2: Passerella iliaca
+
+
+13. Split between Regulidae and Certhioidea
+Minimum Age: 17.2 Ma
+Maximum Age: 56.0 Ma
+Taxa1: Regulus calendula
+Taxa2: Certhia americana
+
+
+
+
+#Not Oliveras (other one)
+
+2) Terminal Branch "Struthio"
+Minimum Age: 20 MY
+Maximum Age: 20 MY? 
+Taxa1: Tinamus_guttatus
+Taxa2: Struthio_camelus
+
+4)  Internal branch “Neognathae” (i.e., 46 bird genomes excluding Struthio+Tinamus) stem -Anseriformes
+Minimum Age: 66 MY
+Maximum Age: 70 MY
+Taxa1: Struthio_camelus
+Taxa2: Anas_platyrhynchos
+NOTE: anas has some kind of subspecies, just took it out. 
+
+5) Terminal Branch “Anas” = MRCA “Anas+Galliformes” Anseriformes, ?Anseranatidae
+Minimum Age: 51 MY 
+Maximum Age: 54 MY
+Taxa1: Anas_platyrhynchos
+Taxa2: Gallus_gallus
+
+7) Terminal Branch "Pterocles" stem-Pterocliformes
+Minimum Age: 24.7 MY
+Maximum age: 24.7 MY?
+Taxa1:Mesitornis_unicolor
+Taxa2:Pterocles_gutturalis
+
+9) Internal Branch “Phoenicopterus+Podiceps” 32 MY Grebe-Flamingo stem group (nocheck)
+Minimum Age: 32 MY
+Maximum age: 32 MY? 
+Taxa1: Pterocles_gutturalis
+Taxa2: Phoenicopterus_ruber
+
+12) Terminal Branch “Balearica” 
+Minimum Age: 32 MY
+Maximum Age: 32 MY
+Taxa1:Charadrius_vociferus
+Taxa2: Balearica_regulorum
+
+14) Terminal Branch “Turaco” ~32 MY (nocheck)
+Minimum Age: 32 MY
+Maxmimum Age: 32 MY
+Taxa1: Chlamydotis_macqueenii
+Taxa2: Tauraco_erythrolophus
+
+
+21)Internal Branch “Pygoscelis+Aptenodytes”
+Minimum Age: 60.5 MY
+Maxmimum Age: 61.6 MY
+Taxa1: Fulmarus_glacialis
+Taxa2: Aptenodytes_forsteri
+
+22)Internal Branch “Egretta+sister”
+Minimum Age: 25.3 MY
+Maximum Age; 26.39 MY
+Taxa1: Pelecanus_crispus
+Taxa2: Nipponia_nippon
+
+
+23)Terminal Branch “Plegadis+sister”
+Minimum Age: 47 MY
+Maximum Age: 47 MY? 
+Taxa1: Pelecanus_crispus
+Taxa2: Phalacrocorax_carbo
+
+24)Terminal Branch “Tyto” = MRCA “Tyto+sister”
+Minimum Age: 56.8 MY
+Maximum Age: 61.7 MY
+Taxa1:Picoides_pubescens
+Taxa2: Tyto_alba
+
+29)Terminal Branch “Apaloderma” = MRCA “Apaloderma+sister” 
+Minimum Age: 55.5 MY
+Maxmimum Age: 55.5 MY
+Taxa1: Apaloderma_vittatum
+Taxa2: Buceros_rhinoceros
+
+31) Terminal Branch: Buceros
+Minimum Age: 47 MY
+Maxmimum Age: 47 MY
+Taxa1:Picoides_pubescens
+Taxa2: Buceros_rhinoceros
+
+34)Internal Branch “Chaetura+Calypte”
+Minimum Age: 55.5 MY
+Maxmimum Age: 55.5 MY
+Taxa1: Calypte_anna
+Taxa2: Antrostomus_carolinensis NOT IN TREE (don't use)
+
+35) Terminal Branch “Calypte” 32 MY – MRCA hummingbird and swift
+Minimum Age: 32 MY
+Maxmimum Age: 32 MY
+Taxa1: Calypte_anna
+Taxa2: Chaetura_pelagica
+
+38) Internal Branch “Manacus+Corvus+Taeniopygia+Geospiza”
+Minimum Age: 13.6 MY
+Maxmimum Age: 16.3 MY
+Taxa1: Manacus_vitellinus
+Taxa2: Corvus_brachyrhynchos
+
+```{r}
+install.packages("auk")
+library(auk)
+
+
+```
+
+

@@ -367,7 +367,7 @@ read_file<-function(txt_file) #takes a text file with endline separated entries 
   species_list<-data.frame(species_list)
   colnames(species_list)[1]<- "name" #set the first column to be species 
   #species_list$name<-paste0(""",species_list$name,""")
-  species_list$name <- sub(" ", "_", species_list$name)
+  x
   #return(species_list)
   #df1
 }
@@ -449,8 +449,6 @@ mntd_app_picante<-function(sample_tree,coph_mat)
   return(mntd_val)
 }
 
-
-
 ```
 #### Step 5: Compare true statistics to expected Range
 ```{r, eval = FALSE}
@@ -487,9 +485,9 @@ mpd_med["sizes"] = tree_sizes
 mpd_high["sizes"] = tree_sizes
 
 
-model_low <- drm(mpd_low$mpd ~ tree_sizes, fct = MM.3())
-model_med <- drm(mpd_med$mpd ~ tree_sizes, fct = MM.3())
-model_high <- drm(mpd_high$mpd ~ tree_sizes, fct = MM.3())
+model_low <- drm(mpd_low$mpd ~ tree_sizes, fct = MM.2())
+model_med <- drm(mpd_med$mpd ~ tree_sizes, fct = MM.2())
+model_high <- drm(mpd_high$mpd ~ tree_sizes, fct = MM.2())
 
 plot(model_low)+
 plot(model_high)+
@@ -603,14 +601,19 @@ fish_statistics_nonull<-DropNA(fish_statistics)
 
 #set x to be tree sizes
 
-x<-seq(0,max(fish_statistics$family_sizes)+5,1)
+#x<-seq(0,max(fish_statistics$family_sizes)+5,1)
+
+#this is for nofish:
+x<-seq(0,1000)
 ylow<- model_low$coefficients[1] + (model_low$coefficients[2] -model_low$coefficients[1])/(1+ model_low$coefficients[3]/x)
 yhigh<- model_high$coefficients[1] + (model_high$coefficients[2] -model_high$coefficients[1])/(1+ model_high$coefficients[3]/x)
 
 #this has to be plotted as a chunk
-plot(x, ylow, type = "l", ylab = "mpd", ylim = c(10,400), xlab = "tree size", main = "95%CI of mpd compared with true fish fam values")
+
+
+plot(x, ylow, type = "l", ylab = "mpd", ylim = c(150,400), xlab = "tree size", main = "95%CI of fish MPD")
 lines(x, yhigh, type = "l", col = 2)
-points(fish_statistics_nonull$family_sizes, fish_statistics_nonull$mpd_vals,)
+#points(fish_statistics_nonull$family_sizes, fish_statistics_nonull$mpd_vals,)
 polygon(c(x, rev(x)), c(ylow, rev(yhigh)),
         col = "#6BD7AF")
 
@@ -621,6 +624,5 @@ plot(fish_statistics_nonull$family_sizes, fish_statistics_nonull$mntd_vals, xlab
 
 
 ```
-
 
 

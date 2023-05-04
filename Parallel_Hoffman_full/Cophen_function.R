@@ -13,8 +13,11 @@ new_libPaths = .libPaths(c('/u/home/m/mchari/R',.libPaths()))
 install.packages("Rcpp",repos = "http://cran.us.r-project.org")
 library("Rcpp", lib.loc = .libPaths())
 
+#this is for the cluster
 Rcpp::sourceCpp("/u/home/m/mchari/bird/Parallel_Hoffman_full/Cophen.cpp")
-#Rcpp::sourceCpp("Cophen.cpp") for local
+
+#this is for the local 
+Rcpp::sourceCpp("Cophen.cpp") 
 
 cophen <- function(phy) {
   n <- ape::Ntip(phy)
@@ -36,13 +39,20 @@ cophen <- function(phy) {
 }
 
 
-full_tree<- read.tree("full_tree_for_cluster.tre")
+# full_tree<- read.tree("full_tree_for_cluster.tre") for fish
+#following: for birds
+full_tree<-read.tree("Bird_calibrated.tre")
+
+
 
 cophen_touse<- cophen(full_tree)
 cophen_touse<-as.matrix(cophen_touse)
-saveRDS(cophen_touse, file = "/u/home/m/mchari/bird/Parallel_Hoffman_full/cophenetic_matrix" )
 
-#saveRDS(cophen_touse, file = "cophenetic_matrix" ) for local 
+#this line is for the cluster
+saveRDS(cophen_touse, file = "/u/home/m/mchari/bird/Parallel_Hoffman_full/cophenetic_matrix_bird" )
+
+#this line is for the local 
+saveRDS(cophen_touse, file = "cophenetic_matrix_bird" )
 
 #here I'm saving cophenetic matrix, then I'm going to transfer it to my local copy of bird and then I'm going 
 #to try to move it to hoffman via globus
