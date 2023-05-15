@@ -623,6 +623,13 @@ plot(fish_statistics_nonull$family_sizes, fish_statistics_nonull$pd_vals, xlab =
 plot(fish_statistics_nonull$family_sizes, fish_statistics_nonull$mntd_vals, xlab = "family size", ylab = "true family mntd", main = " true mntd of fish families")
 
 
+
+
 ```
 
+```{r}
 
+#random stuff for presentation
+
+tree_tovis<-
+```

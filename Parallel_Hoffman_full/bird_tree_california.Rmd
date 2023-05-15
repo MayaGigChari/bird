@@ -190,9 +190,11 @@ ggtree(species_tree, layout = 'circular') + geom_point2(aes(subset = node%in% ca
 #michael also talked to people he can contact about the +1 program 
 print("no")
 
-bird_tree_calib<-read.tree("out_dates.tre")
+bird_tree_calib<-read.tree("Bird_ML_700_dated.tre")
 
-plot(bird_tree_calib, type = "fan", show.tip.label = FALSE )
+plot(bird_tree_calib, show.tip.label = FALSE, type = "fan" )
+
+
 
 #now I will run the whole program on out_dates.tre 
 
@@ -399,8 +401,233 @@ Taxa2: Corvus_brachyrhynchos
 ```{r}
 install.packages("auk")
 library(auk)
+install.packages("readr")
+library(readr)
+library(ggtree)
+
+cali_birds<-read_tsv(file = "true_cali_birds.csv")
+cali_species<-cali_birds$species
+cali_species<- gsub(" ", "_", cali_species)
+cali_species<-data.frame(cali_species)
+colnames(cali_species)<- "names"
+
+remove_taxa<- function(species_list, master_phylogeny) #takes the output from check_taxa and removes them from the original dataframe of species
+#removed this
+{
+  matched_species<-species_list%>% 
+    filter(species_list$name%in%(master_phylogeny$tip.label))
+  #return(matched_species)
+}
+
+#643 representative taxa out of 692. this is a good percentage, mark this down. 
+species_tree<- remove_taxa(cali_species, bird_tree_calib)
+
+sample_tree_generator<-function(sample, master_phylogeny) #generates a tree datatype from the cleaned sample data
+{
+  library(phytools)
+  library(ape)
+  list_species<- c(sample$name)
+  sample_tree<-keep.tip(master_phylogeny, list_species) #maybe try to print this tree somehow later. 
+  return(sample_tree)
+}
+
+cali_species_tree<- sample_tree_generator(species_tree, bird_tree_calib)
+
+plot(cali_species_tree, show.tip.label = FALSE)
+
+print(635/689)
+#92.1625% of california taxa are represented in the tree. 
+
+
+#for the reserve systems:
+
+reserve_birds<-read.csv(file = "uc_reserve_birds_inat.csv")
+reserve_species<-unique(reserve_birds$taxon_name)
+reserve_species<- gsub(" ", "_", reserve_species)
+reserve_species<-data.frame(reserve_species)
+colnames(reserve_species)<- "names"
+
+reserve_taxa<-remove_taxa(reserve_species, bird_tree_calib)
+
+#319 taxa observed in the UC reserves, 286 exist in the phylogeny
+
+#286/319 (80.65%) 
+
+reserve_species_tree<- sample_tree_generator(reserve_taxa, bird_tree_calib)
+plot(reserve_species_tree, show.tip.label = FALSE)
+
+
+
+##ggtree antics
+
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% reserve_taxa$names), size=0.5, colour = 'red')
+```
+```{r}
+#working with reserve data
+#abbreviations
+
+
+#AN = ana nuevo island reserve
+#BX = Box Springs Reserve
+#BPR = Burns Pinon Ridge Reserve
+#CS = Carpenteria Salt Marsh Reserve
+#DLM = Dawson Los Monos Canyon
+#EC = Elliot Chaparral Reserve
+#FO  = Fort Ord Natural Reserve
+#HA = Hastings Reserve 
+
+
+#angelo coast range
+BG<-read_tsv(file = "Bodega_reserve.csv")
+BG_species<-BG$species
+BG_df<- gsub(" ", "_", BG_species)
+BG_df<-data.frame(BG_df)
+colnames(BG_df)<- "names"
+BG_taxa<- remove_taxa(BG_df, cali_species_tree)
+BG_tree<-sample_tree_generator(BG_taxa,cali_species_tree)
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% BG_taxa$names), size=0.7, colour = 'red')
+write.tree(BG_tree, file = "bodega_tree.tre")
+
+
+BX<-read_tsv(file = "Box_Springs_reserve.csv")
+BX_species<-BX$species
+BX_df<- gsub(" ", "_", BX_species)
+BX_df<-data.frame(BX_df)
+colnames(BX_df)<- "names"
+BX_taxa<- remove_taxa(BX_df, cali_species_tree)
+BX_tree<-sample_tree_generator(BX_taxa,cali_species_tree)
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% BX_taxa$names), size=0.7, colour = 'red')
+write.tree(BX_tree, file = "Box_Springs_tree.tre")
+
+BPR<-read_tsv(file = "Burns_Pinon_Ridge_reserve.csv")
+BPR_species<-BPR$species
+BPR_df<- gsub(" ", "_", BPR_species)
+BPR_df<-data.frame(BPR_df)
+colnames(BPR_df)<- "names"
+BPR_taxa<- remove_taxa(BPR_df, cali_species_tree)
+BPR_tree<-sample_tree_generator(BPR_taxa,cali_species_tree)
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% BPR_taxa$names), size=0.7, colour = 'red')
+write.tree(BPR_tree, file = "Burns_Pinon_tree.tre")
+
+BPR<-read_tsv(file = "Burns_Pinon_Ridge_reserve.csv")
+BPR_species<-BPR$species
+BPR_df<- gsub(" ", "_", BPR_species)
+BPR_df<-data.frame(BPR_df)
+colnames(BPR_df)<- "names"
+BPR_taxa<- remove_taxa(BPR_df, cali_species_tree)
+BPR_tree<-sample_tree_generator(BPR_taxa,cali_species_tree)
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% BPR_taxa$names), size=0.7, colour = 'red')
+write.tree(BPR_tree, file = "Burns_Pinon_tree.tre")
+
+
+CS<-read_tsv(file = "Carpenteria_Salt_Marsh_reserve.csv")
+CS_species<-CS$species
+CS_df<- gsub(" ", "_", CS_species)
+CS_df<-data.frame(CS_df)
+colnames(CS_df)<- "names"
+CS_taxa<- remove_taxa(CS_df, cali_species_tree)
+CS_tree<-sample_tree_generator(CS_taxa,cali_species_tree)
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% CS_taxa$names), size=0.7, colour = 'red')
+write.tree(BPR_tree, file = "Carpenteria_Salt_tree.tre")
+
+
+
+DLM<-read_tsv(file = "Dawson_Los_Monos_Canyon_Reserve.csv")
+DLM_species<-DLM$species
+DLM_df<- gsub(" ", "_", DLM_species)
+DLM_df<-data.frame(DLM_df)
+colnames(DLM_df)<- "names"
+DLM_taxa<- remove_taxa(DLM_df, cali_species_tree)
+DLM_tree<-sample_tree_generator(DLM_taxa,cali_species_tree)
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% DLM_taxa$names), size=0.7, colour = 'red')
+write.tree(DLM_tree, file = "Dawson_Monos_tree.tre")
+
+
+
+EC<-read_tsv(file = "Elliot_Chaparral_Reserve.csv")
+EC_species<-EC$species
+EC_df<- gsub(" ", "_", EC_species)
+EC_df<-data.frame(EC_df)
+colnames(EC_df)<- "names"
+EC_taxa<- remove_taxa(EC_df, cali_species_tree)
+EC_tree<-sample_tree_generator(EC_taxa,cali_species_tree)
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% EC_taxa$names), size=0.7, colour = 'red')
+write.tree(EC_tree, file = "Elliot_Chaparral_tree.tre")
+
+
+
+FO<-read_tsv(file = "Fort_Ord_Natural_Reserve.csv")
+FO_species<-FO$species
+FO_df<- gsub(" ", "_", FO_species)
+FO_df<-data.frame(FO_df)
+colnames(FO_df)<- "names"
+FO_taxa<- remove_taxa(FO_df, cali_species_tree)
+FO_tree<-sample_tree_generator(FO_taxa,cali_species_tree)
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% FO_taxa$names), size=0.7, colour = 'red')
+write.tree(FO_tree, file = "Fort_Ord_tree.tre")
+
+
+EO<-read_tsv(file = "Emerson_oaks_reserve.csv")
+EO_species<-EO$species
+EO_df<- gsub(" ", "_", EO_species)
+EO_df<-data.frame(EO_df)
+colnames(EO_df)<- "names"
+EO_taxa<- remove_taxa(EO_df, cali_species_tree)
+EO_tree<-sample_tree_generator(EO_taxa,cali_species_tree)
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% EO_taxa$names), size=0.7, colour = 'red')
+write.tree(EO_tree, file = "Emerson_oaks_tree.tre")
+
+
+HA<-read_tsv(file = "Hastings_Reserve.csv")
+HA_species<-HA$species
+HA_df<- gsub(" ", "_", HA_species)
+HA_df<-data.frame(HA_df)
+colnames(HA_df)<- "names"
+HA_taxa<- remove_taxa(HA_df, cali_species_tree)
+HA_tree<-sample_tree_generator(HA_taxa,cali_species_tree)
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% HA_taxa$names), size=0.7, colour = 'red')
+write.tree(HA_tree, file = "Hastings_tree.tre")
+
 
 
 ```
+```{r}
+pd_app_picante<-function(sample_tree, master_phylogeny)
+{
+  comm_sample<-data.frame(row.names = sample_tree$tip.label, clump1 = 1, clump2 = sample_tree$tip.label)
+  comm_sample_touse<-t(as.matrix(subset(comm_sample, select = clump1)))
+  pd_val<- pd(comm_sample_touse,master_phylogeny)
+  return(pd_val)
+}
 
+mpd_app_picante<-function(sample_tree,coph_mat)
+{
+  comm_sample<-data.frame(row.names = sample_tree$tip.label, clump1 = 1, clump2 = sample_tree$tip.label)
+  comm_sample_touse<-t(as.matrix(subset(comm_sample, select = clump1)))
+  mpd_val<- mpd(comm_sample_touse,coph_mat)
+  return(mpd_val)
+}
 
+mntd_app_picante<-function(sample_tree,coph_mat)
+{
+  comm_sample<-data.frame(row.names = sample_tree$tip.label, clump1 = 1, clump2 = sample_tree$tip.label)
+  comm_sample_touse<-t(as.matrix(subset(comm_sample, select = clump1)))
+  mntd_val<- mntd(comm_sample_touse,coph_mat)
+  return(mntd_val)
+}
+
+pd_cali<-pd_app_picante(cali_species_tree, bird_tree_calib)
+pd_reserves<-pd_app_picante(reserve_species_tree, bird_tree_calib)
+
+```
