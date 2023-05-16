@@ -190,13 +190,32 @@ ggtree(species_tree, layout = 'circular') + geom_point2(aes(subset = node%in% ca
 #michael also talked to people he can contact about the +1 program 
 print("no")
 
-bird_tree_calib<-read.tree("Bird_ML_700_dated.tre")
+bird_tree_calib2<-read.tree("Bird_ML_700_dated2.tre")
 
 plot(bird_tree_calib, show.tip.label = FALSE, type = "fan" )
 
 
+bird_tree_calib4<- read.tree("Bird_ML_dated001_trial2.tre")
+plot(bird_tree_calib4, type = "fan", show.tip.label = FALSE)
 
 #now I will run the whole program on out_dates.tre 
+
+#branching.times function for both trees, then do a qq plot 
+
+times_noupper<-branching.times(bird_tree_calib3)
+times_s1<- branching.times(bird_tree_calib)
+times_slow<- branching.times(bird_tree_calib2)
+times_slow_correct<- branching.times(bird_tree_calib4)
+
+qqplot(times_slow_correct, times_slow)
+
+#use the very small smoothing value. 
+#produce a table of calibrated vs. actual values
+#check to see if I calibrated the root node. 
+#want hard upper bound on the ROOT
+
+#produce a table: calibration vs value for calibrated node. pull out ages from same node from jarvis and oliveras trees. However this will be useful. 
+
 
 ```
 

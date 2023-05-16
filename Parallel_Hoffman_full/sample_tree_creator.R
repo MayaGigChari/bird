@@ -6,15 +6,16 @@ library(ape)
 #read parent tree (can amend to other types of trees)
 full_fish_phylo<-read.tree(file = "full_tree_for_cluster.tre")
 
-full_bird_phylo<-read.tree(file = "Bird_calibrated.tre")
+cali_bird_phylo<-read.tree(file = "Bird_ML_700_dated2.tre")
 
 #tree_sizes = list(75,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000) #this has been edited. Can accomodate any sizes 
 
 #tree_sizes = c(3:50)
 
+#made some alterations for the birds. 
 maketrees<- function(parent_name)
 {
-  tree_sizes = seq(55, 300, by=5)
+  tree_sizes = seq(5, 600, by=5)
   for(i in tree_sizes)
   {
     species_names_2<-parent_name$tip.label
@@ -25,4 +26,4 @@ maketrees<- function(parent_name)
     write.tree(sample_tree_2, file = filename)
 }
 }
-maketrees(full_bird_phylo)
+maketrees(cali_bird_phylo)
