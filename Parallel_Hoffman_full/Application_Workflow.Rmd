@@ -457,8 +457,8 @@ mntd_app_picante<-function(sample_tree,coph_mat)
 library(data.table)
 library(drc)
 
-#define tree sizes
-tree_sizes_1= seq(5, 300, by=5) #this is a list of tree sizes. 
+#define tree sizes (this is for birds now)
+tree_sizes_1= seq(5, 435, by=5) #this is a list of tree sizes. 
 tree_sizes_2 = c(350,500,700, 900, 1000)
 tree_sizes<- c(tree_sizes_1, tree_sizes_2)
 

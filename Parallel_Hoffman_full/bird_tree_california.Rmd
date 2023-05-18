@@ -129,7 +129,7 @@ Jarvis9_node<- findMRCA(species_tree, c("Orthonyx_temminckii", "Pomatostomus_tem
 Jarvis12_node<- findMRCA(species_tree, c("Charadrius_vociferus", "Balearica_regulorum"))
 
 #throws an error
-Jarvis14_node<- findMRCA(species_tree, c("Chlamydotis_macqueenii",  "Tauraco_erythrolophus"))
+#Jarvis14_node<- findMRCA(species_tree, c("Chlamydotis_macqueenii",  "Tauraco_erythrolophus"))
 
 
 Jarvis21_node<- findMRCA(species_tree, c("Fulmarus_glacialis", "Aptenodytes_forsteri"))
@@ -198,6 +198,20 @@ plot(bird_tree_calib, show.tip.label = FALSE, type = "fan" )
 bird_tree_calib4<- read.tree("Bird_ML_dated001_trial2.tre")
 plot(bird_tree_calib4, type = "fan", show.tip.label = FALSE)
 
+
+bird_tree_calib5<- read.tree("Bird_ML_0000000000000001_trial.tre")
+
+
+
+ggtree(bird_tree_calib4, layout = 'circular') + geom_point2(aes(subset = node%in% calibration_nodes),color = "green")
+ggsave("bird_tree_calibrated_with_nodes.png", dpi = 1200)
+
+
+times_001<- branching.times(bird_tree_calib4)
+times_0000001<- branching.times(bird_tree_calib5)
+qqplot(times_0000001, times_001)
+
+
 #now I will run the whole program on out_dates.tre 
 
 #branching.times function for both trees, then do a qq plot 
@@ -208,6 +222,8 @@ times_slow<- branching.times(bird_tree_calib2)
 times_slow_correct<- branching.times(bird_tree_calib4)
 
 qqplot(times_slow_correct, times_slow)
+
+bird_tree_calib<- bird_tree_calib4
 
 #use the very small smoothing value. 
 #produce a table of calibrated vs. actual values
@@ -452,8 +468,11 @@ sample_tree_generator<-function(sample, master_phylogeny) #generates a tree data
 
 cali_species_tree<- sample_tree_generator(species_tree, bird_tree_calib)
 
-plot(cali_species_tree, show.tip.label = FALSE)
+pd_app_picante(cali_species_tree, cali_species_tree)
 
+plot(cali_species_tree, show.tip.label = FALSE )
+
+ggtree(cali_species_tree, cex = 0.1, layout = "circular") +  theme_tree2()
 print(635/689)
 #92.1625% of california taxa are represented in the tree. 
 
@@ -479,8 +498,13 @@ plot(reserve_species_tree, show.tip.label = FALSE)
 
 ##ggtree antics
 
-ggtree(cali_species_tree, layout = "fan") +
+nt<- ggtree(cali_species_tree, layout = "fan") +
     geom_tiplab(aes(subset = label%in% reserve_taxa$names), size=0.5, colour = 'red')
+
+
+ggsave("reserve_on_cali.png", width=5, height=4, dpi=300, nt)
+dev.off()
+
 ```
 ```{r}
 #working with reserve data
@@ -494,8 +518,23 @@ ggtree(cali_species_tree, layout = "fan") +
 #DLM = Dawson Los Monos Canyon
 #EC = Elliot Chaparral Reserve
 #FO  = Fort Ord Natural Reserve
-#HA = Hastings Reserve 
-
+#HA = Hastings Reserve
+#CAR = chickering American Reserve
+#SJM = San Jacinto Mountains Reserve
+#JP = Jepson Prairie Reserve
+#KF = Kendall Frost Mission Reserve
+#MV = Merced Vernal 
+#MR = Motte Rimrock Reserve
+#NRM = Norris Rancho Marino Reserve
+#QR = Quail Ridge Reserve 
+#SJ =  San Joaquin Marsh reserve
+#SW = Sedgewick Reserve
+#SGM = Sweeney Granite Mountains Reserve
+#VA = Valentine aquatic Reserve
+#VC = Valentine Camp reserve
+#SC = Scripps Coastal Reserve
+#SBA = Steele Burn Anza Borrego Reserve
+# BD = Boyd Deep Canyon desert Reserve
 
 #angelo coast range
 BG<-read_tsv(file = "Bodega_reserve.csv")
@@ -553,7 +592,19 @@ CS_taxa<- remove_taxa(CS_df, cali_species_tree)
 CS_tree<-sample_tree_generator(CS_taxa,cali_species_tree)
 ggtree(cali_species_tree, layout = "fan") +
     geom_tiplab(aes(subset = label%in% CS_taxa$names), size=0.7, colour = 'red')
+ggsave("carpenteria_salt_vis.png", dpi = 1200)
 write.tree(BPR_tree, file = "Carpenteria_Salt_tree.tre")
+
+CAR<-read_tsv(file = "Chickering_American_River_Reserve.csv")
+CAR_species<-CAR$species
+CAR_df<- gsub(" ", "_", CAR_species)
+CAR_df<-data.frame(CAR_df)
+colnames(CAR_df)<- "names"
+CAR_taxa<- remove_taxa(CAR_df, cali_species_tree)
+CAR_tree<-sample_tree_generator(CAR_taxa,cali_species_tree)
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% DLM_taxa$names), size=0.7, colour = 'red')
+write.tree(CAR_tree, file = "Chickering_tree.tre")
 
 
 
@@ -618,17 +669,211 @@ ggtree(cali_species_tree, layout = "fan") +
     geom_tiplab(aes(subset = label%in% HA_taxa$names), size=0.7, colour = 'red')
 write.tree(HA_tree, file = "Hastings_tree.tre")
 
+SJM<-read_tsv(file = "San_Jacinto_Mountains_Reserve.csv")
+SJM_species<-SJM$species
+SJM_df<- gsub(" ", "_", SJM_species)
+SJM_df<-data.frame(SJM_df)
+colnames(SJM_df)<- "names"
+SJM_taxa<- remove_taxa(SJM_df, cali_species_tree)
+SJM_tree<-sample_tree_generator(SJM_taxa,cali_species_tree)
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% SJM_taxa$names), size=0.7, colour = 'red')
+write.tree(SJM_tree, file = "San_Jacinto_tree.tre")
 
+JP<-read_tsv(file = "Jepson_Prairie_Reserve.csv")
+JP_species<-JP$species
+JP_df<- gsub(" ", "_", JP_species)
+JP_df<-data.frame(JP_df)
+colnames(JP_df)<- "names"
+JP_taxa<- remove_taxa(JP_df, cali_species_tree)
+JP_tree<-sample_tree_generator(JP_taxa,cali_species_tree)
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% JP_taxa$names), size=0.7, colour = 'red')
+ggsave("jepson_prairie_vis.png", dpi = 1200)
+write.tree(SJM_tree, file = "Jepson_Prairie_tree.tre")
+
+
+KF<-read_tsv(file = "Kendall_Frost_Mission_Bay_Marsh.csv")
+KF_species<-KF$species
+KF_df<- gsub(" ", "_", KF_species)
+KF_df<-data.frame(KF_df)
+colnames(KF_df)<- "names"
+KF_taxa<- remove_taxa(KF_df, cali_species_tree)
+KF_tree<-sample_tree_generator(KF_taxa,cali_species_tree)
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% KF_taxa$names), size=0.7, colour = 'red')
+write.tree(SJM_tree, file = "Kendall_Frost_tree.tre")
+
+MV<-read_tsv(file = "Merced_Vernal_Pools_Reserve.csv")
+MV_species<-MV$species
+MV_df<- gsub(" ", "_", MV_species)
+MV_df<-data.frame(MV_df)
+colnames(MV_df)<- "names"
+MV_taxa<- remove_taxa(MV_df, cali_species_tree)
+MV_tree<-sample_tree_generator(MV_taxa,cali_species_tree)
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% MV_taxa$names), size=0.7, colour = 'red')
+write.tree(MV_tree, file = "Merced_Vernal_tree.tre")
+
+
+MR<-read_tsv(file = "Motte_Rimrock_Reserve.csv")
+MR_species<-MR$species
+MR_df<- gsub(" ", "_", MR_species)
+MR_df<-data.frame(MR_df)
+colnames(MR_df)<- "names"
+MR_taxa<- remove_taxa(MR_df, cali_species_tree)
+MR_tree<-sample_tree_generator(MR_taxa,cali_species_tree)
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% MR_taxa$names), size=0.7, colour = 'red')
+write.tree(MR_tree, file = "Motte_Rimrock_Reserve.tre")
+
+
+NRM<-read_tsv(file = "Norris_Rancho_Marino_Reserve.csv")
+NRM_species<-NRM$species
+NRM_df<- gsub(" ", "_", NRM_species)
+NRM_df<-data.frame(NRM_df)
+colnames(NRM_df)<- "names"
+NRM_taxa<- remove_taxa(NRM_df, cali_species_tree)
+NRM_tree<-sample_tree_generator(NRM_taxa,cali_species_tree)
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% NRM_taxa$names), size=0.7, colour = 'red')
+write.tree(NRM_tree, file = "Norris_Rancho_Marino_tree.tre")
+
+
+
+QR<-read_tsv(file = "Quail_Ridge_Reserve.csv")
+QR_species<-QR$species
+QR_df<- gsub(" ", "_", QR_species)
+QR_df<-data.frame(QR_df)
+colnames(QR_df)<- "names"
+QR_taxa<- remove_taxa(QR_df, cali_species_tree)
+QR_tree<-sample_tree_generator(QR_taxa,cali_species_tree)
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% QR_taxa$names), size=0.7, colour = 'red')
+write.tree(QR_tree, file = "Quail_Ridge_tree.tre")
+
+
+
+SJ<-read_tsv(file = "San_Joaquin_Marsh_Reserve.csv")
+SJ_species<-SJ$species
+SJ_df<- gsub(" ", "_", SJ_species)
+SJ_df<-data.frame(SJ_df)
+colnames(SJ_df)<- "names"
+SJ_taxa<- remove_taxa(SJ_df, cali_species_tree)
+SJ_tree<-sample_tree_generator(SJ_taxa,cali_species_tree)
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% SJ_taxa$names), size=0.7, colour = 'red')
+write.tree(SJ_tree, file = "San_Joaquin_Marsh_tree.tre")
+
+SW<-read_tsv(file = "Sedgwick_Reserve.csv")
+SW_species<-SW$species
+SW_df<- gsub(" ", "_", SW_species)
+SW_df<-data.frame(SW_df)
+colnames(SW_df)<- "names"
+SW_taxa<- remove_taxa(SW_df, cali_species_tree)
+SW_tree<-sample_tree_generator(SW_taxa,cali_species_tree)
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% SW_taxa$names), size=0.7, colour = 'red')
+write.tree(SW_tree, file = "Sedgwick_Reserve_tree.tre")
+
+
+SGM<-read_tsv(file = "Sweeney_Granite_Mountains_Reserve.csv")
+SGM_species<-SGM$species
+SGM_df<- gsub(" ", "_", SGM_species)
+SGM_df<-data.frame(SGM_df)
+colnames(SGM_df)<- "names"
+SGM_taxa<- remove_taxa(SGM_df, cali_species_tree)
+SGM_tree<-sample_tree_generator(SGM_taxa,cali_species_tree)
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% SGM_taxa$names), size=0.7, colour = 'red')
+write.tree(SGM_tree, file = "Sweeney_Granite_tree.tre")
+
+VA<-read_tsv(file = "Valentine_Eastern_Sierra_Reserve_aquatic.csv")
+VA_species<-VA$species
+VA_df<- gsub(" ", "_", VA_species)
+VA_df<-data.frame(VA_df)
+colnames(VA_df)<- "names"
+VA_taxa<- remove_taxa(VA_df, cali_species_tree)
+VA_tree<-sample_tree_generator(VA_taxa,cali_species_tree)
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% VA_taxa$names), size=0.7, colour = 'red')
+write.tree(VA_tree, file = "Valentine_aquatic_tree.tre")
+
+VC<-read_tsv(file = "Valentine_Eastern_Sierra_Reserve_Camp.csv")
+VC_species<-VC$species
+VC_df<- gsub(" ", "_", VC_species)
+VC_df<-data.frame(VC_df)
+colnames(VC_df)<- "names"
+VC_taxa<- remove_taxa(VC_df, cali_species_tree)
+VC_tree<-sample_tree_generator(VC_taxa,cali_species_tree)
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% VC_taxa$names), size=0.7, colour = 'red')
+write.tree(VC_tree, file = "Valentine_camp_tree.tre")
+
+SC<-read_tsv(file = "Scripps_Coastal_Reserve.csv")
+SC_species<-SC$species
+SC_df<- gsub(" ", "_", SC_species)
+SC_df<-data.frame(SC_df)
+colnames(SC_df)<- "names"
+SC_taxa<- remove_taxa(SC_df, cali_species_tree)
+SC_tree<-sample_tree_generator(SC_taxa,cali_species_tree)
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% SC_taxa$names), size=0.7, colour = 'red')
+write.tree(SC_tree, file = "Scripps_Coastal_tree.tre")
+
+SBA<-read_tsv(file = "Steele_Burn_Anza_Borrego_Research_Center.csv")
+SBA_species<-SBA$species
+SBA_df<- gsub(" ", "_", SBA_species)
+SBA_df<-data.frame(SBA_df)
+colnames(SBA_df)<- "names"
+SBA_taxa<- remove_taxa(SBA_df, cali_species_tree)
+SBA_tree<-sample_tree_generator(SBA_taxa,cali_species_tree)
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% SBA_taxa$names), size=0.7, colour = 'red')
+write.tree(SBA_tree, file = "Steele_Burn_Anza_Borrego_tree.tre")
+
+BD<-read_tsv(file = "Boyd_Deep_Canyon_desert_Reserve.csv")
+BD_species<-BD$species
+BD_df<- gsub(" ", "_", BD_species)
+BD_df<-data.frame(BD_df)
+colnames(BD_df)<- "names"
+BD_taxa<- remove_taxa(BD_df, cali_species_tree)
+BD_tree<-sample_tree_generator(BD_taxa,cali_species_tree)
+ggtree(cali_species_tree, layout = "fan") +
+    geom_tiplab(aes(subset = label%in% BD_taxa$names), size=0.7, colour = 'red')
+write.tree(BD_tree, file = "Boyd_Deep_Canyon_tree.tre")
+
+
+
+commdata_maker<- function(tree)
+{
+  comm<-data.frame(row.names = tree$tip.label, clump1 = 1, clump2 = tree$tip.label)
+  comm2<-subset(comm, select = clump1)
+  return(t(as.matrix(comm2)))
+}
+
+pd(commdata_maker(tree_random520), tipShuffle(cali_species_tree))
+
+pd_CSM<- pd_app_picante(CS_tree, cali_species_tree)
+pd_full<-pd_app_picante(cali_species_tree, tipShuffle(cali_species_tree))
+
+
+tree_random80<-read.tree("sample_trees_birds/sample_tree_cluster80")
+pd_random_sample<- pd_app_picante(tree_random80, tipShuffle(cali_species_tree))
 
 ```
+
+
+
 ```{r}
 pd_app_picante<-function(sample_tree, master_phylogeny)
 {
   comm_sample<-data.frame(row.names = sample_tree$tip.label, clump1 = 1, clump2 = sample_tree$tip.label)
   comm_sample_touse<-t(as.matrix(subset(comm_sample, select = clump1)))
-  pd_val<- pd(comm_sample_touse,master_phylogeny)
+  pd_val<- picante::pd(comm_sample_touse,master_phylogeny)
   return(pd_val)
 }
+
 
 mpd_app_picante<-function(sample_tree,coph_mat)
 {
@@ -650,3 +895,270 @@ pd_cali<-pd_app_picante(cali_species_tree, bird_tree_calib)
 pd_reserves<-pd_app_picante(reserve_species_tree, bird_tree_calib)
 
 ```
+```{r}
+#this is for PD analysis
+
+library(data.table)
+library(drc)
+
+#define tree sizes (this is for birds now)
+tree_sizes= seq(5, 430, by=5) #this is a list of tree sizes. 
+
+ 
+mntd_data<-read.csv("CI_mntd_output_bootstrap_bird.csv")
+mpd_data<-read.csv("CI_mpd_output_bootstrap_bird.csv")
+pd_data<-read.csv("CI_pd_output_bootstrap_bird.csv")
+
+#for mpd
+mpd_low <- transpose(mpd_data[1,])
+mpd_med <- transpose(mpd_data[3,])
+mpd_high<- transpose(mpd_data[2,])
+#tree sizes from above. reduce this redundancy.
+
+mpd_low <- data.frame(mpd_low[-1,])
+mpd_med<-data.frame(mpd_med[-1,])
+mpd_high<-data.frame(mpd_high[-1,])
+colnames(mpd_low) <- c("mpd")
+colnames(mpd_med)<-c("mpd")
+colnames(mpd_high)<-c("mpd")
+mpd_low$mpd = as.double(mpd_low$mpd)
+mpd_med$mpd = as.double(mpd_med$mpd)
+mpd_high$mpd = as.double(mpd_high$mpd)
+mpd_low["sizes"] = tree_sizes
+mpd_med["sizes"] = tree_sizes
+mpd_high["sizes"] = tree_sizes
+
+#for mntd
+mntd_low <- transpose(mntd_data[1,])
+mntd_med <- transpose(mntd_data[3,])
+mntd_high<- transpose(mntd_data[2,])
+#tree sizes from above. reduce this redundancy.
+
+mntd_low <- data.frame(mntd_low[-1,])
+mntd_med<-data.frame(mntd_med[-1,])
+mntd_high<-data.frame(mntd_high[-1,])
+colnames(mntd_low) <- c("mntd")
+colnames(mntd_med)<-c("mntd")
+colnames(mntd_high)<-c("mntd")
+mntd_low$mntd = as.double(mntd_low$mntd)
+mntd_med$mntd = as.double(mntd_med$mntd)
+mntd_high$mntd = as.double(mntd_high$mntd)
+mntd_low["sizes"] = tree_sizes
+mntd_med["sizes"] = tree_sizes
+mntd_high["sizes"] = tree_sizes
+
+plot(mntd_low$mntd~mntd_low$sizes)
+#for pd
+pd_low <- transpose(pd_data[1,])
+pd_med <- transpose(pd_data[3,])
+pd_high<- transpose(pd_data[2,])
+#tree sizes from above. reduce this redundancy.
+
+pd_low <- data.frame(pd_low[-1,])
+pd_med<-data.frame(pd_med[-1,])
+pd_high<-data.frame(pd_high[-1,])
+colnames(pd_low) <- c("pd")
+colnames(pd_med)<-c("pd")
+colnames(pd_high)<-c("pd")
+pd_low$pd = as.double(pd_low$pd)
+pd_med$pd = as.double(pd_med$pd)
+pd_high$pd = as.double(pd_high$pd)
+pd_low["sizes"] = tree_sizes
+pd_med["sizes"] = tree_sizes
+pd_high["sizes"] = tree_sizes
+
+
+#model fitting
+#mpd
+
+model_low <- drm(mpd_low$mpd ~ tree_sizes, fct = MM.3())
+model_med <- drm(mpd_med$mpd ~ tree_sizes, fct = MM.3())
+model_high <- drm(mpd_high$mpd ~ tree_sizes, fct = MM.3())
+
+plot(model_low)+
+plot(model_high)+
+plot(model_med)
+
+summary(model_low)
+summary(model_med)
+summary(model_high) 
+
+
+
+# mntd. need to work on these fits 
+
+library(stats)
+library(ggplot2)
+library(broom)
+
+
+#attempt 1: negative exponential
+mntd_fit_equation<- y0 + (yf - y0) * exp(-exp(log_alpha) * (x - tree_sizes))
+
+
+fit_low <- nls(mntd ~ SSasymp(tree_sizes, yf, y0, log_alpha), data = mntd_low)
+fit_med<- nls(mntd ~ SSasymp(tree_sizes, yf, y0, log_alpha), data = mntd_med)
+fit_high<- nls(mntd ~ SSasymp(tree_sizes, yf, y0, log_alpha), data = mntd_high)
+
+
+augmented_data <- augment(fit_med)
+
+ggplot(augmented_data, aes(x = tree_sizes, y = mntd)) +
+  geom_point() +
+  geom_line(aes(y = .fitted))
+
+
+#attempt 2: michaelis menten 
+mntd_low_fit <- drm(mntd_low$mntd ~ tree_sizes, fct = MM.3())
+mntd_med_fit <- drm(mntd_med$mntd ~ tree_sizes, fct = MM.3())
+mntd_high_fit <- drm(mntd_high$mntd ~ tree_sizes, fct = MM.3())
+
+plot(mntd_high)+ points(mntd_med) + points(mntd_low)
+plot(mntd_high)+
+plot(mntd_med)
+
+summary(mntd_low_fit)
+summary(mntd_high_fit)
+summary(mntd_med_fit)
+
+
+
+#for pd
+
+```
+
+```{r}
+
+#functions for predicting the mpd. Also work for mntd. 
+range_pred<- function(sample_size, model_low, model_mean, model_high) #need to connect this to the models. This predicts the lower, mean and upper range for a given sample size. 
+{
+  
+  lower <- model_low$coefficients[1] + (model_low$coefficients[2] -model_low$coefficients[1])/(1+ model_low$coefficients[3]/sample_size)
+  mean <- model_mean$coefficients[1] + (model_mean$coefficients[2] -model_mean$coefficients[1])/(1+ model_mean$coefficients[3]/sample_size)
+  upper <- model_high$coefficients[1] + (model_high$coefficients[2] -model_high$coefficients[1])/(1+ model_high$coefficients[3]/sample_size)
+  return(c(lower[[1]], mean[[1]], upper[[1]]))
+}
+
+
+ 
+is_significant<-function(range_prediction, true_pd) #boolean function for whether the observed pd lies within the 95% CI
+{
+  low_lim = range_prediction[1]
+  upp_lim = range_prediction[3]
+  return(!(between(true_pd, low_lim, upp_lim))) #returns false if not significant and true if significant (false if falls in range. )
+}
+
+
+#for predicting mntd (michaelis menten also works )
+
+
+```
+
+another part
+```{r}
+
+
+
+#comparing the statistics to the hastings reserve stuff. 
+#need to make a cophenetic matrix. 
+#list of hasting reserve trees
+#cophen_touse has been temporarily defined. neneds to be less hacky. 
+
+
+#KF = Kendall Frost Mission Reserve
+#MV = Merced Vernal 
+#MR = Motte Rimrock Reserve
+#NRM = Norris Rancho Marino Reserve
+#QR = Quail Ridge Reserve 
+#SJ =  San Joaquin Marsh reserve
+#SW = Sedgewick Reserve
+#SGM = Sweeney Granite Mountains Reserve
+#VA = Valentine aquatic Reserve
+#VC = Valentine Camp reserve
+#SC = Scripps Coastal Reserve
+#SBA = Steele Burn Anza Borrego Reserve
+# BD = Boyd Deep Canyon desert Reserve
+
+trees_list<- c(BX_tree, BPR_tree, CS_tree, DLM_tree, EC_tree, FO_tree, HA_tree, CAR_tree, SJM_tree, JP_tree, KF_tree, MV_tree, MR_tree, NRM_tree, QR_tree, SJ_tree, SW_tree, SGM_tree, VA_tree, VC_tree, SC_tree, SBA_tree, BD_tree)
+
+
+
+mpd_vals<-rep(NA, length(trees_list))
+pd_vals<-rep(NA, length(trees_list))
+mntd_vals<-rep(NA, length(trees_list))
+family_sizes<-rep(NA, length(trees_list))
+mpd_significant<-rep(NA, length(trees_list))
+mntd_significant<-rep(NA, length(trees_list))
+
+for(i in 1:length(trees_list))
+{
+  phylo_temp<- trees_list[[i]]
+  if(length(phylo_temp$tip.label) <=1)
+  {
+   pd_vals[i]<-NA
+   mpd_vals[i]<-NA
+   mntd_vals[i]<-NA
+   family_sizes[i]<-1
+  }
+  else
+  {
+  pd_vals[i]<-pd_app_picante(phylo_temp, cali_bird_phylo)$PD
+  mpd_vals[i]<-mpd_app_picante(phylo_temp, cophen_touse)
+  mntd_vals[i]<-mntd_app_picante(phylo_temp, cophen_touse)
+  family_sizes[i]<-length(phylo_temp$tip.label)
+  mpd_significant[i]<-is_significant(range_pred(family_sizes[i], model_low, model_med, model_high), mpd_vals[i])
+  mntd_significant[i]<- is_significant(range_pred(family_sizes[i], mntd_low_fit, mntd_med_fit, mntd_high_fit), mntd_vals[i])
+  }
+}
+
+rnames<- c(  "Box Springs Reserve", "Burns Pinon Ridge Reserve", "Carpenteria Salt Marsh Reserve", "Dawson Los Monos Canyon Reserve", "Elliot Chaparral Reserve", "Fort Ord Natural Reserve", "Hastings Reserve", "chickering American Reserve", "San Jacinto Mountains Reserve" , "Jepson Prairie Reserve, ", " Kendall Frost Mission Reserve", "Merced VernalPool",  " Motte Rimrock Reserve", "Norris Rancho Marino Reserve", "Quail Ridge Reserve", "San Joaquin Marsh reserve", "Sedgewick Reserve", "Sweeney Granite Mountains Reserve", "Valentine aquatic Reserve", "Valentine Camp reserve", "Scripps Coastal Reserve", "Steele Burn Anza Borrego Reserve", "Boyd Deep Canyon desert Reserve")
+
+bird_statistics<-data.frame(mpd_vals)
+bird_statistics$pd_vals<-pd_vals
+bird_statistics$mntd_vals<-mntd_vals
+bird_statistics$family_sizes<-family_sizes
+bird_statistics$mpd_significance<- mpd_significant
+bird_statistics$mntd_significance<- mntd_significant
+rownames(bird_statistics)<-rnames
+
+
+#for mpd
+x<- seq(0,250)
+ylow<- model_low$coefficients[1] + (model_low$coefficients[2] -model_low$coefficients[1])/(1+ model_low$coefficients[3]/x)
+yhigh<- model_high$coefficients[1] + (model_high$coefficients[2] -model_high$coefficients[1])/(1+ model_high$coefficients[3]/x)
+plot(x, ylow, type = "l", ylab = "mpd", ylim = c(10,130), xlab = "tree size")
+lines(x, yhigh, type = "l", col = 2)
+polygon(c(x, rev(x)), c(ylow, rev(yhigh)),
+        col = "#6BD7AF")
+
+points(bird_statistics$family_sizes, bird_statistics$mpd_vals, cex = 0.5)
+#text(bird_statistics$family_size, bird_statistics$mpd_vals + 5, labels= c( "BX", "BPR", "CS", "DLM", "EX", "FO", "HA", "CAR", "SJM", "JP")
+
+#for mntd
+x<- seq(0,250)
+ylow<- mntd_low_fit$coefficients[1] + (mntd_low_fit$coefficients[2] -mntd_low_fit$coefficients[1])/(1+ mntd_low_fit$coefficients[3]/x)
+yhigh<- mntd_high_fit$coefficients[1] + (mntd_high_fit$coefficients[2] -mntd_high_fit$coefficients[1])/(1+ mntd_high_fit$coefficients[3]/x)
+plot(x, ylow, type = "l", ylab = "mpd", ylim = c(0,145), xlab = "tree size")
+lines(x, yhigh, type = "l", col = 2)
+polygon(c(x, rev(x)), c(ylow, rev(yhigh)),
+        col = "#6BD7AF")
+points(bird_statistics$family_sizes, bird_statistics$mntd_vals, cex = 0.5)
+points(mntd_low$mntd~mntd_low$sizes, cex = 0.1)
+points(mntd_med$mntd~mntd_med$sizes, cex = 0.1)
+points(mntd_high$mntd~mntd_high$sizes, cex = 0.1)
+
+
+
+#saving table as image
+
+
+#here is pd
+
+plot(pd_low$pd~ pd_low$sizes, type = "l")
+lines(pd_high$pd ~pd_high$sizes, type = "l")
+points(bird_statistics$pd_vals~ bird_statistics$family_sizes)
+
+
+```
+
+
