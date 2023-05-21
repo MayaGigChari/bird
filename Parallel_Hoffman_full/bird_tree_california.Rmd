@@ -472,6 +472,8 @@ pd_app_picante(cali_species_tree, cali_species_tree)
 
 plot(cali_species_tree, show.tip.label = FALSE )
 
+write.tree( cali_species_tree, "cali_bird_tree.tre")
+
 ggtree(cali_species_tree, cex = 0.1, layout = "circular") +  theme_tree2()
 print(635/689)
 #92.1625% of california taxa are represented in the tree. 
@@ -845,22 +847,6 @@ write.tree(BD_tree, file = "Boyd_Deep_Canyon_tree.tre")
 
 
 
-commdata_maker<- function(tree)
-{
-  comm<-data.frame(row.names = tree$tip.label, clump1 = 1, clump2 = tree$tip.label)
-  comm2<-subset(comm, select = clump1)
-  return(t(as.matrix(comm2)))
-}
-
-pd(commdata_maker(tree_random520), tipShuffle(cali_species_tree))
-
-pd_CSM<- pd_app_picante(CS_tree, cali_species_tree)
-pd_full<-pd_app_picante(cali_species_tree, tipShuffle(cali_species_tree))
-
-
-tree_random80<-read.tree("sample_trees_birds/sample_tree_cluster80")
-pd_random_sample<- pd_app_picante(tree_random80, tipShuffle(cali_species_tree))
-
 ```
 
 
@@ -902,7 +888,7 @@ library(data.table)
 library(drc)
 
 #define tree sizes (this is for birds now)
-tree_sizes= seq(5, 430, by=5) #this is a list of tree sizes. 
+tree_sizes= seq(10, 595, by=5) #this is a list of tree sizes. 
 
  
 mntd_data<-read.csv("CI_mntd_output_bootstrap_bird.csv")
@@ -1082,6 +1068,8 @@ another part
 trees_list<- c(BX_tree, BPR_tree, CS_tree, DLM_tree, EC_tree, FO_tree, HA_tree, CAR_tree, SJM_tree, JP_tree, KF_tree, MV_tree, MR_tree, NRM_tree, QR_tree, SJ_tree, SW_tree, SGM_tree, VA_tree, VC_tree, SC_tree, SBA_tree, BD_tree)
 
 
+cali_bird_phylo<-read.tree("cali_tree.tre")
+
 
 mpd_vals<-rep(NA, length(trees_list))
 pd_vals<-rep(NA, length(trees_list))
@@ -1103,6 +1091,7 @@ for(i in 1:length(trees_list))
   else
   {
   pd_vals[i]<-pd_app_picante(phylo_temp, cali_bird_phylo)$PD
+  print(pd_vals[i])
   mpd_vals[i]<-mpd_app_picante(phylo_temp, cophen_touse)
   mntd_vals[i]<-mntd_app_picante(phylo_temp, cophen_touse)
   family_sizes[i]<-length(phylo_temp$tip.label)
@@ -1159,6 +1148,17 @@ lines(pd_high$pd ~pd_high$sizes, type = "l")
 points(bird_statistics$pd_vals~ bird_statistics$family_sizes)
 
 
+#trying to simulate pd 
+tree_practice<- read.tree(file = 'sample_trees_birds/sample_tree_cluster590')
+
+pd_random_vals<- rep(NA,1000) 
+for(i in seq(1,1000))
+{
+  
+  pd_random_vals[i]<- pd_app_picante(tree_practice, tipShuffle(cali_bird_phylo))$PD
+  print(pd_random_vals[i])
+}
+hist(pd_random_vals)
 ```
 
 

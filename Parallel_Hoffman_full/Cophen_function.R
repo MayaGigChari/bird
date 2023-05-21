@@ -14,7 +14,7 @@ install.packages("Rcpp",repos = "http://cran.us.r-project.org")
 library("Rcpp", lib.loc = .libPaths())
 
 #this is for the cluster
-Rcpp::sourceCpp("/u/home/m/mchari/bird/Parallel_Hoffman_full/Cophen.cpp")
+#Rcpp::sourceCpp("/u/home/m/mchari/bird/Parallel_Hoffman_full/Cophen.cpp")
 
 #this is for the local 
 Rcpp::sourceCpp("Cophen.cpp") 
@@ -41,7 +41,7 @@ cophen <- function(phy) {
 
 # full_tree<- read.tree("full_tree_for_cluster.tre") for fish
 #following: for birds
-full_tree<-read.tree("Bird_calibrated.tre")
+full_tree<-read.tree("Bird_ML_dated001_trial2.tre")
 
 
 
@@ -49,7 +49,7 @@ cophen_touse<- cophen(full_tree)
 cophen_touse<-as.matrix(cophen_touse)
 
 #this line is for the cluster
-saveRDS(cophen_touse, file = "/u/home/m/mchari/bird/Parallel_Hoffman_full/cophenetic_matrix_bird" )
+#saveRDS(cophen_touse, file = "/u/home/m/mchari/bird/Parallel_Hoffman_full/cophenetic_matrix_bird" )
 
 #this line is for the local 
 saveRDS(cophen_touse, file = "cophenetic_matrix_bird" )
