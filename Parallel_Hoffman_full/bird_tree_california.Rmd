@@ -15,8 +15,9 @@ library(dplyr)
 library(phytools) 
 library(ggtree)
 
-b_tree<- read.tree("Birds_7000.tre") 
-tree_touse<- b_tree[[1]] #this is the maximum likelihood tre
+b_tree<- read.tree("Bird_ML_dated001_trial2.tre") 
+#tree_touse<- b_tree[[1]] #this is the maximum likelihood tre
+tree_touse<-b_tree
 labels<-tree_touse$tip.label
 
 #char_tokeep should take 2 if we want family and 3 if we want genus and 4 if species
@@ -434,11 +435,14 @@ Taxa1: Manacus_vitellinus
 Taxa2: Corvus_brachyrhynchos
 
 ```{r}
+
+#MAKE SURE TO LOAD DPLYR PACKAGE OR THIS ALL GOES TO SHIT!
 install.packages("auk")
 library(auk)
 install.packages("readr")
 library(readr)
 library(ggtree)
+library(dplyr)
 
 cali_birds<-read_tsv(file = "true_cali_birds.csv")
 cali_species<-cali_birds$species
@@ -451,9 +455,11 @@ remove_taxa<- function(species_list, master_phylogeny) #takes the output from ch
 {
   matched_species<-species_list%>% 
     filter(species_list$name%in%(master_phylogeny$tip.label))
-  #return(matched_species)
+  return(matched_species)
 }
 
+
+#cali_species%>% filter(cali_species$name%in%bird_tree_calib$tip.label)
 #643 representative taxa out of 692. this is a good percentage, mark this down. 
 species_tree<- remove_taxa(cali_species, bird_tree_calib)
 
@@ -461,13 +467,15 @@ sample_tree_generator<-function(sample, master_phylogeny) #generates a tree data
 {
   library(phytools)
   library(ape)
-  list_species<- c(sample$name)
+  list_species<- c(sample$names)
   sample_tree<-keep.tip(master_phylogeny, list_species) #maybe try to print this tree somehow later. 
   return(sample_tree)
 }
 
 cali_species_tree<- sample_tree_generator(species_tree, bird_tree_calib)
+print(species_tree$names)
 
+cali_species_tree<- read.tree("cali_bird_tree.tre")
 pd_app_picante(cali_species_tree, cali_species_tree)
 
 plot(cali_species_tree, show.tip.label = FALSE )
@@ -487,13 +495,13 @@ reserve_species<- gsub(" ", "_", reserve_species)
 reserve_species<-data.frame(reserve_species)
 colnames(reserve_species)<- "names"
 
-reserve_taxa<-remove_taxa(reserve_species, bird_tree_calib)
+reserve_taxa<-remove_taxa(reserve_species, cali_bird_phylo)
 
 #319 taxa observed in the UC reserves, 286 exist in the phylogeny
 
 #286/319 (80.65%) 
 
-reserve_species_tree<- sample_tree_generator(reserve_taxa, bird_tree_calib)
+reserve_species_tree<- sample_tree_generator(reserve_taxa,cali_bird_phylo)
 plot(reserve_species_tree, show.tip.label = FALSE)
 
 
@@ -559,7 +567,8 @@ colnames(BX_df)<- "names"
 BX_taxa<- remove_taxa(BX_df, cali_species_tree)
 BX_tree<-sample_tree_generator(BX_taxa,cali_species_tree)
 ggtree(cali_species_tree, layout = "fan") +
-    geom_tiplab(aes(subset = label%in% BX_taxa$names), size=0.7, colour = 'red')
+    geom_tiplab(aes(subset = label%in% BX_taxa$names), size=1.2, colour = 'red')
+ggsave("box_springs_reserve_poster.png", dpi = 1200)
 write.tree(BX_tree, file = "Box_Springs_tree.tre")
 
 BPR<-read_tsv(file = "Burns_Pinon_Ridge_reserve.csv")
@@ -787,7 +796,8 @@ colnames(SGM_df)<- "names"
 SGM_taxa<- remove_taxa(SGM_df, cali_species_tree)
 SGM_tree<-sample_tree_generator(SGM_taxa,cali_species_tree)
 ggtree(cali_species_tree, layout = "fan") +
-    geom_tiplab(aes(subset = label%in% SGM_taxa$names), size=0.7, colour = 'red')
+    geom_tiplab(aes(subset = label%in% SGM_taxa$names), size=1.2, colour = 'red')
+ggsave("Sweeney_Granite_Mountains.png", dpi = 1200)
 write.tree(SGM_tree, file = "Sweeney_Granite_tree.tre")
 
 VA<-read_tsv(file = "Valentine_Eastern_Sierra_Reserve_aquatic.csv")
@@ -809,7 +819,8 @@ colnames(VC_df)<- "names"
 VC_taxa<- remove_taxa(VC_df, cali_species_tree)
 VC_tree<-sample_tree_generator(VC_taxa,cali_species_tree)
 ggtree(cali_species_tree, layout = "fan") +
-    geom_tiplab(aes(subset = label%in% VC_taxa$names), size=0.7, colour = 'red')
+    geom_tiplab(aes(subset = label%in% VC_taxa$names), size=1.2, colour = 'red')
+ggsave("Valentine_Camp_Reserve.png", dpi = 1200)
 write.tree(VC_tree, file = "Valentine_camp_tree.tre")
 
 SC<-read_tsv(file = "Scripps_Coastal_Reserve.csv")
@@ -852,6 +863,7 @@ write.tree(BD_tree, file = "Boyd_Deep_Canyon_tree.tre")
 
 
 ```{r}
+
 pd_app_picante<-function(sample_tree, master_phylogeny)
 {
   comm_sample<-data.frame(row.names = sample_tree$tip.label, clump1 = 1, clump2 = sample_tree$tip.label)
@@ -865,7 +877,7 @@ mpd_app_picante<-function(sample_tree,coph_mat)
 {
   comm_sample<-data.frame(row.names = sample_tree$tip.label, clump1 = 1, clump2 = sample_tree$tip.label)
   comm_sample_touse<-t(as.matrix(subset(comm_sample, select = clump1)))
-  mpd_val<- mpd(comm_sample_touse,coph_mat)
+  mpd_val<- picante::mpd(comm_sample_touse,coph_mat)
   return(mpd_val)
 }
 
@@ -888,7 +900,7 @@ library(data.table)
 library(drc)
 
 #define tree sizes (this is for birds now)
-tree_sizes= seq(10, 595, by=5) #this is a list of tree sizes. 
+tree_sizes= seq(10, 600, by=5) #this is a list of tree sizes. 
 
  
 mntd_data<-read.csv("CI_mntd_output_bootstrap_bird.csv")
@@ -1009,8 +1021,43 @@ summary(mntd_med_fit)
 
 
 
+
 #for pd
 
+
+#touse: 
+
+install.packages("drc")
+library(drc)
+
+pd_low_fit<- drc::drm(pd ~ sizes, data = pd_low,fct = LL.4())
+pd_med_fit<-drc::drm(pd ~ sizes, data = pd_med,fct = LL.4())
+pd_high_fit<- drc::drm(pd ~ sizes, data = pd_high,fct = LL.4())
+
+
+#scratch work 
+install.packages("drc")
+library(drc)
+
+model_pd3 <- drc::drm(pd ~ sizes, data = pd_low,fct = LL.4())
+summary(model_pd3)
+model_pd4<- drc::drm (pd~sizes, data = pd_high, fct = LL.4())
+
+
+plot(pd~sizes, data = pd_low)
+lines(predict(model_pd3)~sizes, data = pd_low, type = "l", col = "blue")
+
+summary(model_pd3)
+plot(pd~sizes, data = pd_high)
+lines(predict(model_pd4)~sizes, data = pd_high, type = "l", col = "blue")
+
+plot(predict(model_pd3)~sizes, data = pd_low, type = "l", col = "blue")
+lines(predict(model_pd4)~sizes, data = pd_high, type = "l", col = "blue")
+points(bird_statistics$family_sizes, bird_statistics$pd_vals, cex = 0.5)
+
+
+
+#pd: needs work 
 ```
 
 ```{r}
@@ -1025,6 +1072,16 @@ range_pred<- function(sample_size, model_low, model_mean, model_high) #need to c
   return(c(lower[[1]], mean[[1]], upper[[1]]))
 }
 
+ 
+range_predict_pd<- function(sample_size, model_low, model_mean, model_high)
+{
+  lower<- model_low$coefficients[2] + ((model_low$coefficients[3]-model_low$coefficients[2])/(1+exp(model_low$coefficients[1]*(log(sample_size)-log(model_low$coefficients[4])))))
+  
+mean<- model_mean$coefficients[2] + ((model_mean$coefficients[3]-model_mean$coefficients[2])/(1+exp(model_mean$coefficients[1]*(log(sample_size)-log(model_mean$coefficients[4])))))
+  
+upper<- model_high$coefficients[2] + ((model_high$coefficients[3]-model_high$coefficients[2])/(1+exp(model_high$coefficients[1]*(log(sample_size)-log(model_high$coefficients[4])))))
+ return(c(lower[[1]], mean[[1]], upper[[1]]))
+}
 
  
 is_significant<-function(range_prediction, true_pd) #boolean function for whether the observed pd lies within the 95% CI
@@ -1077,6 +1134,9 @@ mntd_vals<-rep(NA, length(trees_list))
 family_sizes<-rep(NA, length(trees_list))
 mpd_significant<-rep(NA, length(trees_list))
 mntd_significant<-rep(NA, length(trees_list))
+pd_significant<- rep(NA, length(trees_list))
+
+
 
 for(i in 1:length(trees_list))
 {
@@ -1097,6 +1157,7 @@ for(i in 1:length(trees_list))
   family_sizes[i]<-length(phylo_temp$tip.label)
   mpd_significant[i]<-is_significant(range_pred(family_sizes[i], model_low, model_med, model_high), mpd_vals[i])
   mntd_significant[i]<- is_significant(range_pred(family_sizes[i], mntd_low_fit, mntd_med_fit, mntd_high_fit), mntd_vals[i])
+  pd_significant[i]<- is_significant(range_predict_pd(family_sizes[i],pd_low_fit, pd_med_fit, pd_high_fit),pd_vals[i])
   }
 }
 
@@ -1108,6 +1169,7 @@ bird_statistics$mntd_vals<-mntd_vals
 bird_statistics$family_sizes<-family_sizes
 bird_statistics$mpd_significance<- mpd_significant
 bird_statistics$mntd_significance<- mntd_significant
+bird_statistics$pd_significance<-pd_significant
 rownames(bird_statistics)<-rnames
 
 
@@ -1115,50 +1177,138 @@ rownames(bird_statistics)<-rnames
 x<- seq(0,250)
 ylow<- model_low$coefficients[1] + (model_low$coefficients[2] -model_low$coefficients[1])/(1+ model_low$coefficients[3]/x)
 yhigh<- model_high$coefficients[1] + (model_high$coefficients[2] -model_high$coefficients[1])/(1+ model_high$coefficients[3]/x)
-plot(x, ylow, type = "l", ylab = "mpd", ylim = c(10,130), xlab = "tree size")
+plot(x, ylow, type = "l", ylab = "mpd", ylim = c(50,130), xlab = "tree size")
 lines(x, yhigh, type = "l", col = 2)
 polygon(c(x, rev(x)), c(ylow, rev(yhigh)),
-        col = "#6BD7AF")
+        col = "#99CCFF")
 
-points(bird_statistics$family_sizes, bird_statistics$mpd_vals, cex = 0.5)
+points(mpd_vals~family_sizes, data = bird_statistics[mpd_significant == TRUE,], pch = 16, cex = 1, col = 'red')
+points(mpd_vals~family_sizes, data = bird_statistics[mpd_significant == FALSE,], pch = 16, cex = 1, col = 'black')
 #text(bird_statistics$family_size, bird_statistics$mpd_vals + 5, labels= c( "BX", "BPR", "CS", "DLM", "EX", "FO", "HA", "CAR", "SJM", "JP")
 
 #for mntd
 x<- seq(0,250)
 ylow<- mntd_low_fit$coefficients[1] + (mntd_low_fit$coefficients[2] -mntd_low_fit$coefficients[1])/(1+ mntd_low_fit$coefficients[3]/x)
 yhigh<- mntd_high_fit$coefficients[1] + (mntd_high_fit$coefficients[2] -mntd_high_fit$coefficients[1])/(1+ mntd_high_fit$coefficients[3]/x)
-plot(x, ylow, type = "l", ylab = "mpd", ylim = c(0,145), xlab = "tree size")
+plot(x, ylow, type = "l", ylab = "mpd", ylim = c(0,160), xlab = "tree size")
 lines(x, yhigh, type = "l", col = 2)
 polygon(c(x, rev(x)), c(ylow, rev(yhigh)),
-        col = "#6BD7AF")
+        col = "#99CCFF")
 points(bird_statistics$family_sizes, bird_statistics$mntd_vals, cex = 0.5)
-points(mntd_low$mntd~mntd_low$sizes, cex = 0.1)
-points(mntd_med$mntd~mntd_med$sizes, cex = 0.1)
-points(mntd_high$mntd~mntd_high$sizes, cex = 0.1)
 
+points(mntd_vals~family_sizes, data = bird_statistics[mntd_significant == TRUE,], pch = 16, cex = 1, col = 'red')
+points(mntd_vals~family_sizes, data = bird_statistics[mntd_significant == FALSE,], pch = 16, cex = 1, col = 'black')
+
+
+#for pd
+x<- seq(0,250)
+ylow<- pd_low_fit$coefficients[2] + ((pd_low_fit$coefficients[3]-pd_low_fit$coefficients[2])/(1+exp(pd_low_fit$coefficients[1]*(log(x)-log(pd_low_fit$coefficients[4])))))
+yhigh<-pd_high_fit$coefficients[2] + ((pd_high_fit$coefficients[3]-pd_high_fit$coefficients[2])/(1+exp(pd_high_fit$coefficients[1]*(log(x)-log(pd_high_fit$coefficients[4])))))
+plot(x, ylow, type = "l", ylab = "pd", ylim = c(0,3000), xlab = "tree size")
+lines(x, yhigh, type = "l", col = 2)
+polygon(c(x, rev(x)), c(ylow, rev(yhigh)),
+        col = "#99CCFF")
+points(bird_statistics$family_sizes, bird_statistics$pd_vals, cex = 0.5)
+
+points(pd_vals~family_sizes, data = bird_statistics[pd_significant == TRUE,], pch = 16, cex = 1, col = 'red')
+points(pd_vals~family_sizes, data = bird_statistics[pd_significant == FALSE,], pch = 16, cex = 1, col = 'black')
 
 
 #saving table as image
 
 
-#here is pd
 
-plot(pd_low$pd~ pd_low$sizes, type = "l")
+
+
+
+#here is pd.raw 
+
+plot(pd_low$pd~ pd_low$sizes, type = "l", xlim = c(0,650), ylab = "pd", xlab = "tree size")
 lines(pd_high$pd ~pd_high$sizes, type = "l")
-points(bird_statistics$pd_vals~ bird_statistics$family_sizes)
+polygon(c(pd_low$sizes, rev(pd_low$sizes)), c(pd_low$pd, rev(pd_high$pd)),
+        col = "#6BD7AF")
+points(bird_statistics$pd_vals~ bird_statistics$family_sizes, cex = 0.4)
 
 
-#trying to simulate pd 
-tree_practice<- read.tree(file = 'sample_trees_birds/sample_tree_cluster590')
 
-pd_random_vals<- rep(NA,1000) 
-for(i in seq(1,1000))
-{
-  
-  pd_random_vals[i]<- pd_app_picante(tree_practice, tipShuffle(cali_bird_phylo))$PD
-  print(pd_random_vals[i])
-}
-hist(pd_random_vals)
+#here is mntd raw
+plot(mntd_high$mntd~ mntd_high$sizes, type = "l", ylim = c(0,100),xlab = "tree sizes", ylab = "mntd")
+lines(mntd_low$mntd ~mntd_low$sizes, type = "l")
+polygon(c(mntd_high$sizes, rev(mntd_high$sizes)), c(mntd_low$mntd, rev(mntd_high$mntd)),
+        col = "#6BD7AF")
+points(bird_statistics$mntd_vals~ bird_statistics$family_sizes, cex = 0.4)
+x
+
+
+
+### creating a dataframe that has only significantly low pd, mpd and mntd
+sig_reserves<-bird_statistics[pd_significant == TRUE & mntd_significant == TRUE &mpd_significant == TRUE,]
+
+###this is for finding some statistics about percent significant reserves. 
+
+total_reserves<- count(bird_statistics)
+sig_pd<- count(bird_statistics[pd_significant==TRUE,])
+sig_mpd<-count(bird_statistics[mpd_significant==TRUE,])
+sig_mntd<- count(bird_statistics[mntd_significant==TRUE,])
+
+p_pd<- sig_pd/total_reserves
+p_mpd<- sig_mpd/total_reserves
+p_mntd<-sig_mntd/total_reserves
+
+
+### for the entire reserve system
+
+reserve_taxa
+
+pd_reserve<- pd_app_picante(reserve_species_tree, cali_bird_phylo)
+mpd_reserve<-mpd_app_picante(reserve_species_tree, cophen_touse)
+mntd_reserve<-mntd_app_picante(reserve_species_tree, cophen_touse)
+
+reserve_pd_significant<-is_significant(range_predict_pd(length(reserve_species_tree$tip.label), pd_low_fit, pd_med_fit, pd_high_fit), pd_reserve$PD)
+
+mntd_reserve_significant<- is_significant(range_pred(length(reserve_species_tree$tip.label), mntd_low_fit, mntd_med_fit, mntd_high_fit), mntd_reserve)
+
+reserve_mpd_significant<- is_significant(range_pred(length(reserve_species_tree$tip.label),model_low, model_med, model_high),mpd_reserve)
+
+
 ```
+
+```{r}
+
+#this part is for trying to build the california bird phylogeny with specific bird groups. Essentially want to make this bird tree pretyty. 
+
+#step 1: find the nodes of interest 
+
+
+calibration_nodes<- c(Calib1_node, Calib2_node, Calib3_node, Calib4_node, Calib6_node, Calib7_node, Calib8_node, Calib9_node, Calib10_node, Calib11_node, Calib12_node, Calib13_node, Jarvis2_node, Jarvis4_node, Jarvis5_node, Jarvis7_node, Jarvis9_node, Jarvis12_node, Jarvis21_node, Jarvis21_node, Jarvis22_node, Jarvis23_node, Jarvis29_node, Jarvis31_node, Jarvis35_node, Jarvis38_node) 
+
+
+#look at interesting nodes of california tree
+
+
+ggtree(cali_bird_phylo,layout = "circular")+ geom_text(aes(label=node), hjust=-.3, cex = 3)
+
+
+#try some highlighting
+
+ggtree(cali_bird_phylo, layout="circular") + geom_hilight(node=967, fill="steelblue", alpha=0.3) + geom_hilight(node=1129, fill="darkgreen", alpha=0.3) + geom_highlight(node = 1208, fill = "orange", alpha = 0.3 )
+ggsave("clades_of_interest.png", dpi = 1200)
+
+
+
+#trying to do some further pruning
+
+cali_tips<-cali_bird_phylo$tip.label
+genera<-unique(sapply(strsplit(cali_tips,"_"),function(x) x[1]))
+ii<-sapply(genera,function(x,y) grep(x,y)[1],y=cali_tips)
+cali_tree_trimmed<-drop.tip(cali_bird_phylo,setdiff(cali_bird_phylo$tip.label,cali_tips[ii]))
+ggtree(cali_tree_trimmed, layout = "circular")
+
+ggtree(cali_tree_trimmed,layout = "circular", cex = 0.1) + geom_tiplab(size = 2)
+
+
+```
+
+
 
 

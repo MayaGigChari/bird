@@ -41,7 +41,7 @@ cophen <- function(phy) {
 
 # full_tree<- read.tree("full_tree_for_cluster.tre") for fish
 #following: for birds
-full_tree<-read.tree("Bird_ML_dated001_trial2.tre")
+full_tree<-read.tree("cali_bird_tree.tre")
 
 
 
@@ -52,7 +52,7 @@ cophen_touse<-as.matrix(cophen_touse)
 #saveRDS(cophen_touse, file = "/u/home/m/mchari/bird/Parallel_Hoffman_full/cophenetic_matrix_bird" )
 
 #this line is for the local 
-saveRDS(cophen_touse, file = "cophenetic_matrix_bird" )
+saveRDS(cophen_touse, file = "cophenetic_matrix_bird_cali" )
 
 #here I'm saving cophenetic matrix, then I'm going to transfer it to my local copy of bird and then I'm going 
 #to try to move it to hoffman via globus
