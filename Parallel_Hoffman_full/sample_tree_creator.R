@@ -4,9 +4,12 @@ library(phylocomr)
 library(ape)
 
 #read parent tree (can amend to other types of trees)
-full_fish_phylo<-read.tree(file = "full_tree_for_cluster.tre")
+#full_fish_phylo<-read.tree(file = "full_tree_for_cluster.tre")
 
-cali_bird_phylo<-read.tree(file = "Bird_ML_700_dated2.tre")
+
+#this is wrong. need to be sampled from CALIFORNIA!!!! not from the whole freaking ass bird freakingass tree!!
+
+cali_bird_phylo<-read.tree(file = "cali_bird_tree.tre")
 
 #tree_sizes = list(75,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000) #this has been edited. Can accomodate any sizes 
 
