@@ -1,9 +1,12 @@
-n_rand = 200 #want 200 randomizations for each tree size. internally each script will produce 5 random values. 
-params1 = seq(5, 400, by=5) #this is a list of tree sizes. 
-params2 = seq(500,1000, by = 100)
-params= c(params1, params2)
-length(params)*1000/5
-num_randomizations = 5
+n_rand = 1 #want 2  randomizations for each tree size. internally each script will produce 500 random values. 
+params1 = seq(5, 600, by=5) #this is a list of tree sizes. 
+#params2 = seq(500,600, by = 100)
+#params= c(params1, params2)
+
+params = params1
+
+#length(params)*1000/5
+num_randomizations = 500
 
 
 
@@ -41,13 +44,15 @@ if (file.exists(folder2)) {
 
 start_time<-format(Sys.time(), "%H:%M:%S") #identify start time of script
 
-install.packages("picante",repos = "http://cran.us.r-project.org")
-install.packages("dplyr",repos = "http://cran.us.r-project.org")
-library("picante", lib.loc = .libPaths())
-library("ape", lib.loc = .libPaths())
-library("dplyr", lib.loc = )
+#install.packages("picante",repos = "http://cran.us.r-project.org")
+#install.packages("dplyr",repos = "http://cran.us.r-project.org")
+#library("picante", lib.loc = .libPaths())
+#library("ape", lib.loc = .libPaths())
+#library("dplyr", lib.loc = )
 
-
+library(picante)
+library(ape)
+library(dplyr)
 
 args = commandArgs(trailingOnly=TRUE) #not sure what this part does, but I think it allows us to accept args when the script is sent. 
 print(args) #prints the arguments which here should be equivalent to each SGE_TASK_ID
@@ -64,7 +69,7 @@ sample_tree_cluster<-read.tree(file =
 paste("~/bird/Parallel_Hoffman_full/sample_trees_birds/", 
 sample_tree_filename, sep = "")) 
 full_tree<-read.tree(file = 
-"~/bird/Parallel_Hoffman_full/Bird_calibrated.tre")
+"~/bird/Parallel_Hoffman_full/cali_bird_tree.tre")
 cophen_read<-readRDS("~/bird/Parallel_Hoffman_full/cophenetic_matrix_bird")
 
 commdata_maker<- function(tree)
@@ -111,7 +116,7 @@ path_to_output <- "/u/home/m/mchari/bird/Parallel_Hoffman_full"
 path_csv<-file.path(path_to_output, folder)#trying to formally make file paths
 path_txt<-file.path(path_to_output,folder2)
 fileIDcsv = paste(path_csv,"/",sample_size,"_",n, "out.csv", sep = '') #this fileID can be applied to all outputs.
-fileIDtimes = paste(path_txt,"/",sample_size,"_",n, "time.csv", sep = '') #this fileID can be applied to$
+fileIDtimes = paste(path_txt,"/",sample_size,"_",n, "time.csv", sep = '') #this fileID can be applied to
 
 #checkpoint
 print(fileIDcsv)

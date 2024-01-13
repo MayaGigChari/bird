@@ -9,7 +9,7 @@
 #$ -M $USER@mail #don't change this line, finds your email in the system
 # Notify when
 ##$ -m bea #sends you an email (b) when the job begins (e) when job ends (a) when job is aborted (error)
-#$ -t 1:17200 # with step size of 1, each node runs 5 randomizations.
+#$ -t 1:240 # with step size of 1, each node runs 5 randomizations.
 
 #sleep $(( RANDOM % 250))  #added this line to try to stagger jobs. currently  commented out. 
 
@@ -22,8 +22,7 @@ echo ${SGE_TASK_ID}
 
 # run julia code
 echo Running phylo_code for n = ${SGE_TASK_ID} #prints this quote to joblog.jobidnumber
-Rscript Hoffman_parallel_bird.R ${SGE_TASK_ID}  > 
-/u/home/m/mchari/bird/joblog_$JOB_ID/output.$JOB_ID.${SGE_TASK_ID}
+Rscript Hoffman_parallel_bird.R ${SGE_TASK_ID}  > /u/home/m/mchari/bird/joblog_$JOB_ID/output.$JOB_ID.${SGE_TASK_ID}
 
 
 
