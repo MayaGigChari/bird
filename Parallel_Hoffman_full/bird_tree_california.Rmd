@@ -454,7 +454,7 @@ remove_taxa<- function(species_list, master_phylogeny) #takes the output from ch
 #removed this
 {
   matched_species<-species_list%>% 
-    filter(species_list$name%in%(master_phylogeny$tip.label))
+    filter(species_list$names%in%(master_phylogeny$tip.label))
   return(matched_species)
 }
 
@@ -495,7 +495,7 @@ reserve_species<- gsub(" ", "_", reserve_species)
 reserve_species<-data.frame(reserve_species)
 colnames(reserve_species)<- "names"
 
-reserve_taxa<-remove_taxa(reserve_species, cali_bird_phylo)
+reserve_taxa<-remove_taxa(reserve_species, cali_species_tree)
 
 #319 taxa observed in the UC reserves, 286 exist in the phylogeny
 
@@ -1171,6 +1171,7 @@ bird_statistics$mpd_significance<- mpd_significant
 bird_statistics$mntd_significance<- mntd_significant
 bird_statistics$pd_significance<-pd_significant
 rownames(bird_statistics)<-rnames
+write.csv(bird_statistics, file = "bird_statistics.csv")
 
 
 #for mpd
@@ -1242,9 +1243,14 @@ x
 
 
 ### creating a dataframe that has only significantly low pd, mpd and mntd
-sig_reserves<-bird_statistics[pd_significant == TRUE & mntd_significant == TRUE &mpd_significant == TRUE,]
+sig_reserves<-bird_statistics[pd_significant == TRUE && mntd_significant == TRUE &&mpd_significant == TRUE,]
 
-###this is for finding some statistics about percent significant reserves. 
+
+any_sig_reserve<- bird_statistics[pd_significant == TRUE | mntd_significant == TRUE | mpd_significant == TRUE,]
+
+write.csv(any_sig_reserve, file = "reserves_with_at_least_one_low_value.csv")
+
+ro###this is for finding some statistics about percent significant reserves. 
 
 total_reserves<- count(bird_statistics)
 sig_pd<- count(bird_statistics[pd_significant==TRUE,])
