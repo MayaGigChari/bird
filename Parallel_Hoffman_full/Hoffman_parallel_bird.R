@@ -14,7 +14,7 @@ min_null_tree_size = 5
 max_null_tree_size = 600
 tree_size_increment = 5
 Clade = "birds" #need to make it so this can be any clade. 
-num_randomizations = 500
+num_randomizations = 1000
 path_to_output <- paste("/u/home/m/mchari/bird/Parallel_Hoffman_full/", Clade, sep = "") #this is fairly universal. 
 
 params = seq(min_null_tree_size, max_null_tree_size, by=tree_size_increment) #this is a list of tree sizes. 
