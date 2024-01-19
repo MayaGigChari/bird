@@ -15,7 +15,7 @@ max_null_tree_size = 600
 tree_size_increment = 5
 Clade = "birds" #need to make it so this can be any clade. 
 num_randomizations = 500
-
+path_to_output <- paste("/u/home/m/mchari/bird/Parallel_Hoffman_full/", Clade, sep = "") #this is fairly universal. 
 
 params = seq(min_null_tree_size, max_null_tree_size, by=tree_size_increment) #this is a list of tree sizes. 
 #params2 = seq(500,600, by = 100)
@@ -34,8 +34,9 @@ print("path created")
 
 a<-Sys.getenv(x = "JOB_ID")
 
-folder <- paste(a, "output_files", sep = "_")
-folder2 <- paste(a, "times", sep = "_")
+
+folder <- paste(path_to_output, "/", a, "_output_files", sep = "")
+folder2 <- paste(path_to_output, "/",a, "_times", sep = "")
 if (file.exists(folder))
 {
   
@@ -125,9 +126,13 @@ colnames(temp) = rep("trial", num_randomizations)
 res_sample_cluster<-temp
 
 
-path_to_output <- paste("/u/home/m/mchari/bird/Parallel_Hoffman_full/", Clade, sep = "")
-path_csv<-file.path(path_to_output, folder)#trying to formally make file paths
-path_txt<-file.path(path_to_output,folder2)
+#path_to_output <- paste("/u/home/m/mchari/bird/Parallel_Hoffman_full/", Clade, sep = "")
+#path_csv<-file.path(path_to_output, folder)#trying to formally make file paths
+#path_txt<-file.path(path_to_output,folder2)
+
+path_csv<-file.path(folder)#trying to formally make file paths
+path_txt<-file.path(folder2)
+
 fileIDcsv = paste(path_csv,"/",sample_size,"_",n, "out.csv", sep = '') #this fileID can be applied to all outputs.
 fileIDtimes = paste(path_txt,"/",sample_size,"_",n, "time.csv", sep = '') #this fileID can be applied to
 
