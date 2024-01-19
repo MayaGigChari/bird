@@ -1,3 +1,14 @@
+#need to make this more generalizable. 
+#list of variables that need to be generalized: 
+
+#n_rand 
+#params1/params
+#num_randomizations
+#sample_tree_filename (right now specific to birds)
+#sample_tree_cluster (right now specific to birds)
+#cophen_read (right now specific to birds)
+#path_to_output
+
 n_rand = 1 #want 2  randomizations for each tree size. internally each script will produce 500 random values. 
 params1 = seq(5, 600, by=5) #this is a list of tree sizes. 
 #params2 = seq(500,600, by = 100)
@@ -55,7 +66,7 @@ library(ape)
 library(dplyr)
 
 args = commandArgs(trailingOnly=TRUE) #not sure what this part does, but I think it allows us to accept args when the script is sent. 
-print(args) #prints the arguments which here should be equivalent to each SGE_TASK_ID
+print(args) #prints the arguments which here should be equivalent to each SGE_TASK_ID.
 n = as.integer(args[1]) #makes the SGE_TASK_ID an integer
 
 current_index = n %/% n_rand +1 
@@ -65,11 +76,8 @@ print("args successfully loaded") #another checkpoint
 
 #here we will load all the data. we don't even need the larger tree here! Just need the sample tree.  
 sample_tree_filename = paste("sample_tree_cluster", sample_size, sep = "") #folder that contains all the null generate tree data. 
-sample_tree_cluster<-read.tree(file = 
-paste("~/bird/Parallel_Hoffman_full/sample_trees_birds/", 
-sample_tree_filename, sep = "")) 
-full_tree<-read.tree(file = 
-"~/bird/Parallel_Hoffman_full/cali_bird_tree.tre")
+sample_tree_cluster<-read.tree(file = paste("~/bird/Parallel_Hoffman_full/sample_trees_birds/", sample_tree_filename, sep = "")) 
+full_tree<-read.tree(file = "~/bird/Parallel_Hoffman_full/cali_bird_tree.tre")
 cophen_read<-readRDS("~/bird/Parallel_Hoffman_full/cophenetic_matrix_bird")
 
 commdata_maker<- function(tree)
