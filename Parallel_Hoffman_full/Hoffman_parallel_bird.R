@@ -17,7 +17,7 @@ Clade = "birds" #need to make it so this can be any clade.
 num_randomizations = 500
 
 
-params1 = seq(min_null_tree_size, max_null_tree_size, by=tree_size_increment) #this is a list of tree sizes. 
+params = seq(min_null_tree_size, max_null_tree_size, by=tree_size_increment) #this is a list of tree sizes. 
 #params2 = seq(500,600, by = 100)
 
 
@@ -28,7 +28,10 @@ new_libPaths = .libPaths(c('/u/home/m/mchari/R',.libPaths()))
 
 print("path created")
 
+#this seems to have an issue. 
 #create new directories to hold outputs
+
+
 a<-Sys.getenv(x = "JOB_ID")
 
 folder <- paste(a, "output_files", sep = "_")
