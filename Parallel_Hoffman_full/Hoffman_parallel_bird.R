@@ -10,14 +10,16 @@
 #path_to_output
 
 n_rand = 1 #want 2  randomizations for each tree size. internally each script will produce 500 random values. 
-params1 = seq(5, 600, by=5) #this is a list of tree sizes. 
-#params2 = seq(500,600, by = 100)
-#params= c(params1, params2)
-
-params = params1
-
-#length(params)*1000/5
+min_null_tree_size = 5
+max_null_tree_size = 600
+tree_size_increment = 5
+Clade = "birds" #need to make it so this can be any clade. 
 num_randomizations = 500
+
+
+params1 = seq(min_null_tree_size, max_null_tree_size, by=tree_size_increment) #this is a list of tree sizes. 
+#params2 = seq(500,600, by = 100)
+
 
 
 
@@ -76,9 +78,9 @@ print("args successfully loaded") #another checkpoint
 
 #here we will load all the data. we don't even need the larger tree here! Just need the sample tree.  
 sample_tree_filename = paste("sample_tree_cluster", sample_size, sep = "") #folder that contains all the null generate tree data. 
-sample_tree_cluster<-read.tree(file = paste("~/bird/Parallel_Hoffman_full/sample_trees_birds/", sample_tree_filename, sep = "")) 
-full_tree<-read.tree(file = "~/bird/Parallel_Hoffman_full/cali_bird_tree.tre")
-cophen_read<-readRDS("~/bird/Parallel_Hoffman_full/cophenetic_matrix_bird")
+sample_tree_cluster<-read.tree(file = paste("~/bird/Parallel_Hoffman_full/",Clade, "/sample_trees/", sample_tree_filename, sep = "")) 
+full_tree<-read.tree(file =  paste("~/bird/Parallel_Hoffman_full/", Clade, "/cali_tree.tre",sep = ""))
+cophen_read<-readRDS(paste("~/bird/Parallel_Hoffman_full/", Clade, "/cali_cophen_matrix",sep = ""))
 
 commdata_maker<- function(tree)
 {
@@ -120,7 +122,7 @@ colnames(temp) = rep("trial", num_randomizations)
 res_sample_cluster<-temp
 
 
-path_to_output <- "/u/home/m/mchari/bird/Parallel_Hoffman_full"
+path_to_output <- paste("/u/home/m/mchari/bird/Parallel_Hoffman_full/", Clade, sep = "")
 path_csv<-file.path(path_to_output, folder)#trying to formally make file paths
 path_txt<-file.path(path_to_output,folder2)
 fileIDcsv = paste(path_csv,"/",sample_size,"_",n, "out.csv", sep = '') #this fileID can be applied to all outputs.
