@@ -7,6 +7,7 @@
 # library(tictoc)
  library(picante)
 # library(phylocomr)
+ 
 
 new_libPaths = .libPaths(c('/u/home/m/mchari/R',.libPaths()))
 .libPaths(new_libPaths)
@@ -41,6 +42,10 @@ cophen <- function(phy) {
 
 # full_tree<- read.tree("full_tree_for_cluster.tre") for fish
 #following: for birds
+
+
+#TODO: edit this to the .tre file that you will be using. 
+
 full_tree<-read.tree("cali_bird_tree.tre")
 
 
