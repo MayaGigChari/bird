@@ -1,0 +1,43 @@
+---
+title: "california-squamates"
+output: html_document
+---
+```{r}
+# Install and load required packages
+# install.packages(c("sf", "dplyr"))
+library(sf)
+library(dplyr)
+```
+
+```{r Filter tuples by shapefile}
+# Function to filter tuples by shapefile
+filter_tuples_by_shapefile <- function(csv_file_path, shapefile_path) {
+  # Read the CSV file with latitude and longitude data
+  df <- read.csv(csv_file_path, sep = "\t")
+  df <- na.omit(df[c("decimalLatitude", "decimalLongitude"),])
+  # Create an sf object from the CSV data
+  points <- st_as_sf(df, coords = c("decimalLongitude", "decimalLatitude"), crs = 4326)
+  # Read the shapefile
+  shapefile <- st_read(shapefile_path)
+  # Perform spatial join to filter tuples by shapefile
+  filtered_tuples <- st_intersection(points, shapefile)
+  return(filtered_tuples)
+}
+  
+  csv_file_path <- "squamate-data-usa.csv"
+  shapefile_path <- "california-shape.shp"
+  filtered_tuples <- filter_tuples_by_shapefile(csv_file_path, shapefile_path)
+
+  # Print or further process the filtered tuples
+  print(filtered_tuples)
+```
+
+```{r}
+squamate <- read.csv("squamate-data-usa.csv", sep = "\t")
+california_squamate <- subset(squamate, stateProvince == "California")
+```
+
+```{r}
+species <- unique(california_squamate$species)
+species
+```
