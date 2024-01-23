@@ -58,20 +58,19 @@
 
 
 
-#function to readin the data (list of species) with different species on each line
+#function to readin the data (must be in the form of a list of species) with different species on each line
+#we
 read<-function(txt_file)
 {
   species_list<-read.table(file = txt_file, sep = '\n')
   colnames(species_list)[1]<- "name" #set the first column to be species 
   #species_list$name<-paste0(""",species_list$name,""")
   species_list$name <- sub(" ", "_", species_list$name)
-  print(species_list)
-  #df1
+  return(species_list)
 }
-test<-read("test_text.txt")
 
-#funciton to check the species against the master tree and report missing taxa
 
+#function to check the species against the master tree and report missing taxa
 check_taxa<-function(species_list, master_phylogeny)
 {
   unmatched_species<-species_list%>%
@@ -82,9 +81,7 @@ check_taxa<-function(species_list, master_phylogeny)
 }
 
 
-absent_species<-check_taxa(test, full_fish_phylo)  
-
-#funciton to remove taxa from list that aren't on the master tree
+#function to remove taxa from list that aren't on the master tree
 
 remove_taxa<- function(species_list, master_phylogeny)
 {
