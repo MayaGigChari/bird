@@ -39,5 +39,5 @@ california_squamate <- subset(squamate, stateProvince == "California")
 
 ```{r}
 species <- unique(california_squamate$species)
-species
+write.table(species, file = "species-list.txt", col.names = FALSE, row.names = FALSE, quote = FALSE)
 ```
