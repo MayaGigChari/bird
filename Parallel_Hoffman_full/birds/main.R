@@ -1,22 +1,35 @@
 #main for birds 
+#when this file is executed, the cophen matrix will be generated for a bird tree for the geographic area 
+#of california. This can be altered at the specificed location if there are different
+#larger trees of interest (ie: some other geographcial area )
 
 #get the current working directory 
-parallel_hoffman_full_path <- normalizePath("../Parallel_Hoffman_full/birds") #this constructs a path to one level above the current path
+if (!requireNamespace("picante", quietly = TRUE)) {
+  # Install 'picante' only if not already installed
+  install.packages("picante")
+}
+#specify the clade that you are interested in
 
-# Set the path to cophen.R using a relative path
+clade = "birds"
 
-
-# Source cophen.R
-setwd(parallel_hoffman_full_path)
-coph_path = ("Cophen_function.R")
+#load all the stuff from the cophen_function file 
+current_directory <- getwd()
+coph_path <- file.path(current_directory, "Cophen_function.R")
 source(coph_path)
-setwd(current_directory)
-
-# Call the function from cophen.R
 
 
-cophen_function()
 
-# Save outputs to the local directory "birds"
-output_path <- file.path(current_directory, "birds", "output.txt")
-cat("Output from cophen_function", file = output_path)
+#find the filepath to cali_tree
+#edit the path to phylogeny line if you're not interested in the cali phylogeny. 
+path_to_cali_phylogeny = file.path( clade, "cali_tree.tre")
+phylo_tree<- read.tree(path_to_cali_phylogeny)
+
+
+#the last two parameters are for naming, for the purpose of the call_cophen function
+call_cophen(phylo_tree, clade = "birds", geog_area = "cali") 
+
+#the output should be saved to the clade file. basically should just have to execute main. 
+
+
+
+

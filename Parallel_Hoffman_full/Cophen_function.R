@@ -62,8 +62,10 @@ cophen <- function(phy) {
 call_cophen<- function(phy, clade, geog_area)
 {
   matrix<- cophen(phy)
-  cophen_touse<- as.matrix(cophen_touse)
-  saveRDS(cophen_touse, file = paste("_", geog_area, "cophen_matrix"))
+  cophen_touse<- as.matrix(matrix)
+  save_path <- file.path(getwd(), clade)
+  filename <- paste(geog_area, "_cophen_matrix", sep = "")
+  saveRDS(cophen_touse, file = file.path(save_path,filename))
 }
 
 
@@ -74,14 +76,20 @@ call_cophen<- function(phy, clade, geog_area)
 
 
 
-cophen_touse<- cophen(full_tree)
-cophen_touse<-as.matrix(cophen_touse)
+
+
+
+
+
+#this part isn't necessary because of the main function within the birds repository. 
+#cophen_touse<- cophen(full_tree)
+#cophen_touse<-as.matrix(cophen_touse)
 
 #this line is for the cluster
 #saveRDS(cophen_touse, file = "/u/home/m/mchari/bird/Parallel_Hoffman_full/cophenetic_matrix_bird" )
 
 #this line is for the local 
-saveRDS(cophen_touse, file = "cophenetic_matrix_bird_cali" )
+#saveRDS(cophen_touse, file = "cophenetic_matrix_bird_cali" )
 
 #here I'm saving cophenetic matrix, then I'm going to transfer it to my local copy of bird and then I'm going 
 #to try to move it to hoffman via globus
