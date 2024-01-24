@@ -1,24 +1,42 @@
 #this is a script for making the cophenetic matrix for a given parent tree. It requires a cpp file that 
-#contains code for the fastest produced cophenetic matrix. 
+#contains code for the fastest producible cophenetic matrix. 
+
+#environmental variables. want to make this generalizable to each folder. eventually
+#ask Mike how to move forward with this. 
+
+#full_tree<-read.tree("cali_bird_tree.tre")
+
+
 # install.packages("MASS")
 # library(MASS)
 # install.packages("bigmemory")
 # library(bigmemory)
 # library(tictoc)
- library(picante)
+#library(picante)
 # library(phylocomr)
- 
 
-new_libPaths = .libPaths(c('/u/home/m/mchari/R',.libPaths()))
+home_directory <- Sys.getenv("HOME")
+new_libPaths <- .libPaths(c(file.path(home_directory, "R"), .libPaths()))
+
 .libPaths(new_libPaths)
-install.packages("Rcpp",repos = "http://cran.us.r-project.org")
+
+if (!requireNamespace("Rcpp", quietly = TRUE)) 
+{
+  # Install the package if not already installed
+  install.packages("Rcpp", repos = "http://cran.us.r-project.org")
+}
+
 library("Rcpp", lib.loc = .libPaths())
 
 #this is for the cluster
 #Rcpp::sourceCpp("/u/home/m/mchari/bird/Parallel_Hoffman_full/Cophen.cpp")
 
 #this is for the local 
-Rcpp::sourceCpp("Cophen.cpp") 
+print(getwd())
+
+cpp_file_path <- file.path("Cophen.cpp")
+Rcpp::sourceCpp(cpp_file_path) 
+
 
 cophen <- function(phy) {
   n <- ape::Ntip(phy)
@@ -39,14 +57,20 @@ cophen <- function(phy) {
   return(cc)
 }
 
+#clade and geog_area are for naming the file and can be any strings but should be
+#in the form of "birds" and "california" or something like that
+call_cophen<- function(phy, clade, geog_area)
+{
+  matrix<- cophen(phy)
+  cophen_touse<- as.matrix(cophen_touse)
+  saveRDS(cophen_touse, file = paste("_", geog_area, "cophen_matrix"))
+}
 
-# full_tree<- read.tree("full_tree_for_cluster.tre") for fish
-#following: for birds
 
 
 #TODO: edit this to the .tre file that you will be using. 
 
-full_tree<-read.tree("cali_bird_tree.tre")
+#full_tree<-read.tree("cali_bird_tree.tre")
 
 
 
