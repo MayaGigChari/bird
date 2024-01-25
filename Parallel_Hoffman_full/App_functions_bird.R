@@ -90,7 +90,7 @@ remove_taxa<- function(species_list, master_phylogeny)
   return(matched_species)
 }
 
-species_list_pruned<- remove_taxa(test,full_fish_phylo)
+#species_list_pruned<- remove_taxa(test,full_fish_phylo)
 
 #function to produce a tree with all the taxa the user has observed
 
@@ -103,7 +103,7 @@ sample_tree_generator<-function(sample, master_phylogeny)
   return(sample_tree)
 }
 
-tree_test<-sample_tree_generator(species_list_pruned,full_fish_phylo)
+#tree_test<-sample_tree_generator(species_list_pruned,full_fish_phylo)
 
 
 
@@ -140,54 +140,35 @@ helper_whereOnTree<-function(parent_tree, sample_tree) #function for taking a tr
 
 
 
-
-
-#the following functions are for diversity index analyses
-#TODO: update with what you have done with paralellization on hoffman. 
-divcalc_app<- function(sample_tree, master_phylogeny)
-{
-  library(phylocomr)
-  df_touse<-data.frame(sample = "species", occurrence = 1, names = sample_tree$tip.label)
-  res_sample<- ph_comstruct(sample = df_touse, phylo = master_phylogeny, randomizations = 10)
-  return(res_sample)
-}
-
-divcalc_app_parallel<- function(sample_tree, master_phylogeny) 
-{
-  library(phylocomr)
-  df_touse<-data.frame(sample = "species", occurrence = 1, names = sample_tree$tip.label)
-  res_sample<- ph_comstruct(sample = df_touse, phylo = master_phylogeny, randomizations = 1)
-  return(res_sample)  
-}
-
-stats<-divcalc_app(tree_test, full_fish_phylo)
-
-pd_app<- function (sample_tree,master_phylogeny)
-{
-  library(phylocomr)
-  df_touse<-data.frame(sample = "species", occurrence = 1, names = sample_tree$tip.label)
-  return(ph_pd(df_touse, master_phylogeny))
-}
-pd_stat<-pd_app(tree_test, full_fish_phylo)
-#about 100 or 100
-
-#todo:
-#pval<- function(output_divcalc_app)
-#{
-#  
-#}
-
-#ask jonathan about local phylogenies 
-#account on 
-#want to use the main computer in the lab so people can login and run a shiny app 
-#figure out how to run the app on non-local machine. (on michael's machine)
-#make functions to take advantage of multiple processors (20 cores)
-#want to get a version of the program that will run in parallel 
-#get a server front-end set up 
-#static ip address: can present a front end, shiny code webpage will communicate with server  
-#get it running in parallel and look at options for setting it up on lab server 
-#create an app and get it running locally. then figure out how to transfer over. 
-#test on machine and on remote server and see how much faster it is. 
+# 
+# 
+# #the following functions are for diversity index analyses. They are now archaic (remove)
+# #TODO: update with what you have done with paralellization on hoffman. 
+# divcalc_app<- function(sample_tree, master_phylogeny)
+# {
+#   library(phylocomr)
+#   df_touse<-data.frame(sample = "species", occurrence = 1, names = sample_tree$tip.label)
+#   res_sample<- ph_comstruct(sample = df_touse, phylo = master_phylogeny, randomizations = 10)
+#   return(res_sample)
+# }
+# 
+# divcalc_app_parallel<- function(sample_tree, master_phylogeny) 
+# {
+#   library(phylocomr)
+#   df_touse<-data.frame(sample = "species", occurrence = 1, names = sample_tree$tip.label)
+#   res_sample<- ph_comstruct(sample = df_touse, phylo = master_phylogeny, randomizations = 1)
+#   return(res_sample)  
+# }
+# 
+# stats<-divcalc_app(tree_test, full_fish_phylo)
+# 
+# pd_app<- function (sample_tree,master_phylogeny)
+# {
+#   library(phylocomr)
+#   df_touse<-data.frame(sample = "species", occurrence = 1, names = sample_tree$tip.label)
+#   return(ph_pd(df_touse, master_phylogeny))
+# }
+# 
 
 
 
