@@ -1,0 +1,7 @@
+"Esox americanus americanus"
+"Esox americanus vermiculatus"
+"Esox cisalpinus"
+"Esox lucius"
+"Esox masquinongy"
+"Esox niger"
+"Esox reichertii"

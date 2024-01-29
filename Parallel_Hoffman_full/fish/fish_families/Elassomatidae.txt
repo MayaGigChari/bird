@@ -1,0 +1,7 @@
+"Elassoma alabamae"
+"Elassoma boehlkei"
+"Elassoma evergladei"
+"Elassoma gilberti"
+"Elassoma okatie"
+"Elassoma okefenokee"
+"Elassoma zonatum"

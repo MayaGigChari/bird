@@ -1,0 +1,6 @@
+"Dicentrarchus labrax"
+"Dicentrarchus punctatus"
+"Morone americana"
+"Morone chrysops"
+"Morone mississippiensis"
+"Morone saxatilis"
