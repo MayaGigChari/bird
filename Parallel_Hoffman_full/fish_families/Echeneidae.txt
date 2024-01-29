@@ -1,8 +1,0 @@
-"Echeneis naucrates"
-"Echeneis neucratoides"
-"Phtheirichthys lineatus"
-"Remora albescens"
-"Remora australis"
-"Remora brachyptera"
-"Remora osteochir"
-"Remora remora"

@@ -1,7 +1,0 @@
-"Amblyopsis rosae"
-"Amblyopsis spelaea"
-"Chologaster cornuta"
-"Forbesichthys agassizii"
-"Forbesichthys papilliferus"
-"Speoplatyrhinus poulsoni"
-"Typhlichthys subterraneus"

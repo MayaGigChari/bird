@@ -1,8 +1,0 @@
-"Citharidium ansorgii"
-"Citharinops distichodoides"
-"Citharinus citharus"
-"Citharinus congicus"
-"Citharinus eburneensis"
-"Citharinus gibbosus"
-"Citharinus latus"
-"Citharinus macrolepis"

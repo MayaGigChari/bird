@@ -1,7 +1,0 @@
-"Capromimus abbreviatus"
-"Cyttomimus affinis"
-"Cyttomimus stelgis"
-"Zenion hololepis"
-"Zenion japonicum"
-"Zenion leptolepis"
-"Zenion longipinnis"

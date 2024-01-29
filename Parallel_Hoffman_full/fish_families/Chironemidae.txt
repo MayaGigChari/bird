@@ -1,6 +1,0 @@
-"Chironemus bicornis"
-"Chironemus delfini"
-"Chironemus georgianus"
-"Chironemus maculosus"
-"Chironemus marmoratus"
-"Chironemus microlepis"

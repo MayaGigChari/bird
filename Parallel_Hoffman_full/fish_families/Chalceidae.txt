@@ -1,8 +1,0 @@
-"Chalceus epakros"
-"Chalceus erythrurus"
-"Chalceus fasciatus"
-"Chalceus guaporensis"
-"Chalceus latus"
-"Chalceus macrolepidotus"
-"Chalceus spilogyros"
-"Chalceus taeniatus"

@@ -1,7 +1,0 @@
-"Bathyclupea argentea"
-"Bathyclupea elongata"
-"Bathyclupea gracilis"
-"Bathyclupea hoskynii"
-"Bathyclupea malayana"
-"Bathyclupea megaceps"
-"Bathyclupea schroederi"

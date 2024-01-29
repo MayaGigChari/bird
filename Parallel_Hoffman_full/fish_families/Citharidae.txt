@@ -1,7 +1,0 @@
-"Brachypleura novaezeelandiae"
-"Citharoides axillaris"
-"Citharoides macrolepidotus"
-"Citharoides macrolepis"
-"Citharoides orbitalis"
-"Citharus linguatula"
-"Lepidoblepharon ophthalmolepis"

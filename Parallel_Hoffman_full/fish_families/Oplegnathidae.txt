@@ -1,7 +1,0 @@
-"Oplegnathus conwayi"
-"Oplegnathus fasciatus"
-"Oplegnathus insignis"
-"Oplegnathus peaolopesi"
-"Oplegnathus punctatus"
-"Oplegnathus robinsoni"
-"Oplegnathus woodwardi"

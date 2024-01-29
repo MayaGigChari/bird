@@ -1,6 +1,0 @@
-"Solenostomus armatus"
-"Solenostomus cyanopterus"
-"Solenostomus halimeda"
-"Solenostomus leptosoma"
-"Solenostomus paegnius"
-"Solenostomus paradoxus"

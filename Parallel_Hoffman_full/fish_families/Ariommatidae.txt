@@ -1,8 +1,0 @@
-"Ariomma bondi"
-"Ariomma brevimanum"
-"Ariomma dollfusi"
-"Ariomma indicum"
-"Ariomma luridum"
-"Ariomma melanum"
-"Ariomma parini"
-"Ariomma regulus"

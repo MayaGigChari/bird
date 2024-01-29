@@ -1,7 +1,0 @@
-"Hapalogenys analis"
-"Hapalogenys dampieriensis"
-"Hapalogenys filamentosus"
-"Hapalogenys kishinouyei"
-"Hapalogenys merguiensis"
-"Hapalogenys nigripinnis"
-"Hapalogenys sennin"

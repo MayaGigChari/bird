@@ -1,6 +1,0 @@
-"Diplomystes camposensis"
-"Diplomystes chilensis"
-"Diplomystes nahuelbutaensis"
-"Olivaichthys cuyanus"
-"Olivaichthys mesembrinus"
-"Olivaichthys viedmensis"
