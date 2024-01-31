@@ -1,7 +1,7 @@
-#main for birds 
-#when this file is executed, the cophen matrix will be generated for a bird tree for the geographic area 
+#main for squamates 
+#when this file is executed, the cophen matrix will be generated for a squamate tree for the geographic area 
 #of california. This can be altered at the specificed location if there are different
-#larger trees of interest (ie: some other geographcial area )
+#larger trees of interest (ie: some other geographical area )
 
 #first step needs to be to prune the california tree to the list of california taxa 
 
@@ -65,8 +65,10 @@ cali_tree<- sample_tree_generator(matched_species_squamates, full_tree)
 write.tree(cali_tree, file = file.path(clade, "cali_tree.tre"))
 
 
+max_species_result<-get_max_species(cali_squamates)
+
 #run the sample_tree_creator to generate the sample trees
-maketrees(cali_tree, 5, 110, 5, clade = clade)
+maketrees(cali_tree, 5, max_species_result, 5, clade = clade)
 
 
 #path to phylogeny.
