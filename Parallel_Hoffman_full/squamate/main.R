@@ -1,7 +1,7 @@
-#main for birds 
-#when this file is executed, the cophen matrix will be generated for a bird tree for the geographic area 
+#main for squamates 
+#when this file is executed, the cophen matrix will be generated for a squamate tree for the geographic area 
 #of california. This can be altered at the specificed location if there are different
-#larger trees of interest (ie: some other geographcial area )
+#larger trees of interest (ie: some other geographical area )
 
 #first step needs to be to prune the california tree to the list of california taxa 
 
