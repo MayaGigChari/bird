@@ -10,7 +10,7 @@
 #path_to_output
 #take advantage of the fact that this script is in the working directory 
 
-n_rand = 1 #want 2  randomizations for each tree size. internally each script will produce 500 random values. Can also do 1? 
+n_rand = 1000 #want 2  randomizations for each tree size. internally each script will produce 500 random values. Can also do 1? 
 min_null_tree_size = 5
 max_null_tree_size = 100
 tree_size_increment = 5
