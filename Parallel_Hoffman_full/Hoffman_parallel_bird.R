@@ -20,7 +20,7 @@ username = "mchari" #here edit to make hoffman 2 username.
 
 #above is all local variable declarations. 
 
-path_to_output <- paste(getwd(), '/' Clade, sep = "") #this is fairly universal. 
+path_to_output <- paste(getwd(), '/', Clade, sep = "") #this is fairly universal. 
 new_libPaths = .libPaths(c(paste('/u/home/m/',username, '/R', sep = ""),.libPaths())) #library path for cluster
 .libPaths(new_libPaths)
 
