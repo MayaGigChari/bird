@@ -10,7 +10,7 @@
 #path_to_output
 #take advantage of the fact that this script is in the working directory 
 
-n_rand = 1000 #want 2  randomizations for each tree size. internally each script will produce 500 random values. Can also do 1? 
+n_rand = 1 #want 2  randomizations for each tree size. internally each script will produce 500 random values. Can also do 1? 
 min_null_tree_size = 5
 max_null_tree_size = 100
 tree_size_increment = 5
@@ -90,7 +90,10 @@ print(args) #prints the arguments which here should be equivalent to each SGE_TA
 n = as.integer(args[1]) #makes the SGE_TASK_ID an integer
 print(n)
 
-current_index = n %/% n_rand +1 #when n_rand is 1, this is n%/% 2
+
+#params = 5,10,15,20,25,30,35....,100
+#when n is 1 and n_rand is 1, then 1/%/2 = 0 
+current_index = n %/% n_rand + 1 #when n_rand is 1, this is n%/% 2
 sample_size = params[current_index] #this gives us the "sample size"/tree size for the current run. 
 print(sample_size)
 print("args successfully loaded") #another checkpoint
