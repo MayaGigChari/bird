@@ -105,6 +105,14 @@ sample_tree_generator<-function(sample, master_phylogeny)
 
 #tree_test<-sample_tree_generator(species_list_pruned,full_fish_phylo)
 
+#function to get the max number of species and round down to the nearest ten
+
+max_species <- function(species_list) {
+  max_species <- max(nrow(species_list), 10)
+  rounded_species <- floor(max_species / 10) * 10
+  return(rounded_species)
+}
+
 
 
 
