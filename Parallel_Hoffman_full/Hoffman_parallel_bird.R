@@ -88,8 +88,9 @@ library(dplyr)
 args = commandArgs(trailingOnly=TRUE) #not sure what this part does, but I think it allows us to accept args when the script is sent. 
 print(args) #prints the arguments which here should be equivalent to each SGE_TASK_ID.
 n = as.integer(args[1]) #makes the SGE_TASK_ID an integer
+print(n)
 
-current_index = n %/% n_rand +1 
+current_index = n %/% n_rand +1 #when n_rand is 1, this is n%/% 2
 sample_size = params[current_index] #this gives us the "sample size"/tree size for the current run. 
 print(sample_size)
 print("args successfully loaded") #another checkpoint
