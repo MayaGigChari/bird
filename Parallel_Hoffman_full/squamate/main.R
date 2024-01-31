@@ -64,9 +64,9 @@ matched_species_squamates<-remove_taxa(cali_squamates, full_tree)
 cali_tree<- sample_tree_generator(matched_species_squamates, full_tree)
 write.tree(cali_tree, file = file.path(clade, "cali_tree.tre"))
 
-
+max_species <- max_species(cali_squamates)
 #run the sample_tree_creator to generate the sample trees
-maketrees(cali_tree, 5, 110, 5, clade = clade)
+maketrees(cali_tree, 5, max_species, 5, clade = clade)
 
 
 #path to phylogeny.
