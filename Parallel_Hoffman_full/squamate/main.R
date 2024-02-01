@@ -5,13 +5,9 @@
 
 #first step needs to be to prune the california tree to the list of california taxa 
 
-
-#Bethany TODO: write a function that gets the max number of species present in a list, and then round down to the nearest tenth
-#do this in app_functions_birds
-
 #install necessary packages 
 packages_to_install <- c("picante", "ape", "dplyr", "readr", p="phytools")
-
+print("hey")
 # Loop through the packages
 for (pkg in packages_to_install) {
   # Check if the package is not already installed
