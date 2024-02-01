@@ -1,17 +1,13 @@
-#main for birds 
+#main for squamates 
 #when this file is executed, the cophen matrix will be generated for a bird tree for the geographic area 
 #of california. This can be altered at the specificed location if there are different
 #larger trees of interest (ie: some other geographcial area )
 
 #first step needs to be to prune the california tree to the list of california taxa 
 
-
-#Bethany TODO: write a function that gets the max number of species present in a list, and then round down to the nearest tenth
-#do this in app_functions_birds
-
 #install necessary packages 
 packages_to_install <- c("picante", "ape", "dplyr", "readr", p="phytools")
-
+print("hey")
 # Loop through the packages
 for (pkg in packages_to_install) {
   # Check if the package is not already installed
