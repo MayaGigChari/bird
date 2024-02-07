@@ -1,7 +1,7 @@
 #!/bin/bash
 #$ -cwd #uses current working directory
 # error = Merged with joblog
-#$ -o Past_joblogs/joblog_$JOB_ID/joblog.$JOB_ID.$TASK_ID #creates a file called joblog.jobidnumber.taskidnumber to write to.
+#$ -o joblog_$JOB_ID/joblog.$JOB_ID.$TASK_ID #creates a file called joblog.jobidnumber.taskidnumber to write to.
 #$ -j y
 #$ -l h_rt=0:30:00,h_data=2G #requests 30 minutes, 2GB of data (per core)
 #$ -pe shared 2 #requests 2 cores
