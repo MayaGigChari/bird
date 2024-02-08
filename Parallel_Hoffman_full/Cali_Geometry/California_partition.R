@@ -63,6 +63,8 @@ popPixel<- function(scientific_identifier, len = length(geog_boundaries), nms = 
 
 #here I write the RDS file to Cali_Geometry folder 
 #also attempt to read the same file to make sure it wokrs. 
+
+#TODO: need to adapt this so that I can save to the california file instead. 
 saveRDS(occurrence_df, "Cali_Geometry/occurrence_birds_polygons.rds")
 cali_birds<- readRDS("Cali_Geometry/occurrence_birds_polygons.rds")
 
