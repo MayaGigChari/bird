@@ -138,6 +138,7 @@ mpd_app_picante<-function(sample_tree,coph_mat)
   comm_sample<-data.frame(row.names = sample_tree$tip.label, clump1 = 1, clump2 = sample_tree$tip.label)
   comm_sample_touse<-t(as.matrix(subset(comm_sample, select = clump1)))
   mpd_val<- picante::mpd(comm_sample_touse,coph_mat)
+  print(mpd_val)
   return(mpd_val)
 }
 
