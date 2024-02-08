@@ -69,6 +69,17 @@ read<-function(txt_file)
   return(species_list)
 }
 
+#function that takes an r dataframe and cleans it 
+read_df<- function(r_dataframe)
+{
+  r_dataframe<- gsub(" ", "_", r_dataframe)
+  r_dataframe<-data.frame(r_dataframe)
+  colnames(r_dataframe)<- "names"
+  r_dataframe = na.omit(r_dataframe)
+  return(unique(r_dataframe))
+}
+
+
 
 #function to check the species against the master tree and report missing taxa
 check_taxa<-function(species_list, master_phylogeny)
