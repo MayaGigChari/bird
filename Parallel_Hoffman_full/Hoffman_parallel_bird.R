@@ -36,6 +36,7 @@ params = seq(min_null_tree_size, max_null_tree_size, by=tree_size_increment)
 a<-Sys.getenv(x = "JOB_ID")
 
 
+#creates the folders for output
 folder <- paste(path_to_output, "/", a, "_output_files", sep = "")
 folder2 <- paste(path_to_output, "/",a, "_times", sep = "")
 if (file.exists(folder))

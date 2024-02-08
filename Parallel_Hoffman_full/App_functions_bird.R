@@ -69,14 +69,25 @@ read<-function(txt_file)
   return(species_list)
 }
 
+#function that takes an r dataframe and cleans it 
+read_df<- function(r_dataframe)
+{
+  r_dataframe<- gsub(" ", "_", r_dataframe)
+  r_dataframe<-data.frame(r_dataframe)
+  colnames(r_dataframe)<- "names"
+  r_dataframe = na.omit(r_dataframe)
+  return(unique(r_dataframe))
+}
+
+
 
 #function to check the species against the master tree and report missing taxa
 check_taxa<-function(species_list, master_phylogeny)
 {
   unmatched_species<-species_list%>%
     filter(!(species_list$name%in%master_phylogeny$tip.label))
-  print("the following species on your list are not members of the larger phylogeny")
-  print(unmatched_species$name)
+  #print("the following species on your list are not members of the larger phylogeny")
+  #print(unmatched_species$name)
   return(unmatched_species)
 }
 
@@ -113,6 +124,33 @@ max_species <- function(species_list) {
   return(rounded_species)
 }
 
+pd_app_picante<-function(sample_tree, master_phylogeny)
+{
+  comm_sample<-data.frame(row.names = sample_tree$tip.label, clump1 = 1, clump2 = sample_tree$tip.label)
+  comm_sample_touse<-t(as.matrix(subset(comm_sample, select = clump1)))
+  pd_val<- picante::pd(comm_sample_touse,master_phylogeny)
+  return(pd_val)
+}
+
+
+mpd_app_picante<-function(sample_tree,coph_mat)
+{
+  comm_sample<-data.frame(row.names = sample_tree$tip.label, clump1 = 1, clump2 = sample_tree$tip.label)
+  comm_sample_touse<-t(as.matrix(subset(comm_sample, select = clump1)))
+  mpd_val<- picante::mpd(comm_sample_touse,coph_mat)
+  print(mpd_val)
+  return(mpd_val)
+}
+
+mntd_app_picante<-function(sample_tree,coph_mat)
+{
+  comm_sample<-data.frame(row.names = sample_tree$tip.label, clump1 = 1, clump2 = sample_tree$tip.label)
+  comm_sample_touse<-t(as.matrix(subset(comm_sample, select = clump1)))
+  mntd_val<- mntd(comm_sample_touse,coph_mat)
+  return(mntd_val)
+}
+
+pd
 
 
 

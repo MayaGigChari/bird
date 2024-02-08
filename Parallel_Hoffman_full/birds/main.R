@@ -62,6 +62,7 @@ cali_tree<- sample_tree_generator(matched_species_birds, full_tree)
 write.tree(cali_tree, file = file.path(clade, "cali_tree.tre"))
 
 
+
 #run the sample_tree_creator to generate the sample trees
 
 maketrees(cali_tree, 5, 600, 5, clade = clade)
@@ -77,7 +78,6 @@ phylo_tree<- read.tree(path_to_cali_phylogeny)
 call_cophen(phylo_tree, clade = "birds", geog_area = "cali") 
 
 #the output should be saved to the clade file. basically should just have to execute main. 
-
 
 
 
