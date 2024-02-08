@@ -31,9 +31,9 @@ retrieve_data <- function(clade, metric) {
 }
 
 # Example usage:
-pd_data <- retrieve_data("squamate", "pd")
-mpd_data <- retrieve_data("squamate", "mpd")
-mntd_data <- retrieve_data("squamate", "mntd")
+#pd_data <- retrieve_data("squamate", "pd")
+#mpd_data <- retrieve_data("squamate", "mpd")
+#mntd_data <- retrieve_data("squamate", "mntd")
 
 
 
@@ -87,9 +87,9 @@ surfaceGen<- function(data_input, metric)
 }
 
 
-pd_model<-surfaceGen(pd_data, "pd")
-mpd_model<-surfaceGen(mpd_data, "mpd")
-mntd_model<-surfaceGen(mntd_data, "mntd")
+#pd_model<-surfaceGen(pd_data, "pd")
+#mpd_model<-surfaceGen(mpd_data, "mpd")
+#mntd_model<-surfaceGen(mntd_data, "mntd")
 
 
 
