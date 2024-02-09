@@ -56,6 +56,7 @@ mntd_values<- list()
 #can generate the trees and write them all to a file.  
 missing_species <- vector("list", length = length(poly_labels))
 species_in_tree <- vector("list", length = length(poly_labels))
+
 proportion_missing <- numeric(length(poly_labels))
 pd_values <- numeric(length(poly_labels))
 mpd_values <- numeric(length(poly_labels))
@@ -64,7 +65,7 @@ empty_hexes <- character(0)
 
 # Loop through poly_labels
 
-for (i in 1:length(poly_labels)) 
+for (i in 791:length(poly_labels)) 
 {
   temp <- data.frame(data[i])
   colnames(temp) <- "name"
@@ -72,7 +73,7 @@ for (i in 1:length(poly_labels))
   temp<- remove_taxa(temp, cali_tree)
   species_in_tree[i]<- temp
   proportion_missing[i]<- length(missing_species[i])/length(temp[,1])
-  if(length(temp[,1]) == 0)
+  if(length(temp[,1]) <= 1)
   {
     empty_hexes<- c(empty_hexes, poly_labels[i])
     write.tree(temp_tree, file = file.path(current_directory, "birds", "hex_trees", paste(poly_labels[i], ".tre", sep  = '')))
@@ -108,6 +109,6 @@ named_list <- as.list(poly_data[-ncol(poly_data)])
 json_data <- toJSON(named_list, auto_unbox = TRUE)
 
 
-json_data <- toJSON(poly_data, pretty = TRUE)
-write_json(json_data, "birds/initial_poly_bird_data.json")
+json_data <- toJSON(poly_data, pretty = FALSE)
+write(json_data, "birds/initial_poly_bird_data.json")
 
