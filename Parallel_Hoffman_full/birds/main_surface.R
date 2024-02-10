@@ -27,7 +27,7 @@ mpd_data <- retrieve_data(clade, "mpd")
 mntd_data <- retrieve_data(clade, "mntd")
 
 #generate the models
-pd_model<-surfaceGen(pd_data, "pd")
+pd_model<-surfaceGen(pd_data, "pd")  
 mpd_model<-surfaceGen(mpd_data, "mpd")
 mntd_model<-surfaceGen(mntd_data, "mntd")
 

@@ -39,7 +39,8 @@ retrieve_data <- function(clade, metric) {
 
 #can adapt this to do more best fit things and actually calculate error statistics but right now don't have to.
 #can change to using the MM.3() fit for the model
-surfaceGen<- function(data_input, metric)
+#outType
+surfaceGen<- function(data_input, metric, outType = "list")
 {
   
   print(metric)
@@ -51,14 +52,14 @@ surfaceGen<- function(data_input, metric)
   
   if(metric == "mpd")
   {
-    model_low <- drm(data_sim$Low ~ data_sim$tree_size, fct = LL.4())
-    model_high <- drm(data_sim$High ~ data_sim$tree_size, fct = LL.4())
+    model_low <- drm(data_sim$Low ~ data_sim$tree_size, fct = MM.3())
+    model_high <- drm(data_sim$High ~ data_sim$tree_size, fct = MM.3())
   }
   
   if(metric == "mntd")
   {
-    model_low <- drm(data_sim$Low ~ data_sim$tree_size, fct = LL.4())
-    model_high <- drm(data_sim$High ~ data_sim$tree_size, fct = LL.4())
+    model_low <- drm(data_sim$Low ~ data_sim$tree_size, fct = MM.3())
+    model_high <- drm(data_sim$High ~ data_sim$tree_size, fct = MM.3())
   }
   
   if(metric == "pd")
@@ -66,7 +67,7 @@ surfaceGen<- function(data_input, metric)
     model_low <- drc::drm(data_sim$Low ~ data_sim$tree_size, fct = LL.4())
     model_high <- drc::drm(data_sim$High ~ data_sim$tree_size, fct= LL.4())
   }
-  
+
   plot(High~tree_size, data = data_sim, ylim = c(min(data_sim$Low), max(data_sim$High)))
   points(Low~tree_size, data = data_sim)
   lines(predict(model_low)~tree_size, data = data_sim, type = "l", col = "blue")
@@ -74,22 +75,38 @@ surfaceGen<- function(data_input, metric)
   #print(summary(model_low))
   #print(summary(model_high))
   #relatively low standard error. 
+  print(summary(model_low))
+  plot(model_low)
+  plot(model_high)
   summary_low <- summary(model_low)$coefficients
   summary_high <- summary(model_high)$coefficients
+
   
   # Create a data frame with row names and coefficients
-  result <- data.frame(row.names = c("b", "c", "d", "e"),
+  result_coef <- data.frame(row.names = c("b", "c", "d", "e"),
                        low = summary_low[, 1],
                        high = summary_high[, 1])
   
-  return(result)
+  
+  #need to add tree sizes. 
+  result_model<- data.frame(predict(model_low))
+  colnames(result_model)<- "low"
+  result_model$high <- predict(model_high)
+  result_model$tree_sizes <- data_sim$tree_size
+
+  
+  if(outType == "coef")
+  {
+    return(result_coef)
+  }
+  else if(outType == "list")
+  {
+    return(result_model)
+  }
   
 }
+?predict()
 
-
-#pd_model<-surfaceGen(pd_data, "pd")
-#mpd_model<-surfaceGen(mpd_data, "mpd")
-#mntd_model<-surfaceGen(mntd_data, "mntd")
-
+mpd_model<-surfaceGen(mpd_data, "mpd")
 
 

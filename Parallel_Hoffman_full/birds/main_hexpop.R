@@ -94,20 +94,21 @@ for (i in 791:length(poly_labels))
 }
 print(missing_species)
 
+tree_sizes<- species_in_tree
+length<- lapply(tree_sizes, length)
 
 #got up to 790
 
-poly_data<- data.frame(poly_labels[1:700])
+lengths<- unlist(length)
+poly_data<- data.frame(poly_labels)
 colnames(poly_data)<- "id"
-poly_data$pd<- pd_values[1:700]
-poly_data$mpd<- mpd_values[1:700]
-poly_data$mntd<-mntd_values[1:700]
+poly_data$pd<- pd_values
+poly_data$mpd<- mpd_values
+poly_data$mntd<-mntd_values
+poly_data$tree_sizes<-lengths
 
-named_list <- as.list(poly_data[-ncol(poly_data)])
 
-# Convert named list to JSON
-json_data <- toJSON(named_list, auto_unbox = TRUE)
-
+write.csv(poly_data, "birds/Whole_pixel_data.csv")
 
 json_data <- toJSON(poly_data, pretty = FALSE)
 write(json_data, "birds/initial_poly_bird_data.json")
