@@ -35,6 +35,45 @@ retrieve_data <- function(clade, metric) {
 #mpd_data <- retrieve_data("squamate", "mpd")
 #mntd_data <- retrieve_data("squamate", "mntd")
 
+#model fitting: need to try different models. 
+
+data_clean<- function(data_input, metric)
+{
+  seq_to_pred<- seq(0,650, by = 2)
+  data_sim <- data_input
+  rownames(data_sim)<-data_sim$X
+  data_sim$X<- NULL
+  data_sim<- data.frame(t(data_sim))
+  data_sim$tree_size <- as.numeric(gsub(metric, "", rownames(data_sim)))
+  return(data_sim)
+}
+
+
+#this is a dose response model 
+
+data_sim<- data_clean(pd_data, "pd")
+#not a good fit for pd. 
+
+data_sim<- data_clean(mntd_data, "mntd")
+
+model_low <- drm(data_sim$Low ~ data_sim$tree_size, fct = LL.4())
+#this is much workse for MM.3 than for LL.4
+
+model_high <- drm(data_sim$High ~ data_sim$tree_size, fct = LL.4())
+
+
+
+#logistic growth: 
+# lm fit
+
+
+summary(model_high)
+
+seq_to_pred<- seq(0,650, by = 2)
+plot(High~tree_size, data = data_sim, ylim = c(min(data_sim$Low), max(data_sim$High)))
+points(Low~tree_size, data = data_sim)
+lines(predict(model_low)~seq_to_pred, type = "l", col = "blue")
+lines(predict(model_high)~seq_to_pred, type = "l", col = "blue")
 
 
 #can adapt this to do more best fit things and actually calculate error statistics but right now don't have to.
@@ -42,7 +81,7 @@ retrieve_data <- function(clade, metric) {
 #outType
 surfaceGen<- function(data_input, metric, outType = "list")
 {
-  
+  seq_to_pred<- seq(0,650, by = 2)
   print(metric)
   data_sim <- data_input
   rownames(data_sim)<-data_sim$X
@@ -59,25 +98,26 @@ surfaceGen<- function(data_input, metric, outType = "list")
   if(metric == "mntd")
   {
     model_low <- drm(data_sim$Low ~ data_sim$tree_size, fct = MM.3())
-    model_high <- drm(data_sim$High ~ data_sim$tree_size, fct = MM.3())
+    model_high <- drm(data_sim$High ~ data_sim$tree_size, fct = MM.3 ())
   }
   
   if(metric == "pd")
   {
-    model_low <- drc::drm(data_sim$Low ~ data_sim$tree_size, fct = LL.4())
-    model_high <- drc::drm(data_sim$High ~ data_sim$tree_size, fct= LL.4())
+    model_low <- drc::drm(data_sim$Low ~ data_sim$tree_size, fct = MM.3())
+    model_high <- drc::drm(data_sim$High ~ data_sim$tree_size, fct= MM.3())
   }
 
   plot(High~tree_size, data = data_sim, ylim = c(min(data_sim$Low), max(data_sim$High)))
   points(Low~tree_size, data = data_sim)
-  lines(predict(model_low)~tree_size, data = data_sim, type = "l", col = "blue")
+  lines(predict(model_low)~tree_size,data = data_sim, type = "l", col = "blue")
   lines(predict(model_high)~tree_size, data = data_sim, type = "l", col = "blue")
   #print(summary(model_low))
   #print(summary(model_high))
   #relatively low standard error. 
-  print(summary(model_low))
-  plot(model_low)
-  plot(model_high)
+  #print(summary(model_low))
+  #plot(model_low)
+  #plot(model_high)
+  
   summary_low <- summary(model_low)$coefficients
   summary_high <- summary(model_high)$coefficients
 
@@ -89,9 +129,9 @@ surfaceGen<- function(data_input, metric, outType = "list")
   
   
   #need to add tree sizes. 
-  result_model<- data.frame(predict(model_low))
+  result_model<- data.frame(predict(model_low, data = seq_to_pred))
   colnames(result_model)<- "low"
-  result_model$high <- predict(model_high)
+  result_model$high <- predict(model_high, data = seq_to_pred)
   result_model$tree_sizes <- data_sim$tree_size
 
   
@@ -105,8 +145,8 @@ surfaceGen<- function(data_input, metric, outType = "list")
   }
   
 }
-?predict()
 
-mpd_model<-surfaceGen(mpd_data, "mpd")
+
+#need to more cohesively fit nonlinear models. 
 
 
