@@ -3,27 +3,29 @@
 
 print(.libPaths())
 
-new_libPaths <- c(paste('/u/home/mchari/R/library', sep = ""), .libPaths())
+#new_libPaths <- c(paste('/u/home/mchari/R/library', sep = ""), .libPaths())
 
 # Update library paths
-.libPaths(new_libPaths)
+#.libPaths(new_libPaths)
 
 # Packages to install
-packages_to_install <- c("sf")
+#packages_to_install <- c("sf")
 
 # Loop through packages to install
-for (package in packages_to_install) {
+#for (package in packages_to_install) {
   # Check if package is available
-  if (!require(package, character.only = TRUE)) {
+#  if (!require(package, character.only = TRUE)) {
     # If not available, install the package
-    install.packages(package, lib = new_libPaths)
-  }
-}
+#    install.packages(package, lib = new_libPaths)
+#  }
+#}
 
-print("done")
+#print("done")
 # Load the installed packages
-library(sf, lib.loc = new_libPaths)
+#library(sf, lib.loc = new_libPaths)
 
+install.packages("sf")
+library(sf)
 # Read the GeoJSON file
 geojson_file <- "bien_ranges.geojson"
 bird_ranges <- st_read(geojson_file)
