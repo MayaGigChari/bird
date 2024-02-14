@@ -1,4 +1,4 @@
-#install.packages("sf")
+install.packages("sf")
 library(sf)
 
 # Read the GeoJSON file
