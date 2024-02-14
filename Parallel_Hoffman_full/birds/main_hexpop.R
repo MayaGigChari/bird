@@ -3,7 +3,7 @@
 #RERUN WITH A BETTER LIST OF CALI BIRDS!
 #remove all single-taxon trees. 
 
-packages_to_install <- c("picante", "ape",  "dplyr", "phytools")
+packages_to_install <- c("picante", "ape",  "dplyr", "phytools", "jsonlite", "tools")
 
 # Load necessary packages
 for (pkg in packages_to_install) {
@@ -92,7 +92,7 @@ for (i in 791:length(poly_labels))
   print(i)
   #continue here: 
 }
-print(missing_species)
+
 
 tree_sizes<- species_in_tree
 length<- lapply(tree_sizes, length)
@@ -110,6 +110,35 @@ poly_data$tree_sizes<-lengths
 
 write.csv(poly_data, "birds/Whole_pixel_data.csv")
 
+
+
 json_data <- toJSON(poly_data, pretty = FALSE)
 write(json_data, "birds/initial_poly_bird_data.json")
+
+
+
+#this is code to convert the file of trees to a json file. 
+# Path to the folder containing .tre files
+folder_path <- "birds/hex_trees"
+
+# List all .tre files in the folder
+tre_files <- list.files(folder_path, pattern = "\\.tre$", full.names = TRUE)
+tre_objects <- list()
+
+# Loop through each .tre file, read its content, and add it to the list
+#this constructs the json file 
+for (file in tre_files) {
+  # Extract code from the file name (assuming the code is before '.tre')
+  code <- sub("\\.tre$", "", basename(file))
+  # Read the contents of the .tre file
+  tree_content <- readLines(file)
+  # Store code as the key and tree content as the value
+  tre_objects[[code]] <- tree_content
+}
+
+json_data <- toJSON(tre_objects, pretty = FALSE)
+write_json(json_data, "birds/bird_trees.json")
+
+#now we have. 
+
 

@@ -12,7 +12,6 @@ for (pkg in packages_to_install) {
 }
 
 
-
 clade = "birds"
 
 current_directory <- getwd()
@@ -30,6 +29,11 @@ mntd_data <- retrieve_data(clade, "mntd")
 pd_model<-surfaceGen(pd_data, "pd")  
 mpd_model<-surfaceGen(mpd_data, "mpd")
 mntd_model<-surfaceGen(mntd_data, "mntd")
+
+
+?predict()
+
+plot(mpd_model$tree_sizes, mpd_model$low)
 
 #wite model coefficients to csv files for visualization. 
 write.csv(pd_model, "pd_model_params.csv", row.names = TRUE)
