@@ -3,7 +3,7 @@
 
 print(.libPaths())
 
-new_libPaths <- c(paste('/u/home/mchari/R', sep = ""), .libPaths())
+new_libPaths <- c(paste('/u/home/mchari/R/library', sep = ""), .libPaths())
 
 # Update library paths
 .libPaths(new_libPaths)
