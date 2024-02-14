@@ -9,7 +9,7 @@ for (package in packages_to_install) {
   if (!require(package, character.only = TRUE)) {
     install.packages(package, repos = "http://cran.us.r-project.org", lib = new_libPaths)
   }
-  library(package)
+  library(package, lib.loc = .libPaths())
 }
 
 
