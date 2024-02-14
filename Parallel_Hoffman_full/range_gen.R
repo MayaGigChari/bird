@@ -1,18 +1,25 @@
 
 #need to generalize username from mchari
 
-new_libPaths = .libPaths(c(paste('/u/home/m/mchari/', '/R', sep = ""),.libPaths())) #library path for cluster
+new_libPaths <- c(paste('/u/home/m/mchari/', '/R', sep = ""), .libPaths())
+
+# Update library paths
 .libPaths(new_libPaths)
+
+# Packages to install
 packages_to_install <- c("sf")
 
+# Loop through packages to install
 for (package in packages_to_install) {
+  # Check if package is available
   if (!require(package, character.only = TRUE)) {
-    install.packages(package, repos = "http://cran.us.r-project.org", lib = new_libPaths)
+    # If not available, install the package
+    install.packages(package, repos = "http://cran.us.r-project.org", lib = .libPaths())
   }
-  library(package, lib.loc = .libPaths())
 }
 
-
+# Load the installed packages
+library(sf, lib.loc = .libPaths())
 # Read the GeoJSON file
 geojson_file <- "bien_ranges.geojson"
 bird_ranges <- st_read(geojson_file)
