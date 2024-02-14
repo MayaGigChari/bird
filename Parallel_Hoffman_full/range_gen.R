@@ -1,5 +1,7 @@
 
-new_libPaths = .libPaths(c(paste('/u/home/m/',username, '/R', sep = ""),.libPaths())) #library path for cluster
+#need to generalize username from mchari
+
+new_libPaths = .libPaths(c(paste('/u/home/m/mchari/', '/R', sep = ""),.libPaths())) #library path for cluster
 .libPaths(new_libPaths)
 packages_to_install <- c("sf")
 
