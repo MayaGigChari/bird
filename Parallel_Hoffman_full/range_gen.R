@@ -1,6 +1,8 @@
 
 #need to generalize username from mchari
 
+print(.libPaths())
+
 new_libPaths <- c(paste('/u/home/mchari/R', sep = ""), .libPaths())
 
 # Update library paths
