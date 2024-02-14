@@ -1,7 +1,7 @@
 
 #need to generalize username from mchari
 
-new_libPaths <- c(paste('/u/home/m/my_username/R', sep = ""), .libPaths())
+new_libPaths <- c(paste('/u/home/mchari/R', sep = ""), .libPaths())
 
 # Update library paths
 .libPaths(new_libPaths)
@@ -14,7 +14,7 @@ for (package in packages_to_install) {
   # Check if package is available
   if (!require(package, character.only = TRUE)) {
     # If not available, install the package
-    install.packages(package, repos = "http://cran.us.r-project.org", lib = new_libPaths)
+    install.packages(package, lib = new_libPaths)
   }
 }
 
