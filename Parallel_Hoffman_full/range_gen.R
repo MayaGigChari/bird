@@ -24,7 +24,7 @@ print(.libPaths())
 # Load the installed packages
 #library(sf, lib.loc = new_libPaths)
 
-#install.packages("sf")
+install.packages("sf")
 library(sf)
 # Read the GeoJSON file
 geojson_file <- "bien_ranges.geojson"
