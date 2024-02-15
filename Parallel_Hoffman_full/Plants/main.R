@@ -16,10 +16,13 @@ for (pkg in packages_to_install) {
   }
 }
 
+install.packages("BIEN")
+library(BIEN)
+
 lapply(packages_to_install, library, character.only = TRUE)
 #specify the clade that you are interested in
 
-clade = "plant"
+clade = "Plants"
 geog_area = "cali"
 
 #load all the stuff from the cophen_function file and from the tree_trimming path 
@@ -35,15 +38,13 @@ source(tree_trimming_path)
 source(sample_tree_creator_path)
 
 
-
-
 #find the filepath to cali_tree
 #edit the path to phylogeny line if you're not interested in the cali phylogeny. 
 
 #step one is to make the phylogeny. 
 #path to species checklist
-path_to_taxa_list = file.path(clade, paste(geog_area, "_species_list.csv_", sep = "_"))
-path_to_full_tree = file.path(clade, "full_tree.txt")
+path_to_taxa_list = file.path(clade, paste(geog_area, "_species_list.csv", sep = ""))
+path_to_full_tree = file.path(clade, "full_tree.tre")
 
 
 #format the taxa list using App_functions_bird script
@@ -54,8 +55,8 @@ cali_plants<-read(path_to_taxa_list)
 #todo: make this more transferable to geographic area.
 
 full_tree<- read.tree(path_to_full_tree)
-unmatched_species<- check_taxa(cali_plants, full_tree )
-matched_species_squamates<-remove_taxa(cali_plants, full_tree)
+unmatched_species<- check_taxa(cali_plants, full_tree)
+matched_species_plants<-remove_taxa(cali_plants, full_tree)
 cali_tree<- sample_tree_generator(matched_species_plants, full_tree)
 write.tree(cali_tree, file = file.path(clade, "cali_tree.tre"))
 

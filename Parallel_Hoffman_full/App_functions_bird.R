@@ -84,7 +84,7 @@ read_df<- function(r_dataframe)
 #function to check the species against the master tree and report missing taxa
 check_taxa<-function(species_list, master_phylogeny)
 {
-  unmatched_species<-species_list%>%
+  unmatched_species<-species_list %>%
     filter(!(species_list$name%in%master_phylogeny$tip.label))
   #print("the following species on your list are not members of the larger phylogeny")
   #print(unmatched_species$name)
@@ -150,11 +150,11 @@ mntd_app_picante<-function(sample_tree,coph_mat)
   return(mntd_val)
 }
 
-pd
 
 
 
-#functon to produce a figure of all the taxa you have seen laid out on a tree. uses the helper function below called helper_whereontree
+
+#function to produce a figure of all the taxa you have seen laid out on a tree. uses the helper function below called helper_whereontree
 
 visualize_sample<-function(sample, master_phylogeny)
 {
