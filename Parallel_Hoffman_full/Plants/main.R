@@ -19,7 +19,7 @@ for (pkg in packages_to_install) {
 lapply(packages_to_install, library, character.only = TRUE)
 #specify the clade that you are interested in
 
-clade = "squamate"
+clade = "plant"
 geog_area = "cali"
 
 #load all the stuff from the cophen_function file and from the tree_trimming path 
@@ -42,24 +42,24 @@ source(sample_tree_creator_path)
 
 #step one is to make the phylogeny. 
 #path to species checklist
-path_to_taxa_list = file.path(clade, paste(geog_area, "_species_list.txt", sep = ""))
+path_to_taxa_list = file.path(clade, paste(geog_area, "_species_list.csv_", sep = "_"))
 path_to_full_tree = file.path(clade, "full_tree.txt")
 
 
 #format the taxa list using App_functions_bird script
-cali_squamates<-read(path_to_taxa_list)
+cali_plants<-read(path_to_taxa_list)
 
 
 #load the largest tree and prune to only california, then save the california tree
 #todo: make this more transferable to geographic area.
 
 full_tree<- read.tree(path_to_full_tree)
-unmatched_species<- check_taxa(cali_squamates, full_tree )
-matched_species_squamates<-remove_taxa(cali_squamates, full_tree)
-cali_tree<- sample_tree_generator(matched_species_squamates, full_tree)
+unmatched_species<- check_taxa(cali_plants, full_tree )
+matched_species_squamates<-remove_taxa(cali_plants, full_tree)
+cali_tree<- sample_tree_generator(matched_species_plants, full_tree)
 write.tree(cali_tree, file = file.path(clade, "cali_tree.tre"))
 
-max_species <- max_species(cali_squamates)
+max_species <- max_species(cali_plants)
 #run the sample_tree_creator to generate the sample trees
 maketrees(cali_tree, 5, max_species, 5, clade = clade)
 
@@ -71,6 +71,6 @@ phylo_tree<- read.tree(path_to_cali_phylogeny)
 
 
 #the last two parameters are for naming, for the purpose of the call_cophen function
-call_cophen(phylo_tree, clade = "squamate", geog_area = "cali") 
+call_cophen(phylo_tree, clade = "plant", geog_area = "cali") 
 
 #the output should be saved to the clade file. basically should just have to execute main. 
