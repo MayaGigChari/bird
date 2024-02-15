@@ -30,11 +30,11 @@ library(sf)
 geojson_file <- "bien_ranges.geojson"
 bird_ranges <- st_read(geojson_file)
 
-bird_ranges_crs <- st_crs(bird_ranges)
-
+st_crs(bird_ranges) <- st_crs(4326) 
 
 #bounding box for california and polygon type in sf package
-california_bbox <- st_bbox(c(xmin = -124.41060660766607, xmax = -114.13445790587905, ymin = 2.5342307609976, ymax = 42.00965914828148))
+california_bbox <- st_bbox(c(xmin = -124.41060660766607, xmax = -114.13445790587905, ymin = 32.5342307609976, ymax = 42.00965914828148))
+
 california_bbox_polygon <- st_as_sfc(st_bbox(california_bbox), crs = bird_ranges_crs)
 
 # filters geojson for only those that intersect with bounding box 
