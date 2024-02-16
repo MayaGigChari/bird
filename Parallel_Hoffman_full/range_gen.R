@@ -11,6 +11,10 @@ library(dplyr)
 #this is for the azathoth rstudio remote server
 
 
+#for range data
+
+
+
 
 # Validate GeoJSON file
 geojson_file <- "bien_ranges.geojson"
@@ -78,18 +82,38 @@ polygons <- h3_to_geo_boundary_sf(h3_indexes)
 #list for each hexagon
 taxon_ids <- list()
 # Iterate through each polygon
-for (i in 1:3) 
-  {
-  current_polygon <- polygons[i, ]
-  intersects <- st_filter(geog_plant_observations, current_polygon)
-  print(intersects$taxon_id)
-  taxon_observation_ids[i]<- intersects$taxon_id
-  }
+
+
+#don't need to do a groupby. 
+#now going to run this with the full data. 
+
+#I think this is done with the full data. 
+
+#do a join on st_within, whatever that means. 
+joined_data<-st_join (geog_plant_observations, polygons, join = st_within)%>% 
+  select(h3_index,taxonobservation_id,taxon_id, matched_taxonomic_status, scrubbed_taxon_name_no_author)%>%
+  filter(is.na(h3_index) == FALSE)
+
+hex_species_plants<- list()
+for(i in 1: length(h3_indexes))
+{
+  poly_temp_db<- joined_data %>%
+    filter(h3_index == h3_indexes[i])
+  poly_species<- unique(poly_temp_db$scrubbed_taxon_name_no_author)
+  hex_species_plants[i] <- list(poly_species)
+}
+
+#also has taxonomic status data!
+
+
+#need to get the species information!
+#attempt with st_join#attempt with st_joinh3_indexes
 
 #basically want to iterate through each polygon and see which points are within the polygon (which individual tuple)
   
-}
+#notes: st_intersectionc creates a shared geometry between x and y!
 
 popPixel()
 
+#need to update this. 
 
