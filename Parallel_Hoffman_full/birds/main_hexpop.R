@@ -141,4 +141,10 @@ write_json(json_data, "birds/bird_trees.json")
 
 #now we have. 
 
+#to give MIA the birds data 
+#work with species_in_tree dataframe. 
+
+names(species_in_tree)<- poly_labels
+json_data_species_names <- toJSON(species_in_tree, pretty = FALSE)
+write_json(json_data_species_names, "birds/bird_hex_species.json")
 
