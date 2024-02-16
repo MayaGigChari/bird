@@ -87,24 +87,6 @@ for (i in 1:3)
   }
 
 #basically want to iterate through each polygon and see which points are within the polygon (which individual tuple)
-
-polygons[[2]]
-
-popPixel<- function(len = length(polygons), nms = h3_indexes)
-{
-  occurrence_df <-list(len)
-  for(i in 1: 10)
-  {
-    coordinate_data_polygon = st_as_text(polygons[[2]][[i]]) #the polygon geometry 
-    print(coordinate_data_polygon)
-    plants_temp_polygon = st_intersects(plants_in_cali, polygon)
-    print(plants_temp_polygon)
-    #species_data<- read_df(species_data)
-    #occurrence_df[i]<- species_data
-    #print(i)
-  }
-  #names(occurrence_df)<- nms
-  #return(occurrence_df)
   
 }
 
