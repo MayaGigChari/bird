@@ -67,6 +67,7 @@ plants_in_cali<- st_read("Plants/bien_occurrence_california.geojson")
 #these might be mostly empty. 
 plants_in_cali$geometry
 
+#drop empty geometries. 
 geog_plant_observations = plants_in_cali[!st_is_empty(plants_in_cali),,drop=FALSE]
 
 
@@ -103,15 +104,13 @@ for(i in 1: length(h3_indexes))
   hex_species_plants[i] <- list(poly_species)
 }
 
+length(hex_species_plants)
+
+saveRDS(hex_species_plants, file = "Plants/occurrence_plants_polygonds.rds")
 #also has taxonomic status data!
+#hex_species_plants
 
 
-#need to get the species information!
-#attempt with st_join#attempt with st_joinh3_indexes
-
-#basically want to iterate through each polygon and see which points are within the polygon (which individual tuple)
-  
-#notes: st_intersectionc creates a shared geometry between x and y!
 
 popPixel()
 
