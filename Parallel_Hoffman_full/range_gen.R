@@ -105,8 +105,9 @@ for(i in 1: length(h3_indexes))
 }
 
 length(hex_species_plants)
+names(hex_species_plants)<- h3_indexes
 
-saveRDS(hex_species_plants, file = "Plants/occurrence_plants_polygonds.rds")
+saveRDS(hex_species_plants, file = "Plants/occurrence_plants_polygons.rds")
 #also has taxonomic status data!
 #hex_species_plants
 
