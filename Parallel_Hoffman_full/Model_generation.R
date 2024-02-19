@@ -6,7 +6,8 @@ library(phytools)
 library(data.table)
 install.packages("drc")
 library(drc)
-
+install.packages('polyreg')
+library(polyreg)
 
 current_directory = getwd()
 
@@ -31,11 +32,13 @@ retrieve_data <- function(clade, metric) {
 }
 
 # Example usage:
-#pd_data <- retrieve_data("squamate", "pd")
-#mpd_data <- retrieve_data("squamate", "mpd")
-#mntd_data <- retrieve_data("squamate", "mntd")
+#pd_data <- retrieve_data("Plants", "pd")
+#mpd_data <- retrieve_data("Plants", "mpd")
+#mntd_data <- retrieve_data("Plants", "mntd")
 
 #model fitting: need to try different models. 
+
+#data clean isn't that useful. 
 
 data_clean<- function(data_input, metric)
 {
@@ -48,63 +51,56 @@ data_clean<- function(data_input, metric)
   return(data_sim)
 }
 
+#baro5 function tends to fit best. 
+#no asymptotic behaviro 
 
-#this is a dose response model 
+data_sim
+#only take the 10 and above. 
 
-data_sim<- data_clean(pd_data, "pd")
-#not a good fit for pd. 
-
-data_sim<- data_clean(mntd_data, "mntd")
-
-model_low <- drm(data_sim$Low ~ data_sim$tree_size, fct = LL.4())
-#this is much workse for MM.3 than for LL.4
-
-model_high <- drm(data_sim$High ~ data_sim$tree_size, fct = LL.4())
-
-
-
-#logistic growth: 
-# lm fit
-
-
-summary(model_high)
-
-seq_to_pred<- seq(0,650, by = 2)
+data_sim<- data_clean(mpd_data[,-2], "mpd")
+model_low <- drm(data_sim$Low ~ data_sim$tree_size, fct = baro5())
+model_high <- drm(data_sim$High ~ data_sim$tree_size, fct = baro5())
+summary(model_low)
 plot(High~tree_size, data = data_sim, ylim = c(min(data_sim$Low), max(data_sim$High)))
 points(Low~tree_size, data = data_sim)
-lines(predict(model_low)~seq_to_pred, type = "l", col = "blue")
-lines(predict(model_high)~seq_to_pred, type = "l", col = "blue")
+lines(predict(model_low)~tree_size,data = data_sim, type = "l", col = "blue")
+lines(predict(model_high)~tree_size, data = data_sim, type = "l", col = "blue")
 
+model_low$coefficients
+model_high$coefficients
+#barro 5 is technically the best fit for everything. 
+
+## Model selection
+#mselect(model_high, list(LL.3(), LL.5(), W1.3(), W1.4(), W2.4(), baro5()), linreg = TRUE)
+#polyFit(data_sim$Low, data_sim$tree_size)
 
 #can adapt this to do more best fit things and actually calculate error statistics but right now don't have to.
 #can change to using the MM.3() fit for the model
-#outType
-surfaceGen<- function(data_input, metric, outType = "list")
+
+
+#for now maybe just use baro5
+#could use LL.3/4 and baro5 only when necessary? 
+surfaceGen<- function(data_input, metric, outType = "list", model)
 {
-  seq_to_pred<- seq(0,650, by = 2)
-  print(metric)
-  data_sim <- data_input
-  rownames(data_sim)<-data_sim$X
-  data_sim$X<- NULL
-  data_sim<- data.frame(t(data_sim))
-  data_sim$tree_size <- as.numeric(gsub(metric, "", rownames(data_sim)))
+  
+  data_sim<-data_clean(data_input)
   
   if(metric == "mpd")
   {
-    model_low <- drm(data_sim$Low ~ data_sim$tree_size, fct = MM.3())
-    model_high <- drm(data_sim$High ~ data_sim$tree_size, fct = MM.3())
+    model_low <- drm(data_sim$Low ~ data_sim$tree_size, fct = LL.4())
+    model_high <- drm(data_sim$High ~ data_sim$tree_size, fct = LL.4())
   }
   
   if(metric == "mntd")
   {
-    model_low <- drm(data_sim$Low ~ data_sim$tree_size, fct = MM.3())
-    model_high <- drm(data_sim$High ~ data_sim$tree_size, fct = MM.3 ())
+    model_low <- drm(data_sim$Low ~ data_sim$tree_size, fct = LL.4())
+    model_high <- drm(data_sim$High ~ data_sim$tree_size, fct = LL.4 ())
   }
   
   if(metric == "pd")
   {
-    model_low <- drc::drm(data_sim$Low ~ data_sim$tree_size, fct = MM.3())
-    model_high <- drc::drm(data_sim$High ~ data_sim$tree_size, fct= MM.3())
+    model_low <- drc::drm(data_sim$Low ~ data_sim$tree_size, fct = LL.3())
+    model_high <- drc::drm(data_sim$High ~ data_sim$tree_size, fct= LL.3())
   }
 
   plot(High~tree_size, data = data_sim, ylim = c(min(data_sim$Low), max(data_sim$High)))
