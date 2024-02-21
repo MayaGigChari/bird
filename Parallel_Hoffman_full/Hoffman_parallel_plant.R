@@ -40,7 +40,8 @@ a<-Sys.getenv(x = "JOB_ID")
 
 #creates the folders for output. here i need to do it num_instances times. need to make 5 folders on the first job and then end it. 
 
-
+folders<- list()
+folders2<- list()
 for(i in 1: num_instances)
 {
   folder <- paste(path_to_output, "/", "Instance_", i, "/", a, "_output_files", sep = "")
@@ -53,6 +54,7 @@ for(i in 1: num_instances)
   } else {
   
     dir.create(folder)
+    folders[i]<- folder
   
   }
   if (file.exists(folder2)) {
@@ -62,6 +64,7 @@ for(i in 1: num_instances)
   } else {
   
     dir.create(folder2)
+    folders2[i]<- folder2
   }
 }
 
@@ -171,8 +174,8 @@ for(i in 1: num_instances)
   #path_csv<-file.path(path_to_output, folder)#trying to formally make file paths
   #path_txt<-file.path(path_to_output,folder2)
 
-  path_csv<-file.path(folder)#trying to formally make file paths
-  path_txt<-file.path(folder2)
+  path_csv<-file.path(folder[i])#trying to formally make file paths
+  path_txt<-file.path(folder2[i])
 
   fileIDcsv = paste(path_csv,"/",sample_size,"_",n, "out.csv", sep = '') #this fileID can be applied to all outputs.
   fileIDtimes = paste(path_txt,"/",sample_size,"_",n, "time.csv", sep = '') #this fileID can be applied to
