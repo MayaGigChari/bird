@@ -111,7 +111,12 @@ print("args successfully loaded") #another checkpoint
 #sample_tree_cluster<-read.tree(file = paste("~/bird/Parallel_Hoffman_full/",Clade, "/sample_trees/", sample_tree_filename, sep = "")) 
 
 
-
+commdata_maker<- function(sample_list)
+{
+  comm<-data.frame(row.names = sample_list, clump1 = 1, clump2 = sample_list)
+  comm2<-subset(comm, select = clump1)
+  return(t(as.matrix(comm2)))
+}
 
 for(i in 1: num_instances)
 {
@@ -125,14 +130,8 @@ for(i in 1: num_instances)
   sample_species<- sample(full_tree$tip.label, sample_size)
   
   #change this to make a community data matrix from the list of taxonomic names randomly sampled instead. 
-  commdata_maker<- function(sample_list)
-  {
-    comm<-data.frame(row.names = sample_list, clump1 = 1, clump2 = sample_list)
-    comm2<-subset(comm, select = clump1)
-    return(t(as.matrix(comm2)))
-  }
   
-  comm_sample<-commdata_maker(sample_list)
+  comm_sample<-commdata_maker(sample_species)
   #this can be same for all the tree instantiations. 
   
 
