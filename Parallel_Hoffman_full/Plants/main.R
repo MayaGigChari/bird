@@ -3,10 +3,12 @@
 #of california. This can be altered at the specificed location if there are different
 #larger trees of interest (ie: some other geographical area )
 
+#TODO: generate 5 trees. 
+
 #first step needs to be to prune the california tree to the list of california taxa 
 
 #install necessary packages 
-packages_to_install <- c("picante", "ape", "dplyr", "readr", "phytools", "BIEN")
+packages_to_install <- c("picante", "ape", "dplyr", "readr", "phytools", "BIEN", "phytools")
 # Loop through the packages
 for (pkg in packages_to_install) {
   # Check if the package is not already installed
@@ -25,9 +27,15 @@ lapply(packages_to_install, library, character.only = TRUE)
 clade = "Plants"
 geog_area = "cali"
 
-interpolated_phylogeny<-BIEN_phylogeny_complete()
+#produces 5 interpolated phylogenies 
+interpolated_phylogeny<-BIEN_phylogeny_complete(n_phylogenies = 5)
 
-write.tree(interpolated_phylogeny, file = "Plants/interpolated_full_tree.tre")
+for(i in 1: 5)
+{
+  write.tree(interpolated_phylogeny[i], file = paste("Plants/Instance_", i, "/interpolated_phylogeny.tre", sep = ""))
+}
+
+#write.tree(interpolated_phylogeny, file = "Plants/interpolated_full_tree.tre")
 
 #load all the stuff from the cophen_function file and from the tree_trimming path 
 current_directory <- getwd()
@@ -76,37 +84,54 @@ max_species <- max_species(cali_plants)
 
 
 #for the interpolated complete tree
+#this needs to read in all the trees and apply them to a list first. 
+
+#unmatched_species_list<- list()
+#matched_species_list<- list()
+
+#should be the same matched/unmatched species each time. 
+
+
+for(i in 1: 5)
+{
+ temp<- read.tree(paste("Plants/Instance_", i, "/interpolated_phylogeny.tre", sep = ""))
+ unmatched_species_list<- check_taxa(cali_plants, temp)
+ matched_species_list<-remove_taxa(cali_plants, temp)
+ temp_cali_tree<- sample_tree_generator(matched_species_list, temp)
+ write.tree(temp_cali_tree, file = paste("Plants/Instance_", i, "/cali_tree_interpolated.tre", sep = ""))
+ call_cophen_InterpTrees(temp_cali_tree, clade = "Plants", geog_area = "cali", instance = i) 
+}
+
+
+#this is to get any interesting statistics but is not useful for tree building 
 full_tree_int<- read.tree("Plants/interpolated_full_tree.tre")
 unmatched_species_int<- check_taxa(cali_plants, full_tree_int)
-#about 8000 unmatched species. 
-
-#only about 3415 species that actually match. fewer than 1/3 are represented. 
 matched_species_plants_int<-remove_taxa(cali_plants, full_tree_int)
-cali_tree_int<- sample_tree_generator(matched_species_plants_int, full_tree_int)
-write.tree(cali_tree_int, file = file.path(clade, "cali_tree_interpolated.tre"))
-
-
-#find the max number of species of california plants.
-
-
-#make sample trees for up to max species number of plants
-#max number of species represented on california tree
 max_species<- length(matched_species_plants_int[,1])
-#run the sample_tree_creator to generate the sample trees
-maketrees(cali_tree_int, 5, max_species, 5, clade = clade)
+
+
+
+
+
+
+#old code 
+#cali_tree_int<- sample_tree_generator(matched_species_plants_int, full_tree_int)
+#write.tree(cali_tree_int, file = file.path(clade, "cali_tree_interpolated.tre"))
+#find the max number of species of california plants.
+#maketrees(cali_tree_int, 5, max_species, 5, clade = clade)
 
 #throws an error once we reach the max but that's fine. 
 
 #maybe should try to trim based on genus? 
 
 #path to phylogeny.
-path_to_cali_phylogeny = file.path( clade, "cali_tree_interpolated.tre")
-phylo_tree<- read.tree(path_to_cali_phylogeny)
+#path_to_cali_phylogeny = file.path( clade, "cali_tree_interpolated.tre")
+#phylo_tree<- read.tree(path_to_cali_phylogeny)
 
 
 
 #the last two parameters are for naming, for the purpose of the call_cophen function
-call_cophen(phylo_tree, clade = "Plants", geog_area = "cali") 
+#call_cophen(phylo_tree, clade = "Plants", geog_area = "cali") 
 
 
 #the output should be saved to the clade file. basically should just have to execute main. 

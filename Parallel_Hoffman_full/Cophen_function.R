@@ -68,6 +68,16 @@ call_cophen<- function(phy, clade, geog_area)
   saveRDS(cophen_touse, file = file.path(save_path,filename))
 }
 
+#shouldn't need two functions. find a way to compress to one. 
+call_cophen_InterpTrees<- function(phy, clade, geog_area, instance)
+{
+  matrix<- cophen(phy)
+  cophen_touse<- as.matrix(matrix)
+  save_path <- file.path(getwd(), clade)
+  filename <- paste("Instance_", instance, "/", geog_area, "_cophen_matrix", sep = "")
+  saveRDS(cophen_touse, file = file.path(save_path,filename))
+}
+
 
 
 #TODO: edit this to the .tre file that you will be using. 

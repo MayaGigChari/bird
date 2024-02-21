@@ -20,7 +20,7 @@ cali_tree<- read.tree(paste(clade, "/cali_tree_interpolated.tre", sep = ""))
 bird_cophen<- cophenetic.phylo(cali_tree)
 
 cali_cophen_matrix<- readRDS(paste(clade, "/cali_cophen_matrix", sep = ""))
-max_size = length(cali_tree$tip.label) #can change this to the number of tips in california. 
+max_size<- length(cali_tree$tip.label) #can change this to the number of tips in california. 
 
 
 hc <- hclust(as.dist(cali_cophen_matrix), method = "average")
