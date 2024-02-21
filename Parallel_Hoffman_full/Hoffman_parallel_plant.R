@@ -111,19 +111,7 @@ print("args successfully loaded") #another checkpoint
 #sample_tree_cluster<-read.tree(file = paste("~/bird/Parallel_Hoffman_full/",Clade, "/sample_trees/", sample_tree_filename, sep = "")) 
 
 
-#randomly sample tips. only need to do once ,not for each isntance. 
-sample_species<- sample(full_tree$tip.label, sample_size)
 
-#change this to make a community data matrix from the list of taxonomic names randomly sampled instead. 
-commdata_maker<- function(sample_list)
-{
-  comm<-data.frame(row.names = sample_list, clump1 = 1, clump2 = sample_list)
-  comm2<-subset(comm, select = clump1)
-  return(t(as.matrix(comm2)))
-}
-
-comm_sample<-commdata_maker(sample_list)
-#this can be same for all the tree instantiations. 
 
 for(i in 1: num_instances)
 {
@@ -132,6 +120,21 @@ for(i in 1: num_instances)
   #read in the tree data and the other thing. 
   full_tree<-read.tree(file =  paste("~/bird/Parallel_Hoffman_full/", Clade, "/Instance_", i, "/cali_tree_interpolated.tre",sep = ""))
   cophen_read<-readRDS(paste("~/bird/Parallel_Hoffman_full/", Clade, "/Instance_", i, "/cali_cophen_matrix",sep = ""))
+  
+  #could probably take this out of the loop but don't know how. 
+  sample_species<- sample(full_tree$tip.label, sample_size)
+  
+  #change this to make a community data matrix from the list of taxonomic names randomly sampled instead. 
+  commdata_maker<- function(sample_list)
+  {
+    comm<-data.frame(row.names = sample_list, clump1 = 1, clump2 = sample_list)
+    comm2<-subset(comm, select = clump1)
+    return(t(as.matrix(comm2)))
+  }
+  
+  comm_sample<-commdata_maker(sample_list)
+  #this can be same for all the tree instantiations. 
+  
 
 
   v <- c(rep(1, num_randomizations))
