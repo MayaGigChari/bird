@@ -46,15 +46,16 @@ for(i in 1: num_instances)
 {
   folder <- paste(path_to_output, "/", "Instance_", i, "/", a, "_output_files", sep = "")
   folder2 <- paste(path_to_output, "/","Instance_", i, "/", a, "_times", sep = "")
+  folders[i]<- folder
+  folders2[i]<- folder2
   if (file.exists(folder))
+    
   {
-     
     cat("The folder already exists")
   
   } else {
   
     dir.create(folder)
-    folders[i]<- folder
   
   }
   if (file.exists(folder2)) {
@@ -64,7 +65,6 @@ for(i in 1: num_instances)
   } else {
   
     dir.create(folder2)
-    folders2[i]<- folder2
   }
 }
 
