@@ -40,14 +40,14 @@ a<-Sys.getenv(x = "JOB_ID")
 
 #creates the folders for output. here i need to do it num_instances times. need to make 5 folders on the first job and then end it. 
 
-folders<- list()
-folders2<- list()
+#folders<- list()
+#folders2<- list()
 for(i in 1: num_instances)
 {
   folder <- paste(path_to_output, "/", "Instance_", i, "/", a, "_output_files", sep = "")
   folder2 <- paste(path_to_output, "/","Instance_", i, "/", a, "_times", sep = "")
-  folders[i]<- folder
-  folders2[i]<- folder2
+  #folders[i]<- folder
+  #folders2[i]<- folder2
   if (file.exists(folder))
     
   {
@@ -173,9 +173,13 @@ for(i in 1: num_instances)
   #path_to_output <- paste("/u/home/m/mchari/bird/Parallel_Hoffman_full/", Clade, sep = "")
   #path_csv<-file.path(path_to_output, folder)#trying to formally make file paths
   #path_txt<-file.path(path_to_output,folder2)
-
-  path_csv<-file.path(folder[i])#trying to formally make file paths
-  path_txt<-file.path(folder2[i])
+  
+  
+  folder_temp <- paste(path_to_output, "/", "Instance_", i, "/", a, "_output_files", sep = "")
+  folder2_temp <- paste(path_to_output, "/","Instance_", i, "/", a, "_times", sep = "")
+  
+  path_csv<-file.path(folder_temp)#trying to formally make file paths
+  path_txt<-file.path(folder2_temp)
 
   fileIDcsv = paste(path_csv,"/",sample_size,"_",n, "out.csv", sep = '') #this fileID can be applied to all outputs.
   fileIDtimes = paste(path_txt,"/",sample_size,"_",n, "time.csv", sep = '') #this fileID can be applied to
