@@ -121,10 +121,10 @@ commdata_maker<- function(sample_list)
   return(t(as.matrix(comm2)))
 }
 
-for(k in 1: num_instances)
+for(k in 1:num_instances)
 {
   print(k)
-  start_time<-format(Sys.time(), "%H:%M:%S") #identify start time of script
+  #start_time<-format(Sys.time(), "%H:%M:%S") #identify start time of script
   
   #read in the tree data and the other thing. 
   full_tree<-read.tree(file =  paste("~/bird/Parallel_Hoffman_full/", Clade, "/Instance_", k, "/cali_tree_interpolated.tre",sep = ""))
@@ -177,13 +177,15 @@ for(k in 1: num_instances)
   
   
   folder_temp <- paste(path_to_output, "/", "Instance_", k, "/", a, "_output_files", sep = "")
-  folder2_temp <- paste(path_to_output, "/","Instance_", k, "/", a, "_times", sep = "")
+  #folder2_temp <- paste(path_to_output, "/","Instance_", k, "/", a, "_times", sep = "")
+  
+  print(folder_temp)
   
   path_csv<-file.path(folder_temp)#trying to formally make file paths
   path_txt<-file.path(folder2_temp)
 
   fileIDcsv = paste(path_csv,"/",sample_size,"_",n, "out.csv", sep = '') #this fileID can be applied to all outputs.
-  fileIDtimes = paste(path_txt,"/",sample_size,"_",n, "time.csv", sep = '') #this fileID can be applied to
+  #fileIDtimes = paste(path_txt,"/",sample_size,"_",n, "time.csv", sep = '') #this fileID can be applied to
 
   #checkpoint
   print(fileIDcsv)
@@ -195,11 +197,11 @@ for(k in 1: num_instances)
   print("data output successful")
   
   #print the endtime for each run and add it to a csv file. 
-  end_time<-format(Sys.time(), "%H:%M:%S") #identify end time of script
-  times = c(start_time, end_time)
-  point = c(1,2)
-  df_times = data.frame (time = times, point = point)
-  write.csv(df_times, file = fileIDtimes)
+  #end_time<-format(Sys.time(), "%H:%M:%S") #identify end time of script
+  #times = c(start_time, end_time)
+  #point = c(1,2)
+  #df_times = data.frame (time = times, point = point)
+  #write.csv(df_times, file = fileIDtimes)
   
 
 }
