@@ -13,10 +13,10 @@
 
 n_rand = 1 #want 2  randomizations for each tree size. internally each script will produce 500 random values. Can also do 1? 
 min_null_tree_size = 0
-max_null_tree_size = 10
+max_null_tree_size = 1835
 tree_size_increment = 5
 Clade = "Plants" #need to make it so this can be any clade. 
-num_randomizations = 5
+num_randomizations = 1000
 username = "mchari" #here edit to make hoffman 2 username.
 num_instances = 5
 
@@ -179,8 +179,7 @@ for(k in 1:num_instances)
    
    folder_temp <- paste(path_to_output, "/", "Instance_", k, "/", a, "_output_files", sep = "")
   # #folder2_temp <- paste(path_to_output, "/","Instance_", k, "/", a, "_times", sep = "")
-  # 
-   print(folder_temp)
+
    print(k)
   # 
    path_csv<-file.path(folder_temp)#trying to formally make file paths
