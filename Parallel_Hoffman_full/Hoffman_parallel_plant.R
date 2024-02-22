@@ -16,7 +16,7 @@ min_null_tree_size = 0
 max_null_tree_size = 10
 tree_size_increment = 5
 Clade = "Plants" #need to make it so this can be any clade. 
-num_randomizations = 1000
+num_randomizations = 5
 username = "mchari" #here edit to make hoffman 2 username.
 num_instances = 5
 
