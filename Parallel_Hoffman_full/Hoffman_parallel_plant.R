@@ -121,13 +121,13 @@ commdata_maker<- function(sample_list)
   return(t(as.matrix(comm2)))
 }
 
-for(i in 1: num_instances)
+for(k in 1: num_instances)
 {
   start_time<-format(Sys.time(), "%H:%M:%S") #identify start time of script
   
   #read in the tree data and the other thing. 
-  full_tree<-read.tree(file =  paste("~/bird/Parallel_Hoffman_full/", Clade, "/Instance_", i, "/cali_tree_interpolated.tre",sep = ""))
-  cophen_read<-readRDS(paste("~/bird/Parallel_Hoffman_full/", Clade, "/Instance_", i, "/cali_cophen_matrix",sep = ""))
+  full_tree<-read.tree(file =  paste("~/bird/Parallel_Hoffman_full/", Clade, "/Instance_", k, "/cali_tree_interpolated.tre",sep = ""))
+  cophen_read<-readRDS(paste("~/bird/Parallel_Hoffman_full/", Clade, "/Instance_", k, "/cali_cophen_matrix",sep = ""))
   
   #could probably take this out of the loop but don't know how. 
   sample_species<- sample(full_tree$tip.label, sample_size)
@@ -175,8 +175,8 @@ for(i in 1: num_instances)
   #path_txt<-file.path(path_to_output,folder2)
   
   
-  folder_temp <- paste(path_to_output, "/", "Instance_", i, "/", a, "_output_files", sep = "")
-  folder2_temp <- paste(path_to_output, "/","Instance_", i, "/", a, "_times", sep = "")
+  folder_temp <- paste(path_to_output, "/", "Instance_", k, "/", a, "_output_files", sep = "")
+  folder2_temp <- paste(path_to_output, "/","Instance_", k, "/", a, "_times", sep = "")
   
   path_csv<-file.path(folder_temp)#trying to formally make file paths
   path_txt<-file.path(folder2_temp)
