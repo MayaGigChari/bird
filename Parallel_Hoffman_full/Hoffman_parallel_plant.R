@@ -12,8 +12,8 @@
 #note: needed to globus file transfer the cophenetic matrices into the individual folders because too large for github. 
 
 n_rand = 1 #want 2  randomizations for each tree size. internally each script will produce 500 random values. Can also do 1? 
-min_null_tree_size = 5
-max_null_tree_size = 8390
+min_null_tree_size = 0
+max_null_tree_size = 10
 tree_size_increment = 5
 Clade = "Plants" #need to make it so this can be any clade. 
 num_randomizations = 1000
@@ -123,6 +123,7 @@ commdata_maker<- function(sample_list)
 
 for(k in 1: num_instances)
 {
+  print(k)
   start_time<-format(Sys.time(), "%H:%M:%S") #identify start time of script
   
   #read in the tree data and the other thing. 
