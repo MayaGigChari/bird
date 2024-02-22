@@ -121,65 +121,67 @@ commdata_maker<- function(sample_list)
   return(t(as.matrix(comm2)))
 }
 
+vectorized_stats_calculation<- function(v, coph_mat, comm_sample)
+{
+  #comm_sample<-commdata_maker(sample_tree)
+  a<-coph_mat
+  mpd<- picante::mpd(comm_sample, picante:::taxaShuffle(a))
+  mntd<-picante::mntd(comm_sample, picante::taxaShuffle(a))
+  pd<-picante::pd(comm_sample,picante:::tipShuffle(full_tree))
+  r<-c(pd$PD,mpd,mntd)
+  names(r)<-c("pd","mpd","mntd")
+  l<-r
+  #v<-(picante::mpd(comm_sample, coph_mat)) 
+}
+
+
 for(k in 1:num_instances)
 {
-  print(k)
   #start_time<-format(Sys.time(), "%H:%M:%S") #identify start time of script
   
   # #read in the tree data and the other thing. 
-  # full_tree<-read.tree(file =  paste("~/bird/Parallel_Hoffman_full/", Clade, "/Instance_", k, "/cali_tree_interpolated.tre",sep = ""))
-  # cophen_read<-readRDS(paste("~/bird/Parallel_Hoffman_full/", Clade, "/Instance_", k, "/cali_cophen_matrix",sep = ""))
-  # 
-  # #could probably take this out of the loop but don't know how. 
-  # sample_species<- sample(full_tree$tip.label, sample_size)
-  # 
-  # #change this to make a community data matrix from the list of taxonomic names randomly sampled instead. 
-  # 
-  # comm_sample<-commdata_maker(sample_species)
-  # #this can be same for all the tree instantiations. 
-  # 
-  # 
-  # 
-  # v <- c(rep(1, num_randomizations))
-  # 
-  # vectorized_stats_calculation<- function(v, coph_mat)
-  # {
-  #   #comm_sample<-commdata_maker(sample_tree)
-  #   a<-coph_mat
-  #   mpd<- picante::mpd(comm_sample, picante:::taxaShuffle(a))
-  #   mntd<-picante::mntd(comm_sample, picante::taxaShuffle(a))
-  #   pd<-picante::pd(comm_sample,picante:::tipShuffle(full_tree))
-  #   r<-c(pd$PD,mpd,mntd)
-  #   names(r)<-c("pd","mpd","mntd")
-  #   l<-r
-  #   #v<-(picante::mpd(comm_sample, coph_mat)) 
-  # }
-  # 
-  # stats<-lapply(v, vectorized_stats_calculation, coph_mat = cophen_read)
-  # 
-  # 
-  # #prepare the data for export and export the data. 
-  # temp <- unlist(stats[1])
-  # if(num_randomizations>1)
-  # {
-  #   for(i in 2:num_randomizations)
-  #   {
-  #     temp<-cbind(unlist(stats[i]), temp)
-  #   }
-  # }
-  # colnames(temp) = rep("trial", num_randomizations)
-  # res_sample_cluster<-temp
-  # 
-  # 
-  # #path_to_output <- paste("/u/home/m/mchari/bird/Parallel_Hoffman_full/", Clade, sep = "")
-  # #path_csv<-file.path(path_to_output, folder)#trying to formally make file paths
-  # #path_txt<-file.path(path_to_output,folder2)
-  # 
-  # 
-  # folder_temp <- paste(path_to_output, "/", "Instance_", k, "/", a, "_output_files", sep = "")
+   full_tree<-read.tree(file =  paste("~/bird/Parallel_Hoffman_full/", Clade, "/Instance_", k, "/cali_tree_interpolated.tre",sep = ""))
+   cophen_read<-readRDS(paste("~/bird/Parallel_Hoffman_full/", Clade, "/Instance_", k, "/cali_cophen_matrix",sep = ""))
+   
+   
+   #could probably take this out of the loop but don't know how. 
+   sample_species<- sample(full_tree$tip.label, sample_size)
+   
+   #change this to make a community data matrix from the list of taxonomic names randomly sampled instead. 
+   
+   comm_sample<-commdata_maker(sample_species)
+   #this can be same for all the tree instantiations. 
+   
+   
+   
+   v <- c(rep(1, num_randomizations))
+   
+   stats<-lapply(v, vectorized_stats_calculation, coph_mat = cophen_read, comm_sample  = comm_sample)
+   
+   
+   #prepare the data for export and export the data. 
+   temp <- unlist(stats[1])
+   if(num_randomizations>1)
+   {
+     for(i in 2:num_randomizations)
+     {
+       temp<-cbind(unlist(stats[i]), temp)
+     }
+   }
+   colnames(temp) = rep("trial", num_randomizations)
+   res_sample_cluster<-temp
+   
+   
+   #path_to_output <- paste("/u/home/m/mchari/bird/Parallel_Hoffman_full/", Clade, sep = "")
+   #path_csv<-file.path(path_to_output, folder)#trying to formally make file paths
+   #path_txt<-file.path(path_to_output,folder2)
+   
+   
+   folder_temp <- paste(path_to_output, "/", "Instance_", k, "/", a, "_output_files", sep = "")
   # #folder2_temp <- paste(path_to_output, "/","Instance_", k, "/", a, "_times", sep = "")
   # 
-  # print(folder_temp)
+   print(folder_temp)
+   print(k)
   # 
   # path_csv<-file.path(folder_temp)#trying to formally make file paths
   # #path_txt<-file.path(folder2_temp)
