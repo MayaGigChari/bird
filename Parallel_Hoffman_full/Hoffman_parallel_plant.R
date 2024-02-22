@@ -183,20 +183,20 @@ for(k in 1:num_instances)
    print(folder_temp)
    print(k)
   # 
-  # path_csv<-file.path(folder_temp)#trying to formally make file paths
+   path_csv<-file.path(folder_temp)#trying to formally make file paths
   # #path_txt<-file.path(folder2_temp)
   # 
-  # fileIDcsv = paste(path_csv,"/",sample_size,"_",n, "out.csv", sep = '') #this fileID can be applied to all outputs.
+   fileIDcsv = paste(path_csv,"/",sample_size,"_",n, "out.csv", sep = '') #this fileID can be applied to all outputs.
   # #fileIDtimes = paste(path_txt,"/",sample_size,"_",n, "time.csv", sep = '') #this fileID can be applied to
   # 
   # #checkpoint
   # print(fileIDcsv)
   # print(fileIDtimes)
   # 
-  # write.csv(res_sample_cluster, file = fileIDcsv, row.names = FALSE) #this i believe is the output file. I think it's maybe better than table?
+   write.csv(res_sample_cluster, file = fileIDcsv, row.names = FALSE) #this i believe is the output file. I think it's maybe better than table?
   # 
   # #checkpoint
-  # print("data output successful")
+   print("data output successful")
   # 
   # #print the endtime for each run and add it to a csv file. 
   # #end_time<-format(Sys.time(), "%H:%M:%S") #identify end time of script
