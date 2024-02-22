@@ -11,12 +11,12 @@
 #take advantage of the fact that this script is in the working directory 
 #note: needed to globus file transfer the cophenetic matrices into the individual folders because too large for github. 
 
-n_rand = 5 #want 2  randomizations for each tree size. internally each script will produce 500 random values. Can also do 1? 
+n_rand = 1 #want 2  randomizations for each tree size. internally each script will produce 500 random values. Can also do 1? 
 min_null_tree_size = 0
 max_null_tree_size = 1835
 tree_size_increment = 5
 Clade = "Plants" #need to make it so this can be any clade. 
-num_randomizations = 200
+num_randomizations = 1000
 username = "mchari" #here edit to make hoffman 2 username.
 num_instances = 5
 
