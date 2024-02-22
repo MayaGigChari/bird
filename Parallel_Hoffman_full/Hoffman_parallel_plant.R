@@ -182,7 +182,7 @@ for(k in 1:num_instances)
   print(folder_temp)
   
   path_csv<-file.path(folder_temp)#trying to formally make file paths
-  path_txt<-file.path(folder2_temp)
+  #path_txt<-file.path(folder2_temp)
 
   fileIDcsv = paste(path_csv,"/",sample_size,"_",n, "out.csv", sep = '') #this fileID can be applied to all outputs.
   #fileIDtimes = paste(path_txt,"/",sample_size,"_",n, "time.csv", sep = '') #this fileID can be applied to
