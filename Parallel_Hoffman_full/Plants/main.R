@@ -18,6 +18,7 @@ for (pkg in packages_to_install) {
   }
 }
 
+
 #install.packages("BIEN")
 #library(BIEN)
 
@@ -25,25 +26,10 @@ lapply(packages_to_install, library, character.only = TRUE)
 #specify the clade that you are interested in
 
 clade = "Plants"
+
+
 geog_area = "cali"
 
-#produces 5 interpolated phylogenies 
-interpolated_phylogeny<-BIEN_phylogeny_complete(n_phylogenies = 100)
-
-for (i in 6:100) {
-  # Create the folder if it doesn't exist
-  folder_path <- paste("Plants/Instance_", i, sep = "")
-  if (!file.exists(folder_path)) {
-    dir.create(folder_path, recursive = TRUE)
-  }
-  
-  # Write the tree file
-  write.tree(interpolated_phylogeny[i], file = paste(folder_path, "/interpolated_phylogeny.tre", sep = ""))
-}
-
-#write.tree(interpolated_phylogeny, file = "Plants/interpolated_full_tree.tre")
-
-#load all the stuff from the cophen_function file and from the tree_trimming path 
 current_directory <- getwd()
 
 coph_path <- file.path(current_directory, "Cophen_function.R")
@@ -56,33 +42,75 @@ source(tree_trimming_path)
 source(sample_tree_creator_path)
 
 
+#complete_phylogeny for california that is based on molecular data but only has genus-level information 
+complete_phylogeny<- read.tree("Plants/full_tree.tre")
+genus_complete_phylogeny<- genus_tree_generator(complete_phylogeny)
+write.tree(genus_complete_phylogeny, file = paste(clade, "/full_tree_genus.tre", sep = ""))
+
+#use the genus_complete phylogney
+
+#produces 5 interpolated phylogenies 
+#interpolated_phylogeny<-BIEN_phylogeny_complete(n_phylogenies = 100)
+
+# for (i in 6:100) {
+#   # Create the folder if it doesn't exist
+#   folder_path <- paste("Plants/Instance_", i, sep = "")
+#   if (!file.exists(folder_path)) {
+#     dir.create(folder_path, recursive = TRUE)
+#   }
+#   
+#   # Write the tree file
+#   write.tree(interpolated_phylogeny[i], file = paste(folder_path, "/interpolated_phylogeny.tre", sep = ""))
+# }
+# 
+# 
+
+#write.tree(interpolated_phylogeny, file = "Plants/interpolated_full_tree.tre")
+
+
 #find the filepath to cali_tree
 #edit the path to phylogeny line if you're not interested in the cali phylogeny. 
 
 #step one is to make the phylogeny. 
 #path to species checklist
+
 path_to_taxa_list = file.path(clade, paste(geog_area, "_species_list.csv", sep = ""))
 path_to_full_tree = file.path(clade, "full_tree.tre")
-
+path_to_full_genus_tree<- file.path(clade, "full_tree_genus.tre")
 
 #format the taxa list
 cali_plants<-read.csv(path_to_taxa_list)
 cali_plants$X <- NULL 
 colnames(cali_plants)<- "name"
 
+#for the genus only taxa list
+cali_plants_genera<- genus_only(cali_plants)
 
 #load the largest tree and prune to only california, then save the california tree
 #todo: make this more transferable to geographic area.
 
 #for the full phylogenetic tree
-full_tree<- read.tree(path_to_full_tree)
-unmatched_species<- check_taxa(cali_plants, full_tree)
-#about 8000 unmatched species. 
+#full_tree<- read.tree(path_to_full_tree)
+
+#todo: what is going on here????
+full_tree_genus<-read.tree(path_to_full_genus_tree)
+
+unmatched_genera<- check_taxa(uniquecali_plants_genera, full_tree_genus)
+
+#about 885 unmatched genera in the molecular phylogney
+
+
+#about 2000 represented taxa
+matched_genera<- remove_taxa(cali_plants_genera, full_tree_genus)
+
+cali_tree_genus<- sample_tree_generator(matched_genera, full_tree_genus)
+
+write.tree(cali_tree_genus, file = file.path(clade, "cali_genus_tree.tre"))
 
 #only about 3415 species that actually match. fewer than 1/3 are represented. 
-matched_species_plants<-remove_taxa(cali_plants, full_tree)
-cali_tree<- sample_tree_generator(matched_species_plants, full_tree)
-write.tree(cali_tree, file = file.path(clade, "cali_tree.tre"))
+#matched_species_plants<-remove_taxa(cali_plants, full_tree)
+#cali_tree<- sample_tree_generator(matched_species_plants, full_tree)
+#write.tree(cali_tree, file = file.path(clade, "cali_tree.tre"))
 
 
 #find the max number of species of california plants. 
