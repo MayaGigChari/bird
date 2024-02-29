@@ -28,11 +28,17 @@ clade = "Plants"
 geog_area = "cali"
 
 #produces 5 interpolated phylogenies 
-interpolated_phylogeny<-BIEN_phylogeny_complete(n_phylogenies = 5)
+interpolated_phylogeny<-BIEN_phylogeny_complete(n_phylogenies = 100)
 
-for(i in 1: 5)
-{
-  write.tree(interpolated_phylogeny[i], file = paste("Plants/Instance_", i, "/interpolated_phylogeny.tre", sep = ""))
+for (i in 6:100) {
+  # Create the folder if it doesn't exist
+  folder_path <- paste("Plants/Instance_", i, sep = "")
+  if (!file.exists(folder_path)) {
+    dir.create(folder_path, recursive = TRUE)
+  }
+  
+  # Write the tree file
+  write.tree(interpolated_phylogeny[i], file = paste(folder_path, "/interpolated_phylogeny.tre", sep = ""))
 }
 
 #write.tree(interpolated_phylogeny, file = "Plants/interpolated_full_tree.tre")
@@ -92,7 +98,8 @@ max_species <- max_species(cali_plants)
 #should be the same matched/unmatched species each time. 
 
 
-for(i in 1: 5)
+#edited out call_cophen for sake of tree initialization statistics. 
+for(i in 1: 99)
 {
  temp<- read.tree(paste("Plants/Instance_", i, "/interpolated_phylogeny.tre", sep = ""))
  unmatched_species_list<- check_taxa(cali_plants, temp)
@@ -100,6 +107,7 @@ for(i in 1: 5)
  temp_cali_tree<- sample_tree_generator(matched_species_list, temp)
  write.tree(temp_cali_tree, file = paste("Plants/Instance_", i, "/cali_tree_interpolated.tre", sep = ""))
  call_cophen_InterpTrees(temp_cali_tree, clade = "Plants", geog_area = "cali", instance = i) 
+ print(i)
 }
 
 
