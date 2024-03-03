@@ -116,6 +116,28 @@ sample_tree_generator<-function(sample, master_phylogeny)
 
 #tree_test<-sample_tree_generator(species_list_pruned,full_fish_phylo)
 
+#function to extract only unique genera from a dataframe of plants with column = name 
+genus_only<- function(df_species)
+{
+  #df column = "name" "genus_species" 
+  genus_list<- c(df_species$name)
+  genus_list<-sapply(strsplit(genus_list,"_"), `[`, 1)
+  genus_list<-(unique(genus_list))
+  genus_list<- data.frame(genus_list, colnames = "name")
+  return(genus_list)
+  
+}
+
+#function that prunes a larger tree to one member per genus, and then makes the tip labels the genera
+genus_tree_generator<- function(parent_tree)
+{
+  library(phytools)
+  genera<- sapply(strsplit(parent_tree$tip.label,"_"), `[`, 1)
+  ii <- sapply(genera, function(x,y) grep(x,y)[1], y=parent_tree$tip.label)
+  tree <- drop.tip(parent_tree, setdiff(parent_tree$tip.label, parent_tree$tip.label[ii]))
+  tree$tip.label<- sapply(strsplit(tree$tip.label,"_"), function(x) x[1])
+  return(tree)
+}
 #function to get the max number of species and round down to the nearest ten
 
 max_species <- function(species_list) {

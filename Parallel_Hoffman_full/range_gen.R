@@ -2,6 +2,9 @@
 #need to generalize this. right now just for plant.s 
 #install.packages("sf")
 #devtools::install_github("crazycapivara/h3-r")
+#right now this is just a range generator for plants. 
+
+
 library(sf)
 library(tibble)
 library(geojsonsf)
@@ -111,9 +114,9 @@ saveRDS(hex_species_plants, file = "Plants/occurrence_plants_polygons.rds")
 #also has taxonomic status data!
 #hex_species_plants
 
+#need to do the same thing as above but for range_plants_polygons.rds
 
 
-popPixel()
 
 #need to update this. 
 

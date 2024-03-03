@@ -1,11 +1,7 @@
-#TODO: resolve whatever is the issue with the cophenetic matrix
-#TODO: get the california species list of all birds again! Might not be a good representative list after all.
-#RERUN WITH A BETTER LIST OF CALI BIRDS!
-#remove all single-taxon trees. 
-#TODO: Check bird data so that the pd is calculated on the california tree not the whole parent tree!!! ****
-#accidentally overwrote birds hex trees so need to rectify that. Now birds hex_trees is plants. Will move to plants. 
+#todo for plants: need to figure out how to save a hexcode file so easily retrievable 
+#need to re-do the species lists for observations and actual ranges. 
 
-packages_to_install <- c("picante", "ape",  "dplyr", "phytools", "jsonlite", "tools")
+packages_to_install <- c("picante", "ape",  "dplyr", "phytools", "jsonlite", "tools", "stringr")
 
 # Load necessary packages
 for (pkg in packages_to_install) {
@@ -22,10 +18,27 @@ clade = "Plants"
 
 
 #issue with the cophenetic matrix. 
-cophen<-readRDS("Plants/cali_cophen_matrix")
-parent_tree<- read.tree("Plants/interpolated_full_tree.tre")
-cali_tree<- read.tree("Plants/cali_tree_interpolated.tre")
+
+#reading in the cophenetic matrix 
+cophen<-readRDS("Plants/cali_genus_cophen_matrix")
+#parent_tree<- read.tree("Plants/interpolated_full_tree.tre") probably don't really need this.
+cali_tree<- read.tree("Plants/cali_genus_tree.tre") #load the genus tree
 data<- readRDS("Plants/occurrence_plants_polygonds.rds") #hexagonal species data. 
+
+
+#associate the data with the indexes
+h3_indexes<- data.frame(read.csv("Cali_geometry/h3_indexes.csv"))
+h3_indexes$X<- NULL #not sure why this always happens. 
+dat_names<- h3_indexes$h3_indexes
+names(data)<- dat_names
+
+
+#now we have assigned data to each 
+
+#the first word will always be the genus. 
+
+#already have the occurrence data
+
 
 #this should have been done in a previous script. 
 #names(data)<- h3_indexes
@@ -33,10 +46,9 @@ data<- readRDS("Plants/occurrence_plants_polygonds.rds") #hexagonal species data
 
 current_directory <- getwd()
 
-tree_trimming_path<-file.path(current_directory, "App_functions_bird.R")x
+tree_trimming_path<-file.path(current_directory, "App_functions_bird.R")
 
 
-source(tree_trimming_path)
 
 #need to load the dataframe 
 
@@ -50,6 +62,8 @@ poly_labels<- names(data) #this gives us all the codes.
 #instead of for loop should use lapply
 #step 1: need to make a bunch of trees
 
+
+#need to fill empty hexes and list_trees properly. 
 missing_species<- list()
 proportion_missing<- list()
 species_in_tree<- list()
@@ -64,19 +78,21 @@ mntd_values<- list()
 #missing_species <- vector("list", length = length(poly_labels))
 #species_in_tree <- vector("list", length = length(poly_labels))
 
-proportion_missing <- numeric(length(poly_labels))
-pd_values <- numeric(length(poly_labels))
-mpd_values <- numeric(length(poly_labels))
-mntd_values <- numeric(length(poly_labels))
-empty_hexes <- character(0)
+#proportion_missing <- numeric(length(poly_labels))
+#pd_values <- numeric(length(poly_labels))
+#mpd_values <- numeric(length(poly_labels))
+#mntd_values <- numeric(length(poly_labels))
+#empty_hexes <- character(0)
 
-# Loop through poly_labels
+# Loop through poly_labels. comment out the temp$mname word line if you want to use species. also need to uncomment the commented line. 
 
 for (i in 1:length(names(data)))
 {
   temp <- data.frame(data[i])
   colnames(temp) <- "name"
-  temp$name <- sub(" ", "_", temp$name)
+  #temp$name <- sub(" ", "_", temp$name)
+  temp$name <- word(temp$name, 1)
+  temp<- unique(temp)
   missing_species[i] <- check_taxa(temp,cali_tree)
   temp<- remove_taxa(temp, cali_tree)
   species_in_tree[i]<- temp
@@ -101,6 +117,11 @@ for (i in 1:length(names(data)))
 }
 
 
+#need to populate proportion missing
+for (i in 1:length(names(data)))
+{
+  proportion_missing[i]<- length(missing_species[[i]])/(length(missing_species[[i]]) + length(species_in_tree[[i]]))
+}
 #node level data. 
 print(proportion_missing)
 
@@ -111,18 +132,22 @@ length<- lapply(tree_sizes, length)
 
 
 lengths<- unlist(length)
-poly_data<- data.frame(poly_labels)
+poly_data<- data.frame(unlist(poly_labels))
 colnames(poly_data)<- "id"
-poly_data$pd<- pd_values
-poly_data$mpd<- mpd_values
-poly_data$mntd<-mntd_values
-poly_data$retrieved_taxa<-lengths
-poly_data$proportion_missing<- proportion_missing
-#poly_data$present_taxa<- species_in_tree
+poly_data$pd<- unlist(pd_values)
+poly_data$mpd<- unlist(mpd_values)
+poly_data$mntd<-unlist(mntd_values)
+poly_data$retrieved_taxa<-unlist(lengths)
+poly_data$proportion_missing<- unlist(proportion_missing)
+poly_data<- data.frame(poly_data)
+#can potentially do a lot with these statistics
+
+#just make a hist and manually save
+hist(proportion_missing, main = "Histogram of Proportion Missing Genera in Plant Hexes")
 #poly_data$absent_taxa<- missing_species
 
 
-#summary statistics.
+#summary statistics. only works when there are no NA's 
 max_tree<- max(poly_data$tree_sizes) #this is the maximum tree size. 880 
 min_tree<- min(poly_data$tree_sizes)
 avg_tree<- mean(poly_data$tree_sizes)
@@ -130,18 +155,19 @@ avg_tree<- mean(poly_data$tree_sizes)
 #want to output a metadata file 
 
 
-write.csv(poly_data, "Plants/Whole_pixel_data.csv")
+write.csv(poly_data, "Plants/Whole_pixel_data_genus.csv")
 
-
-
-json_data <- toJSON(poly_data, pretty = FALSE)
-write(json_data, "Plants/initial_poly_plants_data.json")
+json_data <- toJSON(poly_data)
+write(json_data, "Plants/initial_poly_plants_data_genus.json")
 
 
 
 #this is code to convert the file of trees to a json file. 
 # Path to the folder containing .tre files
+
+#this is genus level. 
 folder_path <- "Plants/hex_trees"
+
 
 # List all .tre files in the folder
 tre_files <- list.files(folder_path, pattern = "\\.tre$", full.names = TRUE)
@@ -158,8 +184,8 @@ for (file in tre_files) {
   tre_objects[[code]] <- tree_content
 }
 
-json_data <- toJSON(tre_objects, pretty = FALSE)
-write_json(json_data, "Plants/bird_trees.json")
+json_data <- toJSON(tre_objects)
+write_json(json_data, "Plants/bird_trees_genus.json")
 
 
 #now we have. 

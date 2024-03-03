@@ -1,7 +1,8 @@
-#main for squamates 
+#main for Plants
 #when this file is executed, the cophen matrix will be generated for a squamate tree for the geographic area 
 #of california. This can be altered at the specificed location if there are different
 #larger trees of interest (ie: some other geographical area )
+#in this, we generate trees for the molecular and the compelete phylogenies. will use the molecular from here on out for now. 
 
 #TODO: generate 5 trees. 
 
@@ -106,6 +107,11 @@ matched_genera<- remove_taxa(cali_plants_genera, full_tree_genus)
 cali_tree_genus<- sample_tree_generator(matched_genera, full_tree_genus)
 
 write.tree(cali_tree_genus, file = file.path(clade, "cali_genus_tree.tre"))
+
+
+#generate the cophenetic matrix for the genus tree
+#save as cali_genus_cophen_matrix
+call_cophen(cali_tree_genus, clade = "Plants", geog_area = "cali_genus") 
 
 #only about 3415 species that actually match. fewer than 1/3 are represented. 
 #matched_species_plants<-remove_taxa(cali_plants, full_tree)

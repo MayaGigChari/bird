@@ -1,3 +1,6 @@
+#script for populating california pixels with a clade's values. 
+#this is actually not generalized at all. need to generalize this. 
+
 
 remotes::install_github("crazycapivara/h3-r")
 install.packages("rjson")
@@ -29,6 +32,8 @@ california <- sf::read_sf("Cali_Geometry/ca-state-boundary/CA_State_TIGER2016.sh
 
 h3_indexes <- polyfill(california[1, ], res = 6)
 
+write.csv(data.frame(h3_indexes), file = "Cali_Geometry/h3_indexes.csv")
+
 #get the indexes
 
 #this just gives a list of lists of latitude and longitude coordiantes
@@ -46,7 +51,7 @@ polygons <- h3_to_geo_boundary_sf(h3_indexes)
 popPixel<- function(scientific_identifier, len = length(geog_boundaries), nms = h3_indexes)
 {
   occurrence_df <-list(len)
-  for(i in 10497: length(geog_boundaries))
+  for(i in 1: length(geog_boundaries))
   {
     coordinate_data_polygon = st_as_text(polygons[[2]][[i]])
     birds_temp_polygon = occ_data(geometry = coordinate_data_polygon, scientificName = scientific_identifier, hasGeospatialIssue = "False")
