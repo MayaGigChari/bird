@@ -153,8 +153,29 @@ observed_cali_plants<- gsub(" ", "_",geog_plant_observations$scrubbed_taxon_name
 observed_cali_plants_unique_species<- unique(observed_cali_plants)
 observed_cali_plants_unique_genus<- unique(word(observed_cali_plants_unique_species, 1, sep = "_"))
 
+#we observe 19112 species in california and we only expect about 11000. 
 
-which(observed_cali_plants_unique_species %in% expected_cali_plants_unique_species) #there 
+#maybe should use join operations. 
+
+common_species_obs_exp<- intersect(expected_cali_plants_unique_species, observed_cali_plants_unique_species)
+species_only_exp<- setdiff(expected_cali_plants_unique_species, observed_cali_plants_unique_species)
+species_only_obs<- setdiff(observed_cali_plants_unique_species, expected_cali_plants_unique_species)
+
+
+common_genera_obs_exp<- intersect(expected_cali_plants_unique_genus, observed_cali_plants_unique_genus)
+genera_only_exp<- setdiff(expected_cali_plants_unique_genus, observed_cali_plants_unique_genus)
+genera_only_obs<- setdiff(observed_cali_plants_unique_genus, expected_cali_plants_unique_genus)
+
+
+#this might not add up properly. 
+write.csv(common_species_obs_exp, file = "Plants/specis_common_to_observations_and_ranges_cali.csv")
+write.csv(species_only_exp, file = "Plants/expected_species_not_observed_cali.csv")
+write.csv(species_only_obs, file = "Plants/observed_species_not_expected_cali.csv")
+
+
+write.csv(common_genera_obs_exp, file = "Plants/genera_common_to_observations_and_ranges_cali.csv")
+write.csv(genera_only_exp, file = "Plants/expected_genera_not_observed_cali.csv")
+write.csv(genera_only_obs, file = "Plants/observed_genera_not_expected_cali.csv")
 
 
 
