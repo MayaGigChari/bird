@@ -136,7 +136,7 @@ for(i in 1: length(h3_indexes))
 
 
 hex_genus_plants_range<- list()
-for(i in 2001:length(h3_indexes))
+for(i in 1:length(h3_indexes))
 {
   list_temp<- data.frame(hex_species_plants[i])
   colnames(list_temp)<- "name"

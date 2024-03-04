@@ -87,6 +87,8 @@ colnames(cali_plants)<- "name"
 #for the genus only taxa list
 cali_plants_genera<- genus_only(cali_plants)
 
+
+
 #load the largest tree and prune to only california, then save the california tree
 #todo: make this more transferable to geographic area.
 
@@ -109,9 +111,12 @@ cali_tree_genus<- sample_tree_generator(matched_genera, full_tree_genus)
 write.tree(cali_tree_genus, file = file.path(clade, "cali_genus_tree.tre"))
 
 
+
 #generate the cophenetic matrix for the genus tree
 #save as cali_genus_cophen_matrix
 call_cophen(cali_tree_genus, clade = "Plants", geog_area = "cali_genus") 
+
+#want to also make a full tree 
 
 #only about 3415 species that actually match. fewer than 1/3 are represented. 
 #matched_species_plants<-remove_taxa(cali_plants, full_tree)
