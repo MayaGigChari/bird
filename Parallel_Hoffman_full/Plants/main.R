@@ -72,12 +72,23 @@ write.tree(genus_complete_phylogeny, file = paste(clade, "/full_tree_genus.tre",
 #find the filepath to cali_tree
 #edit the path to phylogeny line if you're not interested in the cali phylogeny. 
 
+#extra step: step 0 (clean up later): draw together all the polygon species range species to make a master checklist for california. 
+
+hex_ranges<- readRDS("Plants/hex_genus_plants_ranges")
+total_cali_genera_basedon_ranges<-unique(unlist(hex_ranges))
+total_cali_genera_basedon_ranges<- data.frame(total_cali_genera_basedon_ranges)
+colnames(total_cali_genera_basedon_ranges)<- "name"
+
+#about 2887 cali speices with overlapping ranges. 
+
+
 #step one is to make the phylogeny. 
 #path to species checklist
-
+#not sure if this is the species or the checklist data. 
 path_to_taxa_list = file.path(clade, paste(geog_area, "_species_list.csv", sep = ""))
 path_to_full_tree = file.path(clade, "full_tree.tre")
-path_to_full_genus_tree<- file.path(clade, "full_tree_genus.tre")
+path_to_full_genus_tree<- file.path(clade, "full_tree_genus.tre") 
+#already to genus only.
 
 #format the taxa list
 cali_plants<-read.csv(path_to_taxa_list)
@@ -86,7 +97,7 @@ colnames(cali_plants)<- "name"
 
 #for the genus only taxa list
 cali_plants_genera<- genus_only(cali_plants)
-
+total_cali_genera_basedon_ranges
 
 
 #load the largest tree and prune to only california, then save the california tree
