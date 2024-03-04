@@ -10,6 +10,7 @@ library(tibble)
 library(geojsonsf)
 library(h3)
 library(dplyr)
+library(stringr)
 # Read the GeoJSON file
 #this is for the azathoth rstudio remote server
 
@@ -46,6 +47,10 @@ california <- sf::read_sf("Cali_Geometry/ca-state-boundary/CA_State_TIGER2016.sh
 #this is misleading, it's actually plants I just mislabeled everything as birds. 
 birds_in_california <- st_intersection(bird_ranges, california) 
 
+#use this to populate hex data later
+plants_range_california<- birds_in_calfornia
+
+#writing to a st file or something
 st_write(birds_in_california, "Plants/california_plants.shp")
 
 #this doesn't work. need to figure it out. 
@@ -116,7 +121,45 @@ saveRDS(hex_species_plants, file = "Plants/occurrence_plants_polygons.rds")
 
 #need to do the same thing as above but for range_plants_polygons.rds
 
+joined_data<-st_join (birds_in_california, polygons, join = st_intersects)%>% 
+  select(h3_index,species)
 
+hex_species_plants<- list()
+for(i in 1: length(h3_indexes))
+{
+  poly_temp_db<- joined_data %>%
+    filter(h3_index == h3_indexes[i])
+  poly_species<- unique(poly_temp_db$species)
+  hex_species_plants[i] <- list(poly_species)
+  print(i)
+}
+
+
+hex_genus_plants_range<- list()
+for(i in 2001:length(h3_indexes))
+{
+  list_temp<- data.frame(hex_species_plants[i])
+  colnames(list_temp)<- "name"
+  list_temp$name<- word(list_temp$name, 1, sep = "_")
+  hex_genus_plants_range[i]<- list(unique(list_temp$name))
+}
+
+#need to filter to unique genera before I upload becaose species too large. 
+#saveRDS(hex_species_plants, file = "Plants/hex_species_plants_ranges")
+
+#I expect this will take forever. 
+#hex_species_plants_range<- list()
+#for(i in 1: length(h3_indexes))
+#{
+#  joined_data_ranges_hex<-st_intersection(plants_range_california, polygons$geometry[i] )
+#  species_name<- joined_data_ranges_hex$species
+#  species_name <- sub("_", " ", species_name)
+#  genus <- word(species_name, 1)
+#  hex_species_plants_range[i]<- list(unique(genus))
+#  print(i)
+#}
+
+#parallelized example. 
 
 #need to update this. 
 
