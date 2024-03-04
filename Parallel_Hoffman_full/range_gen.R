@@ -144,22 +144,18 @@ for(i in 1:length(h3_indexes))
   hex_genus_plants_range[i]<- list(unique(list_temp$name))
 }
 
-#need to filter to unique genera before I upload becaose species too large. 
-#saveRDS(hex_species_plants, file = "Plants/hex_species_plants_ranges")
+#now I want to compare what we should see in california vs. what we actually have observationally seen.
 
-#I expect this will take forever. 
-#hex_species_plants_range<- list()
-#for(i in 1: length(h3_indexes))
-#{
-#  joined_data_ranges_hex<-st_intersection(plants_range_california, polygons$geometry[i] )
-#  species_name<- joined_data_ranges_hex$species
-#  species_name <- sub("_", " ", species_name)
-#  genus <- word(species_name, 1)
-#  hex_species_plants_range[i]<- list(unique(genus))
-#  print(i)
-#}
+expected_cali_plants<- plants_range_california$species
+expected_cali_plants_unique_species<- unique(expected_cali_plants)
+expected_cali_plants_unique_genus<- unique(word(expected_cali_plants, 1, sep = "_"))
+observed_cali_plants<- gsub(" ", "_",geog_plant_observations$scrubbed_taxon_name_no_author )
+observed_cali_plants_unique_species<- unique(observed_cali_plants)
+observed_cali_plants_unique_genus<- unique(word(observed_cali_plants_unique_species, 1, sep = "_"))
 
-#parallelized example. 
 
-#need to update this. 
+which(observed_cali_plants_unique_species %in% expected_cali_plants_unique_species) #there 
 
+
+
+which(!expected_cali_plants_unique_genus %in% observed_cali_plants_unique_genus)
