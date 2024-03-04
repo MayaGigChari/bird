@@ -74,12 +74,21 @@ write.tree(genus_complete_phylogeny, file = paste(clade, "/full_tree_genus.tre",
 
 #extra step: step 0 (clean up later): draw together all the polygon species range species to make a master checklist for california. 
 
+#the total species covered by the hex ranges should be equal to the true genera range list but it's not. 
+#just kidding they're exactly the same!
+
 hex_ranges<- readRDS("Plants/hex_genus_plants_ranges")
 total_cali_genera_basedon_ranges<-unique(unlist(hex_ranges))
 total_cali_genera_basedon_ranges<- data.frame(total_cali_genera_basedon_ranges)
 colnames(total_cali_genera_basedon_ranges)<- "name"
 
+true_species_list<- read.csv("Plants/california_plant_species_list.csv ") #there is a space here which is bad
+true_species_list$X<- NULL
+colnames(true_species_list)<- "name"
+true_genera_range<- genus_only(true_species_list)
+
 #about 2887 cali speices with overlapping ranges. 
+#these match up between hex data and geometric data: shows that likely this works. 
 
 
 #step one is to make the phylogeny. 
