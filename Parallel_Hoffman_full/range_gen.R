@@ -81,6 +81,9 @@ geog_plant_observations = plants_in_cali[!st_is_empty(plants_in_cali),,drop=FALS
 #not sure 
 geog_plant_observations$is_cultivated_observation
 
+geog_plant_observations%>%
+  filter(scrubbed_species_binomial == "Allium tribracteatum")
+
 #index california in the same way. 
 #each index should be associated with some kind of geometry 
 h3_indexes <- polyfill(california[1, ], res = 6)
@@ -106,16 +109,20 @@ taxon_ids <- list()
 joined_data<-st_join (geog_plant_observations, polygons, join = st_within)%>% 
   filter(is.na(h3_index) == FALSE)
 
-joined_data$h3_index
-joined_data_subset<- joined_data %>%
-  subset()
 
+#there are 44927 specemins that are cultivated 
+num_observed_cultivars<- sum(joined_data$is_cultivated_observation, na.rm=TRUE)
+
+#there are 29326 taxon that are cultivated 
+num_probable_cultivars<- sum(joined_data$is_cultivated_taxon, na.rm = TRUE)
+
+#need to remove all the observations of taxa that are cultivated and that are generally cultivated. 
 
 #finish this join and determine whether I will keep or exclude cultivar.s 
 
 #this is a subset for ONLY NATIVE PLANTS pretty much 
 joined_data_subset<- joined_data%>%
-  filter(is_introduced == 0, is_cultivated_in_region == 0, is_cultivated_observation != 1, is_location_cultivated == 0)
+  filter(is_introduced == 0, is_cultivated_in_region == 0, is_cultivated_observation != 1)
 
 #this is a subset for native and introduced plants but no cultivars
 joined_data_subset_with_introduced<- joined_data%>%
@@ -168,6 +175,7 @@ for(i in 1:length(h3_indexes))
 #maybe should join gid of the observed and range species. 
 
 
+#keep introduced species but not cultivars. 
 expected_cali_plants<- plants_range_california$species
 expected_cali_plants_unique_species<- unique(expected_cali_plants)
 expected_cali_plants_unique_genus<- unique(word(expected_cali_plants, 1, sep = "_"))
@@ -175,7 +183,10 @@ observed_cali_plants<-gsub(" ", "_", joined_data_subset_with_introduced$scrubbed
 observed_cali_plants_unique_species<- unique(observed_cali_plants)
 observed_cali_plants_unique_genus<- unique(word(observed_cali_plants_unique_species, 1, sep = "_"))
 
-
+num_exp_unique_species<- length(expected_cali_plants_unique_species)
+num_exp_unique_genus<- length(expected_cali_plants_unique_genus)
+num_obs_unique_species<- length(observed_cali_plants_unique_species)
+num_obs_unique_genus<- length(observed_cali_plants_unique_genus)
 #we observe 19112 species in california and we only expect about 11000. 
 
 #maybe should use join operations. 
@@ -184,6 +195,9 @@ common_species_obs_exp<- intersect(expected_cali_plants_unique_species, observed
 species_only_exp<- setdiff(expected_cali_plants_unique_species, observed_cali_plants_unique_species)
 species_only_obs<- setdiff(observed_cali_plants_unique_species, expected_cali_plants_unique_species)
 
+num_common_species<- length(common_species_obs_exp)
+num_species_only_exp<- length(species_only_exp)
+num_species_only_obs<- length(species_only_obs)
 
 common_genera_obs_exp<- intersect(expected_cali_plants_unique_genus, observed_cali_plants_unique_genus)
 
@@ -192,6 +206,10 @@ genera_only_exp<- setdiff(expected_cali_plants_unique_genus, observed_cali_plant
 
 
 genera_only_obs<- setdiff(observed_cali_plants_unique_genus, expected_cali_plants_unique_genus)
+
+num_common_genera<- length(common_genera_obs_exp)
+num_genera_only_exp<- length(genera_only_exp)
+num_genera_only_obs<- length(genera_only_obs)
 
 
 #this might not add up properly. 
@@ -203,8 +221,6 @@ write.csv(species_only_obs, file = "Plants/observed_species_not_expected_cali.cs
 write.csv(common_genera_obs_exp, file = "Plants/genera_common_to_observations_and_ranges_cali.csv")
 write.csv(genera_only_exp, file = "Plants/expected_genera_not_observed_cali.csv")
 write.csv(genera_only_obs, file = "Plants/observed_genera_not_expected_cali.csv")
-
-
 
 #maybe we should rethink the null surfaces? I don't know. Maybe I should remove non-north american endemic species. 
 
