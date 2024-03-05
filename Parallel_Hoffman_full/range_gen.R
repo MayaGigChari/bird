@@ -153,6 +153,7 @@ joined_data<-st_join (birds_in_california, polygons, join = st_intersects)%>%
   select(h3_index,species)
 
 species_data<- unique(joined_data$species)
+write.csv(species_data, "Plants/full_species_range_list.csv")
 genus_data<- unique(word(species_data, 1, sep = "_"))
 write.csv(genus_data, "Plants/full_genus_range_list.csv")
 
