@@ -11,6 +11,7 @@ library(geojsonsf)
 library(h3)
 library(dplyr)
 library(stringr)
+library(jsonlite)
 # Read the GeoJSON file
 #this is for the azathoth rstudio remote server
 
@@ -151,7 +152,12 @@ saveRDS(hex_species_plants, file = "Plants/occurrence_plants_polygons.rds")
 joined_data<-st_join (birds_in_california, polygons, join = st_intersects)%>% 
   select(h3_index,species)
 
-hex_species_plants<- list()
+species_data<- unique(joined_data$species)
+genus_data<- unique(word(species_data, 1, sep = "_"))
+write.csv(genus_data, "Plants/full_genus_range_list.csv")
+
+#do this in a better way such that the species plant_range list is generated based on genus data? 
+hex_species_plants_range<- list()
 for(i in 1: length(h3_indexes))
 {
   poly_temp_db<- joined_data %>%
@@ -162,6 +168,7 @@ for(i in 1: length(h3_indexes))
 }
 
 
+#range 
 hex_genus_plants_range<- list()
 for(i in 1:length(h3_indexes))
 {
@@ -224,7 +231,23 @@ write.csv(genera_only_obs, file = "Plants/observed_genera_not_expected_cali.csv"
 
 #maybe we should rethink the null surfaces? I don't know. Maybe I should remove non-north american endemic species. 
 
+#saving summary data as a json 
+list_data_attributes <- list(
+  num_observed_cultivars = num_observed_cultivars,
+  num_probable_cultivars = num_probable_cultivars,
+  num_common_species = num_common_species,
+  num_species_only_exp = num_species_only_exp,
+  num_species_only_obs = num_species_only_obs,
+  num_common_genera = num_common_genera,
+  num_genera_only_exp = num_genera_only_exp,
+  num_genera_only_obs = num_genera_only_obs
+)
 
+# Step 2: Convert the list to JSON
+json_data <- toJSON(list_data_attributes, pretty = FALSE)
+
+# Save JSON to a file
+write(json_data, file = "Plants/Observational_data_statistics.json")
 #there are lots of plants that are observed in california that are not expected in california, basically. 
 
 
