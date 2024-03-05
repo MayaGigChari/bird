@@ -78,6 +78,8 @@ plants_in_cali$geometry
 #drop empty geometries. 
 geog_plant_observations = plants_in_cali[!st_is_empty(plants_in_cali),,drop=FALSE]
 
+#not sure 
+geog_plant_observations$is_cultivated_observation
 
 #index california in the same way. 
 #each index should be associated with some kind of geometry 
@@ -99,11 +101,29 @@ taxon_ids <- list()
 #I think this is done with the full data. 
 
 #do a join on st_within, whatever that means. 
+#redo this with more coarse select statements. 
+#maybe the joined observational data should not be trimmed until later. 
 joined_data<-st_join (geog_plant_observations, polygons, join = st_within)%>% 
-  select(h3_index,taxonobservation_id,taxon_id, matched_taxonomic_status, scrubbed_taxon_name_no_author)%>%
   filter(is.na(h3_index) == FALSE)
 
-hex_species_plants<- list()
+joined_data$h3_index
+joined_data_subset<- joined_data %>%
+  subset()
+
+
+#finish this join and determine whether I will keep or exclude cultivar.s 
+
+#this is a subset for ONLY NATIVE PLANTS pretty much 
+joined_data_subset<- joined_data%>%
+  filter(is_introduced == 0, is_cultivated_in_region == 0, is_cultivated_observation != 1, is_location_cultivated == 0)
+
+#this is a subset for native and introduced plants but no cultivars
+joined_data_subset_with_introduced<- joined_data%>%
+  filter(is_cultivated_in_region == 0, is_cultivated_observation != 1, is_cultivated_taxon != 1)
+
+
+joined_data$is_cultivated_observation
+joined_data$
 for(i in 1: length(h3_indexes))
 {
   poly_temp_db<- joined_data %>%
@@ -145,13 +165,16 @@ for(i in 1:length(h3_indexes))
 }
 
 #now I want to compare what we should see in california vs. what we actually have observationally seen.
+#maybe should join gid of the observed and range species. 
+
 
 expected_cali_plants<- plants_range_california$species
 expected_cali_plants_unique_species<- unique(expected_cali_plants)
 expected_cali_plants_unique_genus<- unique(word(expected_cali_plants, 1, sep = "_"))
-observed_cali_plants<- gsub(" ", "_",geog_plant_observations$scrubbed_taxon_name_no_author )
+observed_cali_plants<-gsub(" ", "_", joined_data_subset_with_introduced$scrubbed_species_binomial)
 observed_cali_plants_unique_species<- unique(observed_cali_plants)
 observed_cali_plants_unique_genus<- unique(word(observed_cali_plants_unique_species, 1, sep = "_"))
+
 
 #we observe 19112 species in california and we only expect about 11000. 
 
@@ -163,7 +186,11 @@ species_only_obs<- setdiff(observed_cali_plants_unique_species, expected_cali_pl
 
 
 common_genera_obs_exp<- intersect(expected_cali_plants_unique_genus, observed_cali_plants_unique_genus)
+
+#there are 1176 genera that are observed and expected 
 genera_only_exp<- setdiff(expected_cali_plants_unique_genus, observed_cali_plants_unique_genus)
+
+
 genera_only_obs<- setdiff(observed_cali_plants_unique_genus, expected_cali_plants_unique_genus)
 
 
@@ -179,4 +206,10 @@ write.csv(genera_only_obs, file = "Plants/observed_genera_not_expected_cali.csv"
 
 
 
-which(!expected_cali_plants_unique_genus %in% observed_cali_plants_unique_genus)
+#maybe we should rethink the null surfaces? I don't know. Maybe I should remove non-north american endemic species. 
+
+
+#there are lots of plants that are observed in california that are not expected in california, basically. 
+
+
+#there are lichen representation  here! 
