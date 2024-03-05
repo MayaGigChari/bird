@@ -45,10 +45,11 @@ source(sample_tree_creator_path)
 
 #complete_phylogeny for california that is based on molecular data but only has genus-level information 
 complete_phylogeny<- read.tree("Plants/full_tree.tre")
+
+#prune the parent tree to the genus tree
 genus_complete_phylogeny<- genus_tree_generator(complete_phylogeny)
 write.tree(genus_complete_phylogeny, file = paste(clade, "/full_tree_genus.tre", sep = ""))
 
-#use the genus_complete phylogney
 
 #produces 5 interpolated phylogenies 
 #interpolated_phylogeny<-BIEN_phylogeny_complete(n_phylogenies = 100)
@@ -74,27 +75,20 @@ write.tree(genus_complete_phylogeny, file = paste(clade, "/full_tree_genus.tre",
 
 #extra step: step 0 (clean up later): draw together all the polygon species range species to make a master checklist for california. 
 
-#the total species covered by the hex ranges should be equal to the true genera range list but it's not. 
-#just kidding they're exactly the same!
-
-hex_ranges<- readRDS("Plants/hex_genus_plants_ranges")
-total_cali_genera_basedon_ranges<-unique(unlist(hex_ranges))
-total_cali_genera_basedon_ranges<- data.frame(total_cali_genera_basedon_ranges)
-colnames(total_cali_genera_basedon_ranges)<- "name"
-
-true_species_list<- read.csv("Plants/california_plant_species_list.csv ") #there is a space here which is bad
-true_species_list$X<- NULL
-colnames(true_species_list)<- "name"
-true_genera_range<- genus_only(true_species_list)
+#now I will read in the total unique and noncultivated genera list generated on azathoth. 
+#true_species_list<- read.csv("total ") #there is a space here which is bad
+#true_species_list$X<- NULL
+#colnames(true_species_list)<- "name"
+#true_genera_range<- genus_only(true_species_list)
 
 #about 2887 cali speices with overlapping ranges. 
 #these match up between hex data and geometric data: shows that likely this works. 
 
-
+#can use genus_only to convert species list to genus list as well. 
 #step one is to make the phylogeny. 
 #path to species checklist
 #not sure if this is the species or the checklist data. 
-path_to_taxa_list = file.path(clade, paste(geog_area, "_species_list.csv", sep = ""))
+path_to_taxa_list = file.path(paste(clade, "/total_unique_noncultivated_genera_obs_and_exp_cali.csv", sep = ""))
 path_to_full_tree = file.path(clade, "full_tree.tre")
 path_to_full_genus_tree<- file.path(clade, "full_tree_genus.tre") 
 #already to genus only.
@@ -104,9 +98,6 @@ cali_plants<-read.csv(path_to_taxa_list)
 cali_plants$X <- NULL 
 colnames(cali_plants)<- "name"
 
-#for the genus only taxa list
-cali_plants_genera<- genus_only(cali_plants)
-total_cali_genera_basedon_ranges
 
 
 #load the largest tree and prune to only california, then save the california tree
@@ -118,13 +109,12 @@ total_cali_genera_basedon_ranges
 #todo: what is going on here????
 full_tree_genus<-read.tree(path_to_full_genus_tree)
 
-unmatched_genera<- check_taxa(uniquecali_plants_genera, full_tree_genus)
+unmatched_genera<- check_taxa(cali_plants, full_tree_genus)
+#about 997 unmatched genera in the molecular phylogney
 
-#about 885 unmatched genera in the molecular phylogney
 
-
-#about 2000 represented taxa
-matched_genera<- remove_taxa(cali_plants_genera, full_tree_genus)
+#about 2000 represented taxa. need to double check this anyways. 
+matched_genera<- remove_taxa(cali_plants, full_tree_genus)
 
 cali_tree_genus<- sample_tree_generator(matched_genera, full_tree_genus)
 
