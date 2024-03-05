@@ -49,7 +49,14 @@ california <- sf::read_sf("Cali_Geometry/ca-state-boundary/CA_State_TIGER2016.sh
 birds_in_california <- st_intersection(bird_ranges, california) 
 
 #use this to populate hex data later
+#plants_range_california has all these species
 plants_range_california<- birds_in_calfornia
+
+#lupinus_onustus doesn't exist in the range data, for example but it is still a california species! also "Boschniakia strobilacea"
+#however, something like Allium_rhizomatum is expected but not seen, but doesn't even have a range in california!
+plants_range_california%>%
+  filter(species == "Boschniakia_strobilacea")
+
 
 #writing to a st file or something
 st_write(birds_in_california, "Plants/california_plants.shp")
@@ -106,7 +113,9 @@ taxon_ids <- list()
 
 #do a join on st_within, whatever that means. 
 #redo this with more coarse select statements. 
-#maybe the joined observational data should not be trimmed until later. 
+#maybe the joined observational data should not be trimmed until later.
+
+#need to do this join for the 
 joined_data<-st_join (geog_plant_observations, polygons, join = st_within)%>% 
   filter(is.na(h3_index) == FALSE)
 
@@ -128,6 +137,9 @@ joined_data_subset<- joined_data%>%
 #this is a subset for native and introduced plants but no cultivars
 joined_data_subset_with_introduced<- joined_data%>%
   filter(is_cultivated_in_region == 0, is_cultivated_observation != 1, is_cultivated_taxon != 1)
+
+#checking particular species 
+
 
 
 joined_data$is_cultivated_observation
@@ -203,17 +215,27 @@ common_species_obs_exp<- intersect(expected_cali_plants_unique_species, observed
 species_only_exp<- setdiff(expected_cali_plants_unique_species, observed_cali_plants_unique_species)
 species_only_obs<- setdiff(observed_cali_plants_unique_species, expected_cali_plants_unique_species)
 
+
+#this is weird. for example, lupins_onustus is only in the observed but should be in the expected too. 
+
 num_common_species<- length(common_species_obs_exp)
 num_species_only_exp<- length(species_only_exp)
 num_species_only_obs<- length(species_only_obs)
 
 common_genera_obs_exp<- intersect(expected_cali_plants_unique_genus, observed_cali_plants_unique_genus)
-
 #there are 1176 genera that are observed and expected 
 genera_only_exp<- setdiff(expected_cali_plants_unique_genus, observed_cali_plants_unique_genus)
-
-
 genera_only_obs<- setdiff(observed_cali_plants_unique_genus, expected_cali_plants_unique_genus)
+
+
+
+total_unique_noncult_species<-c(common_species_obs_exp, species_only_exp, species_only_obs)
+total_unique_noncult_genera<- c(common_genera_obs_exp, genera_only_exp, genera_only_obs)
+
+#these should be what we use to construct the null model! 
+write.csv(total_unique_noncult_species, file = "Plants/total_unique_noncultivated_species_obs_and_exp_cali.csv")
+write.csv(total_unique_noncult_genera, file = "Plants/total_unique_noncultivated_genera_obs_and_exp_cali.csv")
+#total of 1963 genera both observed and expected. 
 
 num_common_genera<- length(common_genera_obs_exp)
 num_genera_only_exp<- length(genera_only_exp)
