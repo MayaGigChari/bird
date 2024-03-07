@@ -22,11 +22,13 @@ clade = "Plants"
 #reading in the cophenetic matrix 
 cophen<-readRDS("Plants/cali_genus_cophen_matrix")
 #parent_tree<- read.tree("Plants/interpolated_full_tree.tre") probably don't really need this.
+#made the genus tree in main. 
 cali_tree<- read.tree("Plants/cali_genus_tree.tre") #load the genus tree
 data<- readRDS("Plants/occurrence_plants_polygonds.rds") #hexagonal species data. 
 
 
 #associate the data with the indexes
+#this stays the same for observational and range data. 
 h3_indexes<- data.frame(read.csv("Cali_geometry/h3_indexes.csv"))
 h3_indexes$X<- NULL #not sure why this always happens. 
 dat_names<- h3_indexes$h3_indexes
@@ -198,3 +200,51 @@ names(species_in_tree)<- poly_labels
 json_data_species_names <- toJSON(species_in_tree, pretty = FALSE)
 write_json(json_data_species_names, "Plants/plant_hex_species.json")
 
+
+#below: do the same thing but for the genus hex pop of RANGE instead of OCCURRENCE data. could probably make some of the stuff in here into a function and put it in app_functions. 
+#using the range data for this. 
+
+#need to figure out what exactly to generate the null model with. 
+data_range<- readRDS("Plants/hex_genus_plants_ranges") #hexagonal species data. 
+names(data_range)<- poly_labels 
+
+
+missing_genera_range<- list()
+proportion_missing_range<- list()
+genera_in_tree_range<- list()
+empty_hexes_range<- list()
+list_trees_range<- list()
+pd_values_range<- list()
+mpd_values_range<- list()
+mntd_values_range<- list()
+
+
+#check the temp taxa against the cali tree taxa
+#want to check against the larger tre taxa. 
+for (i in 1:length(poly_labels))
+{
+  temp <- data.frame(data_range[i])
+  colnames(temp) <- "name"
+  #temp$name <- sub(" ", "_", temp$name)
+  missing_genera_range[i] <- check_taxa(temp,cali_tree)
+  temp<- remove_taxa(temp, cali_tree)
+  genera_in_tree_range[i]<- temp
+  if(length(temp[,1]) <= 1)
+  {
+    empty_hexes<- c(empty_hexes, poly_labels[i])
+    pd_values[i]<- NA
+    mpd_values[i]<- NA
+    mntd_values[i]<- NA
+  }
+  else
+  {
+    proportion_missing_range[i]<- 1-length(genera_in_tree_range[i])/length(temp[,1])
+    temp_tree<- sample_tree_generator(temp, cali_tree)
+    write.tree(temp_tree, file = file.path(current_directory, "Plants", "hex_trees_ranges", paste(poly_labels[i], ".tre", sep  = '')))
+    pd_values_range<- pd_app_picante(temp_tree, cali_tree)$PD #why is this the parent tree and not the cali tree? 
+    mpd_values_range[i]<- mpd_app_picante(temp_tree, cophen)
+    mntd_values_range[i]<- mntd_app_picante(temp_tree, cophen)
+  }
+  print(i)
+  #continue here: 
+}

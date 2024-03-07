@@ -51,6 +51,7 @@ cali_species<-cali_birds$species
 cali_species<- gsub(" ", "_", cali_species)
 cali_species<-data.frame(cali_species)
 colnames(cali_species)<- "names"
+
 #list is now called cali_species
 
 #load the largest tree and prune to only california, then save the california tree
