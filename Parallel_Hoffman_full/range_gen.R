@@ -31,6 +31,9 @@ validity <- st_is_valid(bird_ranges)
 #need to make all the bird ranges valid before running more things.
 bird_ranges <- st_make_valid(bird_ranges)
 
+
+plot(st_geometry(mono_litto))
+
 #these are all valid now. 
 
 
@@ -48,6 +51,7 @@ california <- sf::read_sf("Cali_Geometry/ca-state-boundary/CA_State_TIGER2016.sh
 #this is misleading, it's actually plants I just mislabeled everything as birds. 
 birds_in_california <- st_intersection(bird_ranges, california) 
 
+
 #use this to populate hex data later
 #plants_range_california has all these species
 plants_range_california<- birds_in_calfornia
@@ -55,7 +59,7 @@ plants_range_california<- birds_in_calfornia
 #lupinus_onustus doesn't exist in the range data, for example but it is still a california species! also "Boschniakia strobilacea"
 #however, something like Allium_rhizomatum is expected but not seen, but doesn't even have a range in california!
 plants_range_california%>%
-  filter(species == "Boschniakia_strobilacea")
+  filter(species == "Monanthochloe_littoralis")
 
 
 #writing to a st file or something
@@ -116,37 +120,36 @@ taxon_ids <- list()
 #maybe the joined observational data should not be trimmed until later.
 
 #need to do this join for the 
-joined_data<-st_join (geog_plant_observations, polygons, join = st_within)%>% 
+joined_data_observations<-st_join (geog_plant_observations, polygons, join = st_within)%>% 
   filter(is.na(h3_index) == FALSE)
 
 
 #there are 44927 specemins that are cultivated 
-num_observed_cultivars<- sum(joined_data$is_cultivated_observation, na.rm=TRUE)
+num_observed_cultivars<- sum(joined_data_observations$is_cultivated_observation, na.rm=TRUE)
 
 #there are 29326 taxon that are cultivated 
-num_probable_cultivars<- sum(joined_data$is_cultivated_taxon, na.rm = TRUE)
+num_probable_cultivars<- sum(joined_data_observations$is_cultivated_taxon, na.rm = TRUE)
 
 #need to remove all the observations of taxa that are cultivated and that are generally cultivated. 
 
 #finish this join and determine whether I will keep or exclude cultivar.s 
 
 #this is a subset for ONLY NATIVE PLANTS pretty much 
-joined_data_subset<- joined_data%>%
+joined_data_subset<- joined_data_observations%>%
   filter(is_introduced == 0, is_cultivated_in_region == 0, is_cultivated_observation != 1)
 
 #this is a subset for native and introduced plants but no cultivars
-joined_data_subset_with_introduced<- joined_data%>%
+joined_data_subset_with_introduced<- joined_data_observations%>%
   filter(is_cultivated_in_region == 0, is_cultivated_observation != 1, is_cultivated_taxon != 1)
 
 #checking particular species 
 
 
 
-joined_data$is_cultivated_observation
-joined_data$
+hex_species_plants<- list()
 for(i in 1: length(h3_indexes))
 {
-  poly_temp_db<- joined_data %>%
+  poly_temp_db<- joined_data_observations %>%
     filter(h3_index == h3_indexes[i])
   poly_species<- unique(poly_temp_db$scrubbed_taxon_name_no_author)
   hex_species_plants[i] <- list(poly_species)
@@ -160,7 +163,7 @@ saveRDS(hex_species_plants, file = "Plants/occurrence_plants_polygons.rds")
 #hex_species_plants
 
 #need to do the same thing as above but for range_plants_polygons.rds
-
+#joined data is for ranges, joined_data observations is for observations
 joined_data<-st_join (birds_in_california, polygons, join = st_intersects)%>% 
   select(h3_index,species)
 
@@ -190,6 +193,12 @@ for(i in 1:length(h3_indexes))
   list_temp$name<- word(list_temp$name, 1, sep = "_")
   hex_genus_plants_range[i]<- list(unique(list_temp$name))
 }
+
+saveRDS(hex_genus_plants_range, "Plants/hex_genus_plants_range")
+
+#want to make a third one of these with the combined list of observations and ranges. 
+
+
 
 #now I want to compare what we should see in california vs. what we actually have observationally seen.
 #maybe should join gid of the observed and range species. 
@@ -273,5 +282,7 @@ json_data <- toJSON(list_data_attributes, pretty = FALSE)
 write(json_data, file = "Plants/Observational_data_statistics.json")
 #there are lots of plants that are observed in california that are not expected in california, basically. 
 
+
+#best conceptual ground: build null 
 
 #there are lichen representation  here! 
