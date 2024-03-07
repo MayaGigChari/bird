@@ -79,8 +79,9 @@ california <- sf::read_sf("Cali_Geometry/ca-state-boundary/CA_State_TIGER2016.sh
 birds_california<- st_intersection(bird_ranges_cut, california)
 
 
-write.csv(birds_california$sci_name, file = "birds/birds_seen_in_cali_with_overlap_range.csv")
+
 seen<- unique(birds_california$sci_name)
+write.csv(seen, file = "birds/birds_seen_in_cali_with_overlap_range.csv")
 
 exp<- unique(birds_california$sci_name)
 
