@@ -57,6 +57,8 @@ genHexRaw<- function(range_data, sf_polygons) #the indexes will be h3_indexes us
 
 cali_birds_complete_hex_list<- genHexRaw(bird_ranges_touse, polygons)
 
+saveRDS(cali_birds_complete_hex_list, file = "birds/occurrence_birds_polygons_fromRangeData")
+
 #this gives us polygon data for birds for overlappign ranges intersecting with each polygon. 
 
 dir_list_ecoregions <- list.dirs("birds/ecoregion_data",recursive = FALSE)  
