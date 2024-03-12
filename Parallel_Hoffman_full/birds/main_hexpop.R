@@ -148,3 +148,7 @@ names(species_in_tree)<- poly_labels
 json_data_species_names <- toJSON(species_in_tree, pretty = FALSE)
 write_json(json_data_species_names, "birds/bird_hex_species.json")
 
+
+
+### below: will do essentially the same thing as above but for only the bird range data. 
+###hexpop for bird range data from birds of the world only!

@@ -48,6 +48,7 @@ polygons <- h3_to_geo_boundary_sf(h3_indexes)
 #do not run this again. This is just for birds here. Takes several hours
 #function that takes in the scientific identifier (ex: "Aves") and outputs taxa list for each pixel as specified above. 
 #this queries GBIF. functionality may change with different taxa. 
+#this is not useful for range overlap. 
 popPixel<- function(scientific_identifier, len = length(geog_boundaries), nms = h3_indexes)
 {
   occurrence_df <-list(len)

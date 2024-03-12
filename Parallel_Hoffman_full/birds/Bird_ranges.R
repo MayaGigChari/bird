@@ -1,4 +1,8 @@
 #this is a script for loading and parsing the bird ranges. 
+
+#this script output is bird ranges that overlap with california in various ways, and also birds that overlap with other ecoregions in various ways. 
+
+#this does not populate hexagonal data. 
 install.packages("sf")
 library(remotes)
 library(stringr)
@@ -20,6 +24,8 @@ birds_expected_cali <- str_extract_all(birds_expected_cali, "\\([^()]+\\)")[[1]]
 birds_expected_cali <- substring(birds_expected_cali, 2, nchar(birds_expected_cali)-1)
 
 bird_ranges_species<- bird_ranges$sci_name
+
+
 
 birds_expected_cali[1]%in% bird_ranges_species
 
@@ -78,6 +84,8 @@ california <- sf::read_sf("Cali_Geometry/ca-state-boundary/CA_State_TIGER2016.sh
 #only about 300 birds that are native to california actually have ranges that intersect wiht california??
 birds_california<- st_intersection(bird_ranges_cut, california)
 
+birds_california %>%
+  filter(sci_name == "Anser albifrons")
 
 
 seen<- unique(birds_california$sci_name)
@@ -85,7 +93,7 @@ write.csv(seen, file = "birds/birds_seen_in_cali_with_overlap_range.csv")
 
 exp<- unique(birds_california$sci_name)
 
-which(!exp %in% seen)
+list_exp_not_seen<-which(!exp %in% seen)
 
 # Specify the correct file path
 file_path <- "birds/bird_ranges_all_birds_seen_california_checklist.shp"
@@ -143,27 +151,45 @@ st_temp<- st_read(file_path_range)
 ecoregions<- st_read("Cali_geometry/ca_eco_l3", packlage = "sf")
 
 ecoregions<- st_transform(ecoregions, "NAD83")
+
+filename_mia = "Cali_geometry/ecoregions_for_mia.shp"
+st_write(ecoregions, filename_mia)
 birds_california_transform<- st_transform(birds_california, 4269)
 
+#perhaps this join is not correct? 
 birds_california
 ecoregion_bird_data<- st_join(birds_california_transform, ecoregions) #no intersection??
 
+ecoregion_bird_data %>%
+  filter(US_L3CODE == 78)
 #made a directory called ecoregion_data to store shape files and lists. 
 ecoregion_codes<- ecoregions$US_L3CODE
 
 #do not need to rerun this. already have all the ecoregion species stuff. 
+#ecoregion bird data is already merged! This is basically good to go for the entire ecoregion. but also need to do the other thing with the ecoregions (hex data stuff)
+#these shape files are good for the entire overlapping species list for a region, need to be able to populate hex data as well.
+
+#edited this to only select some fields, but actually only edited it for one ecoregion. 
 for(code in ecoregion_codes)
 {
   dir.create(file.path("birds/ecoregion_data", code))
   temp<- ecoregion_bird_data %>%
-    filter(US_L3CODE == i)
+    filter(US_L3CODE == code)%>%
+    select(sci_name, US_L3CODE, US_L3NAME, L1_KEY, Shape)
   filepath_shape<- paste("birds/ecoregion_data/", code, "/ecoregion.shp", sep = "")
-  st_write(temp, filepath_shape)
+  sf::st_write(temp, filepath_shape)
   filepath_checklist<- paste("birds/ecoregion_data/", code, "/checklist.csv", sep = "")
   print(unique(temp$sci_name))
   write.csv(unique(temp$sci_name), file = filepath_checklist)
-  
 }
 #now that we have species lists for all the ecoregions we can assemble their null models. and the null model for all of california. 
+#now this seems like it should work. 
+
+a <- st_read("birds/ecoregion_data/1/ecoregion.shp")
+#save birds without overlapping ranges that have still been seen
 
 
+unexpected_birds<- which(! birds_expected_cali %in% birds_california$sci_name)
+
+
+write.csv(birds_expected_cali[unexpected_birds], file = "birds/birds_no_overlap_range_cali.csv")

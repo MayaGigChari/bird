@@ -62,6 +62,8 @@ full_tree<- read.tree(path_to_full_tree)
 unmatched_species_birds<- check_taxa(cali_species, full_tree )
 matched_species_birds<-remove_taxa(cali_species, full_tree)
 cali_tree<- sample_tree_generator(matched_species_birds, full_tree)
+
+#save all the birds present in the phylogrnu 
 write.tree(cali_tree, file = file.path(clade, "cali_tree_from_range_data.tre"))
 write.csv(unmatched_species_birds, file = "birds/range_birds_absent_phylogeny.csv")
 write.csv(matched_species_birds, file = "birds/range_birds_present_phylogeny.csv")
@@ -77,10 +79,45 @@ write.csv(matched_species_birds, file = "birds/range_birds_present_phylogeny.csv
 path_to_cali_phylogeny = file.path( clade, "cali_tree_from_range_data.tre")
 phylo_tree<- read.tree(path_to_cali_phylogeny)
 
+#we already have a cali_range_cophen_matrix and stuff. 
 
 
 #the last two parameters are for naming, for the purpose of the call_cophen function
 call_cophen(phylo_tree, clade = "birds", geog_area = "cali_range") #generate range matrix for birds
+
+
+
+#now need to do this for all ecoregions. 
+
+
+#below: generates phylogenetic trees and cophenetic matrices for each ecoregion. 
+
+#need to make null models for each of these as well. 
+dir_list_ecoregions <- list.dirs("birds/ecoregion_data",recursive = FALSE)  
+full_tree<- read.tree(path_to_full_tree)
+
+for(directory in dir_list_ecoregions)
+{
+  ecoregion_species<- read.csv(paste(directory, "/checklist.csv", sep = ""))
+  ecoregion_species$X<- NULL
+  ecoregion_species$x<- gsub(" ", "_", ecoregion_species$x)
+  colnames(ecoregion_species)<- "names"
+  unmatched_ecoregion_species<- check_taxa(ecoregion_species, full_tree)
+  matched_ecoregion_species<-remove_taxa(ecoregion_species, full_tree)
+  ecoregion_tree<- sample_tree_generator(matched_species_ecoregion, full_tree)
+  
+  #manually use cophen matrix because this format isn't working. 
+  ecoregion_matrix<- cophen(ecoregion_tree)
+  cophen_ecoregion<- as.matrix(ecoregion_matrix)
+  
+  
+  #save all the files. 
+  saveRDS(cophen_ecoregion, file = paste(directory, "/cophen_matrix", sep = ""))
+  write.csv(unmatched_ecoregion_species, file = paste(directory, "/species_absent_from_tree.csv", sep = ""))
+  write.csv(matched_ecoregion_species, file = paste(directory, "/species_present_in_tree.csv", sep = ""))
+  write.tree(ecoregion_tree, file = paste(directory, "/trimmed_tree.tre", sep = ""))
+}
+
 
 #the output should be saved to the clade file. basically should just have to execute main. 
 

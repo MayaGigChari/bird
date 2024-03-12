@@ -183,6 +183,7 @@ for(i in 1: length(h3_indexes))
   print(i)
 }
 
+#already did this for plants. need to do this for birds as well. 
 
 #range 
 hex_genus_plants_range<- list()
