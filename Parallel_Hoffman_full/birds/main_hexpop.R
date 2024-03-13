@@ -5,7 +5,7 @@
 
 #need to streamline this and make a function out of it. 
 
-packages_to_install <- c("picante", "ape",  "dplyr", "phytools", "jsonlite", "tools")
+packages_to_install <- c("picante", "ape",  "dplyr", "phytools", "jsonlite", "tools", "purr")
 
 # Load necessary packages
 for (pkg in packages_to_install) {
@@ -31,8 +31,9 @@ data<- readRDS("birds/occurrence_birds_polygons.rds") #hexagonal species data.
 current_directory <- getwd()
 
 tree_trimming_path<-file.path(current_directory, "App_functions_bird.R")
+Model_gen_path <- file.path(current_directory, "Model_generation.R")
 
-
+source(Model_gen_path)
 source(tree_trimming_path)
 
 #need to load the dataframe 
@@ -228,9 +229,14 @@ hex_tree_stats_birds<- popHexStats(data, parent_tree, "birds", cophen_filepath =
 
 saveRDS(hex_tree_stats_birds, file = "birds/raw_hex_stats_from_ranges")
 
+
+hex_tree_stats_birds<- readRDS("birds/raw_hex_stats_from_ranges")
 missing_species_rds<- hex_tree_stats_birds$missing_species
 names(missing_species_rds)<- names(data)
 
+#this is separating all the stuff. 
+
+#need to use like key value pairs 
 present_species_rds<- hex_tree_stats_birds$species_in_tree
 names(present_species_rds)<- names(data)
 
@@ -238,44 +244,112 @@ proportion_missing_rds<-hex_tree_stats_birds$proportion_missing
 names(proportion_missing_rds)<- names(data)
 
 pd_rds<- hex_tree_stats_birds$pd_values
-names(pds_rds)<- names(data)
+names(pd_rds)<- names(data)
 
 mpd_rds<- hex_tree_stats_birds$mpd_values
-names(mds_rds)<- names(data)
+names(mpd_rds)<- names(data)
 
 mntd_rds<- hex_tree_stats_birds$mntd_values
 names(mntd_rds)<- names(data)
 
-combined_list<- Map(list,missing_species_rds, present_species_rds)
+
+
+
+
+#colorize the hexagons: 
+
+
+#load and clean the data
+#this might work better not inverted. 
+quartile_info_pd<-data.frame(read.csv("birds/ranges_quantile_pd_output_bootstrap.csv"))
+quartile_info_mpd<-data.frame(read.csv("birds/ranges_quantile_mpd_output_bootstrap.csv"))
+quartile_info_mntd<-data.frame(read.csv("birds/ranges_quantile_mntd_output_bootstrap.csv"))
+
+pd_cleaned[,]
+
+pd_cleaned<- data_clean_quartiles(quartile_info_pd, "pd")
+mpd_cleaned<- data_clean_quartiles(quartile_info_mpd, "mpd")
+mntd_cleaned<- data_clean_quartiles(quartile_info_mntd, "mntd")
+
+
+#create a function for determining the list of stuff
+#this isn't going to work for now because it's not interpolated! based on raw ass data! Need to actually interpolate fitted 
+#surfaces for all the intervals if I want this to work. 
+
+sizes<- unlist(lapply(hex_tree_stats_birds$species_in_tree, length))
+
+sizes[1120]
+#basically rounds up when the tree size is not an exact multiple of 5, and checks based on that. 
+getQuantileValues <- function(sample_size, metric_quantile_df) {
+  while(sample_size %%5 != 0)
+  {
+    #rounds down. this I believe is better for significance. 
+    sample_size<- sample_size - 1
+  }
+  return(metric_quantile_df %>%
+           filter(tree_size == sample_size))
+}
+
+result <- lapply(sizes, function(size) getQuantileValues(size, metric_quantile_df = pd_cleaned))
+
+
+
+names<- names(unlist(result[1]))
+
+
+#need to make this into a function but will do it this way for now. 
+quartile_info_pd<- list()
+quartile_info_mpd<-list()
+quartile_info_mntd<- list()
+
+
+#basically all thsee values are wack. might be something wrong with the hex trees generated
+#since there are so many steps here. 
+#this is ultimately not working at all. 
+#I'm going to bed. 
+
+
+for(i in 1:length(result))
+{
+  
+  list_comp<- unlist(result[i])[1:15]
+  if(unlist(hex_tree_stats_birds$mpd_values)[i] < min(list_comp))
+  {
+    quartile_info_mpd[i]<- 0 
+  }
+  else if(unlist(hex_tree_stats_birds$mpd_values)[i] > max(list_comp))
+  {
+    print("true")
+    quartile_info_mpd[i]<- 100 
+  }
+  else
+  {
+    max_value<- max(list_comp[list_comp < unlist(hex_tree_stats_birds$mpd_values)[i]])
+    max_name <- names(list_comp)[which.max(list_comp == max_value)]
+    quartile_info_mpd[i] <- max_name
+  }
+}
+names(quartile_info_mpd)<- names(data)
+
+
+
+#now I'm going to save everything as a json
+
+#maybe here I should load the outputs of the surface data and assign the pds, mpds and mntds color values. 
+
+#here quartile is the largest value that the pd value is smaller than. 
+combined_list<- Map(list,missing_species_rds = missing_species_rds, present_species_rds = present_species_rds,pd = pd_rds, mpd = mpd_rds, mntd = mntd_rds, quartile = quartile_info )
+
+
 
 json_data <- jsonlite::toJSON(combined_list)
 
 # Write the JSON data to a file
-writeLines(json_data, "output.json")
 
+#this I will give to Mia to look at. 
+writeLines(json_data, "birds/range_hex_data_statistics.json")
 
-#can always just do the hex data stuff afterwards. 
+plot(sizes,unlist(hex_tree_stats_birds$pd_values))
+dev.off()
 
-missing_species<- list()
-proportion_missing<- list()
-species_in_tree<- list()
-empty_hexes<- list()
-list_trees<- list()
-pd_values<- list()
-mpd_values<- list()
-mntd_values<- list()
-
-#can generate the trees and write them all to a file.  
-missing_species <- vector("list", length = length(poly_labels))
-species_in_tree <- vector("list", length = length(poly_labels))
-
-proportion_missing <- numeric(length(poly_labels))
-pd_values <- numeric(length(poly_labels))
-mpd_values <- numeric(length(poly_labels))
-mntd_values <- numeric(length(poly_labels))
-empty_hexes <- character(0)
-
-# Loop through poly_labels
-
-=
-
+unlist(hex_tree_stats_birds$pd_values)[1120]

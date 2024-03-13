@@ -40,34 +40,48 @@ retrieve_data <- function(clade, metric) {
 
 #data clean isn't that useful. 
 
-data_clean<- function(data_input, metric)
+data_clean<- function(data_input, metric, min, max, by)
 {
-  seq_to_pred<- seq(0,650, by = 2)
+  seq_to_pred<- seq(min,max, by)
   data_sim <- data_input
   rownames(data_sim)<-data_sim$X
   data_sim$X<- NULL
   data_sim<- data.frame(t(data_sim))
-  data_sim$tree_size <- as.numeric(gsub(metric, "", rownames(data_sim)))
+  data_sim$tree_size <- as.numeric(gsub(metric, "", colnames(data_sim)))
   return(data_sim)
 }
 
+data_clean_quartiles<- function(data_input, metric)
+{
+  rownames(data_input)<-data_input$X
+  data_input$X<- NULL
+  rows<- rownames(data_input)
+  cols<- colnames(data_input)
+  data_input<- data.frame(t(data_input))
+  rownames(data_input)<- cols
+  colnames(data_input)<- rows
+  data_input$tree_size <- as.numeric(gsub(metric, "", rownames(data_input)))
+  return(data_input)
+}
 #baro5 function tends to fit best. 
 #no asymptotic behaviro 
 
-data_sim
+#data_sim
 #only take the 10 and above. 
 
-data_sim<- data_clean(mpd_data[,-2], "mpd")
-model_low <- drm(data_sim$Low ~ data_sim$tree_size, fct = baro5())
-model_high <- drm(data_sim$High ~ data_sim$tree_size, fct = baro5())
-summary(model_low)
-plot(High~tree_size, data = data_sim, ylim = c(min(data_sim$Low), max(data_sim$High)))
-points(Low~tree_size, data = data_sim)
-lines(predict(model_low)~tree_size,data = data_sim, type = "l", col = "blue")
-lines(predict(model_high)~tree_size, data = data_sim, type = "l", col = "blue")
 
-model_low$coefficients
-model_high$coefficients
+#ill use the LL.3 function 
+#data_sim<- data_clean_quartiles(mntd_data, "mntd")
+#model_low <- drm(data_sim$Low ~ data_sim$tree_size, fct = LL.4())
+#model_high <- drm(data_sim$High ~ data_sim$tree_size, fct = LL.4())
+#summary(model_low)
+#plot(High~tree_size, data = data_sim, ylim = c(min(data_sim$Low), max(data_sim$High)))
+#points(Low~tree_size, data = data_sim)
+#lines(predict(model_low)~tree_size,data = data_sim, type = "l", col = "blue")
+#lines(predict(model_high)~tree_size, data = data_sim, type = "l", col = "blue")
+
+#model_low$coefficients
+#model_high$coefficients
 #barro 5 is technically the best fit for everything. 
 
 ## Model selection
@@ -80,10 +94,14 @@ model_high$coefficients
 
 #for now maybe just use baro5
 #could use LL.3/4 and baro5 only when necessary? 
-surfaceGen<- function(data_input, metric, outType = "list", model)
+
+#just use LL.4 for simplicity. 
+
+#can change to LL.3 later
+surfaceGen<- function(data_input, metric, outType = "coef")
 {
   
-  data_sim<-data_clean(data_input)
+  data_sim<-data_clean_quartiles(data_input, metric)
   
   if(metric == "mpd")
   {
@@ -99,14 +117,14 @@ surfaceGen<- function(data_input, metric, outType = "list", model)
   
   if(metric == "pd")
   {
-    model_low <- drc::drm(data_sim$Low ~ data_sim$tree_size, fct = LL.3())
-    model_high <- drc::drm(data_sim$High ~ data_sim$tree_size, fct= LL.3())
+    model_low <- drc::drm(data_sim$Low ~ data_sim$tree_size, fct = LL.4())
+    model_high <- drc::drm(data_sim$High ~ data_sim$tree_size, fct= LL.4())
   }
 
-  plot(High~tree_size, data = data_sim, ylim = c(min(data_sim$Low), max(data_sim$High)))
-  points(Low~tree_size, data = data_sim)
-  lines(predict(model_low)~tree_size,data = data_sim, type = "l", col = "blue")
-  lines(predict(model_high)~tree_size, data = data_sim, type = "l", col = "blue")
+  #plot(High~tree_size, data = data_sim, ylim = c(min(data_sim$Low), max(data_sim$High)))
+  #points(Low~tree_size, data = data_sim)
+  #lines(predict(model_low)~tree_size,data = data_sim, type = "l", col = "blue")
+  #lines(predict(model_high)~tree_size, data = data_sim, type = "l", col = "blue")
   #print(summary(model_low))
   #print(summary(model_high))
   #relatively low standard error. 
@@ -114,21 +132,15 @@ surfaceGen<- function(data_input, metric, outType = "list", model)
   #plot(model_low)
   #plot(model_high)
   
-  summary_low <- summary(model_low)$coefficients
-  summary_high <- summary(model_high)$coefficients
+  summary_low <- model_low$coefficients
+  summary_high <- model_high$coefficients
 
   
   # Create a data frame with row names and coefficients
-  result_coef <- data.frame(row.names = c("b", "c", "d", "e"),
-                       low = summary_low[, 1],
-                       high = summary_high[, 1])
+  result_coef <- data.frame(row.names = names(summary_low),
+                       low = summary_low,
+                       high = summary_high)
   
-  
-  #need to add tree sizes. 
-  result_model<- data.frame(predict(model_low, data = seq_to_pred))
-  colnames(result_model)<- "low"
-  result_model$high <- predict(model_high, data = seq_to_pred)
-  result_model$tree_sizes <- data_sim$tree_size
 
   
   if(outType == "coef")
@@ -137,6 +149,11 @@ surfaceGen<- function(data_input, metric, outType = "list", model)
   }
   else if(outType == "list")
   {
+    #need to add tree sizes. 
+    result_model<- data.frame(predict(model_low, data = seq_to_pred))
+    colnames(result_model)<- "low"
+    result_model$high <- predict(model_high, data = seq_to_pred)
+    result_model$tree_sizes <- data_sim$tree_size
     return(result_model)
   }
   
