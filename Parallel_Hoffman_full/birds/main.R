@@ -104,7 +104,7 @@ for(directory in dir_list_ecoregions)
   colnames(ecoregion_species)<- "names"
   unmatched_ecoregion_species<- check_taxa(ecoregion_species, full_tree)
   matched_ecoregion_species<-remove_taxa(ecoregion_species, full_tree)
-  ecoregion_tree<- sample_tree_generator(matched_species_ecoregion, full_tree)
+  ecoregion_tree<- sample_tree_generator(matched_ecoregion_species, full_tree)
   
   #manually use cophen matrix because this format isn't working. 
   ecoregion_matrix<- cophen(ecoregion_tree)
@@ -116,6 +116,7 @@ for(directory in dir_list_ecoregions)
   write.csv(unmatched_ecoregion_species, file = paste(directory, "/species_absent_from_tree.csv", sep = ""))
   write.csv(matched_ecoregion_species, file = paste(directory, "/species_present_in_tree.csv", sep = ""))
   write.tree(ecoregion_tree, file = paste(directory, "/trimmed_tree.tre", sep = ""))
+  break
 }
 
 
