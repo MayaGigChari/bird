@@ -162,6 +162,10 @@ write_json(json_data_species_names, "birds/bird_hex_species.json")
 #ex: filepath would be parallel_hoffman_full/birds or parallel_hoffman_full/ecoregion_data/1 or something. 
 
 #should only need to call this function once. 
+
+#this function popHexStats only works for hexagonal data. 
+
+popAreaStats<- 
 popHexStats<- function(polygon_data, parent_tree, output_filepath, cophen_filepath)
 {
   cophen_forfunc<- readRDS(cophen_filepath)
@@ -340,16 +344,46 @@ names(quartile_info_mpd)<- names(data)
 #here quartile is the largest value that the pd value is smaller than. 
 combined_list<- Map(list,missing_species_rds = missing_species_rds, present_species_rds = present_species_rds,pd = pd_rds, mpd = mpd_rds, mntd = mntd_rds, quartile = quartile_info )
 
-
-
 json_data <- jsonlite::toJSON(combined_list)
-
 # Write the JSON data to a file
 
 #this I will give to Mia to look at. 
 writeLines(json_data, "birds/range_hex_data_statistics.json")
 
-plot(sizes,unlist(hex_tree_stats_birds$pd_values))
-dev.off()
 
-unlist(hex_tree_stats_birds$pd_values)[1120]
+#below is the code to populate the larger ecoregions with information. this doesn't have to do with the quartile stuff. 
+
+pd_values_ecoregions<- list()
+mpd_values_ecoregions<- list()
+mntd_values_ecoregions<- list()
+missing_species_ecoregions<- list()
+present_species_ecoregions<- list()
+
+dir_list_ecoregions <- list.dirs("birds/ecoregion_data",recursive = FALSE)  
+ecoregion_codes<- c(1,13,14,4,5,6,7,78,8,80,81,85,9)
+cali_tree_range_data_full<-read.tree("birds/cali_tree_from_range_data.tre")
+cophe_cali_range_data<- readRDS("birds/cali_range_cophen_matrix")
+for(i in 1:length(dir_list_ecoregions))
+{
+  tree_eco_temp<- read.tree(paste(dir_list_ecoregions[i], "/trimmed_tree.tre", sep = "" ))
+  missing_species_ecoregions[i]<- list(read.csv(paste(dir_list_ecoregions[i], "/species_absent_from_tree.csv", sep = "" ))$names)
+  present_species_ecoregions[i]<- list(read.csv(paste(dir_list_ecoregions[i], "/species_present_in_tree.csv", sep = "" ))$names)
+  pd_values_ecoregions[i]<- pd_app_picante(tree_eco_temp, cali_tree_range_data_full)$PD
+  mpd_values_ecoregions[i]<- mpd_app_picante(tree_eco_temp, cophe_cali_range_data)
+  mntd_values_ecoregions[i]<- mntd_app_picante(tree_eco_temp, cophe_cali_range_data)
+}
+
+names(pd_values_ecoregions)<- ecoregion_codes
+names(mpd_values_ecoregions)<- ecoregion_codes
+names(mntd_values_ecoregions)<- ecoregion_codes
+names(missing_species_ecoregions)<- ecoregion_codes
+names(present_species_ecoregions)<- ecoregion_codes
+
+#here quartile is the largest value that the pd value is smaller than. 
+combined_list_ecoregions<- Map(list,missing_species = missing_species_ecoregions, present_species = present_species_ecoregions,pd = pd_values_ecoregions, mpd = mpd_values_ecoregions, mntd = mntd_values_ecoregions)
+
+json_data_ecoregions <- jsonlite::toJSON(combined_list_ecoregions)
+# Write the JSON data to a file
+
+#this I will give to Mia to look at. 
+writeLines(json_data_ecoregions, "birds/range_ecoregions_data_statistics.json")

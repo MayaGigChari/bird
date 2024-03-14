@@ -41,8 +41,8 @@ mntd_data<- read.csv("birds/rangesCI_mntd_output_bootstrap_bird.csv")
 
 #need to figure out how to write this to json. 
 pd_model<-as_tibble(t(surfaceGen(pd_data, "pd")), rownames = "key") #need to make models. 
-mpd_model<-t(surfaceGen(mpd_data, "mpd"))
-mntd_model<-t(surfaceGen(mntd_data, "mntd"))
+mpd_model<-as_tibble(t(surfaceGen(mpd_data, "mpd")), rownames = "key")
+mntd_model<-as_tibble(t(surfaceGen(mntd_data, "mntd")), rownames = "key")
 
 #plot(mpd_model$tree_sizes, mpd_model$low)
 
@@ -61,4 +61,31 @@ json_mntd<- toJSON(x = mntd_model, dataframe = 'rows', pretty = F)
 write(json_mntd, file = "birds/mntd_model_params.json")
 
 
+#surface generation for ecoregions: 
+
+dir_list_ecoregions <- list.dirs("birds/ecoregion_data",recursive = FALSE)  
+
+
+for(i in dir_list_ecoregions)
+{
+  pd_data_temp<- read.csv(paste(i, "/ecoregionsCI_pd_output_bootstrap_bird.csv", sep = ""))
+  mpd_data_temp<- read.csv(paste(i, "/ecoregionsCI_mpd_output_bootstrap_bird.csv", sep = ""))
+  mntd_data_temp<- read.csv(paste(i,"/ecoregionsCI_mntd_output_bootstrap_bird.csv", sep = ""))
+  
+  pd_model_temp<-as_tibble(t(surfaceGen(pd_data_temp, "pd")), rownames = "key") #need to make models. 
+  mpd_model_temp<-as_tibble(t(surfaceGen(mpd_data_temp, "mpd")), rownames = "key")
+  mntd_model_temp<-as_tibble(t(surfaceGen(mntd_data_temp, "mntd")), rownames = "key")
+  
+  json_pd<- toJSON(x = pd_model, dataframe = 'rows', pretty = F)
+  write(json_pd, file = paste(i, "/pd_model_params.json", sep = ""))
+  
+  json_mpd<- toJSON(x = mpd_model, dataframe = 'rows', pretty = F)
+  write(json_mpd, file = paste(i,"/mpd_model_params.json", sep = ""))
+  
+  json_mntd<- toJSON(x = mntd_model, dataframe = 'rows', pretty = F)
+  write(json_mntd, file = paste(i, "/mntd_model_params.json", sep = ""))
+  
+}
+
+#also need to get the pd, mpd and mntd statistics for each ecoregion like was done for the hex data. 
 

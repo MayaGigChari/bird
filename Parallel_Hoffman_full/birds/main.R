@@ -116,7 +116,6 @@ for(directory in dir_list_ecoregions)
   write.csv(unmatched_ecoregion_species, file = paste(directory, "/species_absent_from_tree.csv", sep = ""))
   write.csv(matched_ecoregion_species, file = paste(directory, "/species_present_in_tree.csv", sep = ""))
   write.tree(ecoregion_tree, file = paste(directory, "/trimmed_tree.tre", sep = ""))
-  break
 }
 
 

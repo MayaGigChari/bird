@@ -89,11 +89,5 @@ for(i in 1: length(dir_list_ecoregions))
   saveRDS(ecoregion_range_rds, file = paste(dir_list_ecoregions[i], "/hex_range_polygon_data.rds", sep  = ""))
   print(i)
 }
-#one polygon hex data thing has holes. but that should be ok all things conidered. 
-
-#test
-#ecoregions_L3codes[2]
-#a<- readRDS("birds/ecoregion_data/9/hex_range_polygon_data.rds")
 
 
-#output of this file is species rds's with just the particular range geometries, for generation of future null models. 
