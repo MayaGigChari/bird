@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE metadata SYSTEM "http://www.fgdc.gov/metadata/fgdc-std-001-1998.dtd">
+<metadata>
+	<idinfo>
+		<citation>
+			<citeinfo>
+				<origin>USDA Forest Service, Tahoe National Forest</origin>
+				<pubdate>20070614</pubdate>
+				<pubtime>Unknown</pubtime>
+				<title Sync="TRUE">SurfaceOwnership</title>
+				<geoform Sync="TRUE">vector digital data</geoform>
+				<serinfo>
+					<sername>USFS Corporate Geospatial Data</sername>
+				</serinfo>
+				<pubinfo>
+					<pubplace>Nevada City, CA</pubplace>
+					<publish>Tahoe National Forest</publish>
+				</pubinfo>
+				<ftname Sync="TRUE">SurfaceOwnership</ftname><onlink Sync="TRUE"></onlink></citeinfo>
+		</citation>
+		<descript>
+			<abstract>Data taken from the U. S. Forest Service ALP dataset.  This data provides details of the surface ownership of all land within the Tahoe National Forest Boundary.</abstract>
+			<purpose>As part of a developing digital data base covering all areas of Forest Service interest to support and provide information for the management of Forest Service resource programs.</purpose>
+			<langdata Sync="TRUE">en</langdata><supplinf>There is a relationship class, Ownership, which can be joined with this Feature Class table.  With that join, it is possible to query for the names and locations of the 20 major land owners inside the Tahos National Forest.</supplinf></descript>
+		<timeperd>
+			<timeinfo>
+				<sngdate>
+					<caldate>May, 2007</caldate>
+				</sngdate>
+			</timeinfo>
+			<current>ground condition</current>
+		</timeperd>
+		<status>
+			<progress>In work</progress>
+			<update>Irregular</update>
+		</status>
+		<spdom>
+			<bounding>
+				<westbc Sync="TRUE">-121.174393</westbc>
+				<eastbc Sync="TRUE">-119.983676</eastbc>
+				<northbc Sync="TRUE">39.810406</northbc>
+				<southbc Sync="TRUE">38.978725</southbc>
+			</bounding>
+			<lboundng><leftbc Sync="TRUE">658082.419000</leftbc><rightbc Sync="TRUE">758296.735000</rightbc><bottombc Sync="TRUE">4318645.534000</bottombc><topbc Sync="TRUE">4408345.922000</topbc></lboundng></spdom>
+		<keywords>
+			<theme>
+				<themekt>US Forest Service Data Dictionary</themekt>
+				<themekey>Surface Owner</themekey><themekey>Surface Ownership</themekey><themekey>Land Steward</themekey><themekey>Owner</themekey></theme>
+			<place>
+				<placekey>Tahoe National Forest</placekey>
+				<placekey>Forest Service</placekey>
+				<placekey>Regon 5</placekey>
+				<placekey>California</placekey></place>
+		</keywords>
+		<accconst>None</accconst>
+		<useconst>None</useconst>
+		<ptcontac>
+			<cntinfo>
+				<cntorgp>
+					<cntorg>USDA Forest Service, Tahoe National Forest</cntorg>
+					<cntper>GIS Coordinator</cntper>
+				</cntorgp>
+				<cntpos>Forest GIS Coordinator</cntpos>
+				<cntaddr>
+					<addrtype>mailing and physical address</addrtype>
+					<address>631 Coyote Street</address>
+					<city>Nevada City</city>
+					<state>California</state>
+					<postal>95959-2250</postal>
+					<country>United States</country>
+				</cntaddr>
+				<cntvoice>530-265-4531</cntvoice>
+				<cnttdd>530-478-6118</cnttdd>
+				<cntfax>530-478-6109</cntfax>
+				<cntemail>jbabin@fs.fed.us</cntemail>
+				<hours>Monday-Friday 8am-4:30pm, PT</hours>
+				<cntinst>Office is closed on Federal Holidays</cntinst>
+			</cntinfo>
+		</ptcontac>
+		<datacred>USDA Forest Service - Tahoe National Forest</datacred>
+		<secinfo>
+			<secsys>None in place</secsys>
+			<secclass>Unclassified</secclass>
+		</secinfo>
+		<native Sync="TRUE">Microsoft Windows XP Version 5.1 (Build 2600) Service Pack 3; ESRI ArcCatalog 9.3.1.4000</native>
+		<natvform Sync="TRUE">File Geodatabase Feature Class</natvform></idinfo>
+	<dataqual>
+		<lineage>
+			<procstep><procdesc Sync="TRUE">Metadata imported.</procdesc><srcused Sync="TRUE">C:\Documents and Settings\wcecchin\My Documents\GIS\docs\metadata_tnf\surf_own.xml</srcused><date Sync="TRUE">20070614</date><time Sync="TRUE">07342700</time></procstep><procstep><procdesc Sync="TRUE">Dataset copied.</procdesc><srcused Sync="TRUE">\\PCDE5BPYR81\E$\Library\TahoeGIS_Library83.mdb</srcused><date Sync="TRUE">20071018</date><time Sync="TRUE">09331500</time></procstep><procstep><procdesc Sync="TRUE">Dataset copied.</procdesc><srcused Sync="TRUE">\\PCDECPSX981\shared1\TransferToV.mdb</srcused><date Sync="TRUE">20071018</date><time Sync="TRUE">15064900</time></procstep><procstep><procdesc Sync="TRUE">Dataset copied.</procdesc><srcused Sync="TRUE">\\PCIBKQRLRP4\E$\Library\TahoeGIS_Library83.mdb</srcused><date Sync="TRUE">20080123</date><time Sync="TRUE">13293100</time></procstep><procstep><procdesc Sync="TRUE">Dataset copied.</procdesc><srcused Sync="TRUE">\\PCIBKQRLRP4\ZProWorkspace\UpDates\Land\LandUpdatesToLib.gdb</srcused><procdate Sync="TRUE">20090608</procdate><proctime Sync="TRUE">08160700</proctime></procstep><procstep><procdesc Sync="TRUE">Dataset copied.</procdesc><srcused Sync="TRUE">\\PCDECPSX981\G\GIS\R05\TNF\Data\BaseData\BaseData.gdb</srcused><procdate Sync="TRUE">20090609</procdate><proctime Sync="TRUE">11233700</proctime></procstep><procstep><procdesc Sync="TRUE">Dataset copied.</procdesc><srcused Sync="TRUE">\\LTIBLKVPWM8\C$\temp\ExpForestSurfOwn.gdb</srcused><procdate Sync="TRUE">20111012</procdate><proctime Sync="TRUE">16505100</proctime></procstep></lineage>
+	</dataqual>
+	<spdoinfo>
+		<direct Sync="TRUE">Vector</direct>
+		<ptvctinf>
+			<sdtsterm Name="SurfaceOwnership">
+				<sdtstype Sync="TRUE">G-polygon</sdtstype>
+				<ptvctcnt Sync="TRUE">0</ptvctcnt>
+			</sdtsterm>
+			<sdtsterm>
+				<sdtstype>Label point</sdtstype>
+				<ptvctcnt>7394</ptvctcnt>
+			</sdtsterm>
+			<sdtsterm>
+				<sdtstype>GT-polygon composed of chains</sdtstype>
+				<ptvctcnt>7398</ptvctcnt>
+			</sdtsterm>
+			<sdtsterm>
+				<sdtstype>Point</sdtstype>
+				<ptvctcnt>89</ptvctcnt>
+			</sdtsterm>
+			<sdtsterm>
+				<sdtstype>Composite object</sdtstype>
+				<ptvctcnt>5832</ptvctcnt>
+			</sdtsterm>
+			<esriterm Name="SurfaceOwnership"><efeatyp Sync="TRUE">Simple</efeatyp><efeageom Sync="TRUE">Polygon</efeageom><esritopo Sync="TRUE">FALSE</esritopo><efeacnt Sync="TRUE">0</efeacnt><spindex Sync="TRUE">TRUE</spindex><linrefer Sync="TRUE">FALSE</linrefer></esriterm></ptvctinf>
+	</spdoinfo>
+	<spref>
+		<horizsys>
+			<planar>
+				<planci>
+					<plance Sync="TRUE">coordinate pair</plance>
+					<coordrep>
+						<absres Sync="TRUE">0.000100</absres>
+						<ordres Sync="TRUE">0.000100</ordres>
+					</coordrep>
+					<plandu Sync="TRUE">meters</plandu>
+				</planci>
+				<gridsys><gridsysn Sync="TRUE">Universal Transverse Mercator</gridsysn><utm><utmzone Sync="TRUE">10</utmzone><transmer><sfctrmer Sync="TRUE">0.999600</sfctrmer><longcm Sync="TRUE">-123.000000</longcm><latprjo Sync="TRUE">0.000000</latprjo><feast Sync="TRUE">500000.000000</feast><fnorth Sync="TRUE">0.000000</fnorth></transmer></utm></gridsys></planar>
+			<geodetic>
+				<horizdn Sync="TRUE">North American Datum of 1983</horizdn>
+				<ellips Sync="TRUE">Geodetic Reference System 80</ellips>
+				<semiaxis Sync="TRUE">6378137.000000</semiaxis>
+				<denflat Sync="TRUE">298.257222</denflat>
+			</geodetic>
+			<cordsysn><projcsn Sync="TRUE">NAD_1983_UTM_Zone_10N</projcsn><geogcsn Sync="TRUE">GCS_North_American_1983</geogcsn></cordsysn></horizsys>
+		<vertdef><altsys><altenc Sync="TRUE">Explicit elevation coordinate included with horizontal coordinates</altenc><altres Sync="TRUE">0.000100</altres></altsys></vertdef></spref>
+	<eainfo>
+		<detailed Name="SurfaceOwnership"><enttyp><enttypl Sync="TRUE">SurfaceOwnership</enttypl><enttypt Sync="TRUE">Feature Class</enttypt><enttypc Sync="TRUE">0</enttypc></enttyp><attr><attrlabl Sync="TRUE">OBJECTID</attrlabl><attalias Sync="TRUE">OBJECTID</attalias><attrtype Sync="TRUE">OID</attrtype><attwidth Sync="TRUE">4</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale><attrdef Sync="TRUE">Internal feature number.</attrdef><attrdefs Sync="TRUE">ESRI</attrdefs><attrdomv><udom Sync="TRUE">Sequential unique whole numbers that are automatically generated.</udom></attrdomv></attr><attr><attrlabl Sync="TRUE">Shape</attrlabl><attalias Sync="TRUE">Shape</attalias><attrtype Sync="TRUE">Geometry</attrtype><attwidth Sync="TRUE">0</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale><attrdef Sync="TRUE">Feature geometry.</attrdef><attrdefs Sync="TRUE">ESRI</attrdefs><attrdomv><udom Sync="TRUE">Coordinates defining the features.</udom></attrdomv></attr><attr><attrlabl Sync="TRUE">OWNERSHIP</attrlabl><attalias Sync="TRUE">OWNERSHIP</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">1</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">OWNER</attrlabl><attalias Sync="TRUE">OWNER</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">1</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">UPDATE_</attrlabl><attalias Sync="TRUE">UPDATE_</attalias><attrtype Sync="TRUE">Date</attrtype><attwidth Sync="TRUE">8</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">ACRES</attrlabl><attalias Sync="TRUE">ACRES</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">8</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">ACQUIRED</attrlabl><attalias Sync="TRUE">ACQUIRED</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">10</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">SURF_OWN_CN</attrlabl><attalias Sync="TRUE">SURF_OWN_CN</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">34</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">OriginalOwnership</attrlabl><attalias Sync="TRUE">OriginalOwnership</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">1</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">InteriorExclusions</attrlabl><attalias Sync="TRUE">InteriorExclusions</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">1</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">OwnerName</attrlabl><attalias Sync="TRUE">OwnerName</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">35</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">TPL_LWCF</attrlabl><attalias Sync="TRUE">TPL_LWCF</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">50</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">Shape_Length</attrlabl><attalias Sync="TRUE">Shape_Length</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">8</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale><attrdef Sync="TRUE">Length of feature in internal units.</attrdef><attrdefs Sync="TRUE">ESRI</attrdefs><attrdomv><udom Sync="TRUE">Positive real numbers that are automatically generated.</udom></attrdomv></attr><attr><attrlabl Sync="TRUE">Shape_Area</attrlabl><attalias Sync="TRUE">Shape_Area</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">8</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale><attrdef Sync="TRUE">Area of feature in internal units squared.</attrdef><attrdefs Sync="TRUE">ESRI</attrdefs><attrdomv><udom Sync="TRUE">Positive real numbers that are automatically generated.</udom></attrdomv></attr></detailed><detailed Name="Owneship"><enttyp><enttypl Sync="TRUE">Owneship</enttypl><enttypt Sync="TRUE">Relationship</enttypt></enttyp></detailed><overview><dsoverv>Ownership = 1 for U.S. Forest Service or 2 for Other Private Miscellaneous.  Note ( 5 ) was added by Region Office for Meandered Lake areas.</dsoverv></overview></eainfo>
+	<distinfo>
+		<distrib>
+			<cntinfo>
+				<cntorgp>
+					<cntorg>USDA Forest Service, Tahoe National Forest</cntorg>
+					<cntper>GIS Coordinator</cntper>
+				</cntorgp>
+				<cntpos>Forest GIS Coordinator</cntpos>
+				<cntaddr>
+					<addrtype>mailing and physical address</addrtype>
+					<address>631 Coyote Street</address>
+					<city>Nevada City</city>
+					<state>California</state>
+					<postal>95959-2250</postal>
+					<country>USA</country>
+				</cntaddr>
+				<cntvoice>530-265-4531</cntvoice>
+				<cnttdd>530-478-6116</cnttdd>
+				<cntfax>530-478-6109</cntfax>
+				<cntemail>jbabin@fs.fed.us</cntemail>
+				<hours>8 AM - 4:30 PM Monday through Friday</hours>
+				<cntinst>Office is closed on Federal Holidays.</cntinst></cntinfo>
+		</distrib>
+		<resdesc>surf_own</resdesc>
+		<distliab>No warranty is expressed or implied regarding the utility of this geospatial data. Neither the Forest Service, Tahoe National Forest, nor anyone else who has been involved in the creation, production, or delivery of this data shall be liable for any direct, indirect, consequential or incidental damages (including damages for loss of business profits, business interruption, loss of business information and the like) arising out of the using, misusing, or inability to use this data.  The Forest Service reserves the right to correct, modify, update, or replace this data without notification.</distliab>
+		<stdorder>
+			<digform>
+				<digtinfo>
+					<formname>ESRI - ArcGIS </formname><formvern>ArcGIS 9.x</formvern><formspec>Shapefile or Personal Geodatabase</formspec><formcont>Geospatial data</formcont><filedec>PKZip</filedec></digtinfo>
+				<digtopt><offoptn><offmedia>CD-ROM</offmedia></offoptn><onlinopt><computer><networka/></computer><accinstr>Contact Tahoe National Forest-GIS for FTP access</accinstr></onlinopt></digtopt></digform>
+			<fees>To be determined</fees>
+			<ordering>Request information through the Tahoe National Forest, GIS Coordinator at: 530-265-4531</ordering>
+			<turnarnd>Varies with workload and type of data requested.</turnarnd></stdorder>
+		<custom>Data may be ordered on CD in ESRI - ArcGIS Shapefile format by contacting the Tahoe National Forest GIS Coordinator through the front office at: 530-265-4531.</custom>
+		<techpreq>Requires ArcView or ArcGIS view the data.</techpreq>
+	</distinfo>
+	<metainfo>
+		<metd Sync="TRUE">20111011</metd>
+		<metc>
+			<cntinfo>
+				<cntorgp>
+					<cntorg>Tahoe National Forest, USDA-Forest Service</cntorg>
+					<cntper>DATA STEWARD</cntper>
+				</cntorgp>
+				<cntpos>Resource Officer</cntpos>
+				<cntaddr>
+					<addrtype>mailing and physical address</addrtype>
+					<address>631 Coyote Street</address>
+					<city>Nevada City</city>
+					<state>California</state>
+					<postal>95959-2250</postal>
+					<country>USA</country>
+				</cntaddr>
+				<cntvoice>530-265-4531</cntvoice>
+				<cntfax>530-478-6109</cntfax>
+				<hours>8 AM to 4:30 PM, Monday through Friday.</hours>
+				<cntinst>Call the Tahoe National Forest (listed number) to contact the current Resource Officer of this data.</cntinst>
+			</cntinfo>
+		</metc>
+		<metstdn Sync="TRUE">FGDC Content Standards for Digital Geospatial Metadata</metstdn>
+		<metstdv Sync="TRUE">FGDC-STD-001-1998</metstdv>
+		<mettc Sync="TRUE">local time</mettc>
+		<langmeta Sync="TRUE">en</langmeta><metextns><onlink Sync="TRUE">http://www.esri.com/metadata/esriprof80.html</onlink><metprof Sync="TRUE">ESRI Metadata Profile</metprof></metextns></metainfo>
+	<Esri><ModDate>20111011</ModDate><ModTime>09274900</ModTime><CreaDate>20140414</CreaDate><CreaTime>13094700</CreaTime><SyncOnce>FALSE</SyncOnce><SyncDate>20111011</SyncDate><SyncTime>09274900</SyncTime><DataProperties><lineage><Process ToolSource="C:\Program Files\ArcGIS\ArcToolbox\Toolboxes\Conversion Tools.tbx\FeatureClassToFeatureClass" Date="20090430" Time="140845">FeatureClassToFeatureClass C:\WorkSpace\UpDates\Land\LandUpdatesToLIB.mdb\Land\surf_own C:\WorkSpace\UpDates\Land\LandUpdatesToLib.gdb\Land surf_own # "OWNERSHIP 'OWNERSHIP' true true false 1 Text 0 0 ,First,#,C:\WorkSpace\UpDates\Land\LandUpdatesToLIB.mdb\Land\surf_own,OWNERSHIP,-1,-1;OWNER 'OWNER' true true false 1 Text 0 0 ,First,#,C:\WorkSpace\UpDates\Land\LandUpdatesToLIB.mdb\Land\surf_own,OWNER,-1,-1;UPDATE_ 'UPDATE_' true true false 8 Date 0 0 ,First,#,C:\WorkSpace\UpDates\Land\LandUpdatesToLIB.mdb\Land\surf_own,UPDATE_,-1,-1;ACRES 'ACRES' true true false 8 Double 0 0 ,First,#,C:\WorkSpace\UpDates\Land\LandUpdatesToLIB.mdb\Land\surf_own,ACRES,-1,-1;ACQUIRED 'ACQUIRED' true true false 10 Text 0 0 ,First,#,C:\WorkSpace\UpDates\Land\LandUpdatesToLIB.mdb\Land\surf_own,ACQUIRED,-1,-1;SURF_OWN_CN 'SURF_OWN_CN' true true false 34 Text 0 0 ,First,#,C:\WorkSpace\UpDates\Land\LandUpdatesToLIB.mdb\Land\surf_own,SURF_OWN_CN,-1,-1;OriginalOwnership 'OriginalOwnership' true true false 1 Text 0 0 ,First,#,C:\WorkSpace\UpDates\Land\LandUpdatesToLIB.mdb\Land\surf_own,OriginalOwnership,-1,-1;InteriorExclusions 'InteriorExclusions' true true false 1 Text 0 0 ,First,#,C:\WorkSpace\UpDates\Land\LandUpdatesToLIB.mdb\Land\surf_own,InteriorExclusions,-1,-1;Shape_Length 'Shape_Length' false true true 8 Double 0 0 ,First,#,C:\WorkSpace\UpDates\Land\LandUpdatesToLIB.mdb\Land\surf_own,Shape_Length,-1,-1;Shape_Area 'Shape_Area' false true true 8 Double 0 0 ,First,#,C:\WorkSpace\UpDates\Land\LandUpdatesToLIB.mdb\Land\surf_own,Shape_Area,-1,-1;OwnerName 'OwnerName' true true false 35 Text 0 0 ,First,#,C:\WorkSpace\UpDates\Land\LandUpdatesToLIB.mdb\Land\surf_own,OwnerName,-1,-1" # C:\WorkSpace\UpDates\Land\LandUpdatesToLib.gdb\Land\surf_own</Process><Process ToolSource="C:\Program Files\ArcGIS\ArcToolbox\Toolboxes\Conversion Tools.tbx\FeatureClassToFeatureClass" Date="20090608" Time="081746">FeatureClassToFeatureClass C:\WorkSpace\GIS\R05\TNF\Data\BaseData\BaseData.gdb\surf_own C:\WorkSpace\GIS\R05\TNF\Data\TNF_Library.gdb\Land surf_own # "OWNERSHIP 'OWNERSHIP' true true false 1 Text 0 0 ,First,#,C:\WorkSpace\GIS\R05\TNF\Data\BaseData\BaseData.gdb\surf_own,OWNERSHIP,-1,-1;OWNER 'OWNER' true true false 1 Text 0 0 ,First,#,C:\WorkSpace\GIS\R05\TNF\Data\BaseData\BaseData.gdb\surf_own,OWNER,-1,-1;UPDATE_ 'UPDATE_' true true false 8 Date 0 0 ,First,#,C:\WorkSpace\GIS\R05\TNF\Data\BaseData\BaseData.gdb\surf_own,UPDATE_,-1,-1;ACRES 'ACRES' true true false 8 Double 0 0 ,First,#,C:\WorkSpace\GIS\R05\TNF\Data\BaseData\BaseData.gdb\surf_own,ACRES,-1,-1;ACQUIRED 'ACQUIRED' true true false 10 Text 0 0 ,First,#,C:\WorkSpace\GIS\R05\TNF\Data\BaseData\BaseData.gdb\surf_own,ACQUIRED,-1,-1;SURF_OWN_CN 'SURF_OWN_CN' true true false 34 Text 0 0 ,First,#,C:\WorkSpace\GIS\R05\TNF\Data\BaseData\BaseData.gdb\surf_own,SURF_OWN_CN,-1,-1;OriginalOwnership 'OriginalOwnership' true true false 1 Text 0 0 ,First,#,C:\WorkSpace\GIS\R05\TNF\Data\BaseData\BaseData.gdb\surf_own,OriginalOwnership,-1,-1;InteriorExclusions 'InteriorExclusions' true true false 1 Text 0 0 ,First,#,C:\WorkSpace\GIS\R05\TNF\Data\BaseData\BaseData.gdb\surf_own,InteriorExclusions,-1,-1;OwnerName 'OwnerName' true true false 35 Text 0 0 ,First,#,C:\WorkSpace\GIS\R05\TNF\Data\BaseData\BaseData.gdb\surf_own,OwnerName,-1,-1;Shape_Length 'Shape_Length' false true true 8 Double 0 0 ,First,#,C:\WorkSpace\GIS\R05\TNF\Data\BaseData\BaseData.gdb\surf_own,Shape_Length,-1,-1;Shape_Area 'Shape_Area' false true true 8 Double 0 0 ,First,#,C:\WorkSpace\GIS\R05\TNF\Data\BaseData\BaseData.gdb\surf_own,Shape_Area,-1,-1" # C:\WorkSpace\GIS\R05\TNF\Data\TNF_Library.gdb\Land\surf_own</Process><Process ToolSource="C:\Program Files\ArcGIS\ArcToolbox\Toolboxes\Conversion Tools.tbx\FeatureClassToFeatureClass" Date="20090608" Time="104531">FeatureClassToFeatureClass F:\GIS\R05\TNF\Data\TNF_Library.gdb\Land\surf_own F:\GIS\R05\TNF\Data\BaseData\BaseData.gdb surf_own # "OWNERSHIP 'OWNERSHIP' true true false 1 Text 0 0 ,First,#,F:\GIS\R05\TNF\Data\TNF_Library.gdb\Land\surf_own,OWNERSHIP,-1,-1;OWNER 'OWNER' true true false 1 Text 0 0 ,First,#,F:\GIS\R05\TNF\Data\TNF_Library.gdb\Land\surf_own,OWNER,-1,-1;UPDATE_ 'UPDATE_' true true false 8 Date 0 0 ,First,#,F:\GIS\R05\TNF\Data\TNF_Library.gdb\Land\surf_own,UPDATE_,-1,-1;ACRES 'ACRES' true true false 8 Double 0 0 ,First,#,F:\GIS\R05\TNF\Data\TNF_Library.gdb\Land\surf_own,ACRES,-1,-1;ACQUIRED 'ACQUIRED' true true false 10 Text 0 0 ,First,#,F:\GIS\R05\TNF\Data\TNF_Library.gdb\Land\surf_own,ACQUIRED,-1,-1;SURF_OWN_CN 'SURF_OWN_CN' true true false 34 Text 0 0 ,First,#,F:\GIS\R05\TNF\Data\TNF_Library.gdb\Land\surf_own,SURF_OWN_CN,-1,-1;OriginalOwnership 'OriginalOwnership' true true false 1 Text 0 0 ,First,#,F:\GIS\R05\TNF\Data\TNF_Library.gdb\Land\surf_own,OriginalOwnership,-1,-1;InteriorExclusions 'InteriorExclusions' true true false 1 Text 0 0 ,First,#,F:\GIS\R05\TNF\Data\TNF_Library.gdb\Land\surf_own,InteriorExclusions,-1,-1;OwnerName 'OwnerName' true true false 35 Text 0 0 ,First,#,F:\GIS\R05\TNF\Data\TNF_Library.gdb\Land\surf_own,OwnerName,-1,-1;Shape_Length 'Shape_Length' false true true 8 Double 0 0 ,First,#,F:\GIS\R05\TNF\Data\TNF_Library.gdb\Land\surf_own,Shape_Length,-1,-1;Shape_Area 'Shape_Area' false true true 8 Double 0 0 ,First,#,F:\GIS\R05\TNF\Data\TNF_Library.gdb\Land\surf_own,Shape_Area,-1,-1" # F:\GIS\R05\TNF\Data\BaseData\BaseData.gdb\surf_own</Process><Process ToolSource="C:\Program Files\ArcGIS\ArcToolbox\Toolboxes\Data Management Tools.tbx\RepairGeometry" Date="20090612" Time="150125">RepairGeometry C:\WorkSpace\GIS\R05\TNF\Data\TNF_Library.gdb\Land\surf_own DELETE_NULL C:\WorkSpace\GIS\R05\TNF\Data\TNF_Library.gdb\Land\surf_own</Process><Process ToolSource="C:\Program Files\ArcGIS\ArcToolbox\Toolboxes\Data Management Tools.tbx\CopyFeatures" Date="20090612" Time="151512">CopyFeatures C:\WorkSpace\GIS\R05\TNF\Data\TNF_Library.gdb\Land\surf_own C:\temp\NewLibrary.gdb\Land\surf_own # 0 0 0</Process><Process ToolSource="C:\Program Files\ArcGIS\ArcToolbox\Toolboxes\Conversion Tools.tbx\FeatureClassToFeatureClass" Date="20090805" Time="082737">FeatureClassToFeatureClass C:\WorkSpace\GIS\R05\TNF\Data\TNF_Library.gdb\Land\SurfaceOwnership C:\WorkSpace\UpDates\Land\LandUpdatesToLib.gdb\Land SurfaceOwnership # "OWNERSHIP 'OWNERSHIP' true true false 1 Text 0 0 ,First,#,C:\WorkSpace\GIS\R05\TNF\Data\TNF_Library.gdb\Land\SurfaceOwnership,OWNERSHIP,-1,-1;OWNER 'OWNER' true true false 1 Text 0 0 ,First,#,C:\WorkSpace\GIS\R05\TNF\Data\TNF_Library.gdb\Land\SurfaceOwnership,OWNER,-1,-1;UPDATE_ 'UPDATE_' true true false 8 Date 0 0 ,First,#,C:\WorkSpace\GIS\R05\TNF\Data\TNF_Library.gdb\Land\SurfaceOwnership,UPDATE_,-1,-1;ACRES 'ACRES' true true false 8 Double 0 0 ,First,#,C:\WorkSpace\GIS\R05\TNF\Data\TNF_Library.gdb\Land\SurfaceOwnership,ACRES,-1,-1;ACQUIRED 'ACQUIRED' true true false 10 Text 0 0 ,First,#,C:\WorkSpace\GIS\R05\TNF\Data\TNF_Library.gdb\Land\SurfaceOwnership,ACQUIRED,-1,-1;SURF_OWN_CN 'SURF_OWN_CN' true true false 34 Text 0 0 ,First,#,C:\WorkSpace\GIS\R05\TNF\Data\TNF_Library.gdb\Land\SurfaceOwnership,SURF_OWN_CN,-1,-1;OriginalOwnership 'OriginalOwnership' true true false 1 Text 0 0 ,First,#,C:\WorkSpace\GIS\R05\TNF\Data\TNF_Library.gdb\Land\SurfaceOwnership,OriginalOwnership,-1,-1;InteriorExclusions 'InteriorExclusions' true true false 1 Text 0 0 ,First,#,C:\WorkSpace\GIS\R05\TNF\Data\TNF_Library.gdb\Land\SurfaceOwnership,InteriorExclusions,-1,-1;OwnerName 'OwnerName' true true false 35 Text 0 0 ,First,#,C:\WorkSpace\GIS\R05\TNF\Data\TNF_Library.gdb\Land\SurfaceOwnership,OwnerName,-1,-1;Shape_Length 'Shape_Length' false true true 8 Double 0 0 ,First,#,C:\WorkSpace\GIS\R05\TNF\Data\TNF_Library.gdb\Land\SurfaceOwnership,Shape_Length,-1,-1;Shape_Area 'Shape_Area' false true true 8 Double 0 0 ,First,#,C:\WorkSpace\GIS\R05\TNF\Data\TNF_Library.gdb\Land\SurfaceOwnership,Shape_Area,-1,-1" # C:\WorkSpace\UpDates\Land\LandUpdatesToLib.gdb\Land\SurfaceOwnership</Process><Process ToolSource="C:\Program Files\ArcGIS\ArcToolbox\Toolboxes\Conversion Tools.tbx\FeatureClassToFeatureClass" Date="20110203" Time="153016">FeatureClassToFeatureClass C:\WorkSpace\UpDates\Land\LandUpdatesToLib.gdb\Land\SurfaceOwnership V:\gis\r05\tnf\data\TNF_Library.gdb\Land SurfaceOwnership # "OWNERSHIP 'OWNERSHIP' true true false 1 Text 0 0 ,First,#,C:\WorkSpace\UpDates\Land\LandUpdatesToLib.gdb\Land\SurfaceOwnership,OWNERSHIP,-1,-1;OWNER 'OWNER' true true false 1 Text 0 0 ,First,#,C:\WorkSpace\UpDates\Land\LandUpdatesToLib.gdb\Land\SurfaceOwnership,OWNER,-1,-1;UPDATE_ 'UPDATE_' true true false 8 Date 0 0 ,First,#,C:\WorkSpace\UpDates\Land\LandUpdatesToLib.gdb\Land\SurfaceOwnership,UPDATE_,-1,-1;ACRES 'ACRES' true true false 8 Double 0 0 ,First,#,C:\WorkSpace\UpDates\Land\LandUpdatesToLib.gdb\Land\SurfaceOwnership,ACRES,-1,-1;ACQUIRED 'ACQUIRED' true true false 10 Text 0 0 ,First,#,C:\WorkSpace\UpDates\Land\LandUpdatesToLib.gdb\Land\SurfaceOwnership,ACQUIRED,-1,-1;SURF_OWN_CN 'SURF_OWN_CN' true true false 34 Text 0 0 ,First,#,C:\WorkSpace\UpDates\Land\LandUpdatesToLib.gdb\Land\SurfaceOwnership,SURF_OWN_CN,-1,-1;OriginalOwnership 'OriginalOwnership' true true false 1 Text 0 0 ,First,#,C:\WorkSpace\UpDates\Land\LandUpdatesToLib.gdb\Land\SurfaceOwnership,OriginalOwnership,-1,-1;InteriorExclusions 'InteriorExclusions' true true false 1 Text 0 0 ,First,#,C:\WorkSpace\UpDates\Land\LandUpdatesToLib.gdb\Land\SurfaceOwnership,InteriorExclusions,-1,-1;OwnerName 'OwnerName' true true false 35 Text 0 0 ,First,#,C:\WorkSpace\UpDates\Land\LandUpdatesToLib.gdb\Land\SurfaceOwnership,OwnerName,-1,-1;Shape_Length 'Shape_Length' false true true 8 Double 0 0 ,First,#,C:\WorkSpace\UpDates\Land\LandUpdatesToLib.gdb\Land\SurfaceOwnership,Shape_Length,-1,-1;Shape_Area 'Shape_Area' false true true 8 Double 0 0 ,First,#,C:\WorkSpace\UpDates\Land\LandUpdatesToLib.gdb\Land\SurfaceOwnership,Shape_Area,-1,-1;TPL_LWCF 'TPL_LWCF' true true false 50 Text 0 0 ,First,#,C:\WorkSpace\UpDates\Land\LandUpdatesToLib.gdb\Land\SurfaceOwnership,TPL_LWCF,-1,-1" # V:\gis\r05\tnf\data\TNF_Library.gdb\Land\SurfaceOwnership</Process><Process ToolSource="C:\Program Files\ArcGIS\ArcToolbox\Toolboxes\Data Management Tools.tbx\CopyFeatures" Date="20111011" Time="092750">CopyFeatures C:\WorkSpace\TNF_Library.gdb\Land\SurfaceOwnership C:\temp\ExpForestSurfOwn.gdb\DefaultFDS\SurfaceOwnership # 0 0 0</Process><Process ToolSource="C:\Program Files\ArcGIS\Desktop10.0\ArcToolbox\Toolboxes\Data Management Tools.tbx\Project" Date="20111013" Time="165733">Project D:\Vanessa_Temp\NRS\Faerthen_Files\SurfaceOwnership.shp D:\Vanessa_Temp\NRS\Faerthen_Files\SurfaceOwnership_1.shp PROJCS['NAD_1983_StatePlane_California_II_FIPS_0402_Feet',GEOGCS['GCS_North_American_1983',DATUM['D_North_American_1983',SPHEROID['GRS_1980',6378137.0,298.257222101]],PRIMEM['Greenwich',0.0],UNIT['Degree',0.0174532925199433]],PROJECTION['Lambert_Conformal_Conic'],PARAMETER['False_Easting',6561666.666666666],PARAMETER['False_Northing',1640416.666666667],PARAMETER['Central_Meridian',-122.0],PARAMETER['Standard_Parallel_1',38.33333333333334],PARAMETER['Standard_Parallel_2',39.83333333333334],PARAMETER['Latitude_Of_Origin',37.66666666666666],UNIT['Foot_US',0.3048006096012192]] # PROJCS['NAD_1983_UTM_Zone_10N',GEOGCS['GCS_North_American_1983',DATUM['D_North_American_1983',SPHEROID['GRS_1980',6378137.0,298.257222101]],PRIMEM['Greenwich',0.0],UNIT['Degree',0.0174532925199433]],PROJECTION['Transverse_Mercator'],PARAMETER['False_Easting',500000.0],PARAMETER['False_Northing',0.0],PARAMETER['Central_Meridian',-123.0],PARAMETER['Scale_Factor',0.9996],PARAMETER['Latitude_Of_Origin',0.0],UNIT['Meter',1.0]]</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130611" Time="112930">AddField "C:\Users\Kelly\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\__BoundaryADDATT\Chickering_Boundary.shp" NAME TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130611" Time="112931">AddField "C:\Users\Kelly\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\__BoundaryADDATT\Chickering_Boundary.shp" COUNTY TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130611" Time="112931">AddField "C:\Users\Kelly\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\__BoundaryADDATT\Chickering_Boundary.shp" CAMPUS TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130611" Time="112931">AddField "C:\Users\Kelly\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\__BoundaryADDATT\Chickering_Boundary.shp" RESERVEID DOUBLE # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130611" Time="112931">AddField "C:\Users\Kelly\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\__BoundaryADDATT\Chickering_Boundary.shp" COUNTYID DOUBLE # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130611" Time="112931">AddField "C:\Users\Kelly\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\__BoundaryADDATT\Chickering_Boundary.shp" CAMPUSID DOUBLE # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\DeleteField" Date="20130611" Time="114546">DeleteField Chickering_Boundary OBJECTID;OWNERSHIP;UPDATE_;ACQUIRED;SURF_OWN_C;OriginalOw;InteriorEx;TPL_LWCF;Shape_Leng;Shape_Area</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\Project" Date="20140414" Time="130945">Project C:/Users/Kelly/Desktop/All\Chickering_Boundary.shp C:/Users/Kelly/Desktop/All\Chickering_Boundary_prj_.shp PROJCS['NAD_1983_California_Teale_Albers',GEOGCS['GCS_North_American_1983',DATUM['D_North_American_1983',SPHEROID['GRS_1980',6378137.0,298.257222101]],PRIMEM['Greenwich',0.0],UNIT['Degree',0.0174532925199433]],PROJECTION['Albers'],PARAMETER['False_Easting',0.0],PARAMETER['False_Northing',-4000000.0],PARAMETER['Central_Meridian',-120.0],PARAMETER['Standard_Parallel_1',34.0],PARAMETER['Standard_Parallel_2',40.5],PARAMETER['Latitude_Of_Origin',0.0],UNIT['Meter',1.0]] # PROJCS['NAD_1983_StatePlane_California_II_FIPS_0402_Feet',GEOGCS['GCS_North_American_1983',DATUM['D_North_American_1983',SPHEROID['GRS_1980',6378137.0,298.257222101]],PRIMEM['Greenwich',0.0],UNIT['Degree',0.0174532925199433]],PROJECTION['Lambert_Conformal_Conic'],PARAMETER['False_Easting',6561666.666666666],PARAMETER['False_Northing',1640416.666666667],PARAMETER['Central_Meridian',-122.0],PARAMETER['Standard_Parallel_1',38.33333333333334],PARAMETER['Standard_Parallel_2',39.83333333333334],PARAMETER['Latitude_Of_Origin',37.66666666666666],UNIT['Foot_US',0.3048006096012192]]</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\Project" Date="20140414" Time="130947">Project C:/Users/Kelly/Desktop/All\Chickering_Boundary_prj_.shp C:/Users/Kelly/Desktop/All\Chickering_Boundary_prj__prj_.shp PROJCS['NAD_1983_California_Teale_Albers',GEOGCS['GCS_North_American_1983',DATUM['D_North_American_1983',SPHEROID['GRS_1980',6378137.0,298.257222101]],PRIMEM['Greenwich',0.0],UNIT['Degree',0.0174532925199433]],PROJECTION['Albers'],PARAMETER['False_Easting',0.0],PARAMETER['False_Northing',-4000000.0],PARAMETER['Central_Meridian',-120.0],PARAMETER['Standard_Parallel_1',34.0],PARAMETER['Standard_Parallel_2',40.5],PARAMETER['Latitude_Of_Origin',0.0],UNIT['Meter',1.0]] # PROJCS['NAD_1983_California_Teale_Albers',GEOGCS['GCS_North_American_1983',DATUM['D_North_American_1983',SPHEROID['GRS_1980',6378137.0,298.257222101]],PRIMEM['Greenwich',0.0],UNIT['Degree',0.0174532925199433]],PROJECTION['Albers'],PARAMETER['False_Easting',0.0],PARAMETER['False_Northing',-4000000.0],PARAMETER['Central_Meridian',-120.0],PARAMETER['Standard_Parallel_1',34.0],PARAMETER['Standard_Parallel_2',40.5],PARAMETER['Latitude_Of_Origin',0.0],UNIT['Meter',1.0]]</Process></lineage><itemProps><itemLocation><linkage Sync="TRUE">file://\\KELLY-PC\Users\Kelly\Dropbox\Shapefiles (2)\Chickering_Boundary\Chickering_Boundary</linkage><protocol Sync="TRUE">Local Area Network</protocol></itemLocation></itemProps><copyHistory><copy source="C:\Users\Kelly\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\__BoundaryADDATT\Done\Chickering_Boundary" dest="\\KELLY-PC\Users\Kelly\Dropbox\Shapefiles (2)\Chickering_Boundary\Chickering_Boundary" date="20130611" time="11432200"></copy></copyHistory></DataProperties><ArcGISFormat>1.0</ArcGISFormat></Esri><mdDateSt Sync="TRUE">20111011</mdDateSt><dataIdInfo><envirDesc Sync="TRUE">Microsoft Windows XP Version 5.1 (Build 2600) Service Pack 3; ESRI ArcCatalog 9.3.1.4000</envirDesc><dataLang><languageCode Sync="TRUE" value="en"></languageCode></dataLang><idCitation><resTitle Sync="TRUE">SurfaceOwnership</resTitle><presForm><PresFormCd Sync="TRUE" value="005"></PresFormCd></presForm></idCitation><spatRpType><SpatRepTypCd Sync="TRUE" value="001"></SpatRepTypCd></spatRpType><dataExt><geoEle><GeoBndBox esriExtentType="native"><westBL Sync="TRUE">658082.419</westBL><eastBL Sync="TRUE">758296.735</eastBL><northBL Sync="TRUE">4408345.922</northBL><southBL Sync="TRUE">4318645.534</southBL><exTypeCode Sync="TRUE">1</exTypeCode></GeoBndBox></geoEle></dataExt><geoBox esriExtentType="decdegrees"><westBL Sync="TRUE">-121.174393</westBL><eastBL Sync="TRUE">-119.983676</eastBL><northBL Sync="TRUE">39.810406</northBL><southBL Sync="TRUE">38.978725</southBL><exTypeCode Sync="TRUE">1</exTypeCode></geoBox></dataIdInfo><mdLang><languageCode Sync="TRUE" value="en"></languageCode></mdLang><mdStanName Sync="TRUE">ISO 19115 Geographic Information - Metadata</mdStanName><mdStanVer Sync="TRUE">DIS_ESRI1.0</mdStanVer><mdChar><CharSetCd Sync="TRUE" value="004"></CharSetCd></mdChar><mdHrLv><ScopeCd Sync="TRUE" value="005"></ScopeCd></mdHrLv><mdHrLvName Sync="TRUE">dataset</mdHrLvName><distInfo><distributor><distorTran><onLineSrc><orDesc Sync="TRUE">002</orDesc><linkage Sync="TRUE">file://</linkage><protocol Sync="TRUE">Local Area Network</protocol></onLineSrc></distorTran><distorFormat><formatName Sync="TRUE">File Geodatabase Feature Class</formatName></distorFormat></distributor></distInfo><refSysInfo><RefSystem><refSysID><identCode Sync="TRUE">NAD_1983_UTM_Zone_10N</identCode></refSysID></RefSystem></refSysInfo><spatRepInfo><VectSpatRep><topLvl><TopoLevCd Sync="TRUE" value="001"></TopoLevCd></topLvl><geometObjs Name="SurfaceOwnership"><geoObjTyp><GeoObjTypCd Sync="TRUE" value="001"></GeoObjTypCd></geoObjTyp><geoObjCnt Sync="TRUE">0</geoObjCnt></geometObjs></VectSpatRep></spatRepInfo></metadata>

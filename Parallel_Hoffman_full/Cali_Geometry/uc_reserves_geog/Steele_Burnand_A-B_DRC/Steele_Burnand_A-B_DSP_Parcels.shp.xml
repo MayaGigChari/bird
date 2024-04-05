@@ -1,0 +1,958 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<metadata>
+	<idinfo>
+		<citation>
+			<citeinfo>
+				<origin>CSP Northern Service Center; Acquisition and Real Property Services Division</origin>
+				<origin>CSP Surveys Section</origin>
+				<origin>CSP Enterprise GIS Team</origin>
+				<pubdate>20120309</pubdate>
+				<title Sync="TRUE">CalParksBoundaries2011</title>
+				<geoform Sync="TRUE">vector digital data</geoform>
+				<othercit>This CSP download dataset is in continual revision and does not represent official property boundary determinations.  Park Unit and Subunit names, management status, and administrative codes are in effect beginning in the State of California Fiscal Year (YR) of release.  Contact the CSP Surveys Section for official boundary information.  California State Parks (CSP) is also known as the California Department of Parks and Recreation (DPR).</othercit>
+				<onlink>http:\\www.atlas.ca.gov</onlink>
+				<lworkcit>
+					<citeinfo>
+						<othercit>All products that use these data must include the following disclaimer:  Disclaimer: "Parcel boundaries are approximate and should not be considered legal descriptions.  Maps are intended for study purposes only."</othercit>
+					</citeinfo>
+				</lworkcit>
+				<ftname Sync="TRUE">CalParksBoundaries2011</ftname></citeinfo>
+		</citation>
+		<descript>
+			<abstract>This is a GIS version of California State Park (CSP) operational boundaries and does not represent official property boundary determinations.  This GIS version is intended for general reference, planning, or use in studies only.  All aspects of CSP boundaries (official and unofficial) are continual revision and park unit and subunit names, classifications, management status, and administrative codes are subject to change without notice.  CSP Unit and Subunit names, status, and codes are in effect beginning in the State of California Fiscal Year (FY) of release.  Monitor www.parks.ca.gov for the latest information about California State Parks.</abstract>
+			<purpose>California State Park System polygons for general reference and not for property boundary determination.</purpose>
+			<supplinf>The GIS version of this California State Park (CSP) polygon dataset is available for public download at the State of California Natural Resources Agency web site: http://www.atlas.ca.gov and on other State of California data portals as they become available.
+
+California State Park System Unit names and the names of their included Subunits are tabulated below, along with their classification abbreviations and numeric, administrative codes in parentheses.
+
+The names are official beginning in the State of California Fiscal Year of their release.  CSP names, codes, and the relationships among units and subunits are subject to change without notice.
+
+Monitor www.parks.ca.gov for the latest information about California State Parks.
+
+California State Park System classification abbreviations are:
+
+State Park (SP)
+State Historic Park (SHP)
+State Recreation Area (SRA)
+State Beach (SB)
+State Vehicular Recreation Area (SVRA)
+State Natural Reserve (SNR)
+Wayside Campground (WC)
+State Marine Park (SMP)
+State Seashore (SS)
+State Marine Reserve (SMR)
+
+--SubUnit abbreviations:
+Natural Preserve (NP)
+Cultural Preserve (CP)
+State Wilderness (SW)
+
+Unit Name (Unit Number)
+-- SubUnit Name (Number)
+------------------------------------------------
+Admiral William Standley SRA (118)
+Ahjumawi Lava Springs SP (190)
+Albany (223)
+Anderson Marsh SHP (701)
+-- Anderson Marsh NP (970)
+Andrew Molera SP (491)
+Angel Island SP (231)
+Annadel SP (246)
+Año Nuevo SP (222)
+-- Año Nuevo Coast NP (228)
+-- Quiroste Valley CP (232)
+Antelope Valley California Poppy Reserve (SNR) (560)
+Antelope Valley Indian Museum SHP (579)
+Anza-Borrego Desert SP (622)
+-- Angelina Spring CP (628)
+-- Anza-Borrego Desert SW (624)
+-- Coyote Canyon CP (613)
+-- Culp Valley CP (620)
+-- Hawi-Vallecito CP (632)
+-- Little Blair Valley CP (629)
+-- Piedras Grandes CP (608)
+-- Santa Rosa Mountains SW (627)
+-- Southern Overland Trail CP (609)
+-- We-Nelsch CP (626)
+Armstrong Redwoods SNR (208)
+Arthur B. Ripley Desert Woodland SP (595)
+Asilomar SB (436)
+-- Asilomar Dunes NP (993)
+Auburn SRA (398)
+Austin Creek SRA (245)
+Azalea SNR (109)
+Bale Grist Mill SHP (251)
+Bean Hollow SB (266)
+Benbow Lake SRA (123)
+Benicia Capitol SHP (221)
+Benicia SRA (224)
+-- Southampton Bay Wetland NP (981)
+Bethany Reservoir SRA (744)
+Bidwell Mansion SHP (139)
+Bidwell-Sacramento River SP (163)
+Big Basin Redwoods SP (406)
+-- Theodore J. Hoover NP (958)
+-- West Waddell Creek SW (908)
+Big Rock Beach (510)
+Bodie SHP (324)
+Bolsa Chica SB (534)
+Border Field SP (669)
+-- Tijuana Estuary NP (972)
+Bothe-Napa Valley SP (240)
+Brannan Island SRA (314)
+Burleigh H. Murray Ranch (285)
+Burton Creek SP (348)
+-- Antone Meadows NP (365)
+-- Burton Creek NP (364)
+Butano SP (423)
+Butte City Project (121)
+CA State Mining &amp; Mineral Museum (707)
+Calaveras Big Trees SP (306)
+-- Calaveras South Grove NP (305)
+California Citrus SHP (570)
+California Indian Heritage Center (672)
+California State Capitol Museum (357)
+Cambria State Marine Park (401)
+Candlestick Point SRA (214)
+Cardiff SB (621)
+Carlsbad SB (612)
+Carmel River SB (437)
+-- Carmel River Lagoon and Wetlands NP (971)
+-- Ohlone Coastal CP (973)
+Carnegie SVRA (272)
+Carpinteria SB (514)
+Caspar Headlands SB (161)
+Caspar Headlands SNR (160)
+Castaic Lake SRA (569)
+Castle Crags SP (124)
+Castle Rock SP (404)
+-- San Lorenzo Headwaters NP (985)
+Castro Adobe (434)
+Caswell Memorial SP (316)
+Cayucos SB (452)
+China Camp SP (202)
+Chino Hills SP (508)
+-- Water Canyon NP (984)
+Chumash Painted Cave SHP (525)
+Clay Pit SVRA (155)
+Clear Lake SP (218)
+Colonel Allensworth SHP (341)
+Columbia SHP (307)
+Colusa-Sacramento River SRA (140)
+Corona del Mar SB (532)
+Crystal Cove SP (594)
+Cuyamaca Rancho SP (618)
+-- Ah-Ha-Kwe-Ah-Mac/Stonewall Mine CP (909)
+-- Cuish-Cuish (East Mesa) CP (961)
+-- Cuyamaca Meadow NP (980)
+-- Cuyamaca Mountain SW (906)
+-- Kumeyaay Soapstone CP (962)
+-- Pilcha (West Mesa) CP (959)
+D.L. Bliss SP (303)
+Del Norte Coast Redwoods SP (103)
+Delta Meadows (338)
+-- Locke Boarding House (332)
+Desert Cahuilla/Freeman Project (625)
+Dockweiler SB (541)
+Doheny SB (610)
+Donner Memorial SP (301)
+Drum Barracks (576)
+East Shore State Park (SS) (220)
+Ed Z'berg Sugar Pine Point SP (339)
+-- Edwin L. Z'berg NP (342)
+El Capitan SB (519)
+El Presidio de Santa Barbara SHP (575)
+Emerald Bay SP (313)
+Emeryville Crescent (225)
+Emma Wood SB (530)
+Empire Mine SHP (383)
+Estero Bluffs SP (749)
+Folsom Lake SRA (318)
+-- Anderson Island NP (397)
+-- Mormon Island Wetlands NP (946)
+Folsom Powerhouse SHP (370)
+Fort Humboldt SHP (120)
+Fort Ord Dunes SP (476)
+Fort Ross SHP (207)
+Fort Tejon SHP (351)
+Franks Tract SRA (329)
+Fremont Peak SP (412)
+Garrapata SP (467)
+Gaviota SP (542)
+George J. Hatfield SRA (312)
+Governor's Mansion SHP (377)
+Gray Whale Cove SB (270)
+Great Valley Grasslands SP (352)
+Greenwood SB (165)
+Grizzly Creek Redwoods SP (110)
+Grover Hot Springs SP (322)
+Half Moon Bay SB (277)
+Harmony Headlands SP (745)
+Harry A. Merlo SRA (136)
+-- Big Lagoon Forest, East NP (964)
+-- Big Lagoon Forest, South NP (966)
+-- Big Lagoon Forest, West NP (965)
+Hatton Canyon (435)
+Hearst San Simeon SHM (494)
+Hearst San Simeon SP (487)
+-- Pa-nu CP (989)
+-- San Simeon NP (979)
+-- Santa Rosa Creek NP (978)
+Heber Dunes SVRA (444)
+Heilbron Mansion
+Hendy Woods SP (148)
+Henry Cowell Redwoods SP (418)
+Henry W. Coe SP (432)
+-- Henry W. Coe SW (969)
+Hollister Hills SVRA (244)
+Humboldt Lagoons SP (105)
+Humboldt Redwoods SP (119)
+-- Bull Creek SW (957)
+-- Carl "A" Anderson Redwoods NP (956)
+Hungry Valley SVRA (521)
+-- Freeman Canyon CP (920)
+-- Gorman CP (919)
+-- Hungry Valley Oak Woodland NP (967)
+-- Tatavium CP (968)
+Huntington SB (564)
+-- Least Tern NP (988)
+Indian Grinding Rock SHP (373)
+Indio Hills Palms (646)
+Jack London SHP (241)
+Jedediah Smith Redwoods SP (102)
+-- Redwood Heritage SW (987)
+John B. Dewitt Redwoods SNR (137)
+John Little SNR (438)
+John Marsh Home SHP (254)
+Jug Handle SNR (154)
+Julia Pfeiffer Burns SP (462)
+Kenneth Hahn SRA (516)
+Kings Beach SRA (343)
+Kruse Rhododendron SNR (206)
+La Purísima Mission SHP (513)
+Lake Del Valle SRA (764)
+Lake Oroville SRA (151)
+Lake Perris SRA (665)
+Lake Valley SRA (382)
+Las Tunas SB (544)
+Leland Stanford Mansion SHP (328)
+Leo Carrillo SP (540)
+-- Nicholas Flat NP (983)
+Leucadia SB (634)
+Lighthouse Field SB (474)
+Limekiln SP (461)
+-- Limekiln SW (463)
+Little River SB (108)
+Los Angeles SHP (578)
+Los Encinos SHP (546)
+Los Osos Oaks SNR (746)
+MacKerricher SP (146)
+-- Inglenook Fen-Ten Mile Dunes NP (949)
+Mailliard Redwoods SNR (149)
+Malakoff Diggins SHP (356)
+Malibu Creek SP (537)
+-- Kaslow NP (903)
+-- Liberty Canyon NP (902)
+-- Udell Gorge NP (907)
+Malibu Lagoon SB (548)
+Manchester SP (147)
+-- Arena Rock Marine NP (930)
+-- Brush Creek/Lagoon Lake Wetlands and Coastal Dunes NP (947)
+-- Lake Davis Wetlands and Coastal Dunes NP (948)
+Mandalay SB (676)
+Manhattan SB (549)
+Manresa SB (416)
+Marconi Conference Center SHP (213)
+Marina SB (479)
+-- Marina Dunes NP (932)
+Marshall Gold Discovery SHP (304)
+Martial Cottle Park (229)
+McArthur-Burney Falls Memorial SP (125)
+McConnell SRA (310)
+McGrath SB (567)
+-- Santa Clara Estuary NP (568)
+Mendocino Headlands SP (158)
+Mendocino Woodlands SP (159)
+Millerton Lake SRA (378)
+-- Kechaye CP (904)
+Mono Lake Tufa SNR (366)
+Montaña de Oro SP (441)
+-- Morro Dunes NP (975)
+Montara SB (278)
+Monterey SB (460)
+Monterey SHP (455)
+Montgomery Woods SNR (143)
+Moonlight SB (638)
+Morro Bay SP (443)
+-- Heron Rookery NP (471)
+-- Morro Estuary NP (974)
+-- Morro Rock NP (445)
+Morro Strand SB (442)
+Moss Landing SB (454)
+Mount Diablo SP (203)
+-- Civilian Conservation Corps CP (977)
+Mount San Jacinto SP (616)
+-- Hidden Divide NP (960)
+-- Mount San Jacinto SW (619)
+Mount Tamalpais SP (239)
+Natural Bridges SB (407)
+-- Monarch Butterfly NP (924)
+-- Moore Creek Wetlands NP (976)
+Navarro River Redwoods SP (144)
+New Brighton SB (408)
+Oceano Dunes SVRA (264)
+Ocotillo Wells SVRA (439)
+-- Barrel Springs CP (963)
+Old Sacramento SHP (372)
+Old Town San Diego SHP (667)
+Olompali SHP (201)
+Pacheco SP (369)
+Pacifica SB (230)
+Palomar Mountain SP (617)
+-- Doane Valley NP (675)
+Pan Pacific Park (502)
+Patrick's Point SP (106)
+Pelican SB (101)
+Pescadero SB (227)
+-- Pescadero Marsh NP (283)
+Petaluma Adobe SHP (219)
+Pfeiffer Big Sur SP (448)
+Picacho SRA (658)
+Pigeon Point Light Station SHP (281)
+Pío Pico SHP (551)
+Pismo SB (446)
+-- Pismo Dunes NP (459)
+Placerita Canyon SP (552)
+Plumas-Eureka SP (321)
+Point Cabrillo Light Station SHP (166)
+Point Dume SB (533)
+-- Point Dume NP (991)
+Point Lobos Ranch (440)
+Point Lobos SNR (449)
+Point Montara Light Station (282)
+Point Mugu SP (573)
+-- Boney Mountain SW (901)
+-- La Jolla Valley NP (571)
+Point Sal SB (535)
+Point Sur SHP (419)
+-- Point Sur Dunes NP (992)
+Pomponio SB (226)
+Portola Redwoods SP (405)
+Prairie City SVRA (367)
+Prairie Creek Redwoods SP (104)
+-- Murrelet SW (986)
+Providence Mountains SRA (538)
+-- Mitchell Caverns NP (531)
+Railtown 1897 SHP (335)
+Red Rock Canyon SP (577)
+-- Hagen Canyon NP (583)
+-- Red Cliffs NP (585)
+Refugio SB (527)
+Reynolds WC (131)
+Richardson Grove SP (116)
+Rio de Los Angeles SP (563)
+Robert H. Meyer Memorial SB (590)
+Robert Louis Stevenson SP (215)
+Robert W. Crown Memorial SB (258)
+Russian Gulch SP (141)
+Saddleback Butte SP (543)
+Salinas River SB (451)
+-- Salinas River Dunes NP (931)
+-- Salinas River Mouth NP (933)
+Salt Point SP (248)
+Salton Sea SRA (623)
+Samuel P. Taylor SP (233)
+San Bruno Mountain SP (205)
+San Buenaventura SB (515)
+San Clemente SB (611)
+San Elijo SB (654)
+San Gregorio SB (273)
+San Juan Bautista SHP (411)
+San Luis Reservoir SRA (333)
+San Onofre SB (663)
+-- Trestles Wetlands NP (923)
+San Pasqual Battlefield SHP (615)
+San Timoteo Canyon (506)
+Santa Cruz Mission SHP (433)
+Santa Ines Mission Mill (509)
+Santa Monica SB (557)
+Santa Susana Pass SHP (505)
+Schooner Gulch SB (164)
+Seacliff SB (409)
+Seccombe Lake SURA (598)
+Shasta SHP (126)
+Silver Strand SB (614)
+-- Silver Strand NP (921)
+Silverwood Lake SRA (592)
+Sinkyone Wilderness SP (133)
+-- Sinkyone SW (994)
+Smithe Redwoods SNR (130)
+Sonoma Coast SP (209)
+Sonoma SHP (243)
+South Carlsbad SB (652)
+South Yuba River SP (359)
+Standish-Hickey SRA (117)
+State Indian Museum (SHP) (309)
+Stillwater Cove (249)
+Stone Lake (355)
+Sugarloaf Ridge SP (247)
+Sunset SB (410)
+-- Sunset Wetlands NP (939)
+Sutter Buttes SP (132)(name not yet official)
+Sutter's Fort SHP (308)
+Tahoe SRA (302)
+The Forest of Nisene Marks SP (465)
+Thornton SB (275)
+Tolowa Dunes SP (134)
+Tomales Bay SP (237)
+Tomo-Kahni SHP (368)
+Topanga SP (572)
+Torrey Pines SB (631)
+Torrey Pines SNR (630)
+-- Ellen Browning Scripps NP (633)
+-- Los Penasquitos Marsh NP (640)
+Trinidad SB (107)
+Tule Elk SNR (350)
+Turlock Lake SRA (311)
+Twin Lakes SB (422)
+Van Damme SP (142)
+-- Van Damme Pygmy Forest NP (982)
+Verdugo Mountains (597)
+Ward Creek (349)
+Washoe Meadows SP (390)
+Wassama Round House SHP (376)
+Watts Towers of Simon Rodia SHP (518)
+Weaverville Joss House SHP (127)
+Westport-Union Landing SB (150)
+Wilder Ranch SP (456)
+-- Wilder Beach NP (466)
+-- Wilder Dairy CP (464)
+Wildwood Canyon (507)
+Will Rogers SB (562)
+Will Rogers SHP (559)
+William B. Ide Adobe SHP (128)
+Woodland Opera House SHP (327)
+Woodson Bridge SRA (129)
+-- Woodson Bridge NP (122)
+Zmudowski SB (450)
+-- Pajaro River Mouth NP (934)
+==end of list; source: CSP Intranet; Last accessed 2011.11.21; revised 2012.03.11</supplinf>
+			<langdata Sync="TRUE">en</langdata></descript>
+		<timeperd>
+			<timeinfo>
+				<rngdates>
+					<begdate>20110701</begdate>
+					<enddate>20120630</enddate>
+				</rngdates>
+			</timeinfo>
+			<current>publication date</current>
+		</timeperd>
+		<status>
+			<progress>In work</progress>
+			<update>Continually</update>
+		</status>
+		<spdom>
+			<bounding>
+				<westbc Sync="TRUE">-124.268395</westbc>
+				<eastbc Sync="TRUE">-113.910551</eastbc>
+				<northbc Sync="TRUE">42.064063</northbc>
+				<southbc Sync="TRUE">32.441885</southbc>
+			</bounding>
+			<lboundng><leftbc Sync="TRUE">-354248.760000</leftbc><rightbc Sync="TRUE">505738.372400</rightbc><bottombc Sync="TRUE">-604499.360000</bottombc><topbc Sync="TRUE">449530.510000</topbc></lboundng></spdom>
+		<keywords>
+			<theme>
+				<themekt>ISO 19115 Topic Category</themekt>
+				<themekey>boundaries</themekey>
+				<themekey>planningCadastre</themekey>
+			</theme>
+			<theme>
+				<themekt>California State Parks</themekt>
+				<themekey>unit boundaries</themekey>
+				<themekey>operational boundaries</themekey>
+				<themekey>subunit boundaries</themekey>
+				<themekey>cooperative management area boundaries</themekey>
+				<themekey>special use area boundaries</themekey>
+				<themekey>outdoor recreation</themekey>
+				<themekey>recreation</themekey>
+				<themekey>natural resources</themekey>
+				<themekey>cultural resources</themekey>
+				<themekey>biological diversity</themekey>
+				<themekey>protected areas</themekey>
+			</theme>
+			<theme>
+				<themekt>none</themekt>
+				<themekey>park</themekey>
+				<themekey>boundary</themekey>
+				<themekey>state park unit name</themekey>
+				<themekey>state park subunit name</themekey>
+				<themekey>state park classification</themekey>
+				<themekey>state park management designation</themekey>
+			</theme>
+			<place>
+				<placekt>California Department of Parks and Recreation</placekt>
+				<placekey>California State Park System</placekey>
+				<placekey>California State Parks</placekey>
+			</place>
+			<place>
+				<placekt>none</placekt>
+				<placekey>California</placekey>
+			</place>
+			<place>
+				<placekt>USGS Geographic Names Information System</placekt>
+				<placekey>State of California</placekey>
+				<placekey>California State Parks</placekey>
+				<placekey>California</placekey>
+			</place>
+			<stratum>
+				<stratkt>none</stratkt>
+				<stratkey>subaerial</stratkey>
+			</stratum>
+			<temporal>
+				<tempkt>State of California</tempkt>
+				<tempkey>FY 2011/2012</tempkey>
+			</temporal>
+		</keywords>
+		<accconst>None</accconst>
+		<useconst>QA_QC NOT COMPLETE FOR ALL UNITS.  Use only for planning purposes.  Not a legal boundary description.  All products that use these boundaries must include the following disclaimer: "Disclaimer: State Park boundaries are approximate and should not be considered legal descriptions.  Maps are intended for study purposes only."</useconst>
+		<ptcontac>
+			<cntinfo>
+				<cntorgp>
+					<cntorg>California State Parks, Acquisitions &amp; Real Property Services Division, Surveys Section</cntorg>
+					<cntper>Cody Hustead</cntper>
+				</cntorgp>
+				<cntpos>Land Surveyor</cntpos>
+				<cntaddr>
+					<addrtype>mailing and physical address</addrtype>
+					<address>One Capitol Mall, Suite 410</address>
+					<city>Sacramento</city>
+					<state>CA</state>
+					<postal>95814</postal>
+					<country>USA</country>
+				</cntaddr>
+				<cntvoice>916-445-9104</cntvoice>
+				<cntfax>916-327-7307</cntfax>
+				<cntemail>chustead@parks.ca.gov</cntemail>
+				<cntinst>California State Parks (CSP) is also known as the California Department of Parks and Recreation (DPR).</cntinst>
+			</cntinfo>
+		</ptcontac>
+		<browse>
+			<browsen>calStateParkSystemMap2011.JPG</browsen>
+			<browsed>California State Parks System Map (FY 2011 / 2012); Planning Division; http://www.parks.ca.gov/?page_id=23239</browsed>
+			<browset>JPEG</browset>
+		</browse>
+		<datacred>California State Parks: Northern Service Center; Acquisition and Real Property Services Division; Surveys Section; Planning Division; Facilities Management Division; Enterprise Geographic Information Systems Team.</datacred>
+		<secinfo></secinfo>
+		<native Sync="TRUE">Microsoft Windows 2000 Version 5.2 (Build 3790) Service Pack 2; ESRI ArcCatalog 9.3.1.4000</native>
+		<crossref>
+			<citeinfo>
+				<origin>California State Parks Planning Division</origin>
+				<pubdate>20110701</pubdate>
+				<title>California State Park System (Map of July 1, 2011)</title>
+				<geoform>map</geoform>
+				<othercit>CSP park boundaries are also available as downloadable data on the California Natural Resources Agency web site at www.atlas.ca.gov or on other State of California data portal sites.  California State Parks (CSP) is also known as the California Department of Parks and Recreation (DPR).  Monitor www.parks.ca.gov for the latest information about California State Parks.</othercit>
+				<onlink>http://www.parks.ca.gov/?page_id=23239</onlink>
+			</citeinfo>
+		</crossref>
+		<crossref>
+			<citeinfo>
+				<origin>California State Parks Planning Division</origin>
+				<pubdate>2011</pubdate>
+				<title>Planning Milestones for the Park Units and Major Properties Associated with the California State Park System</title>
+				<edition>2011</edition>
+				<geoform>document</geoform>
+				<othercit>
+Digital document title "planning milestones 2011 final website.pdf" as posted online.
+
+California State Park System statistics, park administrative names history, and related information.
+</othercit>
+				<onlink>http://www.parks.ca.gov/?page_id=23239</onlink>
+			</citeinfo>
+		</crossref>
+		<crossref>
+			<citeinfo>
+				<origin>California State Parks Web Team</origin>
+				<origin>California Department of Parks and Recreation</origin>
+				<origin>California State Parks</origin>
+				<title>California Department of Parks and Recreation Website</title>
+				<geoform>web site</geoform>
+				<othercit>State of California Department of Parks and Recreation (DPR) (also known as California State Parks (CSP)).</othercit>
+				<onlink>http://www.parks.ca.gov</onlink>
+			</citeinfo>
+		</crossref>
+		<natvform Sync="TRUE">Shapefile</natvform></idinfo>
+	<dataqual>
+		<attracc>
+			<attraccr>Each polygon has attributes of unique CSP Unit and Subunit names, management status, administrative codes, and system-generated (not official), approximate acreages.  CSP names and codes were compiled with the best available information and are in effect beginning in the fiscal year of their release.  CSP unit classifications, names, management status, and codes are subject to change without notice.</attraccr>
+		</attracc>
+		<logic>The Operational Boundary (Opbdys) is a logical construction based on parcel ownership and management information maintained by the Division (was Office) of Acquisition and Real Property Services (OARPS).  In geodatabase implementation, the feature dataset Opbdys participates in a topology with the feature dataset MgmtParcels.  A new feature dataset, StPrkMgmtParcels, is used to update MgmtParcels with the best available information, which is then relayed by OARPS to the Enterprise GIS Team as Land Ownership Records (LOR) in AutoCad MAP format.  The publicly downloadable boundaries dataset is a commonly used subset of the above, is subject to change without notice, and does not represent official property boundary determinations.</logic>
+		<complete>Disclaimer: The GIS version of California State Park boundaries does not represent official boundary determinations.  The polygons representing Units, Subunits, and Properties of the California State Parks System are approximate and should not be considered legal descriptions.  Maps derived from the GIS version are intended for general reference, planning, or study purposes only.  A quality assurance / quality control (QA/QC) report or formal completeness and accuracy assessment has not been completed on this dataset.  California State Park names, codes, and management designations are in effect beginning in the State of California Fiscal Year of their release.  Boundaries are in continual revision and are subject to change without notice.  Consult the CSP Surveys Section for the most current boundary information.  Monitor www.parks.ca.gov for the latest general information about California State Parks.</complete>
+		<posacc>
+			<horizpa>
+				<horizpar>A formal accuracy assessment was not performed.  CSP boundary horizontal accuracy is estimated to be consistent with that of 1:24000-scale USGS quads.</horizpar>
+			</horizpa>
+			<vertacc>
+				<vertaccr>No vertical (elevation) data are included in this dataset.  California State Park elevations range from a low of 230 feet below sea level in the Salton Sea State Recreation Area (SRA), to sea-level in State Beaches (SB) and related properties, to a high of 10,804 feet on the summit of Mount San Jacinto in Mount San Jacinto State Park (SP).</vertaccr>
+			</vertacc>
+		</posacc>
+		<lineage>
+			<srcinfo>
+				<srcscale>various</srcscale>
+				<typesrc>AutoCAD Drawing Files</typesrc>
+				<srccitea>CAD data</srccitea>
+				<srccontr>Parcel boundary delineations and documentation from the CSP Surveys Section</srccontr>
+			</srcinfo>
+			<srcinfo>
+				<srcscale>various</srcscale>
+				<typesrc>digital parcel data</typesrc>
+				<srccitea>County Assessor Parcels</srccitea>
+				<srccontr>Individual county datasets and statewide data collections</srccontr>
+			</srcinfo>
+			<srcinfo>
+				<srcscale>24000</srcscale>
+				<typesrc>USGS 7.5' quads in Digital Raster Graphics format</typesrc>
+				<srccitea>USGS DRG</srccitea>
+				<srccontr>Nominal and historical representations of CSP unit boundaries compiled by the U.S. Geological Survey</srccontr>
+			</srcinfo>
+			<srcinfo>
+				<srcscale>various</srcscale>
+				<typesrc>historical hardcopy maps</typesrc>
+				<srccitea>historical land ownership record maps</srccitea>
+				<srccontr>Nominal, historical representations of CSP unit boundaries</srccontr>
+			</srcinfo>
+			<procstep>
+				<procdesc>The GIS versions of CSP boundary polygons do not represent official boundary determinations.  The polygons are assembled by the CSP Enterprise GIS Team from the best available sources, including CSP Surveys Section data, County Assessor parcel data, historical departmental Land Ownership Record Maps, and USGS quads in both digital and hardcopy.  The CSP Enterprise GIS Team converts the source data into digital geospatial data in shapefile, enterprise geodatabase, and Google Earth KMZ formats.  Selected subsets of the data are compressed into ZIP format and posted on a public download site.  Download content is subject to change without notice.  Monitor www.atlas.ca.gov or other State of California data portal sites for the latest version of this dataset.</procdesc>
+				<procdate>2012</procdate>
+				<proccont>
+					<cntinfo>
+						<cntorgp>
+							<cntorg>Calfornia State Parks</cntorg>
+							<cntper>Alan Kilgore</cntper>
+						</cntorgp>
+						<cntpos>GIS Specialist</cntpos>
+						<cntaddr>
+							<addrtype>mailing and physical address</addrtype>
+							<address>1416 9th Street</address>
+							<city>Sacramento</city>
+							<state>California</state>
+							<postal>95814</postal>
+							<country>USA</country>
+						</cntaddr>
+						<cntemail>akilgore@parks.ca.gov</cntemail>
+					</cntinfo>
+				</proccont>
+			</procstep>
+			<procstep>
+				<procdesc>The shapefile version of California State Parks boundaries is produced by dissolving one to many parcels comprising a park unit or subunit into a single, multi-part polygon record that represents combinations of park classifications and management status.  See classification abbreviations in the Supplemental_Information section of this metadata.</procdesc>
+				<proccont>
+					<cntinfo>
+						<cntorgp>
+							<cntorg>California State Parks</cntorg>
+							<cntper>CSP Enterprise GIS Team</cntper>
+						</cntorgp>
+						<cntpos>GIS Specialist</cntpos>
+						<cntemail>akilgore@parks.ca.gov</cntemail></cntinfo>
+				</proccont>
+			</procstep>
+			<procstep>
+				<procdesc>Unit names within the California State Park System, feature class designations, and geographic coordinates were reconciled with the USGS Geographic Names Information System (http://geonames.usgs.gov).  The above information is in continual revision.  Monitor www.parks.ca.gov for the latest information about California State Parks.</procdesc>
+				<srcused>USGS GNIS</srcused>
+				<procdate>20120312</procdate>
+				<srcprod>California State Park System Unit Names</srcprod>
+				<proccont>
+					<cntinfo>
+						<cntorgp>
+							<cntorg>California State Parks</cntorg>
+							<cntper>Enterprise GIS Team</cntper>
+						</cntorgp>
+						<cntpos>Geographic Information Officer</cntpos>
+						<cntemail>pveisze@parks.ca.gov</cntemail>
+					</cntinfo>
+				</proccont>
+			</procstep>
+			<procstep><proccont><cntinfo><cntorgp><cntorg>CSP</cntorg><cntper>GIS Specialist</cntper></cntorgp><cntpos>Enterprise GIS Team</cntpos></cntinfo></proccont><procdesc>Portions of the CSP enterprise geodatabase were excluded from the public download version where public access is prohibited: Folsom Lake SRA - Dam Operations Area; San Luis Reservoir SRA - Dam Operations Area; Silver Strand SB - Area leased to the U.S. Navy.  Also excluded is the submerged lands portion of Candlestick SRA, where no current CSP operations are in effect.</procdesc></procstep></lineage>
+	</dataqual>
+	<spdoinfo>
+		<direct Sync="TRUE">Vector</direct>
+		<ptvctinf>
+			<sdtsterm Name="CalParksBoundaries2011">
+				<sdtstype Sync="TRUE">G-polygon</sdtstype>
+				<ptvctcnt Sync="TRUE">444</ptvctcnt>
+			</sdtsterm>
+			<esriterm Name="CalParksBoundaries2011"><efeatyp Sync="TRUE">Simple</efeatyp><efeageom Sync="TRUE">Polygon</efeageom><esritopo Sync="TRUE">FALSE</esritopo><efeacnt Sync="TRUE">444</efeacnt><spindex Sync="TRUE">FALSE</spindex><linrefer Sync="TRUE">FALSE</linrefer></esriterm></ptvctinf>
+	</spdoinfo>
+	<spref>
+		<horizsys>
+			<planar>
+				<planci>
+					<plance Sync="TRUE">coordinate pair</plance>
+					<coordrep>
+						<absres Sync="TRUE">0.000000</absres>
+						<ordres Sync="TRUE">0.000000</ordres>
+					</coordrep>
+					<plandu Sync="TRUE">meters</plandu>
+				</planci>
+				<mapproj><mapprojn Sync="TRUE">Albers Conical Equal Area</mapprojn><albers><stdparll Sync="TRUE">34.000000</stdparll><stdparll Sync="TRUE">40.500000</stdparll><longcm Sync="TRUE">-120.000000</longcm><latprjo Sync="TRUE">0.000000</latprjo><feast Sync="TRUE">0.000000</feast><fnorth Sync="TRUE">-4000000.000000</fnorth></albers></mapproj></planar>
+			<geodetic>
+				<horizdn Sync="TRUE">North American Datum of 1983</horizdn>
+				<ellips Sync="TRUE">Geodetic Reference System 80</ellips>
+				<semiaxis Sync="TRUE">6378137.000000</semiaxis>
+				<denflat Sync="TRUE">298.257222</denflat>
+			</geodetic>
+			<cordsysn><geogcsn Sync="TRUE">GCS_North_American_1983</geogcsn><projcsn Sync="TRUE">NAD_1983_California_Teale_Albers</projcsn></cordsysn></horizsys>
+		<vertdef>
+			<altsys></altsys>
+		</vertdef>
+	</spref>
+	<eainfo>
+		<detailed Name="CalParksBoundaries2011">
+			<enttyp>
+				<enttypl Sync="TRUE">CalParksBoundaries2011</enttypl>
+				<enttypd>CSP unit and subunit boundaries, names, classifications, and administrative codes</enttypd>
+				<enttypds>California State Parks (CSP)</enttypds>
+				<enttypt Sync="TRUE">Feature Class</enttypt><enttypc Sync="TRUE">444</enttypc></enttyp>
+			<attr>
+				<attrlabl>FID</attrlabl>
+				<attrdef>Internal feature number.</attrdef>
+				<attrdefs>ESRI</attrdefs>
+				<attrdomv>
+					<udom>Sequential unique whole numbers that are automatically generated.</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">FID</attalias><attrtype Sync="TRUE">OID</attrtype><attwidth Sync="TRUE">4</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr>
+			<attr>
+				<attrlabl>Shape</attrlabl>
+				<attrdef>Feature geometry. Not official survey information.</attrdef>
+				<attrdefs>ESRI</attrdefs>
+				<attrdomv>
+					<udom>Coordinates defining the features.  Not official survey documentation.</udom>
+				</attrdomv>
+				<attalias Sync="TRUE">Shape</attalias><attrtype Sync="TRUE">Geometry</attrtype><attwidth Sync="TRUE">0</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr>
+			<attr>
+				<attrlabl>UNITNAME</attrlabl>
+				<attrdef>Official name and classification abbreviation of park unit or subunit</attrdef>
+				<attrdefs>California State Parks Commission</attrdefs>
+				<attrdomv>
+					<udom>CSP unit and subunit names and classifications are determined by the California State Parks Commission: State Park (SP); State Beach (SB); State Historic Park (SHP); State Historic Monument (SHM); State Marine Park (SMP); State Marine Reserve (SMR); State Seashore (SS); State Recreation Area (SRA); State Natural Reserve (SNR); State Vehicular Recreation Area (SVRA)</udom>
+				</attrdomv>
+				<begdatea>20110701</begdatea>
+				<enddatea>20120630</enddatea>
+				<attrvai>
+					<attrva>Unique for all units and subunits</attrva>
+					<attrvae>Authorized by the California State Parks Commission; implemented by the CSP Administration Division; Business Management Services Section</attrvae>
+				</attrvai>
+				<attrmfrq>As needed</attrmfrq>
+				<attalias Sync="TRUE">UNITNAME</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">60</attwidth></attr>
+			<attr>
+				<attrlabl>UNITNUM</attrlabl>
+				<attrdef>Unique 3-digit identifier (as text) for each classified park unit, subunit, and unclassified park properties</attrdef>
+				<attrdefs>California State Parks</attrdefs>
+				<attrvai>
+					<attrva>Unique for each park unit, subunit, or property</attrva>
+					<attrvae>Maintained by the CSP Administration Division</attrvae>
+				</attrvai>
+				<attrmfrq>annually</attrmfrq>
+				<attalias Sync="TRUE">UNITNUM</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">4</attwidth></attr>
+			<attr>
+				<attrlabl>MgmtStat</attrlabl>
+				<attrdef>Management Status of Park Units and Properties</attrdef>
+				<attrdefs>California State Parks</attrdefs>
+				<attrdomv>
+					<edom>
+						<edomv>Park Unit or Property</edomv>
+						<edomvd>Park Units are areas owned in fee title or leased from other agencies.  Park Units ending with a classification type (SP, SB, SHP, etc.) have been classified by the California Parks and Recreation Commission.  A unit's classification defines appropriate resource protection and use.</edomvd>
+					</edom>
+				</attrdomv>
+				<attrdomv>
+					<edom>
+						<edomv>Cultural Preserve</edomv>
+						<edomvd>Distinct, non-marine areas of outstanding cultural interest established within the boundaries of other state park system units for protecting such features as sites, buildings, or zones which represent significant places or events in the flow of human experience in California.</edomvd>
+						<edomvds>Public Resources Code 5019.74</edomvds>
+					</edom>
+				</attrdomv>
+				<attrdomv>
+					<edom>
+						<edomv>Natural Preserve</edomv>
+						<edomvd>Distinct, non-marine areas of outstanding natural or scientific significance established within the boundaries of other state park system units. The purpose of natural preserves shall be to preserve such features as rare or endangered plant and animal species and their supporting ecosystems, representative examples of plant or animal communities existing in California prior to the impact of civilization, geological features illustrative of geological processes, significant fossil occurrences or geological features of cultural or economic interest, or topographic features illustrative of representative or unique biogeographical patterns.  Areas set aside as natural preserves shall be of sufficient size to allow, where possible, the natural dynamics of ecological interaction to continue without interference, and to provide, in all cases, a practicable management unit. Habitat manipulation shall be permitted only in those areas found by scientific analysis to require manipulation to preserve the species or associations that constitute the basis for the establishment of the natural preserve.</edomvd>
+						<edomvds>Public Resource Code 5019.71</edomvds>
+					</edom>
+				</attrdomv>
+				<attrdomv>
+					<edom>
+						<edomv>State Wilderness</edomv>
+						<edomvd>Areas where the earth and its community of life are untrammeled by man and where man himself is a visitor who does not remain.  A state wilderness if further defined to mean an area of relatively undeveloped state-owned or leased lands which has retained its primeval character and influence or has been substantially restored to a near-natural  appearance, without permanent improvements or human habitation, other than semi-improved campgrounds, or structures which existed at the time of classification of the area as a state wilderness and which the State Park and Recreation Commission has determined may be maintained and used in a manner compatible with the preservation of the wilderness environment, or primitive latrines, which is protected and managed so as to preserve its natural conditions, and which: a) Appears generally to have been affected primarily by the forces of nature, with the imprint of man's work substantially unnoticeable., b) Has outstanding opportunities for solitude or a primitive and unconfined type of recreation, c) consists of at least 5,000 acres of land, either by itself or in combination with contiguous areas possessing wilderness characteristics, or is of sufficient size as to make practicable its preservation and use in an unimpaired condition. D) may also contain ecological, geological, or other features of scientific, educational, scenic, or historical value.  State wildernesses may be established within the boundaries of other state park system units.</edomvd>
+						<edomvds>
+Public Resources Code 5019.68
+See also California Wilderness Act, Public Resources Code 5093.30 - 5093.40
+</edomvds>
+					</edom>
+				</attrdomv>
+				<attrdomv>
+					<edom>
+						<edomv>Underwater Park Areas</edomv>
+						<edomvd>Areas of State Parks, leased from the State Lands Commission, or acquired in fee, and identified as underwater park areas.  The term "underwater park has long been used informally by the Department and has appeared in many publications and documents.  It has, however no official (legislative or administrative) basis or standing.  These underwater parks do not have specific individual names; they are an integral part of the classified units in which they are situated.  In 2000, the Legislature created five new unit classifications which apply only to underwater or marine areas.  It is expected that, in the future most of the State Park System's "underwater parks" will receive on of these new classifications and thereby will become individual units separate from the units of which they are now a part.</edomvd>
+						<edomvds>California State Parks, Planning Milestones, List 4.</edomvds>
+					</edom>
+				</attrdomv>
+				<attrdomv>
+					<edom>
+						<edomv>Cooperative Management Areas</edomv>
+						<edomvd>Areas managed cooperatively by CSP and another entity. Examples include lands within a park unit owned by CSP or lands owned by other entities where management responsibilities and/or restrictions are shared. Other examples are road easements or rights-of-way that CSP holds on land owned by another entity, or conservation easements owned by other entities.</edomvd>
+						<edomvds>CSP</edomvds>
+					</edom>
+				</attrdomv>
+				<attrdomv>
+					<edom>
+						<edomv>CSP Lands Operated by Other Entities</edomv>
+						<edomvd>These classified units or unclassified properties, while part of the State Park System, are not operated by California State Parks on a day-to-day basis.  Local government agencies or non-profit organizations manage the units for the Department under the terms of an operating agreement or concessions contract.</edomvd>
+						<edomvds>California State Parks, Planning Milestones, List 10.</edomvds>
+					</edom>
+				</attrdomv>
+				<attrdomv>
+					<edom>
+						<edomv>Units and Properties that have been divested from the Department.</edomv>
+						<edomvds>CSP, Planning Milestones, List 8.</edomvds>
+					</edom>
+				</attrdomv>
+				<attrdomv>
+					<edom>
+						<edomv>CSP designated Marine Managed Areas</edomv>
+						<edomvd>Units which have been designated under the Marine Life Protection Act as Marine Managed Areas, without Dept of Fish and Game Concurrence.</edomvd>
+						<edomvds>CSP, Planning Milestones; Public Resources Code Sections 36600 - 36900.</edomvds>
+					</edom>
+				</attrdomv>
+				<attrdomv>
+					<edom>
+						<edomv>Special Use areas</edomv>
+						<edomvd>Designated special use area(s) within a State Park Unit.</edomvd>
+					</edom>
+				</attrdomv>
+				<attrvai>
+					<attrva>In effect beginnng in the State of California Fiscal Year of release</attrva>
+					<attrvae>Implemented by the CSP Administration Division</attrvae>
+				</attrvai>
+				<attalias Sync="TRUE">MgmtStat</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">50</attwidth></attr>
+			<attr>
+				<attrlabl>GIS_Acres</attrlabl>
+				<attrdef>Sum of one to many polygons comprising a CSP Unit or Subunit</attrdef>
+				<attrdefs>CSP Enterprise GIS Team</attrdefs>
+				<attrvai>
+					<attrva>Unofficial figure for general reference only</attrva>
+					<attrvae>Computed in the processing of a multi-part polygon shapefile; converted from ArcMap-generated SHAPE_AREA in square meters to acres</attrvae>
+				</attrvai>
+				<attrmfrq>annually</attrmfrq>
+				<attalias Sync="TRUE">GIS_Acres</attalias><attrtype Sync="TRUE">Number</attrtype><attwidth Sync="TRUE">15</attwidth><atnumdec Sync="TRUE">2</atnumdec></attr>
+			<attr><attrlabl Sync="TRUE">UNITURL</attrlabl><attalias Sync="TRUE">UNITURL</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">40</attwidth><attrdef>Web Link (Universal Resource Locator, URL) where implemented for a given Park Unit or Property web page</attrdef><attrdefs>CSP Web Team</attrdefs><attrvai><attrva>Unique where implemented for Park Units or Properties</attrva><attrvae>Web page identifier is an internal number maintained by CSP Web Team</attrvae></attrvai><attrmfrq>As needed</attrmfrq></attr></detailed>
+		<overview>
+			<eaover>Mulit-part polygons with attributes of park unit and subunit names, classifications, management status, administrative codes, and approximate (unofficial) acreage.</eaover>
+			<eadetcit>California State Parks Enterprise Geographic Information System (GIS)</eadetcit>
+			<dsoverv>California State Park unit and subunit names, classifications, management status, administrative codes, and approximate (unofficial) acreage.  This GIS dataset does not represent property boundary determinations and is intended for general reference, planning, or studies only.  See Disclaimer in the Distribution_Liabilities section of this metadata.</dsoverv></overview>
+	</eainfo>
+	<distinfo>
+		<distrib>
+			<cntinfo>
+				<cntorgp>
+					<cntorg>California Natural Resources Agency</cntorg>
+				</cntorgp>
+				<cntaddr>
+					<city>Sacramento</city>
+					<state>California</state>
+					<postal>95814</postal>
+					<country>USA</country>
+				</cntaddr>
+				<cntinst>http://www.atlas.ca.gov</cntinst>
+			</cntinfo>
+		</distrib>
+		<resdesc>California State Park boundaries in shapefile, and/or as Google Earth KMZ format, compressed in ZIP format.</resdesc>
+		<distliab>QA_QC NOT COMPLETE FOR ALL UNITS.  To be used only for general reference, planning, or study purposes.  This dataset does not represent a legal boundary determination or description.  All products that use these boundaries must include the following disclaimer: Disclaimer: "State Park boundaries are approximate and should not be considered legal descriptions.  Maps are intended for study purposes only."</distliab>
+		<stdorder>
+			<digform>
+				<digtinfo>
+					<formname>shapefile</formname>
+					<formvern>ArcGIS 9.3.1</formvern>
+					<formspec>ESRI shapefile</formspec>
+					<formcont>California State Park boundaries</formcont>
+					<filedec>Unzip</filedec>
+					<transize>5.675</transize>
+					<dssize Sync="TRUE">5.716</dssize></digtinfo>
+				<digtopt>
+					<onlinopt>
+						<computer>
+							<networka>
+								<networkr>http://projects.atlas.ca.gov/frs/?group_id=79</networkr>
+							</networka>
+						</computer>
+						<accinstr>download from http://projects.atlas.ca.gov/frs/?group_id=79</accinstr>
+					</onlinopt>
+				</digtopt>
+			</digform>
+			<digform>
+				<digtinfo>
+					<formname>personal geodatabase</formname>
+					<formvern>ArcGIS 9.3.1</formvern>
+					<formspec>ESRI Personal Geodatabase</formspec>
+					<formcont>California State Park boundaries</formcont>
+					<filedec>Unzip</filedec>
+					<dssize Sync="TRUE">5.716</dssize></digtinfo>
+			</digform>
+			<digform>
+				<digtinfo>
+					<formname>Google Earth KML</formname>
+					<formvern>5.0</formvern>
+					<formspec>Google Earth Keyhole Markup Language (KML)</formspec>
+					<formcont>California State Park boundaries</formcont>
+					<filedec>Unzip</filedec>
+					<dssize Sync="TRUE">5.716</dssize></digtinfo>
+				<digtopt>
+					<onlinopt>
+						<computer>
+							<networka>
+								<networkr>California Spatial Information Library (CaSIL)</networkr>
+							</networka>
+						</computer>
+						<accinstr>http://www.atlas.ca.gov</accinstr>
+					</onlinopt>
+				</digtopt>
+			</digform>
+			<fees>None</fees>
+			<ordering>Public download from California GIS website http://projects.atlas.ca.gov/frs/?group_id=79; Last accessed 2011.11.22; see http://www.atlas.ca.gov</ordering>
+		</stdorder>
+		<custom>Download from the State of California Natural Resources Agency website http://www.atlas.ca.gov</custom>
+		<techpreq>ESRI ArcGIS 9.3.1 or later; Google Earth 5.0 or later</techpreq>
+		<availabl>
+			<timeinfo>
+				<sngdate>
+					<caldate>2011</caldate>
+				</sngdate>
+			</timeinfo>
+		</availabl>
+	</distinfo>
+	<metainfo>
+		<metd Sync="TRUE">20120313</metd>
+		<metfrd>20120701</metfrd>
+		<metc>
+			<cntinfo>
+				<cntorgp>
+					<cntorg>California State Parks</cntorg>
+					<cntper>Paul Veisze</cntper>
+				</cntorgp>
+				<cntpos>Geographic Information Officer</cntpos>
+				<cntaddr>
+					<addrtype>mailing and physical address</addrtype>
+					<address>1416 9th Street</address>
+					<city>Sacramento</city>
+					<state>CA</state>
+					<postal>95814</postal>
+					<country>USA</country>
+				</cntaddr>
+				<cntvoice>916-949-3327</cntvoice>
+				<cntemail>pveisze@parks.ca.gov</cntemail>
+			</cntinfo>
+		</metc>
+		<metstdn Sync="TRUE">FGDC Content Standards for Digital Geospatial Metadata</metstdn>
+		<metstdv Sync="TRUE">FGDC-STD-001-1998</metstdv>
+		<mettc Sync="TRUE">local time</mettc>
+		<metextns>
+			<onlink>http://www.esri.com/metadata/esriprof80.html</onlink>
+			<metprof>ESRI Metadata Profile</metprof>
+		</metextns>
+		<langmeta Sync="TRUE">en</langmeta><metextns><onlink Sync="TRUE">http://www.esri.com/metadata/esriprof80.html</onlink><metprof Sync="TRUE">ESRI Metadata Profile</metprof></metextns></metainfo>
+	<Esri><CreaDate>20140414</CreaDate><CreaTime>13085800</CreaTime><SyncOnce>FALSE</SyncOnce><SyncDate>20120313</SyncDate><SyncTime>13060100</SyncTime><ModDate>20120313</ModDate><ModTime>13060100</ModTime><DataProperties><itemProps><itemLocation><linkage Sync="TRUE">file://\\AMY\C$\Users\Easterday\Dropbox\Shapefiles (2)\Anza_Borrego_Both\AnzaBorregoDSP_Parcel</linkage><protocol Sync="TRUE">Local Area Network</protocol></itemLocation></itemProps><copyHistory><copy source="C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\__ADDEDCPAD\AnzaBorregoDSP_Parcel" dest="\\AMY\C$\Users\Easterday\Dropbox\Shapefiles (2)\Anza_Borrego_Both\AnzaBorregoDSP_Parcel" date="20130603" time="14323800"></copy></copyHistory><lineage><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143212">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" AGNCY_NAME TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143212">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" UNIT_NAME TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143212">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" ACCESS_TYP TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143212">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" COUNTY TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143212">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" AGNCY_LEV TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143212">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" AGNCY_WEB TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143212">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" SITE_WEB TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143212">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" LAYER TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143212">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" MNG_AGNCY TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143212">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" LABEL_NAME TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143212">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" OWN_TYPE TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143212">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" SITE_NAME TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143212">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" ALT_SITE_N TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143213">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" LAND_WATER TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143213">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" SPEC_USE TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143213">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" HOLD_NOTES TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143213">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" CITY TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143213">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" DESG_AGNCY TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143213">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" DESG_NAT TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143213">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" PRIM_PURP TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143213">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" HOLDING_ID DOUBLE # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143213">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" UNIT_ID DOUBLE # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143213">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" SUPERUNIT TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143213">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" AGNCY_ID DOUBLE # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143213">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" MNG_AG_ID DOUBLE # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143213">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" AL_AV_PARC DOUBLE # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143214">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" SRC_ALIGN TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143214">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" SRC_ATTR TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="143214">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\AnzaBorregoDSP_Parcel.shp" D_ACQ_YR DOUBLE # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\Project" Date="20140414" Time="130856">Project C:/Users/Kelly/Desktop/All\AnzaBorregoDSP_Parcel.shp C:/Users/Kelly/Desktop/All\AnzaBorregoDSP_Parcel_prj_.shp PROJCS['NAD_1983_California_Teale_Albers',GEOGCS['GCS_North_American_1983',DATUM['D_North_American_1983',SPHEROID['GRS_1980',6378137.0,298.257222101]],PRIMEM['Greenwich',0.0],UNIT['Degree',0.0174532925199433]],PROJECTION['Albers'],PARAMETER['False_Easting',0.0],PARAMETER['False_Northing',-4000000.0],PARAMETER['Central_Meridian',-120.0],PARAMETER['Standard_Parallel_1',34.0],PARAMETER['Standard_Parallel_2',40.5],PARAMETER['Latitude_Of_Origin',0.0],UNIT['Meter',1.0]] # PROJCS['NAD_1983_California_Teale_Albers',GEOGCS['GCS_North_American_1983',DATUM['D_North_American_1983',SPHEROID['GRS_1980',6378137.0,298.257222101]],PRIMEM['Greenwich',0.0],UNIT['Degree',0.0174532925199433]],PROJECTION['Albers'],PARAMETER['False_Easting',0.0],PARAMETER['False_Northing',-4000000.0],PARAMETER['Central_Meridian',-120.0],PARAMETER['Standard_Parallel_1',34.0],PARAMETER['Standard_Parallel_2',40.5],PARAMETER['Latitude_Of_Origin',0.0],UNIT['Meter',1.0]]</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\Project" Date="20140414" Time="130858">Project C:/Users/Kelly/Desktop/All\AnzaBorregoDSP_Parcel_prj_.shp C:/Users/Kelly/Desktop/All\AnzaBorregoDSP_Parcel_prj__prj_.shp PROJCS['NAD_1983_California_Teale_Albers',GEOGCS['GCS_North_American_1983',DATUM['D_North_American_1983',SPHEROID['GRS_1980',6378137.0,298.257222101]],PRIMEM['Greenwich',0.0],UNIT['Degree',0.0174532925199433]],PROJECTION['Albers'],PARAMETER['False_Easting',0.0],PARAMETER['False_Northing',-4000000.0],PARAMETER['Central_Meridian',-120.0],PARAMETER['Standard_Parallel_1',34.0],PARAMETER['Standard_Parallel_2',40.5],PARAMETER['Latitude_Of_Origin',0.0],UNIT['Meter',1.0]] # PROJCS['NAD_1983_California_Teale_Albers',GEOGCS['GCS_North_American_1983',DATUM['D_North_American_1983',SPHEROID['GRS_1980',6378137.0,298.257222101]],PRIMEM['Greenwich',0.0],UNIT['Degree',0.0174532925199433]],PROJECTION['Albers'],PARAMETER['False_Easting',0.0],PARAMETER['False_Northing',-4000000.0],PARAMETER['Central_Meridian',-120.0],PARAMETER['Standard_Parallel_1',34.0],PARAMETER['Standard_Parallel_2',40.5],PARAMETER['Latitude_Of_Origin',0.0],UNIT['Meter',1.0]]</Process></lineage></DataProperties><ArcGISFormat>1.0</ArcGISFormat></Esri><dataIdInfo><envirDesc Sync="TRUE">Microsoft Windows 2000 Version 5.2 (Build 3790) Service Pack 2; ESRI ArcCatalog 9.3.1.4000</envirDesc><dataLang><languageCode Sync="TRUE" value="en"></languageCode></dataLang><idCitation><resTitle Sync="TRUE">CalParksBoundaries2011</resTitle><presForm><PresFormCd Sync="TRUE" value="005"></PresFormCd></presForm></idCitation><spatRpType><SpatRepTypCd Sync="TRUE" value="001"></SpatRepTypCd></spatRpType><dataExt><geoEle><GeoBndBox esriExtentType="native"><westBL Sync="TRUE">-354248.76</westBL><eastBL Sync="TRUE">505738.3724</eastBL><northBL Sync="TRUE">449530.51</northBL><southBL Sync="TRUE">-604499.36</southBL><exTypeCode Sync="TRUE">1</exTypeCode></GeoBndBox></geoEle></dataExt><geoBox esriExtentType="decdegrees"><westBL Sync="TRUE">-124.268395</westBL><eastBL Sync="TRUE">-113.910551</eastBL><northBL Sync="TRUE">42.064063</northBL><southBL Sync="TRUE">32.441885</southBL><exTypeCode Sync="TRUE">1</exTypeCode></geoBox></dataIdInfo><mdLang><languageCode Sync="TRUE" value="en"></languageCode></mdLang><mdStanName Sync="TRUE">ISO 19115 Geographic Information - Metadata</mdStanName><mdStanVer Sync="TRUE">DIS_ESRI1.0</mdStanVer><mdChar><CharSetCd Sync="TRUE" value="004"></CharSetCd></mdChar><mdHrLv><ScopeCd Sync="TRUE" value="005"></ScopeCd></mdHrLv><mdHrLvName Sync="TRUE">dataset</mdHrLvName><distInfo><distributor><distorTran><onLineSrc><orDesc Sync="TRUE">002</orDesc><linkage Sync="TRUE">file://\\mshqgeo\gis\DataDevelopment\Ownership\CalStateParks\2011_bdys\CalParksBoundaries2011_post\CalParksBoundaries2011.shp</linkage><protocol Sync="TRUE">Local Area Network</protocol></onLineSrc><transSize Sync="TRUE">5.716</transSize></distorTran><distorFormat><formatName Sync="TRUE">Shapefile</formatName></distorFormat></distributor></distInfo><refSysInfo><RefSystem><refSysID><identCode Sync="TRUE">NAD_1983_California_Teale_Albers</identCode></refSysID></RefSystem></refSysInfo><spatRepInfo><VectSpatRep><topLvl><TopoLevCd Sync="TRUE" value="001"></TopoLevCd></topLvl><geometObjs Name="CalParksBoundaries2011"><geoObjTyp><GeoObjTypCd Sync="TRUE" value="001"></GeoObjTypCd></geoObjTyp><geoObjCnt Sync="TRUE">444</geoObjCnt></geometObjs></VectSpatRep></spatRepInfo><mdDateSt Sync="TRUE">20120313</mdDateSt></metadata>

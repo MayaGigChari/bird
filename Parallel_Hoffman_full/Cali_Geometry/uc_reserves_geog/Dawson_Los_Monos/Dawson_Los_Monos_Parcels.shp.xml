@@ -1,0 +1,600 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata><idinfo><citation><citeinfo><origin>SanGIS</origin><pubdate>May 2013</pubdate><title>Parcels</title><geoform Sync="TRUE">vector digital data</geoform><ftname Sync="TRUE">Parcels</ftname><onlink Sync="TRUE">\\BLACK-XP\E$\Monthly Updates\Parcels.shp</onlink></citeinfo></citation><descript><abstract>Parcels for the entire county Source: COGO:    COGO is a computer program that is used to calculate coordinate geometry. It is used to solve the geometric problems encountered in civil engineering applications including: property boundary and right of way surveys highway and interchange design construction layout bridge geometry.</abstract><purpose>Data is generalized and created for use in regional projects.</purpose><supplinf>Please acknowledge SanGIS as a source when SanGIS data is used in the preparation of reports, papers, publications, maps, and other products.
+
+The SanGIS parcel layers are “stacked” parcels.  That means that for any piece of ground there may be multiple parcels.  For example, a condominium building in downtown San Diego may have 200 individual condos.  Each condo is a separate taxable parcel.  All 200 parcels will be associated with the same physical lot on the ground.  When the SanGIS parcel layer is created each individual condo has a polygon representing the physical location of the parent parcel.  In this example there will be 200 polygons all stacked on top of each other that represent the taxable parcels and each polygon will have the same physical characteristics (shape, size, area, location) – they are, essentially, copies of each other.  However, other associated information (owner, document numbers, etc) will be different for each.  In this case, each condo unit will have its own parcel number  and there will be no single parcel representing the lot on the ground.
+ 
+Besides condominiums there are two other cases where you will see stacked parcels – possessory interest and mobile homes.  Possessory interests parcel numbers (APNs) start with 76x.  A possessory interest (or PI) parcel represents a taxable interest in the underlying, or parent, parcel but not necessarily ownership.  For instance, a private company may have an arrangement with a University to operate a business on campus – a coffee shop or gift shop for example.  The private business is taxable and is assinged a 76x APN and that APN is associated with the parent parcel which is owned by the University.  Possessory intestests do not represent ownership on the parcel, only a taxable interest in the underlying parent parcel.  
+ 
+Mobile home parcel APNs start with 77x.  In a manner similar to the possessory interests, mobile home owners own their home (coach) but not the underlying property on which the house sits. The actual mobile home is a separate taxable parcel associated with the mobile home park parent parcel.  These taxable parcels all have the same polygon as the underlying parent parcel and will show as stacked parcels as well.
+
+
+Parcel Zone and Land Use codes are used by County appraisers. They are not well maintained and are not considered reliable for other purposes. Please use the landuse layer for this information (supplied to SanGIS by SANDAG). Use the zoning layer for zoning in the County unincorporated areas. Contact the appropriate city for other zoning information.
+
+Most of the parcel attributes are joined to SanGIS graphics from County Assessor files. SanGIS does not enter ownership information. If you detect errors in the attributes, we can pass those along to the County Assessor but SanGIS cannot make the changes.
+
+Note from SanGIS:
+The parcel layers now include condominium records. If you use the identify tool on a condo polygon you will see multiple ownership records displayed for the condo owners. The parcels are also now multi-part. If a parcel is split by a right-of-way for example, the two parts are linked and share attributes.
+
+
+
+SanGIS notes that the original source is COGO which is a computer program that is used to calculate coordinate geometry. It is used to solve the geometric problems encountered in civil engineering applications including: 
+property boundary and right of way surveys 
+highway and interchange design 
+construction layout 
+bridge geometry</supplinf><langdata>English</langdata></descript><timeperd><timeinfo><sngdate><caldate>unknown</caldate></sngdate></timeinfo><current>publication date</current></timeperd><status><progress>In work</progress><update>Weekly</update></status><spdom><bounding><westbc Sync="TRUE">-117.597986</westbc><eastbc Sync="TRUE">-116.080156</eastbc><northbc Sync="TRUE">33.511553</northbc><southbc Sync="TRUE">32.530161</southbc></bounding><lboundng><leftbc Sync="TRUE">6150763.738011</leftbc><rightbc Sync="TRUE">6613436.999989</rightbc><bottombc Sync="TRUE">1775304.093785</bottombc><topbc Sync="TRUE">2129759.999998</topbc></lboundng></spdom><keywords><theme><themekt>None</themekt><themekey>Parcel, San Diego County, All Parcels</themekey></theme></keywords><accconst>
+IMPORTANT
+READ THESE TERMS CAREFULLY BEFORE USING THIS DIGITAL DATA!
+Data Agreement and Disclaimer
+
+This data is collected from various sources and will change over time without notice. In using the data, users should be aware that some of these data are generalized and not parcel based, and were created for use in regional projects. While SanGIS believes the data is accurate and properly functioning, SanGIS disclaims any responsibility for the accuracy or correctness of the data. This data is provided on an "AS IS", "AS AVAILABLE" and "WITH ALL FAULTS" basis. SanGIS makes no warranties, express or implied, including but not limited to any warranties of merchantability or fitness for a particular purpose, nor shall the distribution of this information constitute any warranty.
+
+In no event shall SanGIS become liable to users of these data, or any other party, for any loss or damages, consequential or otherwise, including but not limited to time, money, or goodwill, arising from the use, operation or modification of the data. In using these data, you further agree to indemnify, defend, and hold harmless SanGIS for any and all liability of any nature arising out of or resulting from the lack of accuracy or correctness of the data, or the use of the data.
+
+To ensure that appropriate documentation and data limitations are provided, re-distribution of this data is strongly discouraged. Please acknowledge SanGIS as a source when SanGIS data are used in the preparation of reports, papers, publications, maps, and other products.
+
+This Agreement shall be construed in accordance with the laws of the United States and the State of California. Venue shall rest solely in the County of San Diego, State of California.
+</accconst><useconst>See Access Constraints.</useconst><ptcontac><cntinfo><cntorgp><cntorg>SanGIS</cntorg></cntorgp><cntaddr><address>5201 Ruffin Road, Suite E</address><city>San Diego</city><state>California</state><postal>92123</postal><country>USA</country></cntaddr><cntvoice>(858) 874-7000</cntvoice><hours>8:00 AM- 4:30 PM  Monday thru Friday</hours><cntinst>webmaster@sangis.org</cntinst></cntinfo></ptcontac><datacred>SanGIS</datacred><native Sync="TRUE">Microsoft Windows XP Version 5.1 (Build 2600) Service Pack 3; ESRI ArcCatalog 9.3.1.3500</native><natvform Sync="TRUE">Shapefile</natvform></idinfo><dataqual><attracc><attraccr>+/- 10 Feet</attraccr></attracc><lineage><procstep><procdesc>Metadata imported.</procdesc><srcused>C:\DOCUME~1\t2hughes\LOCALS~1\Temp\xml56.tmp</srcused></procstep><procstep><procdesc>Dataset copied.</procdesc><srcused>C:\Documents and Settings\t2hughes\Desktop\SanGIS_Data\Jurisdiction\County_Boundary\County_Boundary</srcused></procstep><procstep><procdesc>Dataset moved.</procdesc><srcused>X:\San_Diego_Data\SD_County_2000</srcused></procstep><procstep><procdesc Sync="TRUE">Metadata imported.</procdesc><srcused Sync="TRUE">C:\DOCUME~1\GISLAB~1\LOCALS~1\Temp\xmlE.tmp</srcused><date Sync="TRUE">20070411</date><time Sync="TRUE">14175500</time></procstep><procstep><procdesc Sync="TRUE">Dataset copied.</procdesc><srcused Sync="TRUE">F:\For_Tracey_to_look_at\Alexis_Work_Completed\Parcels_Finished\SD_County_All_Parcels_2006</srcused><date Sync="TRUE">20070417</date><time Sync="TRUE">13354600</time></procstep><procstep><procdesc Sync="TRUE">Dataset copied.</procdesc><srcused Sync="TRUE">X:\San_Diego_Data\SD_County_Parcels_All_2006</srcused><date Sync="TRUE">20070419</date><time Sync="TRUE">14215700</time></procstep><procstep><procdesc Sync="TRUE">Dataset copied.</procdesc><srcused Sync="TRUE">F:\Temp_CleanUp_Folder\SD_County_Parcels_All_2006</srcused><date Sync="TRUE">20070419</date><time Sync="TRUE">15484400</time></procstep><procstep><procdesc Sync="TRUE">Dataset moved.</procdesc><srcused Sync="TRUE">X:\San_Diego_Data\SD_County_Parcels_All_2006</srcused><date Sync="TRUE">20070529</date><time Sync="TRUE">16545600</time></procstep></lineage></dataqual><spdoinfo><direct Sync="TRUE">Vector</direct><ptvctinf><esriterm Name="Export1"><efeatyp Sync="TRUE">Simple</efeatyp><efeageom code="4" Sync="TRUE"></efeageom><esritopo Sync="TRUE">FALSE</esritopo><efeacnt Sync="TRUE">0</efeacnt><spindex Sync="TRUE">FALSE</spindex><linrefer Sync="TRUE">FALSE</linrefer></esriterm></ptvctinf></spdoinfo><spref><horizsys><planar><planci><plance Sync="TRUE">coordinate pair</plance><coordrep><absres Sync="TRUE">0.000000</absres><ordres Sync="TRUE">0.000000</ordres></coordrep><plandu Sync="TRUE">survey feet</plandu></planci></planar><geodetic><horizdn Sync="TRUE">North American Datum of 1983</horizdn><ellips Sync="TRUE">Geodetic Reference System 80</ellips><semiaxis Sync="TRUE">6378137.000000</semiaxis><denflat Sync="TRUE">298.257222</denflat></geodetic><cordsysn><geogcsn Sync="TRUE">GCS_North_American_1983</geogcsn><projcsn Sync="TRUE">NAD_1983_StatePlane_California_VI_FIPS_0406_Feet</projcsn></cordsysn></horizsys></spref><eainfo><detailed Name="Export1"><enttyp><enttypl>Parcels</enttypl><enttypt Sync="TRUE">Feature Class</enttypt><enttypc Sync="TRUE">0</enttypc><enttypd>All parcels in the eastern portion of the County of San Diego, California, USA</enttypd><enttypds>SanGIS</enttypds></enttyp><attr><attrlabl>FID</attrlabl><attrdef>Internal feature number.</attrdef><attrdefs>ESRI</attrdefs><attrdomv><udom Sync="TRUE">Sequential unique whole numbers that are automatically generated.</udom></attrdomv><enddatea>09/30/2006</enddatea><attalias Sync="TRUE">FID</attalias><attrtype Sync="TRUE">OID</attrtype><attwidth Sync="TRUE">4</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">PARCELID</attrlabl><attalias Sync="TRUE">PARCELID</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">10</attwidth><attrdef>SanGIS internal Parcel ID number</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">10</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">OWN_NAME1</attrlabl><attalias Sync="TRUE">OWN_NAME1</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">96</attwidth><attrdef>First owner name</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">OWN_NAME2</attrlabl><attalias Sync="TRUE">OWN_NAME2</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">50</attwidth><attrdef>Second owner name</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">OWN_NAME3</attrlabl><attalias Sync="TRUE">OWN_NAME3</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">50</attwidth><attrdef>Third owner name</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">FRACTINT</attrlabl><attalias Sync="TRUE">FRACTINT</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><attrdef>Fractional interest</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">8</attscale></attr><attr><attrlabl Sync="TRUE">OWN_ADDR1</attrlabl><attalias Sync="TRUE">OWN_ADDR1</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">75</attwidth><attrdef>Owner's mailing address, line 1</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">OWN_ADDR2</attrlabl><attalias Sync="TRUE">OWN_ADDR2</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">50</attwidth><attrdef>Owner's mailing address, line 2</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">OWN_ADDR3</attrlabl><attalias Sync="TRUE">OWN_ADDR3</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">50</attwidth><attrdef>Owner's mailing address, line 3</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">OWN_ADDR4</attrlabl><attalias Sync="TRUE">OWN_ADDR4</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">50</attwidth><attrdef>Owner's mailing address, line 4</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">OWN_ZIP</attrlabl><attalias Sync="TRUE">OWN_ZIP</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">9</attwidth><attrdef>Owner's mailing ZIP code</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">SITUS_JURI</attrlabl><attalias Sync="TRUE">SITUS_JURI</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">2</attwidth><attrdef>Site jurisdiction (Refer to Jurisdiction code)</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">SITUS_STRE</attrlabl><attalias Sync="TRUE">SITUS_STRE</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">30</attwidth><attrdef>Assessor's site address street name</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">SITUS_SUFF</attrlabl><attalias Sync="TRUE">SITUS_SUFF</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">4</attwidth><attrdef>Assessor's site address street suffix</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">SITUS_POST</attrlabl><attalias Sync="TRUE">SITUS_POST</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">2</attwidth><attrdef>Assessor's site address street post direction</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">SITUS_PRE_</attrlabl><attalias Sync="TRUE">SITUS_PRE_</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">2</attwidth><attrdef>Assessor's site address predirection</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">SITUS_ADDR</attrlabl><attalias Sync="TRUE">SITUS_ADDR</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">10</attwidth><attrdef>Accessor's site address number</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">10</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">SITUS_FRAC</attrlabl><attalias Sync="TRUE">SITUS_FRAC</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">3</attwidth><attrdef>Assessor's site address fraction</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">SITUS_BUIL</attrlabl><attalias Sync="TRUE">SITUS_BUIL</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">4</attwidth><attrdef>Site building number</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">SITUS_SUIT</attrlabl><attalias Sync="TRUE">SITUS_SUIT</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">6</attwidth><attrdef>Assessor's site address suite number</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">SITUS_COMM</attrlabl><attalias Sync="TRUE">SITUS_COMM</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">28</attwidth><attrdef>Site community</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">LEGLDESC</attrlabl><attalias Sync="TRUE">LEGLDESC</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">65</attwidth><attrdef>Legal description of parcel</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">ASR_LAND</attrlabl><attalias Sync="TRUE">ASR_LAND</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">10</attwidth><attrdef>Assessed land value</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">10</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">ASR_IMPR</attrlabl><attalias Sync="TRUE">ASR_IMPR</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">10</attwidth><attrdef>Assessed improvement value</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">10</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">ASR_TOTAL</attrlabl><attalias Sync="TRUE">ASR_TOTAL</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">10</attwidth><attrdef>Total assessed value</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">10</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">DOCTYPE</attrlabl><attalias Sync="TRUE">DOCTYPE</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">1</attwidth><attrdef>Type of document that recorded this parcel (Refer to MPR Document Type code)</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">DOCNMBR</attrlabl><attalias Sync="TRUE">DOCNMBR</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">6</attwidth><attrdef>Document number</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">DOCDATE</attrlabl><attalias Sync="TRUE">DOCDATE</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">8</attwidth><attrdef>Document date</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">ACREAGE</attrlabl><attalias Sync="TRUE">ACREAGE</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><attrdef>Parcel acreage over .25 acres (blank if smaller)</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">8</attscale></attr><attr><attrlabl Sync="TRUE">TAXSTAT</attrlabl><attalias Sync="TRUE">TAXSTAT</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">1</attwidth><attrdef>Tax status code (N = nontaxable, T = taxable)</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">OWNEROCC</attrlabl><attalias Sync="TRUE">OWNEROCC</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">1</attwidth><attrdef>Owner occupied indicator (Y=yes or blank)</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">TRANUM</attrlabl><attalias Sync="TRUE">TRANUM</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">5</attwidth><attrdef>Tax rate area number</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">ASR_ZONE</attrlabl><attalias Sync="TRUE">ASR_ZONE</attalias><attrtype Sync="TRUE">Integer</attrtype><attwidth Sync="TRUE">5</attwidth><attrdef>Assessment zone code (Refer to Assessor Info Zone code)</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">5</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">ASR_LANDUS</attrlabl><attalias Sync="TRUE">ASR_LANDUS</attalias><attrtype Sync="TRUE">Integer</attrtype><attwidth Sync="TRUE">5</attwidth><attrdef>Assessment Land Use Code (Refer to Assessor Info Land Use code)</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">5</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">NUCLEUS_ZO</attrlabl><attalias Sync="TRUE">NUCLEUS_ZO</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">2</attwidth><attrdef>Nucleus Zone Code (Zoning) (Refer to Nucleus Zone Code in Overview)</attrdef><attrdefs>County Assessor</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">SUBMAP</attrlabl><attalias Sync="TRUE">SUBMAP</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">11</attwidth><attrdef>Subdivision map number or parcel map number</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">NUCLEUS_US</attrlabl><attalias Sync="TRUE">NUCLEUS_US</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">3</attwidth><attrdef>Nucleus Use Code (Description of use of property) (Refer to Nucleus Use Code</attrdef><attrdefs>County Assessor</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">SUBNAME</attrlabl><attalias Sync="TRUE">SUBNAME</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">64</attwidth><attrdef>Subdivision name or parcel map number</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">UNITQTY</attrlabl><attalias Sync="TRUE">UNITQTY</attalias><attrtype Sync="TRUE">Integer</attrtype><attwidth Sync="TRUE">5</attwidth><attrdef>Number of dwelling units</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">5</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">X_COORD</attrlabl><attalias Sync="TRUE">X_COORD</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><attrdef>X coordinate for approximate parcel centroid</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">8</attscale></attr><attr><attrlabl Sync="TRUE">Y_COORD</attrlabl><attalias Sync="TRUE">Y_COORD</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><attrdef>Y coordinate for approximate parcel centroid</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">18</atprecis><attscale Sync="TRUE">8</attscale></attr><attr><attrlabl Sync="TRUE">NUCLEUS_SI</attrlabl><attalias Sync="TRUE">NUCLEUS_SI</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">28</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">MULTI</attrlabl><attalias Sync="TRUE">MULTI</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">1</attwidth><attrdef>Multiple parcel indicator (Y = condos or timeshares)</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">OVERLAY_JU</attrlabl><attalias Sync="TRUE">OVERLAY_JU</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">2</attwidth><attrdef>Overlay juridiction (Refer to Jurisdiction codes)</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">ADDRNO</attrlabl><attalias Sync="TRUE">ADDRNO</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">10</attwidth><attrdef>SanGIS address number</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">10</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">ADDRFRAC</attrlabl><attalias Sync="TRUE">ADDRFRAC</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">3</attwidth><attrdef>SanGIS address fraction</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">ADDRUNIT</attrlabl><attalias Sync="TRUE">ADDRUNIT</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">8</attwidth><attrdef>SanGIS address unit</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">SUB_TYPE</attrlabl><attalias Sync="TRUE">SUB_TYPE</attalias><attrtype Sync="TRUE">Integer</attrtype><attwidth Sync="TRUE">5</attwidth><attrdef>Type of parcel (Refer to Sub_Type codes)</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">5</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">ZIP</attrlabl><attalias Sync="TRUE">ZIP</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">5</attwidth><attrdef>SanGIS ZIP code</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">ROADPDIR</attrlabl><attalias Sync="TRUE">ROADPDIR</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">1</attwidth><attrdef>SanGIS road prefix direction</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">ROADNAME</attrlabl><attalias Sync="TRUE">ROADNAME</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">20</attwidth><attrdef>SanGIS road name</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">ROADSFX</attrlabl><attalias Sync="TRUE">ROADSFX</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">2</attwidth><attrdef>SanGIS road suffix</attrdef><attrdefs>SanGIS</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl>Shape</attrlabl><attrdef>Feature geometry.</attrdef><attrdefs>ESRI</attrdefs><attrdomv><udom>Coordinates defining the features.</udom></attrdomv><attrtype Sync="TRUE">Geometry</attrtype><attwidth Sync="TRUE">0</attwidth><attalias Sync="TRUE">Shape</attalias><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl>OBJECTID</attrlabl><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">10</attwidth><attrdef>System generated key</attrdef><attrdefs>SanGIS</attrdefs><attalias Sync="TRUE">OBJECTID</attalias><atprecis Sync="TRUE">10</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">SITUS_ZIP</attrlabl><attalias Sync="TRUE">SITUS_ZIP</attalias><attrtype Sync="TRUE">String</attrtype><attwidth Sync="TRUE">10</attwidth><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">SHAPE_AREA</attrlabl><attalias Sync="TRUE">SHAPE_AREA</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><attrdef Sync="TRUE">Area of feature in internal units squared.</attrdef><attrdefs Sync="TRUE">ESRI</attrdefs><attrdomv><udom Sync="TRUE">Positive real numbers that are automatically generated.</udom></attrdomv><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr><attr><attrlabl Sync="TRUE">SHAPE_LEN</attrlabl><attalias Sync="TRUE">SHAPE_LEN</attalias><attrtype Sync="TRUE">Double</attrtype><attwidth Sync="TRUE">19</attwidth><attrdef>Length of feature in internal units</attrdef><attrdefs>ESRI</attrdefs><atprecis Sync="TRUE">0</atprecis><attscale Sync="TRUE">0</attscale></attr></detailed><overview><eaover>Assessor Info Land Use:
+06...Information only (timeshare or mobilehome park space)
+07...Timeshare
+09...Mobilehome
+10...Vacant residential
+11...Single family residence
+12...Duplex or double
+13...Multiple 2 to 4 units or 2 houses
+14...Multiple 5 to 15 units (res)
+15...Multiple 16 to 60 units (com)
+16...Multiple 61 units and up (com)
+17...Condominium
+18...Co-op
+19...Miscellaneous
+20...Vacant commercial
+21...1 to 3 story misc. store bldgs
+22...4 story &amp; up office/store bldgs
+23...Regional shopping center
+24...Community shopping center
+25...Neighborhood shopping center
+26...Hotel, motel
+27...Service station
+28...Offices/medical, dental, veterinary
+29...Rest home/convalescent hospital
+30...Office condominiums
+31...Garage/parking lot/used car lot
+32...Trailer park
+33...Theater
+34...Bowling alley
+35...Resturant
+36...Car wash
+37...Grocery/drug store -- lg chain
+38...Auto sales/service agency
+39...Radio station/bank/misc.
+40...Vacant industrial
+41...Factory/light manufacturing
+42...Factory/heavy manufacturing
+43...Warehouse-processing/storage
+44...Storage-bulk (tanks, etc)
+45...Mining &amp; extractive
+46...Automotive garages (small)
+47...Condominiums - industrial
+49...Miscellaneous industrial/special
+50...Vacant (water available)
+51...Citrus
+52...Avocados
+53...Vines
+54...Trees - Miscellaneous
+55...Livestock
+56...Poultry
+57...Irrigated crops misc.
+58...Growing houses
+59...Miscellaneous agricultural
+61...1-10 acres
+62...11-40 acres
+63...41-160 acres
+64...161-360 acres
+65...360 acres and up
+70...Vacant institutional
+71...Church
+72...Church rectory, parking and related
+73...Cemetary
+74...Mausoleum
+75...Mortuary
+76...Public bldg (school, firehouse, library)
+77...Hospital
+78...Private schools and facilities
+79...Miscellaneous inst
+80...Vacant recreational
+81...Meeting hall, gym
+82...Golf course
+83...Marina, docks
+84...Recreational camps
+85...Non-taxable (always 985)
+86...Open space easements
+87...Agricultural preserve (not under contract)
+88...Agricultural preserve (under contract)
+89...Miscellaneous/special
+90...Vacant taxable -- govt owned property
+91...Improved taxable -- govt owned property
+
+Assessor Info Zone:
+0... Unzoned
+1... Single family residential (R-1)
+2... Minor multiple (R-2)
+3... Restricted multiple (R-3)
+4... Multiple residential (R-4)
+5... Restricted commercial
+6... Commercial
+7... Industrial (M zone)
+8... Agricultural
+9... Special and/or misc.
+
+Jurisdiction:
+CB... Carlsbad
+CN... Unincorporated
+CO...Coronado
+CV...Chula Vista
+DM...Del Mar
+EC...El Cajon
+EN...Encinitas
+ES...Escondido
+IB...Imperial Beach
+LG...Lemon Grove
+LM...La Mesa
+NC... National City
+OC...Oceanside
+PW...Poway
+SD...San Diego
+SM...San Marcos
+SO...Solana Beach
+ST...Santee
+VS...Vista
+
+MPR (Master Property Record) Document Type:
+0... Unresearched
+1... Grant deed
+2... Quit claim
+3... Unrecorded deed
+4... Recorded death certificate
+5... Unrecorded death certificate
+6... Other types recorded doctument (Trustees deed)
+7... Unknown
+8... Recorded contract
+
+
+Sub-Type:
+1... Regular parcel with APN number
+2... Unparcelled Private Road
+3... Unparcelled Government Land
+4... Unparcelled Common Area
+5... Right-of-Way
+
+NUCLEUS_ZONE_CODE (ZONING)
+00	UNZONED/OTHER
+10	SINGLE FAMILY RESIDENTIAL (R-1)
+11	RESTRICTED SINGLE FAMILY RESIDENTIAL
+20	MINOR MULTIPLE (R-2)
+21	RESTRICTED MINOR MULTIPLE RESIDENTIAL
+30	RESTRICTED MULTIPLE (R-3)
+31	RESTRICTED MULTI VALUE
+40	MULTIPLE RESIDENTIAL (R-4)
+41	RESTRICTED MULTIPLE RESIDENTIAL
+50	RESTRICTED COMMERCIAL
+60	COMMERCIAL
+70	INDUSTRIAL (M-ZONED)
+80	AGRICULTURAL
+90	SPECIAL AND/OR MISC.
+
+Note: By "Restricted" the Assessor's Office intended that there is some kind of government imposed rent or sales restriction in place (low/moderate income, seniors) that impacts the valuation process.
+
+NUCLEUS_USE_CODE (DESCRIPTION OF USE OF PROPERTY)
+	INFO
+60	INFO PARCEL-GENERIC
+67	INFO PARCEL-TIME SHARE
+69	INFO PARCEL - MH SPACE IN RENTAL PARK
+70	TIME SHARE GENERIC
+	
+	MANUFACTURED HOME
+90	MANUFACTURED HOME IN PARK - NOT SPECIFIED
+91	MANUFACTURED HOME IN RENTAL PARK
+92	MH IN CONDO/SUBDIVISION PARK
+93	MH IN PLANNED UNIT DEVELOPMENT (PUD) PARK
+94	MANUFACTURED HOME IN CO-OP PARK
+95	MH IN LONG TERM LEASE PARK
+96	MH ON INDIAN RESERVATION
+97	MH ON LEASED LAND - NOT A PARK
+98	MANUFACTURED HOME ACCESSORIES ONLY
+99	MH ON PRIVATE PROPERTY - NOT A PARK
+	
+	RESIDENTIAL 
+100	VACANT RESIDENTIAL - GENERIC
+110	SINGLE FAMILY RESIDENCE - GENERIC
+111	SINGLE FAMILY RESIDENCE
+112	SINGLE FAMILY RESIDENCE W/GRANNY FLAT
+113	SINGLE FAMILY GATED COMMUNITY 
+114	SINGLE FAMILY ATTACHED/PUD
+115	SINGLE FAMILY DETACHED/PUD
+116	SINGLE FAMILY RESIDENCE W/SHARED WATER SYS
+117	SINGLE FAMILY WITH AG BUILDINGS
+	
+	MULTIPLE
+120	DUPLEX - GENERIC
+130	2 - 4 UNITS - GENERIC
+140	5 - 15 UNITS GENERIC
+150	16 - 60 UNITS GENERIC
+152	16 - 60 UNITS SENIOR HOUSING
+153	16 - 60 UNITS - RESTRICTED RENTS
+160	61 UNITS AND UP GENERIC
+162	61 UNITS AND UP SENIOR HOUSING
+163	61 UNITS AND UP RESTRICTED HOUSING
+	
+	CONDOMINIUMS
+170	CONDOS AND OTHER RES CLASSIFICATIONS
+171	CONDOS ATTACHED
+172	CONDOS DETACHED
+173	2 UNIT PROJECT
+174	SEPARATE SUB-IDS-PROJECT OPERATED AS LG APT
+	
+	CO-OP/MISC
+180	CO-OP GENERIC
+182	CO-OP ON LEASED LAND
+190	SPECIAL-SLIVER, SMALL PARCEL
+191	COMMON AREA, RECREATION FACILITY FOR DEVELOP
+192	PARCEL USED FOR ACCESS (DRVWY FOR MULT PRCLS)
+193	SLIVER LEFT OVER-PARCEL NON-BUILDABLE
+	
+	COMMERCIAL 
+200	VACANT LAND COMMERCIAL
+210	GENERIC COMMERCIAL OFFICE/RETAIL 1-3 STORIES
+211	1 - 3 STORY OFFICE ONLY 
+212	OFFICE/RETAIL BUILDING 
+213	SINGLE TENANT STAND ALONE RETAIL BLDG
+214	CONVENIENCE STORE (7/11, CIRCLE K, ETC)
+215	DEPARTMENT STORE
+216	SINGLE STORY STRIP RETAIL
+217	COMBINATION COMMERCIAL/RESIDENTIAL BUILDING
+218	GARDENING/NURSERY
+219	RETAIL CONDOMINIMUM
+220	GENERIC-4 AND MORE STORY OFFICE BUILDING
+221	4 AND MORE STORY OFFICE
+222	4 OR MORE STORY RETAIL
+230	REGIONAL SHOPPING CENTER 
+232	FACTORY OUTLET CENTER
+240	COMMUNITY SHOPPING CENTER
+250	NEIGHBORHOOD SHOPPING CENTER 
+251	NEIGHBORHOOD SHOPPING CTR (ANCHOR W/DRUG/GROC)
+252	NEIGHBORHOOD SHOP CTR (UNANCHORED W/DRUG/GROC)
+260	HOTEL/MOTEL - GENERIC
+261	HOTEL 
+262	RESORT HOTEL
+263	SRO HOTEL
+264	HOTEL CONDOMINIMUM
+265	MOTEL - INDEPENDENT
+266	MOTEL - CHAIN
+267	BED AND BREAKFAST
+270	SERVICE STATION - GENERIC
+271	SERVICE STATION
+272	SERVICE STATION WITH MINI-MART/RETAIL
+273	SERVICE STATION-CAR WASH W/MINI MART/RETAIL
+274	MINI LUBE/OIL CHANGE
+280	GENERIC MEDICAL/DENTAL OFFICE
+281	MEDICAL-DENTAL OFFICE
+282	VETERINARY OFFICES
+283	ANIMAL HOSPITAL
+284	KENNELS
+290	REST HOME/CONVALESCENT HOSPITAL
+291	COMBINATION ASSISTED LIVING/SKILLED NURSING
+292	CONVALESCENT HOSPITAL 
+293	REST HOME
+294	RETIREMENT/INDEPENDENT LIVING
+300	OFFICE CONDOS
+310	GARAGE PARKING LOT/USED CAR
+311	PARKING LOT MINIMAL IMPROVEMENTS
+312	PARKING STRUCTURE
+320	TRAILER PARK
+321	MOBILE HOME PARK-RENTAL
+322	RV PARK
+330	THEATER-GENERIC
+331	MOVIE THEATER
+332	MOVIE THEATER - MULTIPLEX
+333	AUDITORIUM/LIVE THEATER
+337	DRIVE IN THEATER
+340	BOWLING ALLEY 
+342	MISC. RECREATIONAL
+343	GYM/FITNESS CENTER
+344	AMUSEMENT PARK
+345	TENNIS/SWIM CLUB
+346	RACE TRACK
+347	PLAYING FIELD
+348	CASINO
+349	HORSE FACILITIES-RIDING STABLE
+350	GENERIC RESTAURANT/NIGHT CLUB/TAVERN
+351	RESTAURANT - INDEPENDENT
+352	CHAIN TYPE RESTAURANT
+353	NIGHT CLUB
+354	BAR/TAVERN
+355	FAST FOOD RESTAURANT
+360	CAR WASH
+370	GROCERY/DRUG LARGE CHAIN GENERIC
+371	GROCERY CHAIN
+372	DRUG STORE CHAIN
+373	GROCERY STORE INDEPENDENT
+380	AUTO SALES/SERVICE AGENCY
+381	NEW CAR DEALERSHIP
+382	USED CAR LOT
+390	GENERIC- RADIO STATION/BANK/MISC
+391	RADIO/TV STATION MEDIA CENTER
+392	BANK
+397	ANTENNA/CELL SITE
+	
+	INDUSTRIAL
+400	VACANT INDUSTIAL 
+410	FACTORY/LIGHT MANUFACTURING
+411	SINGLE TENANT INDUSTRIAL
+412	MULTI-TENANT INDUSTRIAL
+414	R &amp; D BUILDING
+415	MANUFACTURING CLEAN ROOM (ELECTRONICS)
+420	FACTORY HEAVY MANUFACTURING
+430	WAREHOUSE-PROCESSING/STORAGE/DISTRIBUTION 
+432	MAJOR DISTRIBUTION CENTER
+433	TANK FARM
+440	STORAGE BULK CHEMICAL/OIL REFINERY
+442	BULK STORAGE
+443	LUMBERYARD
+444	SELF-STORAGE/MINI STORAGE
+450	NATURAL RESOURCES-MINIG, EXTRACTIVE, PROCESS
+452	LANDFILL
+453	CEMENT/ROCK/GRAVEL PLANT
+454	WINERY/BREWERY
+455	PACKING COLD STORAGE
+456	PRIVATE WATER COMPANIES
+457	POWER PLANTS
+458	OPEN STORAGE
+460	AUTOMOTIVE REPAIR GARAGES 
+462	TRUCK TERMINAL
+463	AUTO WRECKING YARDS
+464	SHIPYARD, SHIP/BOAT REPAIR FACILITIES
+465	AIRPLANE HANGAR
+470	INDUSTRIAL CONDOS
+490	MISC INDUSTRY/SPECIAL
+	
+	IRRIGATED FARM
+500	IRRIGATED FARM VACANT WATER AVAILABLE
+510	CITRUS
+520	AVOCADO
+530	VINES
+532	VINEYARD
+533	VINEYARD W/WINE TASTING ROOM
+540	TREES MISC
+550	LIVESTOCK
+560	POULTRY
+570	IRRIGATED CROPS OTHER VEG., FLORAL, FEEDING
+580	GROWING HOUSES
+590	MISC AGRICULTURAL
+	
+	RURAL
+610	1 - 10 ACRES RURAL LAND OTHER
+620	11 -40 ACRES NON-IRRIGATED
+630	41 - 160 ACRES NON-IRRIGATED
+640	161 -360 ACRES NON-IRRIGATED
+650	361 ACRES &amp; UP NON-IRRIGATED
+	
+	INSTITUTIONAL
+700	INSTITUTIONAL - VACANT
+710	CHURCH
+720	CHURCH RECTORY, PRKG &amp; OTHER CHURCH RELATED
+730	CEMETERY
+740	MAUSOLEUM
+750	MORTUARY
+760	PUBLIC BUILDING - SCHOOL, FIREHOUSE, LIBRARY, ETC
+770	HOSPITAL
+780	PRIVATE SCHOOLS &amp; FACILITIES 
+782	PRESCHOOL AND CHILDCARE FACILITY
+783	FRATERNITY AND SORORITY HOUSE
+784	DORMS-PRIVATE
+790	MISC INST
+792	CORRECTIONAL FACILITY
+	
+	RECREATIONAL AND GOVERNMENT
+800	VACANT RECREATIONAL
+810	MEETING HALL/GYM
+811	MEETING HALL
+812	AMPHITHEATER
+813	ARENA/STADIUM
+820	GOLF COURSE
+823	DRIVING RANGE
+830	MARINA DOCKS
+840	RECREATIONAL CAMPS
+850	NON-TAXABLE
+851	MILITARY BASE
+852	STATE PARK
+853	COUNTY PARK
+854	CITY PARK
+855	NATIONAL PARK
+856	WATER TANK SITE
+857	INDIAN RESERVATION
+859	MISC NON-TAXABLE IMPROVEMENT
+860	OPEN SPACE
+861	OPEN SPACE OWNED BY AN HOA 
+862	OPEN SPACE OWNED BY A DEVELOPER
+864	OPEN SPACE ESMT-IN FAVOR OF GOVERNMENT
+865	LAND BANK - CREDITS BEING SOLD
+866	MITIGATION LAND-CREDITS USED
+867	STATE ASSESSED
+870	AGRICULTURAL PRESERVE (NOT UNDER COVER)
+880	AGRICULTURAL PRESERVE (UNDER COVER)
+881	AGRICULTURAL PRESERVE WITH HOUSE
+882	AGRICULTURAL PRESERVE AVOCADO
+883	AGRICULTURAL PERSERVE
+884	AGRICULTURAL PRESERVE GRAZING
+885	VINEYARD UNDER CONTRACT
+887	MILLS ACT (SINGLE FAM OWNER OCCUPIED)
+888	MILLS ACT (OTHER THAN SINGL FAM OWNER OCCUPIED)
+890	MISC/SPECIAL
+900	VACANT TAXABLE GOVT OWNED PROPERTY
+910	IMPROVED TAXABLE GOVT OWNED PROPERTY</eaover></overview></eainfo><distinfo><resdesc>Downloadable Data</resdesc><stdorder><digform><digtinfo><transize>22.435</transize><dssize Sync="TRUE">914.266</dssize></digtinfo></digform></stdorder><distliab>Please acknowledge SanGIS as a source when SanGIS data are used in the preparation of reports, papers, publications, maps, and other products. This file may not be copied and distributed unless given writen consent by SanGIS.</distliab></distinfo><metainfo><metd>May 2013</metd><metc><cntinfo><cntorgp><cntorg>SanGIS</cntorg></cntorgp><cntaddr><addrtype>mailing and physical address</addrtype><address>5201 Ruffin Road, Suite E</address><city>San Diego</city><state>California</state><postal>92123</postal><country>USA</country></cntaddr><cntvoice>(858) 874-7000</cntvoice><hours>8:00 AM - 4:30 PM Monday thru Friday</hours><cntinst>webmaster@sangis.org</cntinst></cntinfo></metc><metstdn Sync="TRUE">FGDC Content Standards for Digital Geospatial Metadata</metstdn><metstdv Sync="TRUE">FGDC-STD-001-1998</metstdv><mettc Sync="TRUE">local time</mettc><metextns><metprof>ESRI Metadata Profile</metprof></metextns><metextns><onlink>http://www.esri.com/metadata/esriprof80.html</onlink><metprof>ESRI Metadata Profile</metprof></metextns><langmeta Sync="TRUE">en</langmeta></metainfo><Esri><CreaDate>20140414</CreaDate><CreaTime>13100300</CreaTime><SyncOnce>FALSE</SyncOnce><SyncDate>20130522</SyncDate><SyncTime>15200400</SyncTime><ModDate>20130522</ModDate><ModTime>15200400</ModTime><DataProperties><itemProps><itemName Sync="TRUE">Export1</itemName><imsContentType Sync="TRUE">002</imsContentType><nativeExtBox><westBL Sync="TRUE">6150763.738000</westBL><eastBL Sync="TRUE">6613437.000000</eastBL><southBL Sync="TRUE">1775304.094000</southBL><northBL Sync="TRUE">2129760.000000</northBL><exTypeCode Sync="TRUE">1</exTypeCode></nativeExtBox><itemSize Sync="TRUE">0.000</itemSize><itemLocation><linkage Sync="TRUE">file://\\AMY\C$\Users\Easterday\Dropbox\Shapefiles (2)\Dawson_KE_Both_Completed\Dawson_Parcels</linkage><protocol Sync="TRUE">Local Area Network</protocol></itemLocation></itemProps><coordRef><type Sync="TRUE">Projected</type><geogcsn Sync="TRUE">GCS_North_American_1983</geogcsn><projcsn Sync="TRUE">NAD_1983_StatePlane_California_VI_FIPS_0406_Feet</projcsn><peXml Sync="TRUE">&lt;ProjectedCoordinateSystem xsi:type='typens:ProjectedCoordinateSystem' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xs='http://www.w3.org/2001/XMLSchema' xmlns:typens='http://www.esri.com/schemas/ArcGIS/10.1'&gt;&lt;WKT&gt;PROJCS[&amp;quot;NAD_1983_StatePlane_California_VI_FIPS_0406_Feet&amp;quot;,GEOGCS[&amp;quot;GCS_North_American_1983&amp;quot;,DATUM[&amp;quot;D_North_American_1983&amp;quot;,SPHEROID[&amp;quot;GRS_1980&amp;quot;,6378137.0,298.257222101]],PRIMEM[&amp;quot;Greenwich&amp;quot;,0.0],UNIT[&amp;quot;Degree&amp;quot;,0.0174532925199433]],PROJECTION[&amp;quot;Lambert_Conformal_Conic&amp;quot;],PARAMETER[&amp;quot;False_Easting&amp;quot;,6561666.666666666],PARAMETER[&amp;quot;False_Northing&amp;quot;,1640416.666666667],PARAMETER[&amp;quot;Central_Meridian&amp;quot;,-116.25],PARAMETER[&amp;quot;Standard_Parallel_1&amp;quot;,32.78333333333333],PARAMETER[&amp;quot;Standard_Parallel_2&amp;quot;,33.88333333333333],PARAMETER[&amp;quot;Latitude_Of_Origin&amp;quot;,32.16666666666666],UNIT[&amp;quot;Foot_US&amp;quot;,0.3048006096012192],AUTHORITY[&amp;quot;EPSG&amp;quot;,2230]]&lt;/WKT&gt;&lt;XOrigin&gt;-118608900&lt;/XOrigin&gt;&lt;YOrigin&gt;-91259500&lt;/YOrigin&gt;&lt;XYScale&gt;35979706.307677768&lt;/XYScale&gt;&lt;ZOrigin&gt;-100000&lt;/ZOrigin&gt;&lt;ZScale&gt;10000&lt;/ZScale&gt;&lt;MOrigin&gt;-100000&lt;/MOrigin&gt;&lt;MScale&gt;10000&lt;/MScale&gt;&lt;XYTolerance&gt;0.0032808333333333331&lt;/XYTolerance&gt;&lt;ZTolerance&gt;0.001&lt;/ZTolerance&gt;&lt;MTolerance&gt;0.001&lt;/MTolerance&gt;&lt;HighPrecision&gt;true&lt;/HighPrecision&gt;&lt;WKID&gt;102646&lt;/WKID&gt;&lt;LatestWKID&gt;2230&lt;/LatestWKID&gt;&lt;/ProjectedCoordinateSystem&gt;</peXml><csUnits Sync="TRUE">Linear Unit: Foot_US (0.304801)</csUnits></coordRef><lineage><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\DeleteField" Date="20130522" Time="151457">DeleteField Dawson_ParcelSelect APN;APN_8;OWN_NAME1;ACREAGE</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\CopyFeatures" Date="20130522" Time="152005">CopyFeatures Dawson_ParcelSelect "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\Dawson_Editing\Export1.shp" # 0 0 0</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\JoinField" Date="20130522" Time="152249">JoinField Dawson_Parcels OBJECTID Dawson_ParcelSelect OBJECTID APN;APN_8;OWN_NAME1;ACREAGE</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\DeleteField" Date="20130522" Time="152449">DeleteField Dawson_Parcels OBJECTID;OWN_NAME2;OWN_NAME3;FRACTINT;OWN_ADDR1;OWN_ADDR2;OWN_ADDR3;OWN_ADDR4;OWN_ZIP;SITUS_JURI;SITUS_STRE;SITUS_SUFF;SITUS_POST;SITUS_PRE_;SITUS_ADDR;SITUS_FRAC;SITUS_BUIL;SITUS_SUIT;SITUS_COMM;LEGLDESC;ASR_LAND;ASR_IMPR;ASR_TOTAL;DOCTYPE;DOCNMBR;DOCDATE;TAXSTAT;OWNEROCC;TRANUM;ASR_ZONE;ASR_LANDUS;UNITQTY;SUBMAP;SUBNAME;NUCLEUS_ZO;NUCLEUS_US;NUCLEUS_SI;ADDRNO;ADDRFRAC;ADDRUNIT;ROADPDIR;ROADNAME;ROADSFX;ZIP;X_COORD;Y_COORD;MULTI;OVERLAY_JU;SUB_TYPE;SITUS_ZIP;SHAPE_AREA;SHAPE_LEN;OWN_NAME_1;ACREAGE_1</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141310">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" AGNCY_NAME TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141310">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" UNIT_NAME TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141310">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" ACCESS_TYP TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141310">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" GIS_ACRES TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141310">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" COUNTY TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141310">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" AGNCY_LEV TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141310">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" AGNCY_WEB TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141310">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" SITE_WEB TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141310">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" LAYER TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141310">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" MNG_AGNCY TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141310">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" LABEL_NAME TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141310">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" OWN_TYPE TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141310">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" SITE_NAME TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141310">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" ALT_SITE_N TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141310">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" LAND_WATER TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141310">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" SPEC_USE TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141311">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" HOLD_NOTES TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141311">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" CITY TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141311">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" DESG_AGNCY TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141311">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" DESG_NAT TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141311">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" PRIM_PURP TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141311">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" HOLDING_ID DOUBLE # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141311">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" UNIT_ID DOUBLE # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141311">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" SUPERUNIT TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141311">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" AGNCY_ID DOUBLE # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141311">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" MNG_AG_ID DOUBLE # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141311">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" AL_AV_PARC DOUBLE # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141311">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" SRC_ALIGN TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141311">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" SRC_ATTR TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141311">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" D_ACQ_YR DOUBLE # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141454">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" AGNCY_NAME TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141454">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" UNIT_NAME TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141454">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" ACCESS_TYP TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141455">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" COUNTY TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141455">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" AGNCY_LEV TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141455">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" AGNCY_WEB TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141455">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" SITE_WEB TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141455">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" LAYER TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141455">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" MNG_AGNCY TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141455">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" LABEL_NAME TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141455">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" OWN_TYPE TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141455">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" SITE_NAME TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141455">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" ALT_SITE_N TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141455">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" LAND_WATER TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141455">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" SPEC_USE TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141455">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" HOLD_NOTES TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141455">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" CITY TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141455">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" DESG_AGNCY TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141455">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" DESG_NAT TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141455">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" PRIM_PURP TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141456">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" HOLDING_ID DOUBLE # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141456">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" UNIT_ID DOUBLE # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141456">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" SUPERUNIT TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141456">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" AGNCY_ID DOUBLE # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141456">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" MNG_AG_ID DOUBLE # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141456">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" AL_AV_PARC DOUBLE # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141456">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" SRC_ALIGN TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141456">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" SRC_ATTR TEXT # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\AddField" Date="20130603" Time="141456">AddField "C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\_Parcel_addAttributes_DB\Dawson_Parcels.shp" D_ACQ_YR DOUBLE # # # # NULLABLE NON_REQUIRED #</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\Project" Date="20140414" Time="131001">Project C:/Users/Kelly/Desktop/All\DawsonLosMonos_Parcels.shp C:/Users/Kelly/Desktop/All\DawsonLosMonos_Parcels_prj_.shp PROJCS['NAD_1983_California_Teale_Albers',GEOGCS['GCS_North_American_1983',DATUM['D_North_American_1983',SPHEROID['GRS_1980',6378137.0,298.257222101]],PRIMEM['Greenwich',0.0],UNIT['Degree',0.0174532925199433]],PROJECTION['Albers'],PARAMETER['False_Easting',0.0],PARAMETER['False_Northing',-4000000.0],PARAMETER['Central_Meridian',-120.0],PARAMETER['Standard_Parallel_1',34.0],PARAMETER['Standard_Parallel_2',40.5],PARAMETER['Latitude_Of_Origin',0.0],UNIT['Meter',1.0]] # PROJCS['NAD_1983_StatePlane_California_VI_FIPS_0406_Feet',GEOGCS['GCS_North_American_1983',DATUM['D_North_American_1983',SPHEROID['GRS_1980',6378137.0,298.257222101]],PRIMEM['Greenwich',0.0],UNIT['Degree',0.0174532925199433]],PROJECTION['Lambert_Conformal_Conic'],PARAMETER['False_Easting',6561666.666666666],PARAMETER['False_Northing',1640416.666666667],PARAMETER['Central_Meridian',-116.25],PARAMETER['Standard_Parallel_1',32.78333333333333],PARAMETER['Standard_Parallel_2',33.88333333333333],PARAMETER['Latitude_Of_Origin',32.16666666666666],UNIT['Foot_US',0.3048006096012192]]</Process><Process ToolSource="c:\program files (x86)\arcgis\desktop10.1\ArcToolbox\Toolboxes\Data Management Tools.tbx\Project" Date="20140414" Time="131003">Project C:/Users/Kelly/Desktop/All\DawsonLosMonos_Parcels_prj_.shp C:/Users/Kelly/Desktop/All\DawsonLosMonos_Parcels_prj__prj_.shp PROJCS['NAD_1983_California_Teale_Albers',GEOGCS['GCS_North_American_1983',DATUM['D_North_American_1983',SPHEROID['GRS_1980',6378137.0,298.257222101]],PRIMEM['Greenwich',0.0],UNIT['Degree',0.0174532925199433]],PROJECTION['Albers'],PARAMETER['False_Easting',0.0],PARAMETER['False_Northing',-4000000.0],PARAMETER['Central_Meridian',-120.0],PARAMETER['Standard_Parallel_1',34.0],PARAMETER['Standard_Parallel_2',40.5],PARAMETER['Latitude_Of_Origin',0.0],UNIT['Meter',1.0]] # PROJCS['NAD_1983_California_Teale_Albers',GEOGCS['GCS_North_American_1983',DATUM['D_North_American_1983',SPHEROID['GRS_1980',6378137.0,298.257222101]],PRIMEM['Greenwich',0.0],UNIT['Degree',0.0174532925199433]],PROJECTION['Albers'],PARAMETER['False_Easting',0.0],PARAMETER['False_Northing',-4000000.0],PARAMETER['Central_Meridian',-120.0],PARAMETER['Standard_Parallel_1',34.0],PARAMETER['Standard_Parallel_2',40.5],PARAMETER['Latitude_Of_Origin',0.0],UNIT['Meter',1.0]]</Process></lineage><copyHistory><copy source="C:\Users\Easterday\Dropbox\UC Reserves\Kevin Data\NRS_FINAL04_19_2013\KE_EDITS\KE_EDITING\__ADDEDCPAD\Dawson_Parcels" dest="\\AMY\C$\Users\Easterday\Dropbox\Shapefiles (2)\Dawson_KE_Both_Completed\Dawson_Parcels" date="20130603" time="14270300"></copy></copyHistory></DataProperties><ArcGISFormat>1.0</ArcGISFormat><ArcGISProfile>NAP</ArcGISProfile></Esri><dataIdInfo><envirDesc Sync="TRUE">Microsoft Windows 7 Version 6.1 (Build 7601) Service Pack 1; Esri ArcGIS 10.1.0.3035</envirDesc><dataLang><languageCode Sync="TRUE" value="eng" country="US"/><countryCode value="USA" Sync="TRUE"></countryCode></dataLang><idCitation><resTitle>Parcels</resTitle><presForm><PresFormCd Sync="TRUE" value="005"/></presForm><resRefDate><refDate>20060930</refDate><refDateType><DateTypCd value="001"/></refDateType></resRefDate><resEdDate>20060930</resEdDate><citRespParty><rpOrgName>SD County- SanGIS</rpOrgName></citRespParty><date><createDate>20060930</createDate></date></idCitation><spatRpType><SpatRepTypCd Sync="TRUE" value="001"/></spatRpType><dataExt><geoEle><GeoBndBox esriExtentType="search"><westBL Sync="TRUE">-117.597986</westBL><eastBL Sync="TRUE">-116.080156</eastBL><northBL Sync="TRUE">33.511553</northBL><southBL Sync="TRUE">32.530161</southBL><exTypeCode Sync="TRUE">1</exTypeCode></GeoBndBox></geoEle></dataExt><geoBox esriExtentType="decdegrees"><westBL Sync="TRUE">-117.597986</westBL><eastBL Sync="TRUE">-116.080156</eastBL><northBL Sync="TRUE">33.511553</northBL><southBL Sync="TRUE">32.530161</southBL><exTypeCode Sync="TRUE">1</exTypeCode></geoBox><idAbs>&lt;DIV STYLE="text-align:Left;"&gt;&lt;DIV&gt;&lt;DIV&gt;&lt;P&gt;&lt;SPAN&gt;Parcels for the entire county &lt;/SPAN&gt;&lt;/P&gt;&lt;P&gt;&lt;SPAN&gt;Source: COGO:    COGO is a computer program that is used to calculate coordinate geometry. It is used to solve the geometric problems encountered in civil engineering applications including: property boundary and right of way surveys highway and interchange design construction layout bridge geometry.&lt;/SPAN&gt;&lt;/P&gt;&lt;/DIV&gt;&lt;/DIV&gt;&lt;/DIV&gt;</idAbs><descKeys><thesaName uuidref="723f6998-058e-11dc-8314-0800200c9a66"/><keyword Sync="TRUE">002</keyword></descKeys><otherKeys><thesaName uuidref="723f6998-058e-11dc-8314-0800200c9a66"/><keyword>002</keyword></otherKeys><searchKeys><keyword>Parcel</keyword><keyword>San Diego County</keyword><keyword>All Parcels</keyword></searchKeys></dataIdInfo><mdLang><languageCode Sync="TRUE" value="eng"/><countryCode value="USA" Sync="TRUE"></countryCode></mdLang><mdStanName>ArcGIS Metadata</mdStanName><mdStanVer>1.0</mdStanVer><mdChar><CharSetCd Sync="TRUE" value="005"/></mdChar><mdHrLv><ScopeCd Sync="TRUE" value="005"/></mdHrLv><mdHrLvName Sync="TRUE">dataset</mdHrLvName><distInfo><distributor><distorTran><onLineSrc><orDesc Sync="TRUE">002</orDesc><linkage Sync="TRUE">file://\\BLACK-XP\E$\Monthly Updates\Parcels.shp</linkage><protocol Sync="TRUE">Local Area Network</protocol></onLineSrc><transSize Sync="TRUE">914.266</transSize></distorTran><distorFormat><formatName Sync="TRUE">Shapefile</formatName></distorFormat></distributor><distFormat><formatName Sync="TRUE">Shapefile</formatName></distFormat><distTranOps><transSize Sync="TRUE">0.000</transSize></distTranOps></distInfo><refSysInfo><RefSystem><refSysID><identCode Sync="TRUE" code="2230" value="2230">NAD_1983_StatePlane_California_VI_FIPS_0406_Feet</identCode><idCodeSpace Sync="TRUE">EPSG</idCodeSpace><idVersion Sync="TRUE">7.9.4</idVersion></refSysID></RefSystem></refSysInfo><spatRepInfo><VectSpatRep><geometObjs Name="Export1"><geoObjTyp><GeoObjTypCd value="002" Sync="TRUE"></GeoObjTypCd></geoObjTyp><geoObjCnt Sync="TRUE">0</geoObjCnt></geometObjs><topLvl><TopoLevCd value="001" Sync="TRUE"></TopoLevCd></topLvl></VectSpatRep></spatRepInfo><mdDateSt Sync="TRUE">20130522</mdDateSt><Binary><Thumbnail><Data EsriPropertyType="PictureX">/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsK
+CwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQU
+FBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCACFAMgDASIA
+AhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQA
+AAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3
+ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWm
+p6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEA
+AwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSEx
+BhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElK
+U1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3
+uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9U6KK
+KACqWsaxZ6Bpk+oX8wt7OABpJSCQoyBnABPel1jUk0fTLi8cBhEuQpJGSeAM4OMkgZxXP6tfXmp6
+dB9otoLaFp7Z2QSGVifNQ45UAYOOefwrgxeNo4SPvvXou5cYuWxK3xI0BIVla4ukjbOWewuFCY25
+35j+XG5c7sYzzT9H+Ivh7X9Ti0+w1D7ReSxCdIxDIMxlA4bJUDBVgQc85rF1PwHZajfT3qyvDdzS
+iV3MccisQEABDKeB5SdCDx15rwn4g+Cr/QLoDRbj7FqNgfPae1k+xgqN7AjYQCxjGOxBOPmyc+Jh
+M69vNRmkvvNJUrbH1pRXxf8ADj9rTxZp11DY639h16F9qxyXMq2shOccy/cX1y4HQZIzmvpnwb8Y
+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
+2Q==</Data></Thumbnail></Binary></metadata>
