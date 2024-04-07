@@ -76,13 +76,13 @@ for(i in dir_list_ecoregions)
   mpd_model_temp<-as_tibble(t(surfaceGen(mpd_data_temp, "mpd")), rownames = "key")
   mntd_model_temp<-as_tibble(t(surfaceGen(mntd_data_temp, "mntd")), rownames = "key")
   
-  json_pd<- toJSON(x = pd_model, dataframe = 'rows', pretty = F)
+  json_pd<- toJSON(x = pd_model_temp, dataframe = 'rows', pretty = F)
   write(json_pd, file = paste(i, "/pd_model_params.json", sep = ""))
   
-  json_mpd<- toJSON(x = mpd_model, dataframe = 'rows', pretty = F)
+  json_mpd<- toJSON(x = mpd_model_temp, dataframe = 'rows', pretty = F)
   write(json_mpd, file = paste(i,"/mpd_model_params.json", sep = ""))
   
-  json_mntd<- toJSON(x = mntd_model, dataframe = 'rows', pretty = F)
+  json_mntd<- toJSON(x = mntd_model_temp, dataframe = 'rows', pretty = F)
   write(json_mntd, file = paste(i, "/mntd_model_params.json", sep = ""))
   
 }

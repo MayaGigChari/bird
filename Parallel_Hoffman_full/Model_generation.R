@@ -98,11 +98,18 @@ data_clean_quartiles<- function(data_input, metric)
 #just use LL.4 for simplicity. 
 
 #can change to LL.3 later
-surfaceGen<- function(data_input, metric, outType = "coef")
+surfaceGen<- function(data_input, metric, outType = "coef", datatype = "normal")
 {
   
-  data_sim<-data_clean_quartiles(data_input, metric)
-  
+  if(datatype == "quartiles")
+  {
+    data_sim<-data_clean_quartiles(data_input, metric)
+  }
+  else
+  {
+    data_sim<- data_clean(data_input, metric)
+  }
+
   if(metric == "mpd")
   {
     model_low <- drm(data_sim$Low ~ data_sim$tree_size, fct = LL.4())

@@ -199,13 +199,55 @@ helper_whereOnTree<-function(parent_tree, sample_tree) #function for taking a tr
   return(nodes_in_sample_return)
 }
 
+#the following are functions for determining the predicted 95% confidence interval range for a given null model, tree size and parameter combination 
+#this function takes a json file with params for a particular null model and returns a CI range for a sample size of 
+#maybe I should move this to the model generation thing function helper file thing. 
+
+#todo: fix issue with ecoregions. they do not have the correct range data. 
+#now this should work, the ecoregion data has been updated. 
+cI_generator<- function(sample_size, params_json_file)
+{
+  library(rjson)
+  params_data<- fromJSON(txt = params_json_file)
+  low_data<- params_data[1,]
+  high_data<- params_data[2,]
+  print(low_data)
+  
+  lower_value<- low_data$`c:(Intercept)` + (( low_data$`d:(Intercept)`-  low_data$`c:(Intercept)`)/(1+ exp(low_data$`b:(Intercept)`*(log(sample_size)-log(low_data$`e:(Intercept)`)))))
+  
+  print(lower_value)
+  upper_value<- high_data$`c:(Intercept)` + (( high_data$`d:(Intercept)`-  high_data$`c:(Intercept)`)/(1+ exp(high_data$`b:(Intercept)`*(log(sample_size)-log(high_data$`e:(Intercept)`)))))
+  
+  print(upper_value)
+  
+  return(c("upper_value": upper_value, "lower_value": lower_value))
+}
+
+#expectation changes betweeen ecoregions! now this is correct. 
+
+
+#this function takes some geometry and determines which ecoregion it is within. 
+#it is possible that some reserves like anza borrego overlap with multiple ecoregions. 
+
+
+ecoregion_id<- function(region_of_interest)
+{
+  shp_list_ecoregions <- st_read("Cali_Geometry/ecoregions_corrected/ecoregions_for_mia.shp")%>%
+    st_transform(4326)
+  overlappers<- st_intersects(shp_list_ecoregions, region_of_interest)
+  return(overlappers ==1)
+}
+
+st_intersects(geoms[], ecoregion)
+
+
+roi_1<- reserve_test
+
+ecoregion<- ecoregion_id(roi_1)
 
 
 
-
-
-
-
+?st_intersects
 
 # 
 # 
