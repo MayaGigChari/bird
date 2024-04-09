@@ -103,6 +103,12 @@ remove_taxa<- function(species_list, master_phylogeny)
 
 #species_list_pruned<- remove_taxa(test,full_fish_phylo)
 
+#funciton that can be used with lapply to remove the columns of list of lists for better use in json
+helper_get_taxa_only<-function(named_list_of_lists)
+{
+  return(named_list_of_lists$names)
+}
+
 #function to produce a tree with all the taxa the user has observed
 
 sample_tree_generator<-function(sample, master_phylogeny)
@@ -152,6 +158,11 @@ pd_app_picante<-function(sample_tree, master_phylogeny)
   comm_sample_touse<-t(as.matrix(subset(comm_sample, select = clump1)))
   pd_val<- picante::pd(comm_sample_touse,master_phylogeny)
   return(pd_val)
+}
+
+helper_get_pd<- function(pd)
+{
+  return(pd$PD)
 }
 
 
@@ -208,46 +219,78 @@ helper_whereOnTree<-function(parent_tree, sample_tree) #function for taking a tr
 cI_generator<- function(sample_size, params_json_file)
 {
   library(rjson)
+  if(is.null(params_json_file))
+  {
+    return(NULL)
+  }
+  if(length(params_json_file)>1)
+  {
+    return(NULL)
+  }
   params_data<- fromJSON(txt = params_json_file)
   low_data<- params_data[1,]
   high_data<- params_data[2,]
-  print(low_data)
   
   lower_value<- low_data$`c:(Intercept)` + (( low_data$`d:(Intercept)`-  low_data$`c:(Intercept)`)/(1+ exp(low_data$`b:(Intercept)`*(log(sample_size)-log(low_data$`e:(Intercept)`)))))
   
-  print(lower_value)
   upper_value<- high_data$`c:(Intercept)` + (( high_data$`d:(Intercept)`-  high_data$`c:(Intercept)`)/(1+ exp(high_data$`b:(Intercept)`*(log(sample_size)-log(high_data$`e:(Intercept)`)))))
   
-  print(upper_value)
   
-  return(c("upper_value": upper_value, "lower_value": lower_value))
+  return(list("upper_vals" = upper_value, "lower_vals" = lower_value))
 }
 
+
+check_significance_pd<- function(pd_value, upper_lower_keyvals)
+{
+  print(upper_lower_keyvals$upper_vals)
+  if(is.null(upper_lower_keyvals$upper_vals))
+  {
+    return(NULL)
+  }
+  else if(pd_value$PD > upper_lower_keyvals$upper_vals)
+  {
+    return(1)
+  }
+  else if(pd_value$PD < upper_lower_keyvals$lower_vals)
+  {
+    return(-1)
+  }
+  return(0)
+}
+
+check_significance_other_metrics<- function(metric, upper_lower_keyvals)
+{
+  if(is.null(upper_lower_keyvals$upper_vals))
+  {
+    return(NULL)
+  }
+  else if(metric > upper_lower_keyvals$upper_vals)
+  {
+    return(1)
+  }
+  else if(metric < upper_lower_keyvals$lower_vals)
+  {
+    return(-1)
+  }
+  return(0)
+  
+}
 #expectation changes betweeen ecoregions! now this is correct. 
 
 
 #this function takes some geometry and determines which ecoregion it is within. 
 #it is possible that some reserves like anza borrego overlap with multiple ecoregions. 
-
-
+#returns the overlapping L3 code as a string. 
 ecoregion_id<- function(region_of_interest)
 {
   shp_list_ecoregions <- st_read("Cali_Geometry/ecoregions_corrected/ecoregions_for_mia.shp")%>%
     st_transform(4326)
-  overlappers<- st_intersects(shp_list_ecoregions, region_of_interest)
-  return(overlappers ==1)
+  overlappers<- st_intersection(shp_list_ecoregions, region_of_interest)
+  return(overlappers$US_L3CODE)
 }
 
-st_intersects(geoms[], ecoregion)
 
 
-roi_1<- reserve_test
-
-ecoregion<- ecoregion_id(roi_1)
-
-
-
-?st_intersects
 
 # 
 # 
