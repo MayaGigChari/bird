@@ -46,7 +46,7 @@ saveRDS(uc_reserve_shapefiles_list_sf, file = "Cali_Geometry/uc_reserve_shapefil
 #testing various resolutions to fill in the UC reserves. 10 is the most useful, although it is extremely granular. 
 #resolution of 10 does not work for very large reserves. will revisit this. below is for borrego, produces way too large of a dataset. 
 #this I will come back to 
-reserve_test<-  sf::read_sf(uc_reserve_shapefiles_list[30]) %>%
+reserve_test<-  sf::read_sf(uc_reserve_shapefiles_list[10]) %>%
   sf::st_transform(4326)
 
 plot(reserve_test)
