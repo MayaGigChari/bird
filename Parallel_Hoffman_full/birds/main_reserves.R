@@ -2,6 +2,9 @@
 #need to read in all the shape files for the uc reserves and also the cali bird range data. 
 #likely need to run this on azathoth because that is where the california data is. 
 
+
+#ISSUE: talk to mike about this tomorrow: 
+
 library(sf)
 library(picante)
 
@@ -198,3 +201,145 @@ write(json_data_summary_reserves, "birds/json_data_summary_reserves.json")
 #json_data_summary_reserves <- toJSON(summary_json)
 
 #write(json_data_summary_reserves, "birds/json_data_summary_reserves.json")
+
+####################################################
+#BELOW IS FOR ALL RESERVES, NOT JUST UC RESERVES!!!
+#######################################################
+
+#could be partially another file (main_conserved_areas.R but it is hard to save the shape file again without errors. )
+library(sf)
+library(dplyr)
+
+
+#read in the shape files and convert to the geometry that we want. 
+conserved_areas<- st_read("Cali_Geometry/conserved_areas_CA_NAT_RESOURCES/30x30_Conserved_Areas%2C_Terrestrial_(2023).shp")
+
+conserved_areas<- st_as_sf(conserved_areas)
+
+selected_columns <- conserved_areas %>%
+  dplyr::select(MNG_AGNCY, OBJECTID, cpad_PARK_)
+
+selected_columns$GEOMETRY<- NULL
+
+#select only managers that have at least 20 parks 
+
+#should maybe filter on parks of a certain size. 
+managers_of_interest <- selected_columns %>%
+  group_by(MNG_AGNCY) %>%
+  summarise(count = n()) %>%
+  filter(count > 50 & !grepl("city of", MNG_AGNCY, ignore.case = TRUE) & !grepl("unknown", MNG_AGNCY, ignore.case = TRUE))
+
+#right now not filtering on size of conserved area, but might do that. 
+
+#these managers of interest will be further filtered just for sake of time. 
+#filtered to what I think are the most useful. 
+#probably still too many. but we will try this. 
+managers_of_interest<- managers_of_interest[c(4:12, 19, 34, 35, 36, 64, 65, 68:75, 78), ]
+
+#join back into an SF object 
+conserved_areas_of_interest<- st_as_sf(data.frame(left_join(managers_of_interest, conserved_areas, by = "MNG_AGNCY")))
+#now need to intersect with the bird data. could either do this here, or in the for loop below to save space. 
+
+
+#geometrcy is not valid. need to make geometry valid and change to WGS 84 as the 
+st_is_valid(conserved_areas_of_interest)
+conserved_areas_of_interest<- st_make_valid(conserved_areas_of_interest)
+conserved_areas_of_interest<- st_transform(conserved_areas_of_interest, "WGS84")
+
+#these are the grouped geometries for all the conserved areas of interest. now the primary key is the UNIT_NAME. 
+conserved_areas_consolidated_geometries<- conserved_areas_of_interest %>%
+  group_by(UNIT_NAME, MNG_AGNCY) %>% 
+  summarize(geometry = st_union(geometry))
+
+
+#now need to either do a bunch of lapplys or make a giant for loop and do a bunch of lapplys within. 
+#need to keep working on this. going to the gym. 
+list_management_groups<- unlist(data.frame(managers_of_interest)$MNG_AGNCY)
+
+#for one manager (california department of fish and wildlife. )
+
+#it is possible that in forming intersecting_species_lists I need to use st_join instead of intersection. 
+current_manager<- list_management_groups[1]
+trimmed_areas_of_interest<- conserved_areas_consolidated_geometries%>%
+  filter(MNG_AGNCY == current_manager)
+ecoregions_ranges_man1<- ecoregion_id(trimmed_areas_of_interest, full = TRUE)
+ranges_with_valid_ecoregions<- ecoregions_ranges_man1%>%
+  group_by(UNIT_NAME, MNG_AGNCY) %>%
+  summarise(count = n()) %>%
+  filter(count == 1 )
+intersecting_species_lists<- st_intersection(bird_occurrences_cali,ranges_with_valid_ecoregions)
+manager_1_reserves<- unique(intersecting_species_lists$UNIT_NAME)
+manager_1_species<- lapply(manager_1_reserves, getspecies_for_multiple_geogareas,sf_object = intersecting_species_lists)
+reserve_names_df_man1<- lapply(manager_1_species, read_df)
+taxa_missing_man1<- lapply(reserve_names_df_man1, check_taxa, master_phylogeny= parent_tree )
+present_taxa_man1<- lapply(reserve_names_df_man1, remove_taxa, master_phylogeny = parent_tree)
+reserve_trees_man1<- lapply(present_taxa_man1, sample_tree_generator, master_phylogeny = parent_tree)
+reserve_tree_sizes_man1<- lapply(reserve_trees_man1, ntaxa) #get the tree sizes. 
+
+
+#calculate pd, mpd and mntd for all the reserves 
+pd_vals_man1<- lapply(reserve_trees_man1, pd_app_picante, master_phylogeny = parent_tree)
+pd_vals_only_man1<- lapply(pd_vals_man1, helper_get_pd)
+mpd_vals_man1<- lapply(reserve_trees_man1, mpd_app_picante, coph_mat = cophen_matrix)
+mntd_vals_man1 <- lapply(reserve_trees_man1, mntd_app_picante, coph_mat = cophen_matrix)
+
+
+
+#need to also determine the ecoregions. 
+#can probably just left join with the ecoregion data? not sure.
+#actually works perfectly fine with the function! wahoo!!!! 
+#jk this doesnt work at alllll fuck 
+
+
+#each reserve management type has a number of reserves that overlap with more than one ecoregion. For now I will remove these but maybe will come backto them
+
+
+CI_cali_range_pd_man1<- lapply(reserve_tree_sizes_man1, cI_generator, params_json_file = "birds/bird_ranges_wholeCali_pd_model_params.json")
+CI_cali_significance_pd_man1<- Map(check_significance_pd, pd_vals_man1, upper_lower_keyvals = CI_cali_range_pd_man1)
+
+CI_cali_range_mpd_man1<- lapply(reserve_tree_sizes_man1, cI_generator, params_json_file = "birds/bird_ranges_wholeCali_mpd_model_params.json")
+CI_cali_significance_mpd<- Map(check_significance_other_metrics, mpd_vals_man1, upper_lower_keyvals = CI_cali_range_mpd_man1)
+
+CI_cali_range_mntd<- lapply(reserve_tree_sizes_man1, cI_generator, params_json_file = "birds/bird_ranges_wholeCali_mntd_model_params.json")
+CI_cali_significance_mntd<- Map(check_significance_other_metrics, mntd_vals_man1, upper_lower_keyvals = CI_cali_range_mntd_man1)
+
+
+CI_ecoregions_ranges_pd_m1 <- Map(cI_generator, reserve_tree_sizes_man1, params_json_file = filename_list_ecoregions_pd)
+CI_ecoregions_significance_pd<- Map(check_significance, pd_vals, upper_lower_keyvals = CI_ecoregions_ranges_pd_man1)
+
+
+CI_ecoregions_ranges_mpd <- Map(cI_generator, reserve_tree_sizes_man1, params_json_file = filename_list_ecoregions_mpd_man1)
+CI_ecoregions_significance_mpd<- Map(check_significance_other_metrics, mpd_vals, upper_lower_keyvals = CI_ecoregions_ranges_mpd)
+
+
+CI_ecoregions_ranges_mntd <- Map(cI_generator, reserve_tree_sizes, params_json_file = filename_list_ecoregions_mntd)
+CI_ecoregions_significance_mntd<- Map(check_significance_other_metrics, mntd_vals, upper_lower_keyvals = CI_ecoregions_ranges_mntd)
+
+
+summary_data_man1<- data_frame("OBJECTID" =  unlist(manager_1_reserves))
+
+summary_output_sf_man1<- left_join(summary_data_man1, trimmed_areas_of_interest)
+
+sf_object <- st_as_sf(summary_output_sf_man1,crs = 4326)
+
+st_write(sf_object, "output_test.geojson")
+
+a<-st_read("output_test.geojson")
+
+#idea: can just merge original sf objects and dataframe containing all the vals!!! ok.
+
+#these are basically all the reserves. 
+
+reserves_list_of_lists<- list()
+for(i in 1: length(list_management_groups))
+{
+  #get the first management group of interest. 
+  current_manager<- list_management_groups[i]
+  trimmed_areas_of_interest<- conserved_areas_of_interest%>%
+    filter(MNG_AGNCY == current_manager)
+  intersecting_species_lists<- st_intersection(bird_occurrences_cali,trimmed_areas_of_interest)
+  manager_temp_reserves<- unique(intersecting_species_lists$OBJECTID)
+  manager_temp_species<- lapply(manager_temp_reserves, getspecies_for_multiple_geogareas,sf_object = intersecting_species_lists)
+  reserve_list_of_lists[i]<- manager_temp_species
+}
+  
