@@ -1,5 +1,12 @@
 #this is a script to extract all hexagonal data from each UC reserve. 
 
+#TODO:mia create json with the geometry, the statistics and the L3 code. 
+#add shape files to this json. 
+#copy directory with all the ecoregion data into static data folder. 
+#overlaying two confidence intervals! 
+#send mia the updated parent tree (range tree) not based on occurrenced data. 
+
+
 library(dplyr)
 library(h3)
 library(sf)
@@ -47,13 +54,13 @@ saveRDS(uc_reserve_shapefiles_list_sf, file = "Cali_Geometry/uc_reserve_shapefil
 #resolution of 10 does not work for very large reserves. will revisit this. below is for borrego, produces way too large of a dataset. 
 #this I will come back to 
 reserve_test<-  sf::read_sf(uc_reserve_shapefiles_list[10]) %>%
-  sf::st_transform(4326)
+  sf::ste_transform(4326)
 
 plot(reserve_test)
 
 reserve_test<- st_make_valid(reserve_test)
 
-h3_indexes <- polyfill(reserve_test, res = 10)
+h3_indexes <- polyfill(reserve_test, res = 7)
 
 h3_boundaries<- h3_to_geo_boundary_sf(h3_indexes)
 plot(h3_boundaries)

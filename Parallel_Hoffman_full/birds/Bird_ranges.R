@@ -82,6 +82,8 @@ california <- sf::read_sf("Cali_Geometry/ca-state-boundary/CA_State_TIGER2016.sh
 #NOT sure if i have to run this step anymore. now only have to run birds for each ecoregion 
 
 #only about 300 birds that are native to california actually have ranges that intersect wiht california??
+
+#this is probably right for california. 
 birds_california<- st_intersection(bird_ranges_cut, california)
 
 birds_california %>%

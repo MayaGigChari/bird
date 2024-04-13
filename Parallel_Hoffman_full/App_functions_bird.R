@@ -218,7 +218,7 @@ helper_whereOnTree<-function(parent_tree, sample_tree) #function for taking a tr
 #now this should work, the ecoregion data has been updated. 
 cI_generator<- function(sample_size, params_json_file)
 {
-  library(rjson)
+  library(jsonlite)
   if(is.null(params_json_file))
   {
     return(NULL)
@@ -227,7 +227,11 @@ cI_generator<- function(sample_size, params_json_file)
   {
     return(NULL)
   }
-  params_data<- fromJSON(txt = params_json_file)
+  if(grepl("NA",params_json_file))
+  {
+    return(NULL)
+  }
+  params_data<- jsonlite::fromJSON(txt = params_json_file)
   low_data<- params_data[1,]
   high_data<- params_data[2,]
   
@@ -281,14 +285,40 @@ check_significance_other_metrics<- function(metric, upper_lower_keyvals)
 #this function takes some geometry and determines which ecoregion it is within. 
 #it is possible that some reserves like anza borrego overlap with multiple ecoregions. 
 #returns the overlapping L3 code as a string. 
-ecoregion_id<- function(region_of_interest)
+
+#changed this to a join statement instead of an intersect statement, not sure if this changes much. 
+#this function might not work that well. 
+ecoregion_id<- function(region_of_interest, full = FALSE)
 {
+  library(sf)
   shp_list_ecoregions <- st_read("Cali_Geometry/ecoregions_corrected/ecoregions_for_mia.shp")%>%
-    st_transform(4326)
+    st_transform("WGS84")
+  print(shp_list_ecoregions)
+  if(full)
+  {
+    overlappers<- st_join(region_of_interest, shp_list_ecoregions)
+    return(overlappers)
+  }
   overlappers<- st_intersection(shp_list_ecoregions, region_of_interest)
   return(overlappers$US_L3CODE)
 }
 
+makejsonstring<- function(ecoregion_id, metric)
+{
+  return<- paste("birds/ecoregion_data/", ecoregion_id, "/", metric, "_model_params.json", sep = "")
+}
+
+###THIS FUNCTION IS USEFUL FOR LAPPLY: can apply this function to a list of id's or unique identifiers with the parameter id, and 
+#the parameter sf_object is an sf multipolygon. Useful for extracting a list of lists of species for a reserve manager that has multiple reserves.
+
+getspecies_for_multiple_geogareas<- function(id, sf_object)
+{
+  trimmed_sf<- sf_object%>% 
+    filter(UNIT_NAME == id) %>%
+    dplyr::select(sci_nam)
+  
+  return(unique(trimmed_sf$sci_nam))
+}
 
 
 
