@@ -5,3 +5,5 @@
 california-shape.shp
 california-shape.shx
 squamate-data-usa.csv
+birds/*.shp
+birds/ecoregion_data/*.shp
