@@ -6,3 +6,5 @@
 bien_ranges.geojson
 bien_occurrence_california.geojson
 hex_species_plants_ranges
+birds/*.shp
+birds/ecoregion_data/*.shp

@@ -119,7 +119,7 @@ taxon_ids <- list()
 #redo this with more coarse select statements. 
 #maybe the joined observational data should not be trimmed until later.
 
-#need to do this join for the 
+#need to do this join for the feftix-focso6-taRze
 joined_data_observations<-st_join (geog_plant_observations, polygons, join = st_within)%>% 
   filter(is.na(h3_index) == FALSE)
 
