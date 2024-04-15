@@ -8,3 +8,4 @@ bien_occurrence_california.geojson
 hex_species_plants_ranges
 birds/*.shp
 birds/ecoregion_data/*.shp
+birds/ecoregion_data/**/*.shp
