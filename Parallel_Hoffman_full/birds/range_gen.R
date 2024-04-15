@@ -10,7 +10,7 @@ for (package in packages_to_install) {
   library(package)
 }
 
-
+#this is for plants. 
 # Read the GeoJSON file
 geojson_file <- "bien_ranges.geojson"
 bird_ranges <- st_read(geojson_file)

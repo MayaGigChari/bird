@@ -4,7 +4,7 @@
 #need to better streamline the ecoregion process. 
 n_rand = 1 #want 2  randomizations for each tree size. internally each script will produce 500 random values. Can also do 1? 
 min_null_tree_size = 5
-max_null_tree_size = 330
+max_null_tree_size = 390
 tree_size_increment = 5
 ecoregion_num = 1
 Clade = "squamate" #need to make it so this can be any clade. 

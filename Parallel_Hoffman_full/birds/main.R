@@ -3,6 +3,9 @@
 #of california. This can be altered at the specificed location if there are different
 #larger trees of interest (ie: some other geographcial area )
 
+#04/14/2024: reran this with the true updated species range data. 
+
+
 #first step needs to be to prune the california tree to the list of california taxa 
 
 #TODO: edit this script so that there is the ability to generate null models for California and all the ecoregions. 
@@ -44,9 +47,9 @@ source(sample_tree_creator_path)
 
 #step one is to make the phylogeny. 
 #path to species checklist
-path_to_cali_taxa_list_range = file.path(clade, "birds_seen_in_cali_with_overlap_range.csv")
+path_to_cali_taxa_list_range = file.path(clade, "most_updated_bird_list_april2024.csv")
 filepath_ecoregions = file.path(clade, "ecoregion_data")
-path_to_full_tree = file.path(clade, "full_tree.tre") #complete bird tree
+path_to_full_tree = file.path(clade, "full_tree.tre") #complete bird tree. this hasn't changed. 
 #this is just for california birds. Takes the list and makes it pretty. should move this out of main. 
 cali_birds<-read_csv(file = path_to_cali_taxa_list_range)
 cali_species<-cali_birds$x

@@ -23,8 +23,8 @@ clade = "birds"
 #issue with the cophenetic matrix. 
 cophen<-readRDS("birds/cali_cophen_matrix")
 parent_tree<- read.tree("birds/full_tree.tre")
-cali_tree<- read.tree("birds/cali_tree.tre")
-data<- readRDS("birds/occurrence_birds_polygons.rds") #hexagonal species data. 
+cali_tree<- read.tree("birds/cali_tree_from_range_data.tre")
+data<- readRDS("birds/occurrence_birds_polygons_fromRangeData") #hexagonal species data. 
 
 
 
@@ -69,7 +69,7 @@ empty_hexes <- character(0)
 
 # Loop through poly_labels
 
-for (i in 791:length(poly_labels)) 
+for (i in 1:length(poly_labels)) 
 {
   temp <- data.frame(data[i])
   colnames(temp) <- "name"
@@ -165,7 +165,7 @@ write_json(json_data_species_names, "birds/bird_hex_species.json")
 
 #this function popHexStats only works for hexagonal data. 
 
-popAreaStats<- 
+
 popHexStats<- function(polygon_data, parent_tree, output_filepath, cophen_filepath)
 {
   cophen_forfunc<- readRDS(cophen_filepath)
@@ -253,13 +253,14 @@ names(pd_rds)<- names(data)
 mpd_rds<- hex_tree_stats_birds$mpd_values
 names(mpd_rds)<- names(data)
 
+
 mntd_rds<- hex_tree_stats_birds$mntd_values
 names(mntd_rds)<- names(data)
 
 
 
 
-
+###THIS WILL HAPPEN AFTER THE NULL MODELS ARE RERUN: TODO AFTER TRADER JOES 
 #colorize the hexagons: 
 
 

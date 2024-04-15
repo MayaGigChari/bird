@@ -25,7 +25,7 @@ ecoregions_L3codes<- ecoregions$US_L3CODE
 
 #load the bird range data. 
 #make sure everything is valid and force validity. 
-bird_ranges_touse<- st_read("birds/bird_ranges_overlapping_california_complete_checklist.shp")
+bird_ranges_touse<- st_read("birds/birds_trimmed_range_geospat/birds_trimmed_ranges_fromNorAm_complete.shp")
 sf_use_s2(FALSE)
 bird_ranges_touse<- st_make_valid(bird_ranges_touse)
 
@@ -35,12 +35,14 @@ bird_ranges_touse<- st_make_valid(bird_ranges_touse)
 #will make another function that takes rds list data and makes trees out of it. 
 #need to check abbreviations. 
 #will transfer genHexRaw to app_functions so that this can be cleaner. 
+
+#this also needs to be edited. TODO next.
 genHexRaw<- function(range_data, sf_polygons) #the indexes will be h3_indexes usually 
 {
   #want to select just the species and the index. But can do this later. 
   #should always have an h3_index field. This is necessary for the filter statement 
   #joining the species that could exist in that area with the polygons in that area! I think this might work... 
-  joined_data_temp<-st_join(range_data, sf_polygons, join = st_intersects) #can change type from range to observational 
+  joined_data_temp<-st_join(sf_polygons, range_data, join = st_intersects) #can change type from range to observational 
   hex_species<- list()
   for(i in sf_polygons$h3_index)
   {
@@ -54,7 +56,7 @@ genHexRaw<- function(range_data, sf_polygons) #the indexes will be h3_indexes us
 }
 
 #for california birds. 
-
+#hopefully this is now right. 
 cali_birds_complete_hex_list<- genHexRaw(bird_ranges_touse, polygons)
 
 saveRDS(cali_birds_complete_hex_list, file = "birds/occurrence_birds_polygons_fromRangeData")
