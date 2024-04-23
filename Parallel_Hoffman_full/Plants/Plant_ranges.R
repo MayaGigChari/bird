@@ -13,6 +13,7 @@ install.packages("httr")
 library(httr)
 library(rvest)
 library(dplyr)
+library(sf)
 
 # URL of the webpage
 url <- "https://ucjeps.berkeley.edu/cgi-bin/get_JM_name_data"
@@ -83,10 +84,79 @@ plants_names_both<- which(plants_range_california$species %in% species_of_intere
 ############
 #Now: We have a list of birds that overlap with california but also that exist in the california species checklist of native plants. 
 #it looks like a bunch of subspecies were removed.
-#BELOW: do the same for ecoregions. 
+#SWITCH BACK TO LOCAL FOR ECOREGIONS STUFF!
 ############
 
+#from California
+
+#these are all the california species (only about 4,000 of them)
+california_species_ranges_only_natives<- st_read("Plants/California_species_shapes/plants_range_california_only_natives_POTW.shp")
+
+ecoregions<- st_read("Cali_geometry/ca_eco_l3", packlage = "sf")
+
+ecoregions<- st_transform(ecoregions, "WGS84")
+
+#THIS IS AN ARBITRARY THRESHOLD: if < 1% of an ecoregion is covered by the range, then we will remove that range. 
+ecoregions$area <- st_area(ecoregions) #Take care of units
+ecoregions$min_thresh<- 0.01*ecoregions$area
 
 
+#TODO: preprocess the ecoregion data so that the range is not included if the ecoregion area in a certain range is below a threshold. 
+ecoregions_plant_data_intersection<- st_intersection(ecoregions, california_species_ranges_only_natives)
 
+ecoregions_plant_data<- st_join(ecoregions, california_species_ranges_only_natives)
 
+#this is a huge file. join of all the ecoregions. will write this to the local. Save didn't work
+
+#don't save. takes too long. 
+#saveRDS(ecoregions_plant_data, "Plants/California_species_shapes/plants_range_california_only_natives_POTW_joined_ecoregions")
+#perhaps this join is not correct? 
+#this is the entire ecoregion bird data and it IS correct. Birds for each ecoregion. 
+
+#strange because these species are particularly NOT in many ranges. 
+test<- ecoregions_plant_data %>%
+  filter(species == "Atriplex_serenana") 
+library(ggplot2)
+
+# Plot the first plot using ggplot2 and color by US_L3CODE
+ggplot() +
+  geom_sf(data = ecoregions[1], aes(fill = US_L3CODE)) +
+  geom_sf(data = california_species_ranges_only_natives %>%
+            filter(species == "Atriplex_serenana"), 
+          color = "red", alpha = 0.6)
+#made a directory called ecoregion_data to store shape files and lists. 
+ecoregion_codes<- ecoregions$US_L3CODE
+
+#do not need to rerun this. already have all the ecoregion species stuff. 
+#ecoregion bird data is already merged! This is basically good to go for the entire ecoregion. but also need to do the other thing with the ecoregions (hex data stuff)
+#these shape files are good for the entire overlapping species list for a region, need to be able to populate hex data as well.
+
+#edited this to only select some fields, but actually only edited it for one ecoregion. 
+for(code in ecoregion_codes) {
+  folder_path <- file.path("Plants/ecoregion_data", code)
+  
+  # Check if folder exists, if not, create it
+  if (!file.exists(folder_path)) {
+    dir.create(folder_path, recursive = TRUE)
+    cat("Created folder:", folder_path, "\n")
+  }
+  
+  temp <- ecoregions_plant_data %>%
+    filter(US_L3CODE == code) %>%
+    select(species, US_L3CODE, US_L3NAME, L1_KEY)
+  
+  filepath_shape <- file.path("Plants/ecoregion_data", code, "ecoregion.shp")
+  filepath_checklist <- file.path("Plants/ecoregion_data", code, "checklist.csv")
+  
+  # Check if shapefile already exists
+  if(file.exists(filepath_shape)) {
+    print(paste("Shapefile", filepath_shape, "already exists. Deleting..."))
+    file.remove(filepath_shape)
+  }
+  
+  sf::st_write(temp, filepath_shape)
+  print(unique(temp$species))
+  write.csv(unique(temp$species), file = filepath_checklist)
+}
+#all the ecoregion species lists have now been written to their respective files. 
+#honestly you never know, this might be wrong. 
