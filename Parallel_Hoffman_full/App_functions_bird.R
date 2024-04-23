@@ -243,6 +243,24 @@ cI_generator<- function(sample_size, params_json_file)
   return(list("upper_vals" = upper_value, "lower_vals" = lower_value))
 }
 
+artificial_data<- seq(0,250, by = 1)
+ci_s<- lapply(artificial_data,cI_generator,  params_json_file = "birds/ecoregion_data/8/pd_model_params.json")
+
+
+list_uppers<- list()
+list_lowers<- list()
+for(i in 1: length(artificial_data))
+{
+  list_uppers[i] = ci_s[[i]]$upper_vals
+  list_lowers[i] = ci_s[[i]]$lower_vals
+}
+
+list_uppers<- unlist(list_uppers)
+list_lowers<- unlist(list_lowers)
+
+plot(artificial_data,list_uppers) + 
+  points(artificial_data, list_lowers)
+
 
 check_significance_pd<- function(pd_value, upper_lower_keyvals)
 {

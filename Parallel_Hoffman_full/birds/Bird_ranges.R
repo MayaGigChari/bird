@@ -205,8 +205,10 @@ ecoregion_bird_data<- st_join(ecoregions, birds_california_transform) #no inters
 #this is the entire ecoregion bird data and it IS correct. Birds for each ecoregion. 
 
 
-ecoregion_bird_data %>%
-  filter(US_L3CODE == 78)
+test<- ecoregion_bird_data %>%
+  filter(US_L3CODE == 14) 
+
+unique(test$sci_name)
 #made a directory called ecoregion_data to store shape files and lists. 
 ecoregion_codes<- ecoregions$US_L3CODE
 

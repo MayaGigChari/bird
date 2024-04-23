@@ -3,6 +3,8 @@
 #RERUN WITH A BETTER LIST OF CALI BIRDS!
 #remove all single-taxon trees. 
 
+
+#upodate 04/16/2024: come back to this hexpop generation from a new perspective: forget about quartile shit. 
 #need to streamline this and make a function out of it. 
 
 packages_to_install <- c("picante", "ape",  "dplyr", "phytools", "jsonlite", "tools", "purr")
@@ -231,9 +233,211 @@ parent_tree<- read.tree("birds/cali_tree_from_range_data.tre")
 
 hex_tree_stats_birds<- popHexStats(data, parent_tree, "birds", cophen_filepath = "birds/cali_range_cophen_matrix")
 
+hex_tree_stats_birds$proportion_missing
+names(hex_tree_stats_birds)
+#try to save all this as an sf file. 
+
+pop_hex_stats_birds_df<- data_frame("h3_index" = names(data), "pd_values" = unlist(hex_tree_stats_birds$pd_values), "mpd_values" = unlist(hex_tree_stats_birds$mpd_values), "mntd_values" = unlist(hex_tree_stats_birds$mntd_values), 
+                                    "tree_size" = unlist(lapply(hex_tree_stats_birds$species_in_tree, length)), "missing_taxa_tree_size" = unlist(lapply(hex_tree_stats_birds$missing_species, length)) )
+
+pop_hex_stats_birds_df$proportion_missing<- pop_hex_stats_birds_df$missing_taxa_tree_size/(pop_hex_stats_birds_df$tree_size + pop_hex_stats_birds_df$missing_taxa_tree_size)
+
+#this is just an aside to make a figure of mssing taxa. 
+
+#need to make 
+missing_hist<- ggplot(pop_hex_stats_birds_df, aes(x = proportion_missing)) +
+  geom_histogram(bins = 50) +
+  ggtitle("Missing Taxa Proportions: Hexagon Data California")
+  
+ggsave(filename = "birds/images/Missing_taxa_proportions_hexagon_california.png", 
+       plot = missing_hist, 
+       dpi = 300, 
+       width = 8, 
+       height = 6, 
+       units = "in")
+
+#this just saves the file hex_tree_stats_birds without any geographic information. 
 saveRDS(hex_tree_stats_birds, file = "birds/raw_hex_stats_from_ranges")
 
+#want to merge this back to the polygon sf object 
+#use the "polygons" file generated in california-partition. 
+#this is called(hex_data_as_sf in the Cali_Geometry file. )
 
+cali_hexes_as_sf<- st_read("Cali_Geometry/hex_data_as_sf.shp")
+
+polygon_data_full<- left_join(data.frame(cali_hexes_as_sf), pop_hex_stats_birds_df, by = "h3_index")
+
+polygon_data_full<- st_as_sf(polygon_data_full)
+
+polygon_data_full<- ecoregion_id(polygon_data_full, full = TRUE) #get the overlapping ecoregions of each reserve. 
+
+#ec_js_pd<- ecoregion_json_filename shortened. 
+polygon_data_full$ec_js_pd<- unlist(lapply(polygon_data_full$US_L3CODE, makejsonstring, metric = "pd"))
+polygon_data_full$ec_js_mpd<- unlist(lapply(polygon_data_full$US_L3CODE, makejsonstring, metric = "mpd"))
+polygon_data_full$ec_js_mntd<- unlist(lapply(polygon_data_full$US_L3CODE, makejsonstring, metric = "mntd"))
+
+
+
+#need to determine for each polygon in polygon_data_full if the pd is significant or not, and make a table. similar to what was done in the reserves. 
+#need to make a function that generates a null model somehow concatenated from multiple ecoregions (idk how to do this. need to figure this out.)
+
+#for now I will compare each polygon to california and its null model ecoregion, multiple ecoregions will be left out. 
+
+
+
+####THIS WHOLE CHUNK OF CODE IS GENERATING SIGNIFICANCE VALUES. 
+polygon_data_CI_ranges_pd_cali<- lapply(polygon_data_full$tree_size, cI_generator, params_json_file = "birds/bird_ranges_wholeCali_pd_model_params.json")
+CI_cali_significance_polygons_pd<- Map(check_significance_other_metrics, polygon_data_full$pd_values, upper_lower_keyvals = polygon_data_CI_ranges_pd_cali)
+
+png("birds/images/CI_cali_significance_hexes_pd_hist.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_cali_significance_polygons_pd), main = "CI_cali_significance_hexes_pd_hist", xlab = "PD", ylab = "Frequency")
+dev.off()
+
+polygon_data_CI_ranges_mpd_cali<- lapply(polygon_data_full$tree_size, cI_generator, params_json_file = "birds/bird_ranges_wholeCali_mpd_model_params.json")
+CI_cali_significance_polygons_mpd<- Map(check_significance_other_metrics, polygon_data_full$mpd_values, upper_lower_keyvals = polygon_data_CI_ranges_mpd_cali)
+
+
+png("birds/images/CI_cali_significance_hexes_mpd_hist.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_cali_significance_polygons_mpd)) #about 95% of all polygons in california have significantly low pd. 
+dev.off()
+
+polygon_data_CI_ranges_mntd_cali<- lapply(polygon_data_full$tree_size, cI_generator, params_json_file = "birds/bird_ranges_wholeCali_mntd_model_params.json")
+CI_cali_significance_polygons_mntd<- Map(check_significance_other_metrics, polygon_data_full$mntd_values, upper_lower_keyvals = polygon_data_CI_ranges_mntd_cali)
+
+png("birds/images/CI_cali_significance_hexes_mntd_hist.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_cali_significance_polygons_mntd)) #about 95% of all polygons in california have significantly low pd. 
+dev.off()
+
+#for some reason the mean nearest taxon distance is pretty much always insignificant 
+
+
+#need to generate the json file names for each ecoregion. 
+#double check that ecoregions are in the correct order. might be wrong null models. 
+#for ecoregions: 
+polygon_data_CI_ranges_pd_ecoregions <- Map(cI_generator, polygon_data_full$tree_size, params_json_file = polygon_data_full$ec_js_pd)
+CI_ecoregions_significance_polygons_pd<- Map(check_significance_other_metrics, polygon_data_full$pd_values, upper_lower_keyvals = polygon_data_CI_ranges_pd_ecoregions)
+
+png("birds/images/CI_cali_significance_hexes_pd_hist_ecoregions.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_ecoregions_significance_polygons_pd), main = "CI_cali_significance_hexes_pd_hist", xlab = "PD", ylab = "Frequency")
+dev.off()
+
+
+polygon_data_CI_ranges_mpd_ecoregions <- Map(cI_generator, polygon_data_full$tree_size, params_json_file = polygon_data_full$ec_js_mpd)
+CI_ecoregions_significance_polygons_mpd<- Map(check_significance_other_metrics, polygon_data_full$mpd_values, upper_lower_keyvals = polygon_data_CI_ranges_mpd_ecoregions)
+
+png("birds/images/CI_cali_significance_hexes_mpd_hist_ecoregions.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_ecoregions_significance_polygons_mpd), main = "CI_cali_significance_hexes_mpd_hist", xlab = "mpd", ylab = "Frequency")
+dev.off()
+
+
+polygon_data_CI_ranges_mntd_ecoregions <- Map(cI_generator, polygon_data_full$tree_size, params_json_file = polygon_data_full$ec_js_mntd)
+CI_ecoregions_significance_polygons_mntd<- Map(check_significance_other_metrics, polygon_data_full$mpd_values, upper_lower_keyvals = polygon_data_CI_ranges_mntd_ecoregions)
+
+png("birds/images/CI_cali_significance_hexes_mntd_hist_ecoregions.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_ecoregions_significance_polygons_mntd), main = "CI_cali_significance_hexes_mntd_hist", xlab = "mntd", ylab = "Frequency")
+dev.off()
+
+
+###ADD ALL THESE SIGNIFICANCE VALUES TO THE DATA STRUCTURE: 
+
+#for some reason there's a dimensionality issue. 
+#need to figure out how to deal with polygons on multuiple ecoregions stat!!
+polygon_data_full$pdSigCal<- unlist(CI_cali_significance_polygons_pd)
+polygon_data_full$mpdSigCal<- unlist(CI_cali_significance_polygons_mpd)
+polygon_data_full$mntdSigCal<- unlist(CI_cali_significance_polygons_mntd)
+
+
+#need to change NULL to NA to make this datastructure work. 
+#make NA's. line = 
+#CI_ecoregions_significance_polygons_mntd[sapply(CI_ecoregions_significance_polygons_mntd, is.null)] <- NA
+
+
+polygon_data_full$pdSigEco<- unlist(CI_ecoregions_significance_polygons_pd)
+polygon_data_full$mpdSigEco<- unlist(CI_ecoregions_significance_polygons_mpd)
+polygon_data_full$mntdSigEco<- unlist(CI_ecoregions_significance_polygons_mntd)
+#the output of this is 11792 units long. 
+#this is now the updated list that has doubles for reserves that cover at least one ecoregion 
+
+
+#1763 polygons have at least 2 ecoregions 
+num_polygons_multiple_regions<- polygon_data_full%>%
+  group_by(h3_index)%>%
+  count() 
+
+polygons_multiple_ecoregions<- num_polygons_multiple_regions%>%
+  filter(n > 1)
+  
+#this is double the number of polygons multiple ecoregions. 
+#produces 1 for each ecoregion. 
+polygons_multiple_ecoregions_full<- st_as_sf(left_join(data.frame(polygons_multiple_ecoregions), data.frame(polygon_data_full), by = "h3_index"))
+
+histogram(polygons_multiple_ecoregions_full$pd_cali_significance)
+
+
+#just plot multiple ecoregion histogram 
+multiple_ecoregions<- ggplot(num_polygons_multiple_regions, aes(x = n))+ 
+  geom_histogram(bins = 50)+
+  ggtitle("Hexagons with multiple ecoregions (n = number of ecoregions covered)")
+
+
+ggsave(filename = "birds/images/Hexagons_with_multiple_ecoregions_histogram.png", 
+       plot = multiple_ecoregions, 
+       dpi = 300, 
+       width = 8, 
+       height = 6, 
+       units = "in")
+
+
+hist(polygons_multiple_ecoregions_full$pd_cali_significance)
+#now plot frequency of significance within california of just these multiple ecoregion points. 
+
+#seems like the hexagons that are at the boundaries of ecoregions have pretty similar behavior to hexagons within the ecoregions. 
+#need to compare against a larger null model, though
+#this might look very different for birds. extremely similar patters for hexes that lie on more than one ecoregion. 
+multiple_ecoregions_hist<- ggplot(polygons_multiple_ecoregions_full, aes(x = mntd_cali_significance))+ 
+  geom_histogram(bins = 50)+
+  ggtitle("distribution of mntd significance for hexagons in multiple ecoregions")
+
+ggsave(filename = "birds/images/distribution_mntd_significance_hexagons_multiple-ecoregions.png",
+       plot = multiple_ecoregions_hist, 
+       dpi = 300, 
+       width = 8, 
+       height = 6, 
+       units = "in")
+
+
+#for some reason this isn't working 
+
+polygon_data_full<- st_as_sf(polygon_data_full)
+data.frame(sapply(polygon_data_full,class))
+
+#truncated some fields but this is now good to go. #also change extension to .geojson 
+st_write(polygon_data_full, "birds/hex_data_sf/polygon_data.shp", delete_dsn = TRUE)
+
+#need to write as well a json of polygons and the corresponding species lists. 
+
+
+polygon_json_species<- data_frame("h3_index" = names(data), "species_in_tree" = hex_tree_stats_birds$species_in_tree, "species_absent_from_tree" = hex_tree_stats_birds$missing_species)
+
+json_data_polygon_species <- jsonlite::toJSON(polygon_json_species)
+
+writeLines(json_data_polygon_species, "birds/hexagon_species_in_tree.json")
+
+
+##################
+# AT THIS POINT I HAVE GENERATED AN SF DATA OBJECT OF ALL HEXES, PD/MPD/MNTD'S, TREE STATS AND SIGNIFICANCE, IN ADDITION TO A JSON FILE WITH THE SPECIES PRESENCE/ABSENCE VECTORS
+##################
+
+
+
+?st_write
+################
+##PART 3
+#great. now this is written as a shape file and we can get all the ecoregion information. 
+st_read("birds/hex_data_sf/polygon_data.shp")
+
+pd_rds[1]
+sizes[1]
 hex_tree_stats_birds<- readRDS("birds/raw_hex_stats_from_ranges")
 missing_species_rds<- hex_tree_stats_birds$missing_species
 names(missing_species_rds)<- names(data)
@@ -283,6 +487,9 @@ mntd_cleaned<- data_clean_quartiles(quartile_info_mntd, "mntd")
 
 sizes<- unlist(lapply(hex_tree_stats_birds$species_in_tree, length))
 
+sizes[2]
+pd_cleaned[2]
+
 sizes[1120]
 #basically rounds up when the tree size is not an exact multiple of 5, and checks based on that. 
 getQuantileValues <- function(sample_size, metric_quantile_df) {
@@ -308,33 +515,37 @@ quartile_info_mpd<-list()
 quartile_info_mntd<- list()
 
 
+
+result[669]
+pd_rds[669]
+
 #basically all thsee values are wack. might be something wrong with the hex trees generated
 #since there are so many steps here. 
 #this is ultimately not working at all. 
 #I'm going to bed. 
 
-
+hex_tree_stats_birds$pd_values[1]
 for(i in 1:length(result))
 {
   
   list_comp<- unlist(result[i])[1:15]
-  if(unlist(hex_tree_stats_birds$mpd_values)[i] < min(list_comp))
+  if(unlist(hex_tree_stats_birds$pd_values)[i] < min(list_comp))
   {
-    quartile_info_mpd[i]<- 0 
+    quartile_info_pd[i]<- 0 
   }
-  else if(unlist(hex_tree_stats_birds$mpd_values)[i] > max(list_comp))
+  else if(unlist(hex_tree_stats_birds$pd_values)[i] > max(list_comp))
   {
     print("true")
-    quartile_info_mpd[i]<- 100 
+    quartile_info_pd[i]<- 100 
   }
   else
   {
-    max_value<- max(list_comp[list_comp < unlist(hex_tree_stats_birds$mpd_values)[i]])
+    max_value<- max(list_comp[list_comp < unlist(hex_tree_stats_birds$pd_values)[i]])
     max_name <- names(list_comp)[which.max(list_comp == max_value)]
-    quartile_info_mpd[i] <- max_name
+    quartile_info_pd[i] <- max_name
   }
 }
-names(quartile_info_mpd)<- names(data)
+names(quartile_info_pd)<- names(data)
 
 
 

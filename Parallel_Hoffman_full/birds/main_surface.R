@@ -43,7 +43,7 @@ mntd_data<- read.csv("birds/rangesCI_mntd_output_bootstrap_bird.csv")
 pd_model<-as_tibble(t(surfaceGen(pd_data, "pd")), rownames = "key") #need to make models. 
 mpd_model<-as_tibble(t(surfaceGen(mpd_data, "mpd")), rownames = "key")
 mntd_model<-as_tibble(t(surfaceGen(mntd_data, "mntd")), rownames = "key")
-
+surfaceGen
 #plot(mpd_model$tree_sizes, mpd_model$low)
 
 #wite model coefficients to csv files for visualization. 
@@ -65,7 +65,7 @@ write(json_mntd, file = "birds/mntd_model_params.json")
 
 dir_list_ecoregions <- list.dirs("birds/ecoregion_data",recursive = FALSE)  
 
-
+#these values have definitely chagned. 
 for(i in dir_list_ecoregions)
 {
   pd_data_temp<- read.csv(paste(i, "/ecoregionsCI_pd_output_bootstrap_bird.csv", sep = ""))

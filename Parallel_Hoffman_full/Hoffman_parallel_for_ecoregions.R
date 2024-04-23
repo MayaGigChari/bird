@@ -95,6 +95,7 @@ print("args successfully loaded") #another checkpoint
 #going the route without the sampletrees, removed the comment because it makes no sense.
 
 #full tree here is the ECOREGION full tree!
+#this is correct!
 full_tree<-read.tree(file =  paste(path_to_output, 'trimmed_tree.tre',sep = ""))
 cophen_read<-readRDS(paste(path_to_output, 'cophen_matrix',sep = ""))
 

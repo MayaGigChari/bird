@@ -52,9 +52,11 @@ extracted_names <- lapply(reserve_names, function(x) {
 #only 184 species in this reserve. 
 
 reserve_species_lists<- list()
+
+#intersect bird occurrences with all shape files
 for(i in 1: length(reserve_names))
 {
-  temp_sf_ranges<- st_intersection(bird_occurrences_cali, uc_reserve_shps[[i]])
+  temp_sf_ranges<- st_intersection( uc_reserve_shps[[i]],bird_occurrences_cali)
   species_reserve<- unlist(unique(temp_sf_ranges$sci_nam))
   reserve_species_lists[[i]]<- species_reserve
 }
@@ -68,7 +70,7 @@ print(unique(intersecting_indices$sci_nam))
 
 plot(uc_reserve_shps[[1]]$geometry)
 
-uc_reserve_shps[[1]]$Name
+uc_reserve_shps[[5]]$Name
 #now have list of reserve species in each reserve. 
 
 
@@ -256,9 +258,8 @@ conserved_areas_of_interest<- st_as_sf(data.frame(left_join(managers_of_interest
 #geometrcy is not valid. need to make geometry valid and change to WGS 84 as the 
 sf_use_s2(FALSE)
 st_is_valid(conserved_areas_of_interest)
-conserved_areas_of_interest<- st_make_valid(conserved_areas_of_interest)
 conserved_areas_of_interest<- st_transform(conserved_areas_of_interest, "WGS84")
-
+conserved_areas_of_interest<- st_make_valid(conserved_areas_of_interest)
 
 #these are the grouped geometries for all the conserved areas of interest. now the primary key is the UNIT_NAME. 
 #changed from union to combine to avoid downstream error, but might fuck stuff up. 
@@ -277,6 +278,7 @@ plot(Angeles_coast_test$geometry)
 #they are exactly the same. 
 
 #made the geoemtries valid. 
+#might not need to rerun this again. 
 sf_use_s2(FALSE)
 conserved_areas_consolidated_geometries<- st_make_valid(conserved_areas_consolidated_geometries)
 conserved_areas_consolidated_geometries<- st_as_sf(conserved_areas_consolidated_geometries)
@@ -359,7 +361,7 @@ list_management_groups<- unlist(data.frame(managers_of_interest)$MNG_AGNCY)
 #need to make sure that everything always stays in the same order. 
 
 
-current_manager<- list_management_groups[1]
+current_manager<- list_management_groups[23]
 trimmed_areas_of_interest<- ranges_valid_ecoregions_complete%>%
   filter(MNG_AGNCY == current_manager)
 
@@ -407,6 +409,8 @@ mpd_vals_man1<- lapply(reserve_trees_man1, mpd_app_picante, coph_mat = cophen_ma
 mntd_vals_man1 <- lapply(reserve_trees_man1, mntd_app_picante, coph_mat = cophen_matrix)
 
 
+#need to double check 
+
 #need to deal with the case where the ecore
 
 
@@ -424,13 +428,15 @@ CI_cali_range_pd_man1<- lapply(reserve_tree_sizes_man1, cI_generator, params_jso
 CI_cali_significance_pd_man1<- Map(check_significance_pd, pd_vals_man1, upper_lower_keyvals = CI_cali_range_pd_man1)
 
 CI_cali_range_mpd_man1<- lapply(reserve_tree_sizes_man1, cI_generator, params_json_file = "birds/bird_ranges_wholeCali_mpd_model_params.json")
-CI_cali_significance_mpd<- Map(check_significance_other_metrics, mpd_vals_man1, upper_lower_keyvals = CI_cali_range_mpd_man1)
+CI_cali_significance_mpd_man1<- Map(check_significance_other_metrics, mpd_vals_man1, upper_lower_keyvals = CI_cali_range_mpd_man1)
 
 CI_cali_range_mntd_man1<- lapply(reserve_tree_sizes_man1, cI_generator, params_json_file = "birds/bird_ranges_wholeCali_mntd_model_params.json")
-CI_cali_significance_mntd<- Map(check_significance_other_metrics, mntd_vals_man1, upper_lower_keyvals = CI_cali_range_mntd_man1)
+CI_cali_significance_mntd_man1<- Map(check_significance_other_metrics, mntd_vals_man1, upper_lower_keyvals = CI_cali_range_mntd_man1)
 
 
 #need to determine the ecoregions for each reserve. 
+#for some reason, everything is just super super low. 
+
 
 #double check that ecoregions are in the correct order. might be wrong null models. 
 CI_ecoregions_ranges_pd_man1 <- Map(cI_generator, reserve_tree_sizes_man1, params_json_file = trimmed_areas_of_interest$ecoregion_json_id_pd)
@@ -445,12 +451,36 @@ CI_ecoregions_ranges_mntd_man1 <- Map(cI_generator, reserve_tree_sizes_man1, par
 CI_ecoregions_significance_mntd_man1<- Map(check_significance_other_metrics, mntd_vals_man1, upper_lower_keyvals = CI_ecoregions_ranges_mntd_man1)
 
 
+taxa_missing_nonames_man1<- lapply(taxa_missing_man1,helper_get_taxa_only)
+taxa_present_nonames_man1<- lapply(present_taxa_man1,helper_get_taxa_only )
+
+tree_strings_man1 <- list()
+
+# Convert each phylo object to Newick format and store in the list
+for (tree in reserve_trees_man1) {
+  tree_string <- write.tree(tree)
+  tree_strings_man1 <- c(tree_strings_man1, tree_string)
+}
+
+
+
+summary_data_man1<- data_frame("UNIT_NAME" =  manager_1_reserves, "ecoregion_id" = manager_1_ecoregions, "true_pd"= pd_vals_only_man1,"pd_significance_california"= CI_cali_significance_pd_man1, "pd_significance_ecoregions"= CI_ecoregions_significance_pd_man1, 
+                          "true_mpd"= mpd_vals_man1,"mpd_significance_california"= CI_cali_significance_mpd_man1, "mpd_significance_ecoregions"= CI_ecoregions_significance_mpd_man1,
+                          "true_mntd"= mntd_vals_man1,"mntd_significance_california"= CI_cali_significance_pd_man1, "mntd_significance_ecoregions"= CI_ecoregions_significance_mntd_man1, 
+                          "taxa_missing_from_tree" = taxa_missing_nonames_man1, "taxa_present_in_tree"= taxa_present_nonames_man1, "phylogeny" = tree_strings_man1)
+
+
+
 summary_data_man1<- data_frame("OBJECTID" =  unlist(manager_1_reserves))
 
 summary_output_sf_man1<- left_join(summary_data_man1, trimmed_areas_of_interest)
 
 sf_object <- st_as_sf(summary_output_sf_man1,crs = 4326)
 
+
+write_rds(sf_object, file = "test")
+
+read_rds("test")
 st_write(sf_object, "output_test.geojson")
 
 a<-st_read("output_test.geojson")
@@ -458,16 +488,83 @@ a<-st_read("output_test.geojson")
 #idea: can just merge original sf objects and dataframe containing all the vals!!! ok.
 
 #these are basically all the reserves. 
+#within this I need to make a dataframe with all necessary info, join it back to trimmed areas of interest and write that as a geojson 
 
 reserves_list_of_lists<- list()
 for(i in 1: length(list_management_groups))
 {
   current_manager<- list_management_groups[i]
-  trimmed_areas_of_interest<- conserved_areas_of_interest%>%
+  trimmed_areas_of_interest<- ranges_valid_ecoregions_complete%>%
     filter(MNG_AGNCY == current_manager)
-  intersecting_species_lists<- st_intersection(bird_occurrences_cali,trimmed_areas_of_interest)
-  manager_temp_reserves<- unique(intersecting_species_lists$OBJECTID)
-  manager_temp_species<- lapply(manager_temp_reserves, getspecies_for_multiple_geogareas,sf_object = intersecting_species_lists)
-  reserve_list_of_lists[i]<- manager_temp_species
+  
+  #there is redundancy here. 
+  manager_1_reserves<- trimmed_areas_of_interest$UNIT_NAME #this is the blah of the blah 
+  manager_1_ecoregions<- trimmed_areas_of_interest$US_L3CODE #this is the correct order of the ecoregions.
+  
+  #I think this is probably correct. but not sure. 
+  intersecting_species_lists<- st_join(trimmed_areas_of_interest, bird_occurrences_cali)
+  
+  #check to make sure these statements produce the same output. 
+  #these species correspond to the correct order I think. 
+  manager_1_species<- lapply(manager_1_reserves, getspecies_for_multiple_geogareas,sf_object = intersecting_species_lists)
+  reserve_names_df_man1<- lapply(manager_1_species, read_df)
+  taxa_missing_man1<- lapply(reserve_names_df_man1, check_taxa, master_phylogeny= parent_tree )
+  present_taxa_man1<- lapply(reserve_names_df_man1, remove_taxa, master_phylogeny = parent_tree)
+  reserve_trees_man1<- lapply(present_taxa_man1, sample_tree_generator, master_phylogeny = parent_tree)
+  reserve_tree_sizes_man1<- lapply(reserve_trees_man1, ntaxa) #get the tree sizes. 
+  
+  pd_vals_man1<- lapply(reserve_trees_man1, pd_app_picante, master_phylogeny = parent_tree)
+  pd_vals_only_man1<- lapply(pd_vals_man1, helper_get_pd)
+  mpd_vals_man1<- lapply(reserve_trees_man1, mpd_app_picante, coph_mat = cophen_matrix)
+  mntd_vals_man1 <- lapply(reserve_trees_man1, mntd_app_picante, coph_mat = cophen_matrix)
+
+  CI_cali_range_pd_man1<- lapply(reserve_tree_sizes_man1, cI_generator, params_json_file = "birds/bird_ranges_wholeCali_pd_model_params.json")
+  CI_cali_significance_pd_man1<- Map(check_significance_pd, pd_vals_man1, upper_lower_keyvals = CI_cali_range_pd_man1)
+  
+  CI_cali_range_mpd_man1<- lapply(reserve_tree_sizes_man1, cI_generator, params_json_file = "birds/bird_ranges_wholeCali_mpd_model_params.json")
+  CI_cali_significance_mpd_man1<- Map(check_significance_other_metrics, mpd_vals_man1, upper_lower_keyvals = CI_cali_range_mpd_man1)
+  
+  CI_cali_range_mntd_man1<- lapply(reserve_tree_sizes_man1, cI_generator, params_json_file = "birds/bird_ranges_wholeCali_mntd_model_params.json")
+  CI_cali_significance_mntd_man1<- Map(check_significance_other_metrics, mntd_vals_man1, upper_lower_keyvals = CI_cali_range_mntd_man1)
+  
+
+  #double check that ecoregions are in the correct order. might be wrong null models. 
+  CI_ecoregions_ranges_pd_man1 <- Map(cI_generator, reserve_tree_sizes_man1, params_json_file = trimmed_areas_of_interest$ecoregion_json_id_pd)
+  CI_ecoregions_significance_pd_man1<- Map(check_significance_pd, pd_vals_man1, upper_lower_keyvals = CI_ecoregions_ranges_pd_man1)
+  
+  CI_ecoregions_ranges_mpd_man1 <- Map(cI_generator, reserve_tree_sizes_man1, params_json_file = trimmed_areas_of_interest$ecoregion_json_id_mpd)
+  CI_ecoregions_significance_mpd_man1<- Map(check_significance_other_metrics, mpd_vals_man1, upper_lower_keyvals = CI_ecoregions_ranges_mpd_man1)
+  
+  CI_ecoregions_ranges_mntd_man1 <- Map(cI_generator, reserve_tree_sizes_man1, params_json_file = trimmed_areas_of_interest$ecoregion_json_id_mntd)
+  CI_ecoregions_significance_mntd_man1<- Map(check_significance_other_metrics, mntd_vals_man1, upper_lower_keyvals = CI_ecoregions_ranges_mntd_man1)
+  
+  
+  #do some small editing. 
+  taxa_missing_nonames_man1<- lapply(taxa_missing_man1,helper_get_taxa_only)
+  taxa_present_nonames_man1<- lapply(present_taxa_man1,helper_get_taxa_only )
+  
+  tree_strings_man1 <- list()
+  
+  # Convert each phylo object to Newick format and store in the list
+  for (tree in reserve_trees_man1) {
+    tree_string <- write.tree(tree)
+    tree_strings_man1 <- c(tree_strings_man1, tree_string)
+  }
+  
+  
+  summary_data_man1<- data_frame("UNIT_NAME" =  manager_1_reserves, "ecoregion_id" = manager_1_ecoregions, "true_pd"= pd_vals_only_man1,"pd_significance_california"= CI_cali_significance_pd_man1, "pd_significance_ecoregions"= CI_ecoregions_significance_pd_man1, 
+                                 "true_mpd"= mpd_vals_man1,"mpd_significance_california"= CI_cali_significance_mpd_man1, "mpd_significance_ecoregions"= CI_ecoregions_significance_mpd_man1,
+                                 "true_mntd"= mntd_vals_man1,"mntd_significance_california"= CI_cali_significance_pd_man1, "mntd_significance_ecoregions"= CI_ecoregions_significance_mntd_man1, 
+                                 "taxa_missing_from_tree" = taxa_missing_nonames_man1, "taxa_present_in_tree"= taxa_present_nonames_man1, "phylogeny" = tree_strings_man1)
+  
+  
+  summary_output_sf_man1<- left_join(summary_data_man1, trimmed_areas_of_interest)
+  
+  sf_object <- st_as_sf(summary_output_sf_man1,crs = 4326)
+  
+  
+  write_rds(sf_object, file = paste("birds/reserves/", list_management_groups[i], "_full_data_output.rds", sep = ""))
+  
+  
 }
   
