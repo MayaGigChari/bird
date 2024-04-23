@@ -3,6 +3,8 @@
 #of california. This can be altered at the specificed location if there are different
 #larger trees of interest (ie: some other geographical area )
 #in this, we generate trees for the molecular and the compelete phylogenies. will use the molecular from here on out for now. 
+#this does not actually require any geospatial information. 
+
 
 #TODO: generate 5 trees. 
 

@@ -14,6 +14,7 @@ library(stringr)
 library(jsonlite)
 # Read the GeoJSON file
 #this is for the azathoth rstudio remote server
+#most of the stuff with plants probably has to be on this remote server because the files are too large to transfer to my computer. 
 
 
 #for range data
@@ -32,6 +33,7 @@ validity <- st_is_valid(bird_ranges)
 bird_ranges <- st_make_valid(bird_ranges)
 
 
+
 plot(st_geometry(mono_litto))
 
 #these are all valid now. 
@@ -47,14 +49,23 @@ st_crs(bird_ranges) <- st_crs(4326)
 california <- sf::read_sf("Cali_Geometry/ca-state-boundary/CA_State_TIGER2016.shp") %>%
   sf::st_transform(4326)
 
+plot(california)+
+  
+
 # filters geojson for only those that intersect with bounding box or califrornia shape file
-#this is misleading, it's actually plants I just mislabeled everything as birds. 
+#this is misleading, it's actually plants I just mislabeled everything as birds.
+
+#total of 12574 birds that intersect with california. 
 birds_in_california <- st_intersection(bird_ranges, california) 
 
 
+#this literally takes a thousand years and makes my computer crash. don't run this 
+#birds_in_california_other_way<- st_intersection(california, bird_ranges)
+
+plot(birds_in_california[140,])
 #use this to populate hex data later
 #plants_range_california has all these species
-plants_range_california<- birds_in_calfornia
+plants_range_california<- birds_in_california
 
 #lupinus_onustus doesn't exist in the range data, for example but it is still a california species! also "Boschniakia strobilacea"
 #however, something like Allium_rhizomatum is expected but not seen, but doesn't even have a range in california!
@@ -63,13 +74,20 @@ plants_range_california%>%
 
 
 #writing to a st file or something
-st_write(birds_in_california, "Plants/california_plants.shp")
+st_write(plants_range_california, "Plants/california_plants.shp")
 
 #this doesn't work. need to figure it out. 
 sf_geojson(birds_in_california, "Plants/california_plants.geojson")
 
 write.csv(birds_in_california$species, "Plants/california_plant_species_list.csv ")
+#this is all the birds that might intersect california? 
 
+#need to further filter for only california native plants. 
+
+
+##########################
+#OUTPUT here: The sf object of range data of all birds. to be used in future analyses
+##########################
 
 #written the csv. can now pull this csv onto local.
 
