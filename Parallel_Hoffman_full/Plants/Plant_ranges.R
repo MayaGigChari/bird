@@ -9,8 +9,10 @@
 
 #this part can be done on the local. 
 install.packages("rvest")
+install.packages("httr")
 library(httr)
 library(rvest)
+library(dplyr)
 
 # URL of the webpage
 url <- "https://ucjeps.berkeley.edu/cgi-bin/get_JM_name_data"
@@ -27,6 +29,18 @@ page <- read_html(html_content)
 # Extract the data you need using CSS selectors or XPath
 # For example, if the data is in a table, you can use:
 data <- page %>% html_table()
+
+data_useful<- data[[4]]
+
+#there are 7,392 species that are technically california natives. 
+data_useful_only_natives<- data_useful%>%
+  filter(nativity == "NATIVE")
+
+#write this to a csv or an rds file; might still be too big. 
+
+species_data_useful<- data_useful_only_natives$name_minus_authors
+
+write.csv(species_data_useful, file = "Plants/species_native_to_Cali.csv")
 
 # If the data is in a different format or structure, you may need to use different functions
 # to extract it. You can use functions like html_nodes() to select specific HTML elements and
