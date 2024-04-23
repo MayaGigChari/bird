@@ -1,0 +1,23 @@
+This file contains the general workflow as of 04/2024 for the PHAST pipeline (for range data)
+
+1. Construct a range dataset for the clade of interest, for California
+
+2. Construct range datasets for each individual ecoregion (as in step 1, but more granular)
+
+3. Run the main.R script to: 
+
+  1. Generate a phylogenetic tree for California and all ecoregions
+  2. List missing taxa from phylognetic tree, present taxa etc 
+  3. Generate cophenetic matrix for California and all ecoregions
+
+3. Run Hoffman_parallel_.._R and Submit_Hoffman_parallel...._.sh on Hoffman2 cluster for california using
+  1. The phylogenetic tree for either california or corresponding ecoregions 
+  2. the cophenetic matrix for california or corresponding ecoregions. 
+
+4. Retrieve output manually and run the Data_compilation-Method2.ipynb script for each corresponding joblog for California and ecoregions. 
+
+5. Run the main_surface script to construct JSON files of parameters for each null model for California etc. 
+
+6. Run the main_hexpop script: generates an SF object with each hexagon of california assigned a PD, mpd, mntd, and various significance values. 
+
+7. Run the main_reserves script: does a similar thing as hexpop, but just examining reserve systems. 

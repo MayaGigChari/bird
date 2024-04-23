@@ -1,0 +1,15 @@
+This file contains metadata information for the polygon_data files of birds. 
+
+Attributes: 
+
+1. h3_index: corresponding h3 index 
+2. pd/mpd/mntd_values: metric values for each hexagon
+3. tree_size: "species richness" of present taxa in the tree
+4. missing_taxa_tree_size: number of taxa in range data not represented in tree. 
+5. proportion_missing:  missing_taxa_tree_size/(missing_taxa_tree_size+tree_size)
+6. US_L3CODE: ecoregion identifier **NOTE: there is redundancy in this table because some hexagons cover more than one ecoregion; tuples with a hexagon with more than one ecoregion will be identical except for US_L3 code. 
+7. NA_L3CODE-L1_KEY: identifiers for the ecoregion (not important)
+8. geometry: geometry of the hexagon
+9. ec_js_pd/mpd/mntd: json files for backend stuff (not important for the site): important in calling the CI_generator function.  
+10. pd/mpd/mntdSigCal: significance of given metric value for that hexagon when compared to the CALIFORNIA null model. -1 = Significantly low, 0 = expected (within 95% confidence), 1 = significantly high
+11. pd/mpd/mntdSigEco: significance of given metric value for that hexagon when compared to the ECOREGION the hexagon is contained within. same values as above. NA occuurs when the hexagon overlaps at least 2 unique ecoregions. 
