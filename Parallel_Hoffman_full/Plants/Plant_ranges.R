@@ -49,4 +49,44 @@ write.csv(species_data_useful, file = "Plants/species_native_to_Cali.csv")
 
 # Once you have extracted the data, you can further process it or save it to a file.
 # For example, to save it to a CSV file:
-write.csv(data, "all_data.csv", row.names = FALSE)
+
+
+#########Everything above this was done on the local. now going to properly prune the big data. 
+species_of_interest<- read.csv("Plants/species_native_to_Cali.csv")
+species_of_interest$X<- NULL
+colnames(species_of_interest)<- "species"
+species_of_interest<- data.frame(species_of_interest)
+species_of_interest$species <- gsub(" ", "_", species_of_interest$species)
+#the next step with this is to trim the regional data to only birds that are supposed to be in california 
+
+
+plants_range_california_only<- st_read("Plants/california_plants.shp")
+
+
+#there are 12574 
+
+#this join statement might have been used incorrectly in other scripts
+
+#there are a total of 3,918 species of plants in this file that are California natives and also are represented with range data overlapping california. 
+#is it possible that I should have been using inner joins all along? 
+plants_range_california_only_natives<- st_as_sf(inner_join(species_of_interest, plants_range_california_only))
+      
+st_write(plants_range_california_only_natives, "Plants/California_species_shapes/plants_range_california_only_natives_POTW.shp")
+
+
+#sanity check to make sure that we have the correct number of tuples. 
+plants_names_both<- which(plants_range_california$species %in% species_of_interest$species)
+
+#always do an inner join. never do a left join in this project ever. 
+
+
+############
+#Now: We have a list of birds that overlap with california but also that exist in the california species checklist of native plants. 
+#it looks like a bunch of subspecies were removed.
+#BELOW: do the same for ecoregions. 
+############
+
+
+
+
+
