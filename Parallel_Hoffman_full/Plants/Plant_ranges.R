@@ -42,7 +42,8 @@ species_data_useful<- data_useful_only_natives$name_minus_authors
 
 write.csv(species_data_useful, file = "Plants/species_native_to_Cali.csv")
 
-# If the data is in a different format or structure, you may need to use different functions
+# If the data is in a different format or structure, you may need to use different functions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
+
 # to extract it. You can use functions like html_nodes() to select specific HTML elements and
 # html_text() to extract the text content.
 
