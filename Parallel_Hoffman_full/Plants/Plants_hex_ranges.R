@@ -5,8 +5,6 @@
 #in this script we basically just want to get a list of all hexagons and associated species lists of plants. 
 
 
-#pseudocode: 
-
 #the geometry asociated with indexes are then used to creates species list and trees for birds based on pre-defined range
 #data from range_gen. 
 library(h3)
@@ -28,6 +26,9 @@ ecoregions_L3codes<- ecoregions$US_L3CODE
 
 #load the bird range data. 
 #make sure everything is valid and force validity. 
+
+
+
 bird_ranges_touse<- st_read("birds/birds_trimmed_range_geospat/birds_trimmed_ranges_fromNorAm_complete.shp")
 sf_use_s2(FALSE)
 bird_ranges_touse<- st_make_valid(bird_ranges_touse)
