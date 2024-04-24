@@ -1,6 +1,9 @@
 This file contains the general workflow as of 04/2024 for the PHAST pipeline (for range data)
 
 1. Construct a range dataset for the clade of interest, for California
+	1. Filter the large geospatial dataset for only organisms that intersect with california
+	2. Filter this filtered dataset for only organisms that match a native/endemic species list. 
+	3. Once we have all of california, we need to correct for minor errors in range-overlaps with ecoregions. To do this, pick a threshold area (5% is the current) of overlap required. Perform st_intersection on ecoregion and ranges and filter for intersections with an area less than 5% of the area of the ecoregion it is in. 
 
 2. Construct range datasets for each individual ecoregion (as in step 1, but more granular)
 
