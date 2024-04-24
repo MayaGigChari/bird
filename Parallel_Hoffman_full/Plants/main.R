@@ -22,6 +22,7 @@ for (pkg in packages_to_install) {
 }
 
 
+
 #install.packages("BIEN")
 #library(BIEN)
 
@@ -90,6 +91,22 @@ write.tree(genus_complete_phylogeny, file = paste(clade, "/full_tree_genus.tre",
 #step one is to make the phylogeny. 
 #path to species checklist
 #not sure if this is the species or the checklist data. 
+#load the shape data of all the california taxa. 
+#before list: need to make list
+
+#load shape data
+
+sf_data_taxa_list_cali_natives<- st_read("Plants/California_species_shapes")
+
+
+#there are only 850 genera represented in the genus list! ridiculous. crazy. out of like 7,00 species. 
+#out of the 850 taxa that are represented there are about 190 that are unmatched in the tree! 
+cali_plants<- data.frame(sf_data_taxa_list_cali_natives$species)
+colnames(cali_plants)<- "name"
+cali_plants<- genus_only(cali_plants)
+cali_plants$colnames<- NULL
+
+
 path_to_taxa_list = file.path(paste(clade, "/total_unique_noncultivated_genera_obs_and_exp_cali.csv", sep = ""))
 path_to_full_tree = file.path(clade, "full_tree.tre")
 path_to_full_genus_tree<- file.path(clade, "full_tree_genus.tre") 
@@ -120,7 +137,7 @@ matched_genera<- remove_taxa(cali_plants, full_tree_genus)
 
 cali_tree_genus<- sample_tree_generator(matched_genera, full_tree_genus)
 
-write.tree(cali_tree_genus, file = file.path(clade, "cali_genus_tree.tre"))
+write.tree(cali_tree_genus, file = file.path(clade, "cali_genus_tree_APR2024.tre"))
 
 
 
@@ -148,25 +165,57 @@ max_species <- max_species(cali_plants)
 
 #should be the same matched/unmatched species each time. 
 
+#for ecoregions: 
+dir_list_ecoregions <- list.dirs("Plants/ecoregion_data",recursive = FALSE)  
+full_tree<- read.tree(path_to_full_genus_tree)
 
-#edited out call_cophen for sake of tree initialization statistics. 
-for(i in 1: 99)
+for(directory in dir_list_ecoregions)
 {
- temp<- read.tree(paste("Plants/Instance_", i, "/interpolated_phylogeny.tre", sep = ""))
- unmatched_species_list<- check_taxa(cali_plants, temp)
- matched_species_list<-remove_taxa(cali_plants, temp)
- temp_cali_tree<- sample_tree_generator(matched_species_list, temp)
- write.tree(temp_cali_tree, file = paste("Plants/Instance_", i, "/cali_tree_interpolated.tre", sep = ""))
- call_cophen_InterpTrees(temp_cali_tree, clade = "Plants", geog_area = "cali", instance = i) 
- print(i)
+  ecoregion_species<- read.csv(paste(directory, "/checklist.csv", sep = ""))
+  ecoregion_species$X<- NULL
+  ecoregion_species$x<- gsub(" ", "_", ecoregion_species$x)
+  colnames(ecoregion_species)<- "names"
+  ecoregion_genus<- genus_only(ecoregion_species)
+  ecoregion_genus$colnames<- NULL
+  colnames(ecoregion_genus)<- "name"
+  
+  unmatched_ecoregion_genus<- check_taxa(ecoregion_genus, full_tree)
+  matched_ecoregion_genus<-remove_taxa(ecoregion_genus, full_tree)
+  ecoregion_tree<- sample_tree_generator(matched_ecoregion_genus, full_tree)
+  
+  #manually use cophen matrix because this format isn't working. 
+  ecoregion_matrix<- cophen(ecoregion_tree)
+  cophen_ecoregion<- as.matrix(ecoregion_matrix)
+  
+  
+  #save all the files. 
+  saveRDS(cophen_ecoregion, file = paste(directory, "/cophen_matrix", sep = ""))
+  write.csv(unmatched_ecoregion_genus, file = paste(directory, "/genera_absent_from_tree.csv", sep = ""))
+  write.csv(matched_ecoregion_genus, file = paste(directory, "/genera_present_in_tree.csv", sep = ""))
+  write.tree(ecoregion_tree, file = paste(directory, "/trimmed_tree.tre", sep = ""))
 }
 
 
+
+#this is all archaic. 
+#edited out call_cophen for sake of tree initialization statistics. 
+#for(i in 1: 99)
+#{
+# temp<- read.tree(paste("Plants/Instance_", i, "/interpolated_phylogeny.tre", sep = ""))
+# unmatched_species_list<- check_taxa(cali_plants, temp)
+# matched_species_list<-remove_taxa(cali_plants, temp)
+# temp_cali_tree<- sample_tree_generator(matched_species_list, temp)
+# write.tree(temp_cali_tree, file = paste("Plants/Instance_", i, "/cali_tree_interpolated.tre", sep = ""))
+# call_cophen_InterpTrees(temp_cali_tree, clade = "Plants", geog_area = "cali", instance = i) 
+# print(i)
+#}
+
+
 #this is to get any interesting statistics but is not useful for tree building 
-full_tree_int<- read.tree("Plants/interpolated_full_tree.tre")
-unmatched_species_int<- check_taxa(cali_plants, full_tree_int)
-matched_species_plants_int<-remove_taxa(cali_plants, full_tree_int)
-max_species<- length(matched_species_plants_int[,1])
+#full_tree_int<- read.tree("Plants/interpolated_full_tree.tre")
+#unmatched_species_int<- check_taxa(cali_plants, full_tree_int)
+#matched_species_plants_int<-remove_taxa(cali_plants, full_tree_int)
+#max_species<- length(matched_species_plants_int[,1])
 
 
 

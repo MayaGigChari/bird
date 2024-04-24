@@ -202,3 +202,5 @@ for(code in ecoregion_codes) {
 }
 #all the ecoregion species lists have now been written to their respective files. 
 #honestly you never know, this might be wrong. 
+
+#maybe I should just do everything to do with the geometry on this server even though it sucks. 
