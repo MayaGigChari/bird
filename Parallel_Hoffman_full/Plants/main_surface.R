@@ -14,7 +14,7 @@ for (pkg in packages_to_install) {
 }
 
 
-clade = "birds_ranges"
+clade = "Plants"
 
 current_directory <- getwd()
 
@@ -34,9 +34,9 @@ source(Model_gen_path)
 
 #for the ranges: 
 
-pd_data<- read.csv("birds/rangesCI_pd_output_bootstrap_bird.csv")
-mpd_data<- read.csv("birds/rangesCI_mpd_output_bootstrap_bird.csv")
-mntd_data<- read.csv("birds/rangesCI_mntd_output_bootstrap_bird.csv")
+pd_data<- read.csv("Plants/CI_pd_output_bootstrap_bird.csv")
+mpd_data<- read.csv("Plants/CI_mpd_output_bootstrap_bird.csv")
+mntd_data<- read.csv("Plants/CI_mntd_output_bootstrap_bird.csv")
 
 #range models
 #this doesn't work at all. 
@@ -49,23 +49,23 @@ surfaceGen
 #plot(mpd_model$tree_sizes, mpd_model$low)
 
 #wite model coefficients to csv files for visualization. 
-write.csv(pd_model, "birds/pd_model_params.csv", row.names = TRUE)
-write.csv(mpd_model, "birds/mpd_model_params.csv", row.names = TRUE)
-write.csv(mntd_model, "birds/mntd_model_params.csv", row.names = TRUE)
+write.csv(pd_model, "Plants/pd_model_params.csv", row.names = TRUE)
+write.csv(mpd_model, "Plants/mpd_model_params.csv", row.names = TRUE)
+write.csv(mntd_model, "Plants/mntd_model_params.csv", row.names = TRUE)
 
 json_pd<- toJSON(x = pd_model, dataframe = 'rows', pretty = F)
-write(json_pd, file = "birds/pd_model_params.json")
+write(json_pd, file = "Plants/pd_model_params.json")
 
 json_mpd<- toJSON(x = mpd_model, dataframe = 'rows', pretty = F)
-write(json_mpd, file = "birds/mpd_model_params.json")
+write(json_mpd, file = "Plants/mpd_model_params.json")
 
 json_mntd<- toJSON(x = mntd_model, dataframe = 'rows', pretty = F)
-write(json_mntd, file = "birds/mntd_model_params.json")
+write(json_mntd, file = "Plants/mntd_model_params.json")
 
 
 #surface generation for ecoregions: 
 
-dir_list_ecoregions <- list.dirs("birds/ecoregion_data",recursive = FALSE)  
+dir_list_ecoregions <- list.dirs("Plants/ecoregion_data",recursive = FALSE)  
 
 #these values have definitely chagned. 
 for(i in dir_list_ecoregions)
