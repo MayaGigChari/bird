@@ -9,3 +9,4 @@ hex_species_plants_ranges
 birds/*.shp
 birds/ecoregion_data/*.shp
 birds/ecoregion_data/**/*.shp
+plants/ecoregion_data/**/*.shp

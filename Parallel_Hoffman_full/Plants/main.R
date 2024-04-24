@@ -137,7 +137,7 @@ matched_genera<- remove_taxa(cali_plants, full_tree_genus)
 
 cali_tree_genus<- sample_tree_generator(matched_genera, full_tree_genus)
 
-write.tree(cali_tree_genus, file = file.path(clade, "cali_genus_tree_APR2024.tre"))
+write.tree(cali_tree_genus, file = file.path(clade, "cali_genus_tree_2024.tre"))
 
 
 
