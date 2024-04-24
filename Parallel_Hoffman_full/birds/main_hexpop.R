@@ -259,6 +259,8 @@ ggsave(filename = "birds/images/Missing_taxa_proportions_hexagon_california.png"
 #this just saves the file hex_tree_stats_birds without any geographic information. 
 saveRDS(hex_tree_stats_birds, file = "birds/raw_hex_stats_from_ranges")
 
+
+
 #want to merge this back to the polygon sf object 
 #use the "polygons" file generated in california-partition. 
 #this is called(hex_data_as_sf in the Cali_Geometry file. )
