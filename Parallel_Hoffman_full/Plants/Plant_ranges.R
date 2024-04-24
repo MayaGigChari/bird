@@ -92,19 +92,50 @@ plants_names_both<- which(plants_range_california$species %in% species_of_intere
 #these are all the california species (only about 4,000 of them)
 california_species_ranges_only_natives<- st_read("Plants/California_species_shapes/plants_range_california_only_natives_POTW.shp")
 
-ecoregions<- st_read("Cali_geometry/ca_eco_l3", packlage = "sf")
+california_species_ranges_only_natives$range_area<- st_area(california_species_ranges_only_natives)
+ecoregions<- st_read("Cali_Geometry/ca_eco_l3/ca_eco_l3.shp")
 
 ecoregions<- st_transform(ecoregions, "WGS84")
 
 #THIS IS AN ARBITRARY THRESHOLD: if < 1% of an ecoregion is covered by the range, then we will remove that range. 
 ecoregions$area <- st_area(ecoregions) #Take care of units
-ecoregions$min_thresh<- 0.01*ecoregions$area
+ecoregions$min_thresh<- 0.02*ecoregions$area #can always amend this minimum threshold by just accessing the area. 
 
+#small trial to make sure this works ok. 
+ecoregions_plant_data_intersection_test_thresh<- st_intersection(ecoregions, california_species_ranges_only_natives%>% filter(species == "Lathyrus_palustris"))
+ecoregions_plant_data_intersection_test_thresh$eco_area<- st_area(ecoregions_plant_data_intersection_test_thresh)
+ecoregions_plant_data_intersection_test_thresh<- ecoregions_plant_data_intersection_test_thresh%>%
+  filter(eco_area >= min_thresh | eco_area >= 0.10*range_area)
 
 #TODO: preprocess the ecoregion data so that the range is not included if the ecoregion area in a certain range is below a threshold. 
-ecoregions_plant_data_intersection<- st_intersection(ecoregions, california_species_ranges_only_natives)
+#require that at least 5% of the ecoregion be covered in order for it to be included in the range. 
 
-ecoregions_plant_data<- st_join(ecoregions, california_species_ranges_only_natives)
+#for real. this will take forever to run. 
+#running this again to force myself to have a break. 
+#saving ecoregions_plant_data_intersection just in case. 
+ecoregions_plant_data_intersection_cond2<- st_intersection(ecoregions, california_species_ranges_only_natives)
+
+#get the areas of all the intersections 
+#started at 7:59 pm 
+ecoregions_plant_data_intersection_cond2$eco_area<- st_area(ecoregions_plant_data_intersection_cond2)
+
+#filter the data so that the overlapped area is greater than the minimum threshold. 
+#the geometry of this is: for each tuple species i, ecoregion j, the geometry is the overlap of species 
+# i only in ecoregion j. 
+#note: each species is uniuqe and only has one geometry. 
+ecoregions_plant_data_intersection_cond2<- ecoregions_plant_data_intersection_cond2%>%
+  filter(eco_area>= min_thresh | eco_area >= 0.10*range_area)
+
+st_write(ecoregions_plant_data_intersection_cond2, "Plants/plant_complete_species_lists_by_ecoregion.shp")
+#this is now done. the join has been formalized. I wish I didn't formalize it but I did. 
+
+#now we have ecoregion plant data that filters out overlaps that cover less than 5% of an ecoregion. 
+#this join takes all the ecoregions 
+#ecoregions_plant_data_including_small_areas<- inner_join(data.frame(ecoregions), california_species_ranges_only_natives)
+
+#the exact shape of the ecoregions shouldn't matter, all that matters is their shape that intersects california. 
+
+#now I want to join back the 
 
 #this is a huge file. join of all the ecoregions. will write this to the local. Save didn't work
 
@@ -114,18 +145,28 @@ ecoregions_plant_data<- st_join(ecoregions, california_species_ranges_only_nativ
 #this is the entire ecoregion bird data and it IS correct. Birds for each ecoregion. 
 
 #strange because these species are particularly NOT in many ranges. 
-test<- ecoregions_plant_data %>%
-  filter(species == "Atriplex_serenana") 
+
+#this is a sanity check. 
+test<- ecoregions_plant_data_intersection_test_thresh %>%
+  filter(species == "Lathyrus_palustris") 
 library(ggplot2)
 
 # Plot the first plot using ggplot2 and color by US_L3CODE
-ggplot() +
-  geom_sf(data = ecoregions[1], aes(fill = US_L3CODE)) +
+
+#the species Cymopterus_panamintensis has been fully removed! 
+
+#may have to filter on if the threshold of the range is below a certain threshold of the whole species range? 
+#as an artifact of this probram, some species with poorly-defined small ranges are removed. 
+p<- ggplot() +
+  geom_sf(data = test[1], aes(fill = US_L3CODE)) +
   geom_sf(data = california_species_ranges_only_natives %>%
-            filter(species == "Atriplex_serenana"), 
-          color = "red", alpha = 0.6)
+            filter(species == "Lathyrus_palustris"), 
+          color = "red", alpha = 0.1)
+
+ggsave("Plants/Cymopterus_panamintensis_range_coverage_before_trim_removed_after.png", plot = p,width = 10, height = 8,  dpi = 300)
 #made a directory called ecoregion_data to store shape files and lists. 
 ecoregion_codes<- ecoregions$US_L3CODE
+
 
 #do not need to rerun this. already have all the ecoregion species stuff. 
 #ecoregion bird data is already merged! This is basically good to go for the entire ecoregion. but also need to do the other thing with the ecoregions (hex data stuff)
@@ -141,7 +182,8 @@ for(code in ecoregion_codes) {
     cat("Created folder:", folder_path, "\n")
   }
   
-  temp <- ecoregions_plant_data %>%
+  #also selects the geometry. 
+  temp <- ecoregions_plant_data_intersection_cond2 %>%
     filter(US_L3CODE == code) %>%
     select(species, US_L3CODE, US_L3NAME, L1_KEY)
   
