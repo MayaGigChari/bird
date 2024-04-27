@@ -20,16 +20,16 @@ clade = "Plants"
 #issue with the cophenetic matrix. 
 
 #reading in the cophenetic matrix 
-cophen<-readRDS("Plants/cali_genus_cophen_matrix")
+cophen_plants<-readRDS("Plants/cali_genus_cophen_matrix")
 #parent_tree<- read.tree("Plants/interpolated_full_tree.tre") probably don't really need this.
 #made the genus tree in main. 
-cali_tree<- read.tree("Plants/cali_genus_tree.tre") #load the genus tree
-data<- readRDS("Plants/occurrence_plants_polygonds.rds") #hexagonal species data. 
+cali_tree_plants<- read.tree("Plants/cali_genus_tree.tre") #load the genus tree
+data_plants<- readRDS("Plants/hexagon_true_genera_plant_data") #hexagonal species data. 
 
 
 #associate the data with the indexes
 #this stays the same for observational and range data. 
-h3_indexes<- data.frame(read.csv("Cali_geometry/h3_indexes.csv"))
+h3_indexes<- data.frame(h3_indexes)
 h3_indexes$X<- NULL #not sure why this always happens. 
 dat_names<- h3_indexes$h3_indexes
 names(data)<- dat_names
@@ -46,205 +46,104 @@ names(data)<- dat_names
 #names(data)<- h3_indexes
 
 
-current_directory <- getwd()
-
-tree_trimming_path<-file.path(current_directory, "App_functions_bird.R")
-
-
-
 #need to load the dataframe 
 
 
 poly_labels<- names(data) #this gives us all the codes. 
 
-?lapply
+#run this function with the most recent polygon data 
 
-#not sure if I need to do this? but maybe I will? 
-#lapply(data, sample_tree_generator)
-#instead of for loop should use lapply
-#step 1: need to make a bunch of trees
-
-
-#need to fill empty hexes and list_trees properly. 
-missing_species<- list()
-proportion_missing<- list()
-species_in_tree<- list()
-empty_hexes<- list()
-list_trees<- list()
-pd_values<- list()
-mpd_values<- list()
-mntd_values<- list()
-
-
-#can generate the trees and write them all to a file.  
-#missing_species <- vector("list", length = length(poly_labels))
-#species_in_tree <- vector("list", length = length(poly_labels))
-
-#proportion_missing <- numeric(length(poly_labels))
-#pd_values <- numeric(length(poly_labels))
-#mpd_values <- numeric(length(poly_labels))
-#mntd_values <- numeric(length(poly_labels))
-#empty_hexes <- character(0)
-
-# Loop through poly_labels. comment out the temp$mname word line if you want to use species. also need to uncomment the commented line. 
-
-for (i in 1:length(names(data)))
+popHexStats<- function(polygon_data, parent_tree, output_filepath, cophen_filepath)
 {
-  temp <- data.frame(data[i])
-  colnames(temp) <- "name"
-  #temp$name <- sub(" ", "_", temp$name)
-  temp$name <- word(temp$name, 1)
-  temp<- unique(temp)
-  missing_species[i] <- check_taxa(temp,cali_tree)
-  temp<- remove_taxa(temp, cali_tree)
-  species_in_tree[i]<- temp
-  proportion_missing[i]<- length(missing_species[i])/length(temp[,1])
-  if(length(temp[,1]) <= 1)
+  #some of these actually have zero intersecting species. 
+  cophen_forfunc<- readRDS(cophen_filepath)
+  print("cophen_made")
+  hex_trees_filepath<- paste(output_filepath, "/hex_trees", sep = "")
+  print(hex_trees_filepath)
+  if (!file.exists(hex_trees_filepath)) 
   {
-    empty_hexes<- c(empty_hexes, poly_labels[i])
-    pd_values[i]<- NA
-    mpd_values[i]<- NA
-    mntd_values[i]<- NA
+    dir.create(hex_trees_filepath)
+    print("new directory created")
   }
-  else
+  missing_species<- list()
+  proportion_missing<- list()
+  species_in_tree<- list()
+  empty_hexes<- list()
+  list_trees<- list()
+  pd_values<- list()
+  mpd_values<- list()
+  mntd_values<- list()
+  
+  print("lists_made")
+  poly_labels<- names(polygon_data)
+  for (i in 1:length(poly_labels)) 
   {
-    temp_tree<- sample_tree_generator(temp, cali_tree)
-    write.tree(temp_tree, file = file.path(current_directory, "Plants", "hex_trees", paste(poly_labels[i], ".tre", sep  = '')))
-    pd_values[i]<- pd_app_picante(temp_tree, cali_tree)$PD #why is this the parent tree and not the cali tree? 
-    mpd_values[i]<- mpd_app_picante(temp_tree, cophen)
-    mntd_values[i]<- mntd_app_picante(temp_tree, cophen)
+    if(length(unlist(polygon_data[i]))<=1)
+    {
+      print("t")
+      empty_hexes<- c(empty_hexes, poly_labels[i])
+      pd_values[i]<- NA
+      mpd_values[i]<- NA
+      mntd_values[i]<- NA
+    }
+    else
+    {
+      temp <- data.frame(polygon_data[i])
+      colnames(temp) <- "name"
+      temp$name<- gsub(" ", "_", temp$name)
+      missing_species[i] <- check_taxa(temp,parent_tree)
+      temp<- remove_taxa(temp, parent_tree)
+      species_in_tree[i]<- temp
+      print(species_in_tree[i])
+      proportion_missing[i]<- length(missing_species[i])/length(temp[,1])
+      temp_tree<- sample_tree_generator(temp, parent_tree)
+      write.tree(temp_tree, file = file.path(hex_trees_filepath, paste(poly_labels[i], ".tre", sep  = '')))
+      pd_values[i]<- pd_app_picante(temp_tree, parent_tree)$PD
+      mpd_values[i]<- mpd_app_picante(temp_tree, cophen_forfunc)
+      mntd_values[i]<- mntd_app_picante(temp_tree, cophen_forfunc)
+    }
+    print(i)
+    #continue here: 
   }
-  print(i)
-  #continue here: 
+  list_return <- list(
+    missing_species = missing_species,
+    proportion_missing = proportion_missing,
+    species_in_tree = species_in_tree,
+    empty_hexes = empty_hexes,
+    pd_values = pd_values,
+    mpd_values = mpd_values,
+    mntd_values = mntd_values
+  )
+  return(list_return)
 }
+hex_tree_stats_birds<- popHexStats(data_plants, cali_tree_plants, "Plants", cophen_filepath = "Plants/cali_genus_cophen_matrix")
+hex_tree_stats_plants<- hex_tree_stats_birds
 
+pop_hex_stats_plants_df<- data_frame("h3_index" = names(data), "pd_values" = unlist(hex_tree_stats_plants$pd_values), "mpd_values" = unlist(hex_tree_stats_plants$mpd_values), "mntd_values" = unlist(hex_tree_stats_plants$mntd_values), 
+                                    "tree_size" = unlist(lapply(hex_tree_stats_plants$species_in_tree, length)), "missing_taxa_tree_size" = unlist(lapply(hex_tree_stats_plants$missing_species, length)) )
 
-#need to populate proportion missing
-for (i in 1:length(names(data)))
-{
-  proportion_missing[i]<- length(missing_species[[i]])/(length(missing_species[[i]]) + length(species_in_tree[[i]]))
-}
-#node level data. 
-print(proportion_missing)
-
-#avg_proportion_missing<- sum(proportion_missing)/length(names(data))
-
-tree_sizes<- species_in_tree
-length<- lapply(tree_sizes, length)
-
-
-lengths<- unlist(length)
-poly_data<- data.frame(unlist(poly_labels))
-colnames(poly_data)<- "id"
-poly_data$pd<- unlist(pd_values)
-poly_data$mpd<- unlist(mpd_values)
-poly_data$mntd<-unlist(mntd_values)
-poly_data$retrieved_taxa<-unlist(lengths)
-poly_data$proportion_missing<- unlist(proportion_missing)
-poly_data<- data.frame(poly_data)
-#can potentially do a lot with these statistics
-
-#just make a hist and manually save
-hist(proportion_missing, main = "Histogram of Proportion Missing Genera in Plant Hexes")
-#poly_data$absent_taxa<- missing_species
-
-
-#summary statistics. only works when there are no NA's 
-max_tree<- max(poly_data$tree_sizes) #this is the maximum tree size. 880 
-min_tree<- min(poly_data$tree_sizes)
-avg_tree<- mean(poly_data$tree_sizes)
-
-#want to output a metadata file 
-
-
-write.csv(poly_data, "Plants/Whole_pixel_data_genus.csv")
-
-json_data <- toJSON(poly_data)
-write(json_data, "Plants/initial_poly_plants_data_genus.json")
+pop_hex_stats_plants_df$proportion_missing<- pop_hex_stats_plants_df$missing_taxa_tree_size/(pop_hex_stats_plants_df$tree_size + pop_hex_stats_plants_df$missing_taxa_tree_size)
 
 
 
-#this is code to convert the file of trees to a json file. 
-# Path to the folder containing .tre files
+#this is just an aside to make a figure of mssing taxa. 
 
-#this is genus level. 
-folder_path <- "Plants/hex_trees"
+#need to make 
 
+library(ggplot2)
+missing_hist<- ggplot(pop_hex_stats_plants_df, aes(x = proportion_missing)) +
+  geom_histogram(bins = 50) +
+  ggtitle("Missing Taxa Proportions: Hexagon Data California")
 
-# List all .tre files in the folder
-tre_files <- list.files(folder_path, pattern = "\\.tre$", full.names = TRUE)
-tre_objects <- list()
+ggsave(filename = "Plants/images/Missing_taxa_proportions_hexagon_california.png", 
+       plot = missing_hist, 
+       dpi = 300, 
+       width = 8, 
+       height = 6, 
+       units = "in")
 
-# Loop through each .tre file, read its content, and add it to the list
-#this constructs the json file 
-for (file in tre_files) {
-  # Extract code from the file name (assuming the code is before '.tre')
-  code <- sub("\\.tre$", "", basename(file))
-  # Read the contents of the .tre file
-  tree_content <- readLines(file)
-  # Store code as the key and tree content as the value
-  tre_objects[[code]] <- tree_content
-}
+#this just saves the file hex_tree_stats_birds without any geographic information. 
+saveRDS(hex_tree_stats_birds, file = "birds/raw_hex_stats_from_ranges")
 
-json_data <- toJSON(tre_objects)
-write_json(json_data, "Plants/bird_trees_genus.json")
+#there are 200 hexagons with missing data. 
 
-
-#now we have. 
-#to give MIA the birds data 
-#work with species_in_tree dataframe. 
-
-
-#now have all the data needed to give to Mia. 
-names(species_in_tree)<- poly_labels
-json_data_species_names <- toJSON(species_in_tree, pretty = FALSE)
-write_json(json_data_species_names, "Plants/plant_hex_species.json")
-
-
-#below: do the same thing but for the genus hex pop of RANGE instead of OCCURRENCE data. could probably make some of the stuff in here into a function and put it in app_functions. 
-#using the range data for this. 
-
-#need to figure out what exactly to generate the null model with. 
-data_range<- readRDS("Plants/hex_genus_plants_ranges") #hexagonal species data. 
-names(data_range)<- poly_labels 
-
-
-missing_genera_range<- list()
-proportion_missing_range<- list()
-genera_in_tree_range<- list()
-empty_hexes_range<- list()
-list_trees_range<- list()
-pd_values_range<- list()
-mpd_values_range<- list()
-mntd_values_range<- list()
-
-
-#check the temp taxa against the cali tree taxa
-#want to check against the larger tre taxa. 
-for (i in 1:length(poly_labels))
-{
-  temp <- data.frame(data_range[i])
-  colnames(temp) <- "name"
-  #temp$name <- sub(" ", "_", temp$name)
-  missing_genera_range[i] <- check_taxa(temp,cali_tree)
-  temp<- remove_taxa(temp, cali_tree)
-  genera_in_tree_range[i]<- temp
-  if(length(temp[,1]) <= 1)
-  {
-    empty_hexes<- c(empty_hexes, poly_labels[i])
-    pd_values[i]<- NA
-    mpd_values[i]<- NA
-    mntd_values[i]<- NA
-  }
-  else
-  {
-    proportion_missing_range[i]<- 1-length(genera_in_tree_range[i])/length(temp[,1])
-    temp_tree<- sample_tree_generator(temp, cali_tree)
-    write.tree(temp_tree, file = file.path(current_directory, "Plants", "hex_trees_ranges", paste(poly_labels[i], ".tre", sep  = '')))
-    pd_values_range<- pd_app_picante(temp_tree, cali_tree)$PD #why is this the parent tree and not the cali tree? 
-    mpd_values_range[i]<- mpd_app_picante(temp_tree, cophen)
-    mntd_values_range[i]<- mntd_app_picante(temp_tree, cophen)
-  }
-  print(i)
-  #continue here: 
-}
