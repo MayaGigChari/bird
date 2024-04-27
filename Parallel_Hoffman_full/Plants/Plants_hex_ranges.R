@@ -12,26 +12,32 @@ library(sf)
 library(dplyr)
 library(rlist)
 
+current_directory<- getwd()
+tree_trimming_path<-file.path(current_directory, "App_functions_bird.R")
+source(tree_trimming_path)
+
+
 #generate geometry for california 
 california <- sf::read_sf("Cali_Geometry/ca-state-boundary/CA_State_TIGER2016.shp") %>%
   sf::st_transform(4326)
 h3_indexes <- polyfill(california[1, ], res = 6)
 polygons <- h3_to_geo_boundary_sf(h3_indexes)
 
+
 #get geometry for ecoregions 
 ecoregions<- st_read("Cali_geometry/ca_eco_l3", packlage = "sf")
 ecoregions<- st_transform(ecoregions, "WGS84")
 ecoregions_L3codes<- ecoregions$US_L3CODE
+
+#now want to intersect all polygons with all the data for everything (all species ranges within ecoregions?)
+
+
 
 
 #load the bird range data. 
 #make sure everything is valid and force validity. 
 
 
-
-bird_ranges_touse<- st_read("birds/birds_trimmed_range_geospat/birds_trimmed_ranges_fromNorAm_complete.shp")
-sf_use_s2(FALSE)
-bird_ranges_touse<- st_make_valid(bird_ranges_touse)
 
 #load data for intersection: make a function to do this. 
 
