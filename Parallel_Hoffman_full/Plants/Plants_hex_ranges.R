@@ -6,6 +6,7 @@
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 #pseudocode: 
 
 
@@ -14,6 +15,8 @@
 #count the unique species. This should actually work nicely for hexagons that overlap multiple ecoregions as well. 
 
 
+=======
+>>>>>>> f8909ef2cbb8f7e0f9ccd0ce041ccec62772794d
 =======
 >>>>>>> f8909ef2cbb8f7e0f9ccd0ce041ccec62772794d
 #the geometry asociated with indexes are then used to creates species list and trees for birds based on pre-defined range
@@ -76,17 +79,7 @@ hexes_and_all_natives<- st_read("Plants/Hexagons_total_range_data.dbf")
 
 Plant_ranges_eco1<- st_read("Plants/ecoregion_data/1/ecoregion.shp")
 
-<<<<<<< HEAD
-=======
-#load the bird range data. 
-#make sure everything is valid and force validity. 
 
-
-
-bird_ranges_touse<- st_read("birds/birds_trimmed_range_geospat/birds_trimmed_ranges_fromNorAm_complete.shp")
-sf_use_s2(FALSE)
-bird_ranges_touse<- st_make_valid(bird_ranges_touse)
->>>>>>> f8909ef2cbb8f7e0f9ccd0ce041ccec62772794d
 
 
 #shouldn't these ranges be truncated to their particular ecoregions?? yes, they are. 
