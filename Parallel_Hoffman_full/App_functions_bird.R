@@ -265,7 +265,7 @@ plot(artificial_data,list_uppers) +
 check_significance_pd<- function(pd_value, upper_lower_keyvals)
 {
   print(upper_lower_keyvals$upper_vals)
-  if(is.null(upper_lower_keyvals$upper_vals))
+  if(is.null(upper_lower_keyvals$upper_vals) || is.na(pd_value))
   {
     return(NULL)
   }
@@ -282,7 +282,7 @@ check_significance_pd<- function(pd_value, upper_lower_keyvals)
 
 check_significance_other_metrics<- function(metric, upper_lower_keyvals)
 {
-  if(is.null(upper_lower_keyvals$upper_vals))
+  if(is.null(upper_lower_keyvals$upper_vals)|| is.na(metric))
   {
     return(NULL)
   }
@@ -321,9 +321,17 @@ ecoregion_id<- function(region_of_interest, full = FALSE)
   return(overlappers$US_L3CODE)
 }
 
-makejsonstring<- function(ecoregion_id, metric)
+makejsonstring<- function(ecoregion_id, metric, clade = "birds")
 {
-  return<- paste("birds/ecoregion_data/", ecoregion_id, "/", metric, "_model_params.json", sep = "")
+  if(clade == "birds")
+  {
+    return(paste("birds/ecoregion_data/", ecoregion_id, "/", metric, "_model_params.json", sep = ""))
+  }
+  else
+  {
+    return(paste(clade, "/ecoregion_data/", ecoregion_id, "/", metric, "_model_params.json", sep = ""))
+    
+  }
 }
 
 ###THIS FUNCTION IS USEFUL FOR LAPPLY: can apply this function to a list of id's or unique identifiers with the parameter id, and 
