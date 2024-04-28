@@ -428,5 +428,7 @@ json_data_polygon_species <- jsonlite::toJSON(polygon_json_species)
 
 writeLines(json_data_polygon_species, "birds/hexagon_species_in_tree.json")
 
+plot(genus_complete_phylogeny, type = "fan", show.tip.label = FALSE)
 
+plottype = "fan", show.tip.label = FALSE)
 
