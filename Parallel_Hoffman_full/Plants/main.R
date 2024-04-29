@@ -47,8 +47,10 @@ source(sample_tree_creator_path)
 
 
 #complete_phylogeny for california that is based on molecular data but only has genus-level information 
-complete_phylogeny<- read.tree("Plants/full_tree.tre")
+complete_phylogeny<- read.tree("Plants/species_level_full_treeMISHLER.tre")
 
+cali_species_tree<- complete_phylogeny
+#don't need to run this when the complete phylogeny is genus leve. 
 #prune the parent tree to the genus tree
 genus_complete_phylogeny<- genus_tree_generator(complete_phylogeny)
 write.tree(genus_complete_phylogeny, file = paste(clade, "/full_tree_genus.tre", sep = ""))
@@ -96,7 +98,7 @@ write.tree(genus_complete_phylogeny, file = paste(clade, "/full_tree_genus.tre",
 
 #load shape data
 
-sf_data_taxa_list_cali_natives<- st_read("Plants/California_species_shapes")
+sf_data_taxa_list_cali_natives<- st_read("Plants/California_species_shapes/plants_range_california_only_natives_POTW.shp")
 
 
 #there are only 850 genera represented in the genus list! ridiculous. crazy. out of like 7,00 species. 
@@ -107,6 +109,7 @@ cali_plants<- genus_only(cali_plants)
 cali_plants$colnames<- NULL
 
 
+#do not need to do this always. 
 path_to_taxa_list = file.path(paste(clade, "/total_unique_noncultivated_genera_obs_and_exp_cali.csv", sep = ""))
 path_to_full_tree = file.path(clade, "full_tree.tre")
 path_to_full_genus_tree<- file.path(clade, "full_tree_genus.tre") 
@@ -138,12 +141,14 @@ matched_genera<- remove_taxa(cali_plants, full_tree_genus)
 cali_tree_genus<- sample_tree_generator(matched_genera, full_tree_genus)
 
 write.tree(cali_tree_genus, file = file.path(clade, "cali_genus_tree_2024.tre"))
-
+#have already developed the species level tree and loaded above. 
 
 
 #generate the cophenetic matrix for the genus tree
 #save as cali_genus_cophen_matrix
-call_cophen(cali_tree_genus, clade = "Plants", geog_area = "cali_genus") 
+
+#generate a corresponding cophenetic matrix. 
+call_cophen(cali_species_tree, clade = "Plants", geog_area = "cali_species_Mishler") 
 
 #want to also make a full tree 
 
@@ -165,7 +170,7 @@ max_species <- max_species(cali_plants)
 
 #should be the same matched/unmatched species each time. 
 
-#for ecoregions: 
+#for ecoregions with GENUS
 dir_list_ecoregions <- list.dirs("Plants/ecoregion_data",recursive = FALSE)  
 full_tree<- read.tree(path_to_full_genus_tree)
 
@@ -193,6 +198,35 @@ for(directory in dir_list_ecoregions)
   write.csv(unmatched_ecoregion_genus, file = paste(directory, "/genera_absent_from_tree.csv", sep = ""))
   write.csv(matched_ecoregion_genus, file = paste(directory, "/genera_present_in_tree.csv", sep = ""))
   write.tree(ecoregion_tree, file = paste(directory, "/trimmed_tree.tre", sep = ""))
+}
+
+
+#for ecoregions with SPECIES
+
+dir_list_ecoregions <- list.dirs("Plants/ecoregion_data",recursive = FALSE)  
+full_tree<- cali_species_tree
+
+for(directory in dir_list_ecoregions)
+{
+  ecoregion_species<- read.csv(paste(directory, "/checklist.csv", sep = ""))
+  ecoregion_species$X<- NULL
+  ecoregion_species$x<- gsub(" ", "_", ecoregion_species$x)
+  colnames(ecoregion_species)<- "name"
+  
+  unmatched_ecoregion_species<- check_taxa(ecoregion_species, full_tree)
+  matched_ecoregion_species<-remove_taxa(ecoregion_species, full_tree)
+  ecoregion_tree<- sample_tree_generator(matched_ecoregion_species, full_tree)
+  
+  #manually use cophen matrix because this format isn't working. 
+  ecoregion_matrix<- cophen(ecoregion_tree)
+  cophen_ecoregion<- as.matrix(ecoregion_matrix)
+  
+  
+  #save all the files. 
+  saveRDS(cophen_ecoregion, file = paste(directory, "/cophen_matrix_species", sep = ""))
+  write.csv(unmatched_ecoregion_species, file = paste(directory, "/species_absent_from_tree.csv", sep = ""))
+  write.csv(matched_ecoregion_species, file = paste(directory, "/species_present_in_tree.csv", sep = ""))
+  write.tree(ecoregion_tree, file = paste(directory, "/trimmed_species_tree.tre", sep = ""))
 }
 
 
