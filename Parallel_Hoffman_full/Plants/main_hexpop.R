@@ -148,7 +148,7 @@ ggsave(filename = "Plants/images/Missing_taxa_proportions_hexagon_california.png
        units = "in")
 
 #this just saves the file hex_tree_stats_birds without any geographic information. 
-saveRDS(pop_hex_stats_plants_df, file = "birds/raw_hex_stats_from_ranges")
+saveRDS(pop_hex_stats_plants_df, file = "Plants/raw_hex_stats_from_ranges")
 
 #there are 200 hexagons with missing data. 
 
@@ -379,7 +379,7 @@ json_data_polygon_species <- jsonlite::toJSON(polygon_json_species)
 
 writeLines(json_data_polygon_species, "birds/hexagon_species_in_tree.json")
 
-plot(genus_complete_phylogeny, type = "fan", show.tip.label = FALSE)
+plot(genus_complete_phylogeny, type = "fan", show.tip.label = TRUE, hex = 0.5)
 
 plottype = "fan", show.tip.label = FALSE)
 
