@@ -201,7 +201,7 @@ for(directory in dir_list_ecoregions)
 }
 
 
-#for ecoregions with SPECIES
+#for ecoregions with SPECIES (using the Mishler tree right now. )
 
 dir_list_ecoregions <- list.dirs("Plants/ecoregion_data",recursive = FALSE)  
 full_tree<- cali_species_tree
