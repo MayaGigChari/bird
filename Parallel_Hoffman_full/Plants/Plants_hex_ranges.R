@@ -16,10 +16,15 @@ library(sf)
 library(dplyr)
 library(rlist)
 
+<<<<<<< HEAD
+current_directory<- getwd()
+tree_trimming_path<-file.path(current_directory, "App_functions_bird.R")
+=======
 #load dependent scripts
 tree_trimming_path<-file.path(current_directory, "App_functions_bird.R")
 
 
+>>>>>>> 5e4406aced4ad24e478144b470f9f69ad6c4ef08
 source(tree_trimming_path)
 
 
@@ -35,8 +40,15 @@ ecoregions<- st_read("Cali_geometry/ca_eco_l3", packlage = "sf")
 ecoregions<- st_transform(ecoregions, "WGS84")
 ecoregions_L3codes<- ecoregions$US_L3CODE
 
+<<<<<<< HEAD
+#now want to intersect all polygons with all the data for everything (all species ranges within ecoregions?)
+
+
+
+=======
 plot(ecoregions[5,])
 #perhaps the first step is to get the ecoregion id for each geometry. Not sure if this is actually a useful first step thoug. 
+>>>>>>> 5e4406aced4ad24e478144b470f9f69ad6c4ef08
 
 #some polygons don't have ecoregions. 
 #geometry is still polygons. 
@@ -71,8 +83,12 @@ Plant_ranges_eco1<- st_read("Plants/ecoregion_data/1/ecoregion.shp")
 
 
 
+<<<<<<< HEAD
+#load data for intersection: make a function to do this. 
+=======
 
 #shouldn't these ranges be truncated to their particular ecoregions?? yes, they are. 
+>>>>>>> 5e4406aced4ad24e478144b470f9f69ad6c4ef08
 
 #this will probably take a ridiculously long time. 
 #started at 12:29 pm 
