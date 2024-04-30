@@ -1,4 +1,6 @@
 #this is the main for surface parameter generation of Plants. 
+#using this to generate species-level stuff now. 
+
 
 packages_to_install <- c("picante", "ape", "stringr", "dplyr", "phytools", "data.table", "drc", "jsonlite", "tidyverse")
 
@@ -34,9 +36,9 @@ source(Model_gen_path)
 
 #for the ranges: 
 
-pd_data<- read.csv("Plants/CI_pd_output_bootstrap_bird.csv")
-mpd_data<- read.csv("Plants/CI_mpd_output_bootstrap_bird.csv")
-mntd_data<- read.csv("Plants/CI_mntd_output_bootstrap_bird.csv")
+pd_data<- read.csv("Plants/CI_pd_output_bootstrap_bird.csv_PLANTS_SPECIES_0418.csv")
+mpd_data<- read.csv("Plants/CI_mpd_output_bootstrap_PLANTS_SPECIES_0418.csv")
+mntd_data<- read.csv("Plants/CI_mntd_output_bootstrap_bird.csv_PLANTS_SPECIES_0418.csv")
 
 #range models
 #this doesn't work at all. 
@@ -49,18 +51,18 @@ surfaceGen
 #plot(mpd_model$tree_sizes, mpd_model$low)
 
 #wite model coefficients to csv files for visualization. 
-write.csv(pd_model, "Plants/pd_model_params.csv", row.names = TRUE)
-write.csv(mpd_model, "Plants/mpd_model_params.csv", row.names = TRUE)
-write.csv(mntd_model, "Plants/mntd_model_params.csv", row.names = TRUE)
+write.csv(pd_model, "Plants/pd_model_params_PLANTS_SPECIES_0418.csv", row.names = TRUE)
+write.csv(mpd_model, "Plants/mpd_model_params_PLANTS_SPECIES_0418.csv", row.names = TRUE)
+write.csv(mntd_model, "Plants/mntd_model_params_PLANTS_SPECIES_0418.csv", row.names = TRUE)
 
 json_pd<- toJSON(x = pd_model, dataframe = 'rows', pretty = F)
-write(json_pd, file = "Plants/pd_model_params.json")
+write(json_pd, file = "Plants/pd_model_params_PLANTS_SPECIES_0418.json")
 
 json_mpd<- toJSON(x = mpd_model, dataframe = 'rows', pretty = F)
-write(json_mpd, file = "Plants/mpd_model_params.json")
+write(json_mpd, file = "Plants/mpd_model_params_PLANTS_SPECIES_0418.json")
 
 json_mntd<- toJSON(x = mntd_model, dataframe = 'rows', pretty = F)
-write(json_mntd, file = "Plants/mntd_model_params.json")
+write(json_mntd, file = "Plants/mntd_model_params_PLANTS_SPECIES_0418.json")
 
 
 #surface generation for ecoregions: 
@@ -70,22 +72,22 @@ dir_list_ecoregions <- list.dirs("Plants/ecoregion_data",recursive = FALSE)
 #these values have definitely chagned. 
 for(i in dir_list_ecoregions)
 {
-  pd_data_temp<- read.csv(paste(i, "/ecoregionsCI_pd_output_bootstrap_bird.csv", sep = ""))
-  mpd_data_temp<- read.csv(paste(i, "/ecoregionsCI_mpd_output_bootstrap_bird.csv", sep = ""))
-  mntd_data_temp<- read.csv(paste(i,"/ecoregionsCI_mntd_output_bootstrap_bird.csv", sep = ""))
+  pd_data_temp<- read.csv(paste(i, "/species_level_ecoregionCI_pd_output_bootstrap_bird.csv_PLANTS_SPECIES_0418.csv", sep = ""))
+  mpd_data_temp<- read.csv(paste(i, "/species_level_ecoregionCI_mpd_output_bootstrap_PLANTS_SPECIES_0418.csv", sep = ""))
+  mntd_data_temp<- read.csv(paste(i,"/species_level_ecoregionCI_mntd_output_bootstrap_bird.csv_PLANTS_SPECIES_0418.csv", sep = ""))
   
   pd_model_temp<-as_tibble(t(surfaceGen(pd_data_temp, "pd")), rownames = "key") #need to make models. 
   mpd_model_temp<-as_tibble(t(surfaceGen(mpd_data_temp, "mpd")), rownames = "key")
   mntd_model_temp<-as_tibble(t(surfaceGen(mntd_data_temp, "mntd")), rownames = "key")
   
   json_pd<- toJSON(x = pd_model_temp, dataframe = 'rows', pretty = F)
-  write(json_pd, file = paste(i, "/pd_model_params.json", sep = ""))
+  write(json_pd, file = paste(i, "/pd_model_params_PLANTS_SPECIES_0418.json", sep = ""))
   
   json_mpd<- toJSON(x = mpd_model_temp, dataframe = 'rows', pretty = F)
-  write(json_mpd, file = paste(i,"/mpd_model_params.json", sep = ""))
+  write(json_mpd, file = paste(i,"/mpd_model_params_PLANTS_SPECIES_0418.json", sep = ""))
   
   json_mntd<- toJSON(x = mntd_model_temp, dataframe = 'rows', pretty = F)
-  write(json_mntd, file = paste(i, "/mntd_model_params.json", sep = ""))
+  write(json_mntd, file = paste(i, "/mntd_model_params_PLANTS_SPECIES_0418.json", sep = ""))
   
 }
 

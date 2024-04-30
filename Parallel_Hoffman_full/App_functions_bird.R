@@ -193,20 +193,19 @@ visualize_sample<-function(sample, master_phylogeny)
   library(ggtree)
   nodes<- helper_whereOnTree(master_phylogeny, sample)
   print(nodes)
-  png(file="~/Desktop/FishPICCC.png",
-      width=600, height=350)
-  ggtree(master_phylogeny, layout = "circular")+
+  tree<- ggtree(master_phylogeny, layout = "circular")+
     geom_tiplab( geom = "text",aes(subset=(node %in% nodes)), size = 1.4, colour = "red", check.overlap = "TRUE", family = "serif")
+  return(tree)
 }
 #use the nodes defined above to make a visual. 
 
-helper_whereOnTree<-function(parent_tree, sample_tree) #function for taking a tree and a sample and returns nodes in tree that exist in sample
+helper_whereOnTree<-function(parent_tree, sample) #function for taking a tree and a sample and returns nodes in tree that exist in sample
 {
   is_tip<-parent_tree$edge[,2]<=length(parent_tree$tip.label) #label each node with true/false depending on if it is a tip. 
   ordered_tips_func<-parent_tree$edge[is_tip,2] #get the nodes that return true. 
   ordered_tips_names_func =parent_tree$tip.label[ordered_tips_func] #extracts only the tip names in the order of the ordered tips? 
   names(ordered_tips_names_func)= ordered_tips_names_func #these two lines of code asssign names to each tip.
-  nodes_in_sample_return = which(names(ordered_tips_names_func)%in%sample_tree$tip.label)
+  nodes_in_sample_return = which(names(ordered_tips_names_func)%in%sample)
   return(nodes_in_sample_return)
 }
 
@@ -332,6 +331,21 @@ makejsonstring<- function(ecoregion_id, metric, clade = "birds")
     return(paste(clade, "/ecoregion_data/", ecoregion_id, "/", metric, "_model_params.json", sep = ""))
     
   }
+  
+}
+
+makejsonstring_weird<- function(ecoregion_id, metric, clade = "birds")
+{
+  if(clade == "birds")
+  {
+    return(paste("birds/ecoregion_data/", ecoregion_id, "/", metric, "_model_params.json", sep = ""))
+  }
+  else
+  {
+    return(paste(clade, "/ecoregion_data/", ecoregion_id, "/", metric, "_model_params_PLANTS_SPECIES_0418.json", sep = ""))
+    
+  }
+  
 }
 
 ###THIS FUNCTION IS USEFUL FOR LAPPLY: can apply this function to a list of id's or unique identifiers with the parameter id, and 

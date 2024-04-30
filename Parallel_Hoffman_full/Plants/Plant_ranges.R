@@ -113,8 +113,10 @@ ecoregions_plant_data_intersection_test_thresh<- ecoregions_plant_data_intersect
 #for real. this will take forever to run. 
 #running this again to force myself to have a break. 
 #saving ecoregions_plant_data_intersection just in case. 
+#this should assign species with particular ranges to each ecoregion. HOWEVER, it might only preserve the ecoregion gometry not the actual species range geometry!
 ecoregions_plant_data_intersection_cond2<- st_intersection(ecoregions, california_species_ranges_only_natives)
 
+plot(ecoregions_plant_data_intersection_cond2[200,])
 #get the areas of all the intersections 
 #started at 7:59 pm 
 ecoregions_plant_data_intersection_cond2$eco_area<- st_area(ecoregions_plant_data_intersection_cond2)
@@ -147,7 +149,9 @@ st_write(ecoregions_plant_data_intersection_cond2, "Plants/plant_complete_specie
 #strange because these species are particularly NOT in many ranges. 
 
 #this is a sanity check. 
-test<- ecoregions_plant_data_intersection_test_thresh %>%
+
+
+test<- ecoregions_plant_data_intersection_cond2 %>%
   filter(species == "Lathyrus_palustris") 
 library(ggplot2)
 
@@ -157,8 +161,10 @@ library(ggplot2)
 
 #may have to filter on if the threshold of the range is below a certain threshold of the whole species range? 
 #as an artifact of this probram, some species with poorly-defined small ranges are removed. 
+
+#if we filter out the ecoregion that a hexagon is in, we should just get the part of the range of species n that is within that ecoregion. 
 p<- ggplot() +
-  geom_sf(data = test[1], aes(fill = US_L3CODE)) +
+  geom_sf(data = test[1][6,], aes(fill = US_L3CODE)) +
   geom_sf(data = california_species_ranges_only_natives %>%
             filter(species == "Lathyrus_palustris"), 
           color = "red", alpha = 0.1)
@@ -167,6 +173,57 @@ ggsave("Plants/Cymopterus_panamintensis_range_coverage_before_trim_removed_after
 #made a directory called ecoregion_data to store shape files and lists. 
 ecoregion_codes<- ecoregions$US_L3CODE
 
+#here I'm going to manually go through for hexagon 1 and do everything manually to the fuck double check this shit. 
+
+#step 1: get the 200th index. or nth as it is labeled. 
+nth_index<- polygon_data_full_plants_with_eco$h3_index[200]
+
+polygon_n<-hexes_with_ecoregions%>%
+  filter(h3_index == nth_index)
+
+#just get the ranges in this particular ecoregion. 
+trimmed_poss_species<-ecoregions_plant_data_intersection_cond2%>% 
+  filter(US_L3CODE == polygon_n$US_L3CODE)
+
+#started running this at 6:37 pm
+nth_species<- st_intersection(polygon_n, trimmed_poss_species)
+
+unique(nth_species$species)
+
+species_observed<- polygon_data_full_plants_with_eco%>%
+  filter(h3_index == polygon_n$h3_index)
+#this is the same: there are 1635 observed species that overlap with that particular index of which 923 are represented on this tree. 
+#this produces the exact same pd value as expected. 
+
+#now want to check to make sure the pd value is actually correct. 
+#read in the parent tree: 
+parent_tree<- read.tree("Plants/species_level_full_treeMISHLER.tre")
+temp <- data.frame(unique(ecoregions_plant_data_intersection_cond2$species))
+colnames(temp) <- "name"
+temp$name<- gsub(" ", "_", temp$name)
+check_taxa(temp, )
+temp<- remove_taxa(temp, parent_tree)
+
+#is it possible that it's not being compared to the correct estimations for tree its tree size? 
+#it's just SLIGHTLY above! 
+#maybe I need to remove all taxa that literally don't exist in an ecoregion at all. 
+cI_generator(923, params_json_file = "Plants/pd_model_params_PLANTS_SPECIES_0418.json")
+
+#the temp tree generated has 2037 tips and 2036 internal nodes. somehow the parent tree has 2038 but this really shouldn't make a fuckign difference!!!
+temp_tree<- sample_tree_generator(temp, parent_tree)
+pd_app_picante(temp_tree, parent_tree)
+
+#there are a total of 3917 species. I think this is the exact same as there was before. 
+unique(ecoregions_plant_data_intersection_cond2$species)
+
+remove_taxa()
+
+#going to take a look at this tree. honestly have no idea how to take a look at this tree though. 
+
+plot(temp_tree,type = "fan", show.tip.label = FALSE)
+plot(parent_tree, type = "fan", show.tip.label = FALSE)
+
+#honestly I don't know, I need to go to sleep. 
 
 #do not need to rerun this. already have all the ecoregion species stuff. 
 #ecoregion bird data is already merged! This is basically good to go for the entire ecoregion. but also need to do the other thing with the ecoregions (hex data stuff)
