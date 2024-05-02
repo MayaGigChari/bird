@@ -10,3 +10,7 @@ birds/*.shp
 birds/ecoregion_data/*.shp
 birds/ecoregion_data/**/*.shp
 plants/ecoregion_data/**/*.shp
+Mammals/full_hex_intersect_ranges_joined.dbf
+Mammals/full_hex_intersect_ranges_joined.prj
+Mammals/full_hex_intersect_ranges_joined.shp
+Mammals/full_hex_intersect_ranges_joined.shx
