@@ -103,6 +103,7 @@ for(directory in dir_list_ecoregions)
   write.tree(ecoregion_tree, file = paste(directory, "/trimmed_species_tree.tre", sep = ""))
 }
 
+#now all the mammal stuff is ready to be run on Hoffman! 
 
 
 #this is all archaic. 
