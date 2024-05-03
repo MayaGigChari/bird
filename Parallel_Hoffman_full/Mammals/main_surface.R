@@ -88,10 +88,10 @@ for(i in dir_list_ecoregions)
   json_pd<- toJSON(x = pd_model_temp_mam, dataframe = 'rows', pretty = F)
   write(json_pd, file = paste(i, "/pd_model_params.json", sep = ""))
   
-  json_mpd<- toJSON(x = pd_model_temp_mam, dataframe = 'rows', pretty = F)
+  json_mpd<- toJSON(x = mpd_model_temp_mam, dataframe = 'rows', pretty = F)
   write(json_mpd, file = paste(i,"/mpd_model_params.json", sep = ""))
   
-  json_mntd<- toJSON(x =pd_model_temp_mam, dataframe = 'rows', pretty = F)
+  json_mntd<- toJSON(x =mntd_model_temp_mam, dataframe = 'rows', pretty = F)
   write(json_mntd, file = paste(i, "/mntd_model_params.json", sep = ""))
   
 }

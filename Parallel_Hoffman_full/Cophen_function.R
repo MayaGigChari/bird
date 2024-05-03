@@ -34,8 +34,8 @@ library("Rcpp", lib.loc = .libPaths())
 #this is for the local 
 print(getwd())
 
-cpp_file_path <- file.path("Cophen.cpp")
-Rcpp::sourceCpp(cpp_file_path) 
+cpp_file_path <- file.path(getwd(), "Cophen.cpp")
+Rcpp::sourceCpp("Cophen.cpp") 
 
 
 cophen <- function(phy) {
