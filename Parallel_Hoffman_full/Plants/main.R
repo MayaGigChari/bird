@@ -11,7 +11,7 @@
 #first step needs to be to prune the california tree to the list of california taxa 
 
 #install necessary packages 
-packages_to_install <- c("picante", "ape", "dplyr", "readr", "phytools", "BIEN", "phytools")
+packages_to_install <- c("picante", "ape", "dplyr", "readr", "phytools", "BIEN", "phytools", "ggtree")
 # Loop through the packages
 for (pkg in packages_to_install) {
   # Check if the package is not already installed
@@ -20,6 +20,8 @@ for (pkg in packages_to_install) {
     install.packages(pkg)
   }
 }
+
+#for these, need to use just the ecoregion ones. which I probably generated prior. 
 
 
 
@@ -49,6 +51,10 @@ source(sample_tree_creator_path)
 #complete_phylogeny for california that is based on molecular data but only has genus-level information 
 complete_phylogeny<- read.tree("Plants/species_level_full_treeMISHLER.tre")
 
+plot<-ggtree(complete_phylogeny, layout = "fan") #this is the complete phylogeny. 
+ggsave("Plants/images/full_plant_phylogeny.png", plot)
+
+
 cali_species_tree<- complete_phylogeny
 #don't need to run this when the complete phylogeny is genus leve. 
 #prune the parent tree to the genus tree
@@ -56,57 +62,17 @@ genus_complete_phylogeny<- genus_tree_generator(complete_phylogeny)
 write.tree(genus_complete_phylogeny, file = paste(clade, "/full_tree_genus.tre", sep = ""))
 
 
-#produces 5 interpolated phylogenies 
-#interpolated_phylogeny<-BIEN_phylogeny_complete(n_phylogenies = 100)
-
-# for (i in 6:100) {
-#   # Create the folder if it doesn't exist
-#   folder_path <- paste("Plants/Instance_", i, sep = "")
-#   if (!file.exists(folder_path)) {
-#     dir.create(folder_path, recursive = TRUE)
-#   }
-#   
-#   # Write the tree file
-#   write.tree(interpolated_phylogeny[i], file = paste(folder_path, "/interpolated_phylogeny.tre", sep = ""))
-# }
-# 
-# 
-
-#write.tree(interpolated_phylogeny, file = "Plants/interpolated_full_tree.tre")
-
-
-#find the filepath to cali_tree
-#edit the path to phylogeny line if you're not interested in the cali phylogeny. 
-
-#extra step: step 0 (clean up later): draw together all the polygon species range species to make a master checklist for california. 
-
-#now I will read in the total unique and noncultivated genera list generated on azathoth. 
-#true_species_list<- read.csv("total ") #there is a space here which is bad
-#true_species_list$X<- NULL
-#colnames(true_species_list)<- "name"
-#true_genera_range<- genus_only(true_species_list)
-
-#about 2887 cali speices with overlapping ranges. 
-#these match up between hex data and geometric data: shows that likely this works. 
-
-#can use genus_only to convert species list to genus list as well. 
-#step one is to make the phylogeny. 
-#path to species checklist
-#not sure if this is the species or the checklist data. 
-#load the shape data of all the california taxa. 
-#before list: need to make list
-
-#load shape data
-
-sf_data_taxa_list_cali_natives<- st_read("Plants/California_species_shapes/plants_range_california_only_natives_POTW.shp")
+sf_data_taxa_list_cali_natives<- st_read("Plants/total_combined_range_shapes.shp")
+#this has all the possible taxa. 
 
 
 #there are only 850 genera represented in the genus list! ridiculous. crazy. out of like 7,00 species. 
 #out of the 850 taxa that are represented there are about 190 that are unmatched in the tree! 
-cali_plants<- data.frame(sf_data_taxa_list_cali_natives$species)
+cali_plants<- data.frame(sf_data_taxa_list_cali_natives$sci_name)
 colnames(cali_plants)<- "name"
-cali_plants<- genus_only(cali_plants)
-cali_plants$colnames<- NULL
+cali_plants$name<- gsub("\\.", "_", cali_plants$name)
+cali_plants_genera<- genus_only(cali_plants)
+cali_plants_genera$colnames<- NULL
 
 
 #do not need to do this always. 
@@ -129,56 +95,66 @@ colnames(cali_plants)<- "name"
 #full_tree<- read.tree(path_to_full_tree)
 
 #todo: what is going on here????
+#move forward with genera
 full_tree_genus<-read.tree(path_to_full_genus_tree)
 
-unmatched_genera<- check_taxa(cali_plants, full_tree_genus)
+unmatched_species<- check_taxa(cali_plants, complete_phylogeny)
+
+unmatched_genera<- check_taxa(cali_plants_genera, genus_complete_phylogeny)
+
+#there are 352 unmatched genera in the molecular phylogeny and 
 #about 997 unmatched genera in the molecular phylogney
 
 
 #about 2000 represented taxa. need to double check this anyways. 
-matched_genera<- remove_taxa(cali_plants, full_tree_genus)
+#249 plants that actually have a matching 
+matched_genera<- remove_taxa(cali_plants_genera, genus_complete_phylogeny)
 
-cali_tree_genus<- sample_tree_generator(matched_genera, full_tree_genus)
+cali_tree_genus<- sample_tree_generator(matched_genera, genus_complete_phylogeny)
 
-write.tree(cali_tree_genus, file = file.path(clade, "cali_genus_tree_2024.tre"))
-#have already developed the species level tree and loaded above. 
+plot<- ggtree(cali_tree_genus, layout = "fan")
+ggsave("Plants/images/cali_genus_tree0505.png", plot)
+
+write.tree(cali_tree_genus, file = file.path(clade, "cali_genus_tree_0505.tre"))
+#have already developed the species level tree and loaded above
+
+
+#there are 352 unmatched genera in the molecular phylogeny and 
+#about 997 unmatched genera in the molecular phylogney
+
+
+#about 2000 represented taxa. need to double check this anyways. 
+#249 plants that actually have a matching 
+#there are 2025 species represented in this tree that also have range data. 
+matched_species<- remove_taxa(cali_plants, complete_phylogeny)
+
+cali_tree_species<- sample_tree_generator(matched_species, complete_phylogeny)
+
+plot<- ggtree(cali_tree_species, layout = "fan")
+ggsave("Plants/images/cali_species_tree0505.png")
+
+write.tree(cali_tree_genus, file = file.path(clade, "cali_genus_tree_0505.tre")). 
 
 
 #generate the cophenetic matrix for the genus tree
 #save as cali_genus_cophen_matrix
 
 #generate a corresponding cophenetic matrix. 
-call_cophen(cali_species_tree, clade = "Plants", geog_area = "cali_species_Mishler") 
-
-#want to also make a full tree 
-
-#only about 3415 species that actually match. fewer than 1/3 are represented. 
-#matched_species_plants<-remove_taxa(cali_plants, full_tree)
-#cali_tree<- sample_tree_generator(matched_species_plants, full_tree)
-#write.tree(cali_tree, file = file.path(clade, "cali_tree.tre"))
+call_cophen(cali_tree_genus, clade = "Plants", geog_area = "cali_species_Mishler0505") 
+call_cophen(cali_tree_species, clade = "Plants", geog_area = "cali_genus_Mishler0505") 
 
 
-#find the max number of species of california plants. 
-max_species <- max_species(cali_plants)
 
 
-#for the interpolated complete tree
-#this needs to read in all the trees and apply them to a list first. 
-
-#unmatched_species_list<- list()
-#matched_species_list<- list()
-
-#should be the same matched/unmatched species each time. 
-
-#for ecoregions with GENUS
-dir_list_ecoregions <- list.dirs("Plants/ecoregion_data",recursive = FALSE)  
-full_tree<- read.tree(path_to_full_genus_tree)
+#for genera
+dir_list_ecoregions <- list.dirs("Plants/ecoregion_data_2",recursive = FALSE)  
+full_tree<- cali_tree_genus
 
 for(directory in dir_list_ecoregions)
 {
   ecoregion_species<- read.csv(paste(directory, "/checklist.csv", sep = ""))
   ecoregion_species$X<- NULL
-  ecoregion_species$x<- gsub(" ", "_", ecoregion_species$x)
+  ecoregion_species$x<- gsub("\\.", "_", ecoregion_species$x)
   colnames(ecoregion_species)<- "names"
   ecoregion_genus<- genus_only(ecoregion_species)
   ecoregion_genus$colnames<- NULL
@@ -203,14 +179,14 @@ for(directory in dir_list_ecoregions)
 
 #for ecoregions with SPECIES (using the Mishler tree right now. )
 
-dir_list_ecoregions <- list.dirs("Plants/ecoregion_data",recursive = FALSE)  
-full_tree<- cali_species_tree
+dir_list_ecoregions <- list.dirs("Plants/ecoregion_data_2",recursive = FALSE)  
+full_tree<- cali_tree_species
 
 for(directory in dir_list_ecoregions)
 {
   ecoregion_species<- read.csv(paste(directory, "/checklist.csv", sep = ""))
   ecoregion_species$X<- NULL
-  ecoregion_species$x<- gsub(" ", "_", ecoregion_species$x)
+  ecoregion_species$x<- gsub("\\.", "_", ecoregion_species$x)
   colnames(ecoregion_species)<- "name"
   
   unmatched_ecoregion_species<- check_taxa(ecoregion_species, full_tree)
@@ -229,51 +205,4 @@ for(directory in dir_list_ecoregions)
   write.tree(ecoregion_tree, file = paste(directory, "/trimmed_species_tree.tre", sep = ""))
 }
 
-
-
-#this is all archaic. 
-#edited out call_cophen for sake of tree initialization statistics. 
-#for(i in 1: 99)
-#{
-# temp<- read.tree(paste("Plants/Instance_", i, "/interpolated_phylogeny.tre", sep = ""))
-# unmatched_species_list<- check_taxa(cali_plants, temp)
-# matched_species_list<-remove_taxa(cali_plants, temp)
-# temp_cali_tree<- sample_tree_generator(matched_species_list, temp)
-# write.tree(temp_cali_tree, file = paste("Plants/Instance_", i, "/cali_tree_interpolated.tre", sep = ""))
-# call_cophen_InterpTrees(temp_cali_tree, clade = "Plants", geog_area = "cali", instance = i) 
-# print(i)
-#}
-
-
-#this is to get any interesting statistics but is not useful for tree building 
-#full_tree_int<- read.tree("Plants/interpolated_full_tree.tre")
-#unmatched_species_int<- check_taxa(cali_plants, full_tree_int)
-#matched_species_plants_int<-remove_taxa(cali_plants, full_tree_int)
-#max_species<- length(matched_species_plants_int[,1])
-
-
-
-
-
-
-#old code 
-#cali_tree_int<- sample_tree_generator(matched_species_plants_int, full_tree_int)
-#write.tree(cali_tree_int, file = file.path(clade, "cali_tree_interpolated.tre"))
-#find the max number of species of california plants.
-#maketrees(cali_tree_int, 5, max_species, 5, clade = clade)
-
-#throws an error once we reach the max but that's fine. 
-
-#maybe should try to trim based on genus? 
-
-#path to phylogeny.
-#path_to_cali_phylogeny = file.path( clade, "cali_tree_interpolated.tre")
-#phylo_tree<- read.tree(path_to_cali_phylogeny)
-
-
-
-#the last two parameters are for naming, for the purpose of the call_cophen function
-#call_cophen(phylo_tree, clade = "Plants", geog_area = "cali") 
-
-
-#the output should be saved to the clade file. basically should just have to execute main. 
+##Now need to regenerate all the null models with tree data as of 05/05
