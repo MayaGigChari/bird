@@ -56,7 +56,8 @@ cali_squamates<- data.frame(cali_squamates)
 colnames(cali_squamates)<- "name"
 
 #load the largest tree and prune to only california, then save the california tree
-#todo: make this more transferable to geographic area.
+#todo: make this more transferable to geographic area
+
 
 #there are a total of 93 matched species of squamates!
 full_tree<- read.tree(path_to_full_tree)
@@ -68,6 +69,10 @@ write.tree(cali_tree, file = file.path(clade, "cali_tree.tre"))
 max_species <- max_species(cali_squamates)
 #run the sample_tree_creator to generate the sample trees
 maketrees(cali_tree, 5, max_species, 5, clade = clade)
+
+cali_tree<- read.tree("squamate/cali_tree.tre")
+ggtree(cali_tree, layout = "circular")
+ggsave("squamate/images/cali_full_tree_squamate.png")
 
 
 #path to phylogeny.

@@ -201,7 +201,162 @@ helper_whereOnTree<-function(parent_tree, sample_tree) #function for taking a tr
 }
 
 
+#funciton that can be used with lapply to remove the columns of list of lists for better use in json
+helper_get_taxa_only<-function(named_list_of_lists)
+{
+  return(named_list_of_lists$names)
+}
 
+#the following are functions for determining the predicted 95% confidence interval range for a given null model, tree size and parameter combination 
+#this function takes a json file with params for a particular null model and returns a CI range for a sample size of 
+#maybe I should move this to the model generation thing function helper file thing. 
+
+#todo: fix issue with ecoregions. they do not have the correct range data. 
+#now this should work, the ecoregion data has been updated. 
+cI_generator<- function(sample_size, params_json_file)
+{
+  library(jsonlite)
+  if(is.null(params_json_file))
+  {
+    return(NULL)
+  }
+  if(length(params_json_file)>1)
+  {
+    return(NULL)
+  }
+  if(grepl("NA",params_json_file))
+  {
+    return(NULL)
+  }
+  params_data<- jsonlite::fromJSON(txt = params_json_file)
+  low_data<- params_data[1,]
+  high_data<- params_data[2,]
+  
+  lower_value<- low_data$`c:(Intercept)` + (( low_data$`d:(Intercept)`-  low_data$`c:(Intercept)`)/(1+ exp(low_data$`b:(Intercept)`*(log(sample_size)-log(low_data$`e:(Intercept)`)))))
+  
+  upper_value<- high_data$`c:(Intercept)` + (( high_data$`d:(Intercept)`-  high_data$`c:(Intercept)`)/(1+ exp(high_data$`b:(Intercept)`*(log(sample_size)-log(high_data$`e:(Intercept)`)))))
+  
+  
+  return(list("upper_vals" = upper_value, "lower_vals" = lower_value))
+}
+
+artificial_data<- seq(0,250, by = 1)
+ci_s<- lapply(artificial_data,cI_generator,  params_json_file = "birds/ecoregion_data/8/pd_model_params.json")
+
+
+list_uppers<- list()
+list_lowers<- list()
+for(i in 1: length(artificial_data))
+{
+  list_uppers[i] = ci_s[[i]]$upper_vals
+  list_lowers[i] = ci_s[[i]]$lower_vals
+}
+
+list_uppers<- unlist(list_uppers)
+list_lowers<- unlist(list_lowers)
+
+plot(artificial_data,list_uppers) + 
+  points(artificial_data, list_lowers)
+
+
+check_significance_pd<- function(pd_value, upper_lower_keyvals)
+{
+  print(upper_lower_keyvals$upper_vals)
+  if(is.null(upper_lower_keyvals$upper_vals) || is.na(pd_value))
+  {
+    return(NULL)
+  }
+  else if(pd_value$PD > upper_lower_keyvals$upper_vals)
+  {
+    return(1)
+  }
+  else if(pd_value$PD < upper_lower_keyvals$lower_vals)
+  {
+    return(-1)
+  }
+  return(0)
+}
+
+check_significance_other_metrics<- function(metric, upper_lower_keyvals)
+{
+  if(is.null(upper_lower_keyvals$upper_vals)|| is.na(metric))
+  {
+    return(NULL)
+  }
+  else if(metric > upper_lower_keyvals$upper_vals)
+  {
+    return(1)
+  }
+  else if(metric < upper_lower_keyvals$lower_vals)
+  {
+    return(-1)
+  }
+  return(0)
+  
+}
+#expectation changes betweeen ecoregions! now this is correct. 
+
+
+#this function takes some geometry and determines which ecoregion it is within. 
+#it is possible that some reserves like anza borrego overlap with multiple ecoregions. 
+#returns the overlapping L3 code as a string. 
+
+#changed this to a join statement instead of an intersect statement, not sure if this changes much. 
+#this function might not work that well. 
+ecoregion_id<- function(region_of_interest, full = FALSE)
+{
+  library(sf)
+  shp_list_ecoregions <- st_read("Cali_Geometry/ecoregions_corrected/ecoregions_for_mia.shp")%>%
+    st_transform("WGS84")
+  print(shp_list_ecoregions)
+  if(full)
+  {
+    overlappers<- st_join(region_of_interest, shp_list_ecoregions)
+    return(overlappers)
+  }
+  overlappers<- st_intersection(shp_list_ecoregions, region_of_interest)
+  return(overlappers$US_L3CODE)
+}
+
+makejsonstring<- function(ecoregion_id, metric, clade = "birds")
+{
+  if(clade == "birds")
+  {
+    return(paste("birds/ecoregion_data/", ecoregion_id, "/", metric, "_model_params.json", sep = ""))
+  }
+  else
+  {
+    return(paste(clade, "/ecoregion_data/", ecoregion_id, "/", metric, "_model_params.json", sep = ""))
+    
+  }
+  
+}
+
+makejsonstring_weird<- function(ecoregion_id, metric, clade = "birds")
+{
+  if(clade == "birds")
+  {
+    return(paste("birds/ecoregion_data/", ecoregion_id, "/", metric, "_model_params.json", sep = ""))
+  }
+  else
+  {
+    return(paste(clade, "/ecoregion_data_2/", ecoregion_id, "/", metric, "_model_params_genus0505.json", sep = ""))
+    
+  }
+  
+}
+
+###THIS FUNCTION IS USEFUL FOR LAPPLY: can apply this function to a list of id's or unique identifiers with the parameter id, and 
+#the parameter sf_object is an sf multipolygon. Useful for extracting a list of lists of species for a reserve manager that has multiple reserves.
+
+getspecies_for_multiple_geogareas<- function(id, sf_object)
+{
+  trimmed_sf<- sf_object%>% 
+    filter(UNIT_NAME == id) %>%
+    dplyr::select(sci_nam)
+  
+  return(unique(trimmed_sf$sci_nam))
+}
 
 
 

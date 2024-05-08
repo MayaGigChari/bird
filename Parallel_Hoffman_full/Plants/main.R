@@ -115,7 +115,7 @@ cali_tree_genus<- sample_tree_generator(matched_genera, genus_complete_phylogeny
 plot<- ggtree(cali_tree_genus, layout = "fan")
 ggsave("Plants/images/cali_genus_tree0505.png", plot)
 
-write.tree(cali_tree_species, file = file.path(clade, "cali_species_tree_0505.tre"))
+write.tree(cali_tree_genus, file = file.path(clade, "cali_genus_tree_0505.tre"))
 #have already developed the species level tree and loaded above
 
 
@@ -133,15 +133,15 @@ cali_tree_species<- sample_tree_generator(matched_species, complete_phylogeny)
 plot<- ggtree(cali_tree_species, layout = "fan")
 ggsave("Plants/images/cali_species_tree0505.png")
 
-write.tree(cali_tree_genus, file = file.path(clade, "cali_genus_tree_0505.tre"))
+write.tree(cali_tree_species, file = file.path(clade, "cali_species_tree_0505.tre"))
 
 
 #generate the cophenetic matrix for the genus tree
 #save as cali_genus_cophen_matrix
 
 #generate a corresponding cophenetic matrix. 
-call_cophen(cali_tree_genus, clade = "Plants", geog_area = "cali_species_Mishler0505") 
-call_cophen(cali_tree_species, clade = "Plants", geog_area = "cali_genus_Mishler0505") 
+call_cophen(cali_tree_genus, clade = "Plants", geog_area = "cali_genus_Mishler0505") 
+call_cophen(cali_tree_species, clade = "Plants", geog_area = "cali_species_Mishler0505") 
 
 
 
@@ -206,3 +206,4 @@ for(directory in dir_list_ecoregions)
 }
 
 ##Now need to regenerate all the null models with tree data as of 05/05
+#note for hoffman: cophen _matrix is for genus and cophen_matrix_species is for species. 

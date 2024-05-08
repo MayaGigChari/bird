@@ -315,6 +315,7 @@ polygon_data_full_mammals_with_eco$mntdSigEco<- unlist(CI_ecoregions_significanc
 #the output of this is 11792 units long. 
 #this is now the updated list that has doubles for reserves that cover at least one ecoregion 
 
+#this might be ab issue, never really actually saved any of this stuff. 
 
 
 

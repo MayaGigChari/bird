@@ -25,52 +25,38 @@ source(tree_trimming_path)
 
 #reading in the cophenetic matrix 
 #can toggle this between species data and genus data. 
-cophen_plants<-readRDS("Plants/cali_species_Mishler_cophen_matrix")
+cophen_plants<-readRDS("Plants/cali_genus_Mishler0505_cophen_matrix")
 #parent_tree<- read.tree("Plants/interpolated_full_tree.tre") probably don't really need this.
 #made the genus tree in main. 
-cali_tree_plants<- read.tree("Plants/species_level_full_treeMISHLER.tre") #load the genus tree
-data_plants<- readRDS("Plants/hexagon_true_species_plant_data") #hexagonal species data. 
+cali_tree_plants<- read.tree("Plants/cali_genus_tree_0505.tre") #load the genus tree
+#data_plants<- readRDS("Plants/") #hexagonal species data. 
 
+#hex species list. 
+data_plants<- Plants_hex_species_list
 #total of 1966 genera. interesting. 
-cali_tree_plants
-plot(cali_tree_plants, type = "fan", show.tip.label = FALSE)
 
 #total of 2038 tips represented in MISHLER phylogeny
-cali_tree_plants #660 total plants represented in the phylogeny. 
-#associate the data with the indexes
-#this stays the same for observational and range data. 
-h3_indexes<- data.frame(h3_indexes)
-h3_indexes$X<- NULL #not sure why this always happens. 
-dat_names<- h3_indexes$h3_indexes
-names(data)<- dat_names
+cali_tree_plants #640 total genera represented in the phylogeny
 
 
-#now we have assigned data to each 
-
-#the first word will always be the genus. 
-
-#already have the occurrence data
+names(data_plants)<- h3_indexes
 
 
-#this should have been done in a previous script. 
-#names(data)<- h3_indexes
 
 
-#need to load the dataframe 
-
-
-poly_labels<- names(data) #this gives us all the codes. 
+poly_labels<- names(data_plants) #this gives us all the codes. 
 
 #run this function with the most recent polygon data 
 
 #there should be some kind of difference with pd no? maybe not.
 #maybe I should have populated the hexes with some other parent/cophenetic tree??
+
 popHexStats<- function(polygon_data, parent_tree, output_filepath, cophen_filepath)
 {
   #some of these actually have zero intersecting species. 
   cophen_forfunc<- readRDS(cophen_filepath)
   print("cophen_made")
-  hex_trees_filepath<- paste(output_filepath, "/hex_trees", sep = "")
+  hex_trees_filepath<- paste(output_filepath, "/hex_trees_2", sep = "")
   print(hex_trees_filepath)
   if (!file.exists(hex_trees_filepath)) 
   {
@@ -101,18 +87,25 @@ popHexStats<- function(polygon_data, parent_tree, output_filepath, cophen_filepa
     else
     {
       temp <- data.frame(polygon_data[i])
+      #print(temp)
       colnames(temp) <- "name"
-      temp$name<- gsub(" ", "_", temp$name)
+      temp<- genus_only(temp)
+      temp$colnames<- NULL
+      colnames(temp) <- "name"
       missing_species[i] <- check_taxa(temp,parent_tree)
       temp<- remove_taxa(temp, parent_tree)
       species_in_tree[i]<- temp
       print(species_in_tree[i])
       proportion_missing[i]<- length(missing_species[i])/length(temp[,1])
       temp_tree<- sample_tree_generator(temp, parent_tree)
+      print("tree done")
       write.tree(temp_tree, file = file.path(hex_trees_filepath, paste(poly_labels[i], ".tre", sep  = '')))
+      print(temp_tree)
       pd_values[i]<- pd_app_picante(temp_tree, parent_tree)$PD
+      print("pd_done")
       mpd_values[i]<- mpd_app_picante(temp_tree, cophen_forfunc)
       mntd_values[i]<- mntd_app_picante(temp_tree, cophen_forfunc)
+      print("done")
     }
     print(i)
     #continue here: 
@@ -129,42 +122,41 @@ popHexStats<- function(polygon_data, parent_tree, output_filepath, cophen_filepa
   return(list_return)
 }
 
-#the hex_tree_stats_birds is the raw output
-hex_tree_stats_birds<- popHexStats(data_plants, cali_tree_plants, "Plants", cophen_filepath = "Plants/cali_species_Mishler_cophen_matrix")
+#the hex_tree_stats_Plants is the raw output
+hex_tree_stats_plants_genus<- popHexStats(data_plants, cali_tree_plants, "Plants", cophen_filepath = "Plants/cali_genus_Mishler0505_cophen_matrix")
 
-hex_tree_stats_plants_copy<- hex_tree_stats_plants
-hex_tree_stats_plants<- hex_tree_stats_birds
+hex_tree_stats_plants_copy_genus<- hex_tree_stats_plants_genus
 
-pop_hex_stats_plants_df<- data_frame("h3_index" = names(data), "pd_values" = unlist(hex_tree_stats_plants$pd_values), "mpd_values" = unlist(hex_tree_stats_plants$mpd_values), "mntd_values" = unlist(hex_tree_stats_plants$mntd_values), 
-                                     "tree_size" = unlist(lapply(hex_tree_stats_plants$species_in_tree, length)), "missing_taxa_tree_size" = unlist(lapply(hex_tree_stats_plants$missing_species, length)) )
+pop_hex_stats_plants_df_genus<- data_frame("h3_index" = names(data_plants), "pd_values" = unlist(hex_tree_stats_plants_genus$pd_values), "mpd_values" = unlist(hex_tree_stats_plants_genus$mpd_values), "mntd_values" = unlist(hex_tree_stats_plants_genus$mntd_values), 
+                                     "tree_size" = unlist(lapply(hex_tree_stats_plants_genus$species_in_tree, length)), "missing_taxa_tree_size" = unlist(lapply(hex_tree_stats_plants_genus$missing_species, length)) )
 
 #seems that there are generally about 40% of taxa missing. this might fuck everything up but who knows. 
-pop_hex_stats_plants_df$proportion_missing<- pop_hex_stats_plants_df$missing_taxa_tree_size/(pop_hex_stats_plants_df$tree_size + pop_hex_stats_plants_df$missing_taxa_tree_size)
+pop_hex_stats_plants_df_genus$proportion_missing<- pop_hex_stats_plants_df_genus$missing_taxa_tree_size/(pop_hex_stats_plants_df_genus$tree_size + pop_hex_stats_plants_df_genus$missing_taxa_tree_size)
 
 
-histogram(pop_hex_stats_plants_df$proportion_missing)
+histogram(pop_hex_stats_plants_df_genus$proportion_missing)
 #this is just an aside to make a figure of mssing taxa. 
 
 #need to make 
 
 library(ggplot2)
-missing_hist<- ggplot(pop_hex_stats_plants_df, aes(x = proportion_missing)) +
+missing_hist<- ggplot(pop_hex_stats_plants_df_genus, aes(x = proportion_missing)) +
   geom_histogram(bins = 50) +
   ggtitle("Missing Taxa Proportions: Hexagon Data California")
 
-ggsave(filename = "Plants/Missing_taxa_proportions_hexagon_california_species.png", 
+ggsave(filename = "Plants/Missing_taxa_proportions_hexagon_california_genus_0505.png", 
        plot = missing_hist, 
        dpi = 300, 
        width = 8, 
        height = 6, 
        units = "in")
 
-#this just saves the file hex_tree_stats_birds without any geographic information. 
-saveRDS(pop_hex_stats_plants_df, file = "Plants/raw_hex_stats_from_ranges_MISHLER_SPECIES")
+#this just saves the file hex_tree_stats_Plants without any geographic information. 
+saveRDS(pop_hex_stats_plants_df_genus, file = "Plants/raw_hex_stats_from_ranges_genus_0505")
 
 #there are 200 hexagons with missing data. 
 
-pop_hex_stats_plants_df<- readRDS("Plants/raw_hex_stats_from_ranges_MISHLER_SPECIES")
+pop_hex_stats_plants_df<- readRDS("Plants/raw_hex_stats_from_ranges_genus_0505")
 
 ######################
 #step 2: assign significance values to hexagon data
@@ -179,15 +171,16 @@ pop_hex_stats_plants_df<- readRDS("Plants/raw_hex_stats_from_ranges_MISHLER_SPEC
 
 cali_hexes_as_sf<- polygons
 
-polygon_data_full_plants<- left_join(data.frame(cali_hexes_as_sf), pop_hex_stats_plants_df, by = "h3_index")
+polygon_data_full_plants<- left_join(data.frame(cali_hexes_as_sf), pop_hex_stats_plants_df_genus, by = "h3_index")
 
-polygon_data_full_plants_with_eco<- left_join(polygon_data_full_plants, data.frame(hexes_with_ecoregions))
+polygon_data_full_plants_with_eco<- left_join(data.frame(polygon_data_full_plants), data.frame(hexes_with_ecoregions), by = c("h3_index")) 
 
+polygon_data_full_plants_with_eco$geometry.y<- NULL
 
 #ec_js_pd<- ecoregion_json_filename shortened. 
 #could remove the NA values and merge them back in later (hexagons with no ecoregion)
 
-#was this possibly using birds? no way at all. 
+#was this possibly using Plants? no way at all. 
 polygon_data_full_plants_with_eco$ec_js_pd<- unlist(lapply(polygon_data_full_plants_with_eco$US_L3CODE, makejsonstring_weird, clade = "Plants",  metric = "pd"))
 polygon_data_full_plants_with_eco$ec_js_mpd<- unlist(lapply(polygon_data_full_plants_with_eco$US_L3CODE, makejsonstring_weird, clade = "Plants", metric = "mpd"))
 polygon_data_full_plants_with_eco$ec_js_mntd<- unlist(lapply(polygon_data_full_plants_with_eco$US_L3CODE, makejsonstring_weird,clade = "Plants", metric = "mntd"))
@@ -209,76 +202,27 @@ polygon_data_full_plants_with_eco$ec_js_mntd<- unlist(lapply(polygon_data_full_p
 #perhaps there is an issue with the CI generation?
 
 #pretty much all these freaking plants are overdispersed. 
-polygon_data_CI_ranges_pd_cali_plants<- lapply(polygon_data_full_plants_with_eco$tree_size, cI_generator, params_json_file = "Plants/pd_model_params_PLANTS_SPECIES_0418.json")
+polygon_data_CI_ranges_pd_cali_plants<- lapply(polygon_data_full_plants_with_eco$tree_size, cI_generator, params_json_file = "Plants/pd_model_params_genus0505.json")
 CI_cali_significance_polygons_pd_plants<- Map(check_significance_other_metrics, polygon_data_full_plants_with_eco$pd_values, upper_lower_keyvals = polygon_data_CI_ranges_pd_cali_plants)
 
-cI_generator(989, params_json_file = "Plants/pd_model_params_PLANTS_SPECIES_0418.json")
 
-
-
-#step 2: intersect the nth index with all the species and range data. 
-
-#need to try to join one polygon with the data. 
-
-species_polygon_n<- st_join(polygon_n, ecoregions_plant_data_intersection_cond2) #this has only the correct intersection ranges. 
-
-
-
-
-
-
-
-plot(polygon_data_full_plants_with_eco$tree_size, polygon_data_full_plants_with_eco$pd_values)
-
-
-#going to try to plot the CI's over. 
-artificial_data<- seq(0,1500, by = 1)
-ci_s<- lapply(artificial_data,cI_generator,  params_json_file = "Plants/pd_model_params_PLANTS_SPECIES_0418.json")
-
-
-list_uppers<- list()
-list_lowers<- list()
-for(i in 1: length(artificial_data))
-{
-  list_uppers[i] = ci_s[[i]]$upper_vals
-  list_lowers[i] = ci_s[[i]]$lower_vals
-}
-
-list_uppers<- unlist(list_uppers)
-list_lowers<- unlist(list_lowers)
-
-plot(polygon_data_full_plants_with_eco$tree_size, 
-     polygon_data_full_plants_with_eco$pd_values, 
-     xlab = "Richness", 
-     ylab = "PD",
-     main = "Hexagon Species-Level Plant PD Compared to Expected") + 
-  lines(artificial_data, list_uppers, col = "red") + 
-  lines(artificial_data, list_lowers, col = "red")
-
-
-
-#want to overlay this with a plot of the 95% confidence intervals as expected by simulation. 
-#only could have used the species that actually have range overlaps with california but maybe didn't use just the species that are seen? 
-
-#HOW THE FUCK IS EVERYTHING SIGNIFICANTLY THE FUCK HIGH!?????
-
-png("Plants/images/CI_cali_significance_hexes_pd_hist.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_cali_significance_polygons_pd_plants), main = "CI_cali_significance_hexes_pd_hist", xlab = "PD", ylab = "Frequency")
+png("Plants/images/CI_cali_significance_hexes_pd_hist_genus0505.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_cali_significance_polygons_pd_plants), main = "CI_cali_significance_hexes_pd_hist_genus0505", xlab = "PD", ylab = "Frequency")
 dev.off()
 
-polygon_data_CI_ranges_mpd_cali_plants<- lapply(polygon_data_full_plants_with_eco$tree_size, cI_generator, params_json_file = "Plants/mpd_model_params_PLANTS_SPECIES_0418.json")
+polygon_data_CI_ranges_mpd_cali_plants<- lapply(polygon_data_full_plants_with_eco$tree_size, cI_generator, params_json_file = "Plants/mpd_model_params_genus0505.json")
 CI_cali_significance_polygons_mpd_plants<- Map(check_significance_other_metrics, polygon_data_full_plants_with_eco$mpd_values, upper_lower_keyvals = polygon_data_CI_ranges_mpd_cali_plants)
 
 
-png("birds/images/CI_cali_significance_hexes_mpd_hist.png", width = 800, height = 600, units = "px", res = 100)
+png("Plants/images/CI_cali_significance_hexes_mpd_hist_genus0505.png", width = 800, height = 600, units = "px", res = 100)
 histogram(unlist(CI_cali_significance_polygons_mpd_plants), main = "CI_cali_significance_hexes_mpd_hist", xlab = "PD", ylab = "Frequency")
 dev.off()
 
-polygon_data_CI_ranges_mntd_cali_plants<- lapply(polygon_data_full_plants_with_eco$tree_size, cI_generator, params_json_file = "Plants/mntd_model_params_.json")
+polygon_data_CI_ranges_mntd_cali_plants<- lapply(polygon_data_full_plants_with_eco$tree_size, cI_generator, params_json_file = "Plants/mntd_model_params_genus0505.json")
 CI_cali_significance_polygons_mntd_plants<- Map(check_significance_other_metrics, polygon_data_full_plants_with_eco$mntd_values, upper_lower_keyvals = polygon_data_CI_ranges_mntd_cali_plants)
 
 
-png("birds/images/CI_cali_significance_hexes_mntd_hist.png", width = 800, height = 600, units = "px", res = 100)
+png("Plants/images/CI_cali_significance_hexes_mntd_hist_genus0505.png", width = 800, height = 600, units = "px", res = 100)
 histogram(unlist(CI_cali_significance_polygons_mntd_plants), main = "CI_cali_significance_hexes_mntdd_hist", xlab = "PD", ylab = "Frequency")
 dev.off()
 
@@ -291,7 +235,7 @@ dev.off()
 polygon_data_CI_ranges_pd_ecoregions_plants <- Map(cI_generator, polygon_data_full_plants_with_eco$tree_size, params_json_file = polygon_data_full_plants_with_eco$ec_js_pd)
 CI_ecoregions_significance_polygons_pd_plants<- Map(check_significance_other_metrics, polygon_data_full_plants_with_eco$pd_values, upper_lower_keyvals = polygon_data_CI_ranges_pd_ecoregions_plants)
 
-png("birds/images/CI_cali_significance_hexes_pd_hist_ecoregions.png", width = 800, height = 600, units = "px", res = 100)
+png("Plants/images/CI_cali_significance_hexes_pd_hist_ecoregions_genus0505.png", width = 800, height = 600, units = "px", res = 100)
 histogram(unlist(CI_ecoregions_significance_polygons_pd_plants), main = "CI_cali_significance_hexes_pd_hist", xlab = "PD", ylab = "Frequency")
 dev.off()
 
@@ -300,7 +244,7 @@ polygon_data_CI_ranges_mpd_ecoregions_plants <- Map(cI_generator, polygon_data_f
 CI_ecoregions_significance_polygons_mpd_plants<- Map(check_significance_other_metrics, polygon_data_full_plants_with_eco$mpd_values, upper_lower_keyvals = polygon_data_CI_ranges_mpd_ecoregions_plants)
 
 #check them against their own ecoregions. 
-png("birds/images/CI_cali_significance_hexes_mpd_hist_ecoregions.png", width = 800, height = 600, units = "px", res = 100)
+png("Plants/images/CI_cali_significance_hexes_mpd_hist_ecoregions_genus0505.png", width = 800, height = 600, units = "px", res = 100)
 histogram(unlist(CI_ecoregions_significance_polygons_mpd_plants), main = "CI_cali_significance_hexes_mpd_hist", xlab = "mpd", ylab = "Frequency")
 dev.off()
 
@@ -308,7 +252,7 @@ dev.off()
 polygon_data_CI_ranges_mntd_ecoregions_plants <- Map(cI_generator, polygon_data_full_plants_with_eco$tree_size, params_json_file = polygon_data_full_plants_with_eco$ec_js_mntd)
 CI_ecoregions_significance_polygons_mntd_plants<- Map(check_significance_other_metrics, polygon_data_full_plants_with_eco$mntd_values, upper_lower_keyvals = polygon_data_CI_ranges_mntd_ecoregions_plants)
 
-png("birds/images/CI_cali_significance_hexes_mntd_hist_ecoregions.png", width = 800, height = 600, units = "px", res = 100)
+png("Plants/images/CI_cali_significance_hexes_mntd_hist_ecoregions_genus0505.png", width = 800, height = 600, units = "px", res = 100)
 histogram(unlist(CI_ecoregions_significance_polygons_mntd_plants), main = "CI_cali_significance_hexes_mntd_hist", xlab = "mntd", ylab = "Frequency")
 dev.off()
 
@@ -362,7 +306,7 @@ multiple_ecoregions<- ggplot(num_polygons_multiple_regions, aes(x = n))+
   ggtitle("Hexagons with multiple ecoregions (n = number of ecoregions covered)")
 
 
-ggsave(filename = "birds/images/Hexagons_with_multiple_ecoregions_histogram.png", 
+ggsave(filename = "Plants/images/Hexagons_with_multiple_ecoregions_histogram.png", 
        plot = multiple_ecoregions, 
        dpi = 300, 
        width = 8, 
@@ -375,12 +319,12 @@ hist(polygons_multiple_ecoregions_full$pd_cali_significance)
 
 #seems like the hexagons that are at the boundaries of ecoregions have pretty similar behavior to hexagons within the ecoregions. 
 #need to compare against a larger null model, though
-#this might look very different for birds. extremely similar patters for hexes that lie on more than one ecoregion. 
+#this might look very different for Plants. extremely similar patters for hexes that lie on more than one ecoregion. 
 multiple_ecoregions_hist<- ggplot(polygons_multiple_ecoregions_full, aes(x = mntd_cali_significance))+ 
   geom_histogram(bins = 50)+
   ggtitle("distribution of mntd significance for hexagons in multiple ecoregions")
 
-ggsave(filename = "birds/images/distribution_mntd_significance_hexagons_multiple-ecoregions.png",
+ggsave(filename = "Plants/images/distribution_mntd_significance_hexagons_multiple-ecoregions.png",
        plot = multiple_ecoregions_hist, 
        dpi = 300, 
        width = 8, 
@@ -412,18 +356,18 @@ plot_area <- ggplot() +
 
 
 plot_area <- plot_area +
-  geom_sf(data = polygon_full_plants_with_eco_nona, aes(fill = factor(mntdSigCal)))
+  geom_sf(data = polygon_full_plants_with_eco_nona, aes(fill = factor(pdSigEco)))
 # Customize the legend and color scale
 
 
 
 plot_area_fin <- plot_area +
-  scale_fill_manual(values = c("0" = "white", "1" = "red"),
+  scale_fill_manual(values = c("-1" = "blue", "0" = "white", "1" = "red"),
                     name = "Significance",
-                    labels = c("0", "1"),
+                    labels = c("-1", "0", "1"),
                     guide = "legend")
 
-ggsave("Plants/california_species_level_mntd_distribution.png", plot_area_fin, width = 10, height = 10, dpi = 300)
+ggsave("Plants/images/Ecoregion_genus_level_pd_distribution_0505.png", plot_area_fin, width = 10, height = 10, dpi = 300)
 
 dev.off()
 
@@ -451,11 +395,11 @@ st_read("Plants/species_level_polygon_data.shp")
 #need to write as well a json of polygons and the corresponding species lists. 
 
 
-polygon_json_species<- data_frame("h3_index" = names(data), "species_in_tree" = hex_tree_stats_birds$species_in_tree, "species_absent_from_tree" = hex_tree_stats_birds$missing_species)
+polygon_json_species<- data_frame("h3_index" = names(data), "species_in_tree" = hex_tree_stats_Plants$species_in_tree, "species_absent_from_tree" = hex_tree_stats_Plants$missing_species)
 
 json_data_polygon_species <- jsonlite::toJSON(polygon_json_species)
 
-writeLines(json_data_polygon_species, "birds/hexagon_species_in_tree.json")
+writeLines(json_data_polygon_species, "Plants/hexagon_species_in_tree.json")
 
 plot(genus_complete_phylogeny, type = "fan", show.tip.label = TRUE, hex = 0.5)
 

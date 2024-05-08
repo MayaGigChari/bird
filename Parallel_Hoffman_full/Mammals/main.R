@@ -64,6 +64,11 @@ matched_species_mammals<- remove_taxa(sf_data_taxa_list_cali_mammals, complete_p
 cali_tree_species_mammals<- sample_tree_generator(matched_species_mammals,complete_phylogeny_mammal)
 
 write.tree(cali_tree_species_mammals, file = file.path(clade, "cali_species_tree.tre"))
+
+Mammal_tree<- read.tree("Mammals/cali_species_tree.tre")
+
+ggtree(Mammal_tree, layout= "circular")
+ggsave("Mammals/images/california_species_tree.png")
 #have already developed the species level tree and loaded above. 
 
 

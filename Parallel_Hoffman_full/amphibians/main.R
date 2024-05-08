@@ -1,4 +1,5 @@
 #main for amphibians
+#redo amphibians and try genus. 
 
 #install necessary packages 
 packages_to_install <- c("picante", "ape", "dplyr", "readr", "phytools", "sf")
@@ -10,6 +11,8 @@ for (pkg in packages_to_install) {
     install.packages(pkg)
   }
 }
+
+#amphibians probably doesn't work because it's not even time calibrated! need to check mammals and squqmates for this before proceeding. 
 
 lapply(packages_to_install, library, character.only = TRUE)
 #specify the clade that you are interested in
@@ -40,7 +43,7 @@ source(sample_tree_creator_path)
 full_range<- st_read("amphibians/amphibians_complete_species_lists_by_ecoregion.shp")
 taxa_list<- unique(full_range$sci_name)
 
-path_to_full_tree = file.path("amphibians/amph_shl_new.tre")
+path_to_full_tree = file.path("amphibians/amph_shl_new_Consensus_7238.tre")
 
 
 #format the taxa list using App_functions_bird script
@@ -58,7 +61,27 @@ full_tree<- read.tree(path_to_full_tree)
 unmatched_species<- check_taxa(cali_amphibians, full_tree )
 matched_species_amphibians<-remove_taxa(cali_amphibians, full_tree)
 cali_tree<- sample_tree_generator(matched_species_amphibians, full_tree)
+
+p<- ggtree(cali_tree, layout = "circular")
+ggsave("amphibians/images/cali_tree_species.png")
 write.tree(cali_tree, file = file.path(clade, "cali_tree.tre"))
+
+
+
+
+#do this for genera
+#there are 17 representative genera of California amphibians. 
+cali_genera<- genus_only(cali_amphibians)
+cali_genus_tree_amphibians<- genus_tree_generator(full_tree)
+unmatched_genera<- check_taxa(cali_genera,cali_genus_tree_amphibians )
+matched_species_amphibians<-remove_taxa(cali_genera, cali_genus_tree_amphibians)
+cali_tree_genus_amphibians<- sample_tree_generator(matched_species_amphibians, cali_genus_tree_amphibians)
+write.tree(cali_tree_genus_amphibians, file = file.path(clade, "cali_genus_tree.tre"))
+
+#this is just the whole genus tree. 
+
+p<- ggtree(cali_tree_genus_amphibians, layout = "circular")
+ggsave("amphibians/images/cali_tree_genus.png")
 
 #path to phylogeny.
 path_to_cali_phylogeny = file.path( clade, "cali_tree.tre")
@@ -71,7 +94,7 @@ call_cophen(phylo_tree, clade = "amphibians", geog_area = "cali")
 
 
 dir_list_ecoregions <- list.dirs("amphibians/ecoregion_data",recursive = FALSE)  
-full_tree<- phylo_tree
+full_tree<- full_tree
 
 for(directory in dir_list_ecoregions)
 {

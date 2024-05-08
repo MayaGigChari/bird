@@ -58,6 +58,8 @@ library(lwgeom)
 amphibians_intersect_california$range_area<- st_area(amphibians_intersect_california)
 
 st_write(amphibians_intersect_california, "amphibians/full_california_amphibians_ranges.shp")
+
+amphibians_intersect_california<- st_read("amphibians/full_california_amphibians_ranges.shp")
 ecoregions<- st_read("Cali_Geometry/ca_eco_l3/ca_eco_l3.shp")
 
 
