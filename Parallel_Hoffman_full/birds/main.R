@@ -48,28 +48,30 @@ source(sample_tree_creator_path)
 #step one is to make the phylogeny. 
 #path to species checklist
 path_to_cali_taxa_list_range = file.path(clade, "most_updated_bird_list_april2024.csv")
-filepath_ecoregions = file.path(clade, "ecoregion_data")
+filepath_ecoregions = file.path(clade, "ecoregion_data_2")
 path_to_full_tree = file.path(clade, "full_tree.tre") #complete bird tree. this hasn't changed. 
 #this is just for california birds. Takes the list and makes it pretty. should move this out of main. 
-cali_birds<-read_csv(file = path_to_cali_taxa_list_range)
-cali_species<-cali_birds$x
-cali_species<- gsub(" ", "_", cali_species)
+
+cali_taxa_full<- st_read("birds/birds_consolidated_geometries_0507.shp")
+cali_birds<-cali_taxa_full$sci_name
+cali_species<- gsub(" ", "_", cali_birds)
 cali_species<-data.frame(cali_species)
-colnames(cali_species)<- "names"
-#there are 383 california species that are endemic. 
-#list is now called cali_species
+colnames(cali_species)<- "name"
+
 
 #load the largest tree and prune to only california, then save the california tree
 #todo: make this more transferable to geographic area.
 full_tree<- read.tree(path_to_full_tree)
 unmatched_species_birds<- check_taxa(cali_species, full_tree )
+
+#only 50 unmatched species of birds
 matched_species_birds<-remove_taxa(cali_species, full_tree)
 cali_tree<- sample_tree_generator(matched_species_birds, full_tree)
 
 #save all the birds present in the phylogrnu 
-write.tree(cali_tree, file = file.path(clade, "cali_tree_from_range_data.tre"))
-write.csv(unmatched_species_birds, file = "birds/range_birds_absent_phylogeny.csv")
-write.csv(matched_species_birds, file = "birds/range_birds_present_phylogeny.csv")
+write.tree(cali_tree, file = file.path(clade, "cali_tree_from_range_data_0507.tre"))
+write.csv(unmatched_species_birds, file = "birds/range_birds_absent_phylogeny_0507.csv")
+write.csv(matched_species_birds, file = "birds/range_birds_present_phylogeny_0507.csv")
 
 #there are about 50 taxa that are not represented.
 
@@ -86,7 +88,7 @@ phylo_tree<- read.tree(path_to_cali_phylogeny)
 
 
 #the last two parameters are for naming, for the purpose of the call_cophen function
-call_cophen(phylo_tree, clade = "birds", geog_area = "cali_range") #generate range matrix for birds
+call_cophen(phylo_tree, clade = "birds", geog_area = "cali_0507") #generate range matrix for birds
 
 
 
@@ -96,7 +98,7 @@ call_cophen(phylo_tree, clade = "birds", geog_area = "cali_range") #generate ran
 #below: generates phylogenetic trees and cophenetic matrices for each ecoregion. 
 
 #need to make null models for each of these as well. 
-dir_list_ecoregions <- list.dirs("birds/ecoregion_data",recursive = FALSE)  
+dir_list_ecoregions <- list.dirs("birds/ecoregion_data_2",recursive = FALSE)  
 full_tree<- read.tree(path_to_full_tree)
 
 for(directory in dir_list_ecoregions)
@@ -104,7 +106,7 @@ for(directory in dir_list_ecoregions)
   ecoregion_species<- read.csv(paste(directory, "/checklist.csv", sep = ""))
   ecoregion_species$X<- NULL
   ecoregion_species$x<- gsub(" ", "_", ecoregion_species$x)
-  colnames(ecoregion_species)<- "names"
+  colnames(ecoregion_species)<- "name"
   unmatched_ecoregion_species<- check_taxa(ecoregion_species, full_tree)
   matched_ecoregion_species<-remove_taxa(ecoregion_species, full_tree)
   ecoregion_tree<- sample_tree_generator(matched_ecoregion_species, full_tree)
@@ -115,14 +117,11 @@ for(directory in dir_list_ecoregions)
   
   
   #save all the files. 
-  saveRDS(cophen_ecoregion, file = paste(directory, "/cophen_matrix", sep = ""))
-  write.csv(unmatched_ecoregion_species, file = paste(directory, "/species_absent_from_tree.csv", sep = ""))
-  write.csv(matched_ecoregion_species, file = paste(directory, "/species_present_in_tree.csv", sep = ""))
-  write.tree(ecoregion_tree, file = paste(directory, "/trimmed_tree.tre", sep = ""))
+  saveRDS(cophen_ecoregion, file = paste(directory, "/cophen_matrix_0507", sep = ""))
+  write.csv(unmatched_ecoregion_species, file = paste(directory, "/species_absent_from_tree_0507.csv", sep = ""))
+  write.csv(matched_ecoregion_species, file = paste(directory, "/species_present_in_tree_0507.csv", sep = ""))
+  write.tree(ecoregion_tree, file = paste(directory, "/trimmed_tree_0507.tre", sep = ""))
 }
 
-
-#the output should be saved to the clade file. basically should just have to execute main. 
-
-#now need to basically do the above for ecoregions. 
+#now need to populate the hexagons as was done in the other thing and then ligma  balls. 
 

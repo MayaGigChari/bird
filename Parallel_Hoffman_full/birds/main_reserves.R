@@ -1,7 +1,7 @@
 
 #need to read in all the shape files for the uc reserves and also the cali bird range data. 
 #likely need to run this on azathoth because that is where the california data is. 
-
+#probably need to redo birds. 
 
 #ISSUE: talk to mike about this tomorrow: 
 

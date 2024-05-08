@@ -25,9 +25,14 @@ ecoregions_L3codes<- ecoregions$US_L3CODE
 
 #load the bird range data. 
 #make sure everything is valid and force validity. 
-bird_ranges_touse<- st_read("birds/birds_trimmed_range_geospat/birds_trimmed_ranges_fromNorAm_complete.shp")
+bird_ranges_touse<- st_read("birds/birds_consolidated_geometries_0507.shp")
 sf_use_s2(FALSE)
 bird_ranges_touse<- st_make_valid(bird_ranges_touse)
+
+#need to merge everythign with hex data. 
+
+bird_ranges_per_hex<- st_join(polygons, bird_ranges_touse)
+
 
 #load data for intersection: make a function to do this. 
 
@@ -42,14 +47,14 @@ genHexRaw<- function(range_data, sf_polygons) #the indexes will be h3_indexes us
   #want to select just the species and the index. But can do this later. 
   #should always have an h3_index field. This is necessary for the filter statement 
   #joining the species that could exist in that area with the polygons in that area! I think this might work... 
-  joined_data_temp<-st_join(sf_polygons, range_data, join = st_intersects) #can change type from range to observational 
   hex_species<- list()
   for(i in sf_polygons$h3_index)
   {
-    poly_temp_db<- joined_data_temp %>%
+    poly_temp_db<- range_data %>%
       filter(h3_index == i)
     poly_species<- unique(poly_temp_db$sci_nam)
     hex_species[i] <- list(poly_species)
+    print(i)
   }
   print("hexRaw done")
   return(hex_species)
@@ -57,14 +62,17 @@ genHexRaw<- function(range_data, sf_polygons) #the indexes will be h3_indexes us
 
 #for california birds. 
 #hopefully this is now right. 
-cali_birds_complete_hex_list<- genHexRaw(bird_ranges_touse, polygons)
+cali_birds_complete_hex_list<- genHexRaw(bird_ranges_per_hex, polygons)
 
-saveRDS(cali_birds_complete_hex_list, file = "birds/occurrence_birds_polygons_fromRangeData")
+names(cali_birds_complete_hex_list)<- h3_indexes
+
+saveRDS(cali_birds_complete_hex_list, file = "birds/occurrence_birds_polygons_fromRangeData_0507")
 
 #this gives us polygon data for birds for overlappign ranges intersecting with each polygon. 
 
-dir_list_ecoregions <- list.dirs("birds/ecoregion_data",recursive = FALSE)  
 
+
+#THIS IS OBSOLETE
 #ecoregion 9 is complete but may be different.
 #these seem to be incorrect. 
 #the ecoregion_range_temp is NOT the actual range of that particular ecoregion! that's why this doesn't freaking work

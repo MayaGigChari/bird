@@ -1,4 +1,5 @@
 
+#this is messy. This is for plants. 
 new_libPaths = .libPaths(c(paste('/u/home/m/',username, '/R', sep = ""),.libPaths())) #library path for cluster
 .libPaths(new_libPaths)
 packages_to_install <- c("sf")
@@ -12,7 +13,7 @@ for (package in packages_to_install) {
 
 #this is for plants. 
 # Read the GeoJSON file
-geojson_file <- "bien_ranges.geojson"
+geojson_file <- "birds/BOTW_2023_1/BOTW.gdb"
 bird_ranges <- st_read(geojson_file)
 
 #bounding box for california and polygon type in sf package
@@ -23,3 +24,5 @@ california_bbox_polygon <- st_as_sfc(st_bbox(california_bbox))
 birds_in_california <- bird_ranges[st_intersects(bird_ranges, california_bbox_polygon), ]
 
 print("found birds in california")
+
+birds_california_transform

@@ -23,10 +23,10 @@ for (pkg in packages_to_install) {
 clade = "birds"
 
 #issue with the cophenetic matrix. 
-cophen<-readRDS("birds/cali_cophen_matrix")
+cophen<-readRDS("birds/cali_0507_cophen_matrix")
 parent_tree<- read.tree("birds/full_tree.tre")
-cali_tree<- read.tree("birds/cali_tree_from_range_data.tre")
-data<- readRDS("birds/occurrence_birds_polygons_fromRangeData") #hexagonal species data. 
+cali_tree<- read.tree("birds/cali_tree_from_range_data_0507.tre")
+#data<- readRDS("birds/occurrence_birds_polygons_fromRangeData") #hexagonal species data. 
 
 
 
@@ -167,6 +167,8 @@ write_json(json_data_species_names, "birds/bird_hex_species.json")
 
 #this function popHexStats only works for hexagonal data. 
 
+#need to actually run this 
+
 
 popHexStats<- function(polygon_data, parent_tree, output_filepath, cophen_filepath)
 {
@@ -228,10 +230,10 @@ popHexStats<- function(polygon_data, parent_tree, output_filepath, cophen_filepa
   )
   return(list_return)
 }
-data<- readRDS("birds/occurrence_birds_polygons_fromRangeData")
-parent_tree<- read.tree("birds/cali_tree_from_range_data.tre")
+data<- readRDS("birds/occurrence_birds_polygons_fromRangeData_0507")
+parent_tree<- read.tree("birds/cali_tree_from_range_data_0507.tre")
 
-hex_tree_stats_birds<- popHexStats(data, parent_tree, "birds", cophen_filepath = "birds/cali_range_cophen_matrix")
+hex_tree_stats_birds<- popHexStats(data, parent_tree, "birds", cophen_filepath = "birds/cali_0507_cophen_matrix")
 
 hex_tree_stats_birds$proportion_missing
 names(hex_tree_stats_birds)
@@ -245,11 +247,12 @@ pop_hex_stats_birds_df$proportion_missing<- pop_hex_stats_birds_df$missing_taxa_
 #this is just an aside to make a figure of mssing taxa. 
 
 #need to make 
+library(ggplot2)
 missing_hist<- ggplot(pop_hex_stats_birds_df, aes(x = proportion_missing)) +
   geom_histogram(bins = 50) +
   ggtitle("Missing Taxa Proportions: Hexagon Data California")
   
-ggsave(filename = "birds/images/Missing_taxa_proportions_hexagon_california.png", 
+ggsave(filename = "birds/images/Missing_taxa_proportions_hexagon_california_0507.png", 
        plot = missing_hist, 
        dpi = 300, 
        width = 8, 
@@ -257,27 +260,22 @@ ggsave(filename = "birds/images/Missing_taxa_proportions_hexagon_california.png"
        units = "in")
 
 #this just saves the file hex_tree_stats_birds without any geographic information. 
-saveRDS(hex_tree_stats_birds, file = "birds/raw_hex_stats_from_ranges")
+saveRDS(pop_hex_stats_birds_df, file = "birds/raw_hex_stats_from_ranges_0507")
 
-
+pop_hex_stats_birds_df<- readRDS("birds/raw_hex_stats_from_ranges")
 
 #want to merge this back to the polygon sf object 
 #use the "polygons" file generated in california-partition. 
 #this is called(hex_data_as_sf in the Cali_Geometry file. )
 
-cali_hexes_as_sf<- st_read("Cali_Geometry/hex_data_as_sf.shp")
+cali_hexes_with_ecoregions<- st_read("Cali_Geometry/hexes_with_ecoregions_joined.shp")
 
-polygon_data_full<- left_join(data.frame(cali_hexes_as_sf), pop_hex_stats_birds_df, by = "h3_index")
-
-polygon_data_full<- st_as_sf(polygon_data_full)
-
-polygon_data_full<- ecoregion_id(polygon_data_full, full = TRUE) #get the overlapping ecoregions of each reserve. 
+polygon_data_full<- left_join(data.frame(cali_hexes_with_ecoregions), pop_hex_stats_birds_df, by = "h3_index")
 
 #ec_js_pd<- ecoregion_json_filename shortened. 
 polygon_data_full$ec_js_pd<- unlist(lapply(polygon_data_full$US_L3CODE, makejsonstring, metric = "pd"))
 polygon_data_full$ec_js_mpd<- unlist(lapply(polygon_data_full$US_L3CODE, makejsonstring, metric = "mpd"))
 polygon_data_full$ec_js_mntd<- unlist(lapply(polygon_data_full$US_L3CODE, makejsonstring, metric = "mntd"))
-
 
 
 #need to determine for each polygon in polygon_data_full if the pd is significant or not, and make a table. similar to what was done in the reserves. 
@@ -286,8 +284,8 @@ polygon_data_full$ec_js_mntd<- unlist(lapply(polygon_data_full$US_L3CODE, makejs
 #for now I will compare each polygon to california and its null model ecoregion, multiple ecoregions will be left out. 
 
 
-
 ####THIS WHOLE CHUNK OF CODE IS GENERATING SIGNIFICANCE VALUES. 
+
 polygon_data_CI_ranges_pd_cali<- lapply(polygon_data_full$tree_size, cI_generator, params_json_file = "birds/bird_ranges_wholeCali_pd_model_params.json")
 CI_cali_significance_polygons_pd<- Map(check_significance_other_metrics, polygon_data_full$pd_values, upper_lower_keyvals = polygon_data_CI_ranges_pd_cali)
 

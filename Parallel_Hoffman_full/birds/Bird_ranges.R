@@ -28,6 +28,8 @@ birds_expected_cali <- str_extract_all(birds_expected_cali, "\\([^()]+\\)")[[1]]
 birds_expected_cali <- substring(birds_expected_cali, 2, nchar(birds_expected_cali)-1)
 
 #bird range data takes a long time to load. 
+
+#this is all the bird_range data
 bird_ranges<- st_read("birds/BotW_2023_1/BOTW.gdb")
 
 
@@ -64,6 +66,7 @@ multi_surface_indices <- which(bird_ranges_geom_types == "MULTISURFACE")
 
 #want to cast these but for now will just remove them. only like 6 species. 
 
+#all california birds. 
 bird_ranges_cut<- bird_ranges_cali[-multi_surface_indices,] #removoe everything that has a multisurface geomertry. 
 
 
@@ -78,6 +81,7 @@ bool<- st_is_valid(bird_ranges_cut)
 #bird_ranges_cut<-st_simplify(bird_ranges_cut)
 
 #now everything is correct. 
+library(sf)
 which(bool == FALSE)
 sf_use_s2(FALSE)
 bird_ranges_cut<- st_make_valid(bird_ranges_cut)
@@ -97,6 +101,109 @@ california <- sf::read_sf("Cali_Geometry/ca-state-boundary/CA_State_TIGER2016.sh
 
 #this is probably right for california. 
 birds_california<- st_intersection(bird_ranges_cut, california)
+
+birds_california_0507<- st_as_sf(birds_california)
+
+
+birds_intersect_consolidated_geometries<- birds_california_0507%>%
+  dplyr::group_by(sci_name) %>% 
+  dplyr::summarize(geometry = st_union(geometry))
+
+
+st_write(birds_intersect_consolidated_geometries, "birds/birds_consolidated_geometries_0507.shp")
+
+birds_intersect_consolidated_geometries$range_area<- st_area(birds_intersect_consolidated_geometries)
+
+
+ecoregions<- st_read("Cali_Geometry/ca_eco_l3/ca_eco_l3.shp")
+
+
+ecoregions<- st_transform(ecoregions, "WGS84")
+
+#THIS IS AN ARBITRARY THRESHOLD: if < 1% of an ecoregion is covered by the range, then we will remove that range. 
+ecoregions$area <- st_area(ecoregions) #Take care of units
+ecoregions$min_thresh<- 0.02*ecoregions$area #can always amend this minimum threshold by just accessing the area. 
+
+
+#join all ecoregions  with all bird data. 
+ecoregions_birds_data_filtered<- st_intersection(ecoregions, birds_intersect_consolidated_geometries)
+
+
+#filters about 200 occurrences. 
+ecoregions_birds_data_filtered$eco_area<- st_area(ecoregions_birds_data_filtered)
+#filter the data so that the overlapped area is greater than the minimum threshold. 
+#the geometry of this is: for each tuple species i, ecoregion j, the geometry is the overlap of species 
+# i only in ecoregion j. 
+
+
+#removed 1939-1806 tuples here. 
+
+#filter such that the eco area covered is greater than the minimum threshold or is greater than the area of the actual range area.
+ecoregions_birds_data_filtered_with_constraints<- ecoregions_birds_data_filtered%>%
+  dplyr::filter(eco_area>= min_thresh | eco_area >= 0.10*range_area)
+
+
+ecoregion_codes<- ecoregions$US_L3CODE
+
+
+#edited this to only select some fields, but actually only edited it for one ecoregion. 
+library(dplyr)
+for(code in ecoregion_codes) {
+  folder_path <- file.path("birds/ecoregion_data_2", code)
+  
+  # Check if folder exists, if not, create it
+  if (!file.exists(folder_path)) {
+    dir.create(folder_path, recursive = TRUE)
+    cat("Created folder:", folder_path, "\n")
+  }
+  
+  #also selects the geometry. 
+  temp <- ecoregions_birds_data_filtered_with_constraints%>%
+    filter(US_L3CODE == code) %>%
+    dplyr::select(sci_name, US_L3CODE, US_L3NAME, L1_KEY)
+  
+  print("chkpnt")
+  
+  filepath_shape <- file.path("birds/ecoregion_data_2", code, "ecoregion.shp")
+  filepath_checklist <- file.path("birds/ecoregion_data_2", code, "checklist.csv")
+  
+  # Check if shapefile already exists
+  if(file.exists(filepath_shape)) {
+    print(paste("Shapefile", filepath_shape, "already exists. Deleting..."))
+    file.remove(filepath_shape)
+  }
+  
+  sf::st_write(temp, filepath_shape)
+  print(unique(temp$sci_name))
+  write.csv(unique(temp$sci_name), file = filepath_checklist)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#THIS MIGHT ALL BE ARCHAIC, need to thoroughly go through it. 
+###############OLD STUFF
+#this will be the correct bird list. 
+
+
+
+#total of 383 birds that intersect 
+
+
+#have birds that intesrect with california, now need to make intersections with ecoregions and proceed with analysis. todo 05/07 after beach. 
 
 #indices_intersect<- st_intersects( bird_ranges_cut, california)
 
@@ -136,6 +243,7 @@ file_path <- "birds/bird_ranges_all_birds_seen_california_checklist.shp"
 st_write(bird_ranges_cut, file_path)
 #everything native to california also intersects with california! great. 
 #this join might actually not hv
+#north american birds shouldn't be any different than california birds. 
 
 
 ###############Above: uses just some kind of california checklist. Below uses north american checklist, which is slightly more comprehensive. 
@@ -172,12 +280,16 @@ which(bool_noram_2== FALSE) #now this is all.
 #only about 300 birds that are native to california actually have ranges that intersect wiht california??
 birds_california_noram<- st_intersection(bird_ranges_cut_noram, california)
 
+birds_california_noram_0505<- st_intersection(california, bird_ranges_cut_noram)
+
 obs_birds_noram_cali<- unique(birds_california_noram$sci_name)
 
 
 
 # Write the sf object to the shapefile.
 st_write(birds_california_noram, "birds/birds_trimmed_range_geospat/birds_trimmed_ranges_fromNorAm_complete.shp")
+#here we have the birds that intersect california. 
+
 
 
 ###NOW I WILL FIND A MASTER LIST OF ALL THE TAXA I WANT BY COMBINING THE CALI AND NORAM CHECKLISTS.
@@ -197,6 +309,7 @@ filename_mia = "Cali_geometry/ecoregions_for_mia.shp"
 st_write(ecoregions, filename_mia)
 
 #want to use the biggest possible list of possible birds. 
+#assume these are actually the california birds? 
 birds_california_transform<- st_transform(birds_california_noram, "WGS84")
 
 #perhaps this join is not correct? 
