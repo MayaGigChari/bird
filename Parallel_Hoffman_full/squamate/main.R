@@ -70,11 +70,16 @@ max_species <- max_species(cali_squamates)
 #run the sample_tree_creator to generate the sample trees
 maketrees(cali_tree, 5, max_species, 5, clade = clade)
 
+library(ggtree)
+library(ape)
 cali_tree<- read.tree("squamate/cali_tree.tre")
-ggtree(cali_tree, layout = "circular")
-ggsave("squamate/images/cali_full_tree_squamate.png")
+png("squamate/images/cali_full_tree_squamate.png", width = 10, height = 10, units = "in", res = 300)
 
+# Plot the tree
+plot(cali_tree, type = "fan", cex = 0.6)
 
+# Close the device to save the plot
+dev.off()
 #path to phylogeny.
 path_to_cali_phylogeny = file.path( clade, "cali_tree.tre")
 phylo_tree<- read.tree(path_to_cali_phylogeny)

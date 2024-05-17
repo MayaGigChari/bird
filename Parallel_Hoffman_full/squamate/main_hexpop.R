@@ -189,6 +189,8 @@ ggsave(filename = "squamate/Missing_taxa_proportions_hexagon_california_species.
 #this just saves the file hex_tree_stats_birds without any geographic information. 
 saveRDS(pop_hex_stats_squamate_df, file = "squamate/raw_hex_stats_from_ranges")
 
+pop_hex_stats_squamate_df<- readRDS("squamate/raw_hex_stats_from_ranges")
+
 ######################
 #step 2: assign significance values to hexagon data
 ######################
@@ -201,7 +203,10 @@ cali_hexes_as_sf<- polygons
 
 polygon_data_full_squamate<- left_join(data.frame(cali_hexes_as_sf), pop_hex_stats_squamate_df, by = "h3_index")
 
-polygon_data_full_squamate_with_eco<- left_join(polygon_data_full_squamate, data.frame(hexes_with_ecoregions))
+hexes_with_ecoregions<- data.frame(hexes_with_ecoregions)%>%
+  dplyr::select("US_L3CODE", "h3_index")
+
+polygon_data_full_squamate_with_eco<- left_join(polygon_data_full_squamate, hexes_with_ecoregions, by = "h3_index")
 
 
 #ec_js_pd<- ecoregion_json_filename shortened. 
@@ -349,9 +354,17 @@ plot_area_fin <- plot_area +
                     labels = c("-1","0", "1"),
                     guide = "legend")
 
-ggsave("squamate/California_species_level_mntdd_distribution.png", plot_area_fin, width = 10, height = 10, dpi = 300)
+ggsave("squamate/California_species_level_mntdd_distribution_check.png", plot_area_fin, width = 10, height = 10, dpi = 300)
 
 dev.off()
+
+###save final output
+
+st_write(polygon_data_full_squamate_with_eco, "squamate/final_output.shp")
+saveRDS(data.frame(polygon_data_full_squamate_with_eco), file = "squamate/final_output_dataframe")
+
+###DONE for squamates. 
+
 
 
 unique(polygon_data_full_plants_with_eco$pdSigCal)
