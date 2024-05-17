@@ -21,3 +21,7 @@ amphibians/full_hex_intersect*
 amphibians/AMPHIBIANS
 butterflies/ButterflyRanges
 birds/ecoregion_data_2/*/*.shp
+**/*.shp
+**/*.dbf
+**/*.prj
+**/*.shx
