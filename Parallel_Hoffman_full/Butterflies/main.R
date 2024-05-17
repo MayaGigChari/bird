@@ -178,8 +178,12 @@ cali_tree_genera_butterflies<- sample_tree_generator(matched_genera_butterflies,
 
 write.tree(cali_tree_genera_butterflies, file = file.path(clade, "cali_genera_tree.tre"))
 
+
+cali_tree_genera_butterflies<- read.tree(file.path(clade, "cali_genera_tree.tre"))
+
 ggtree(cali_tree_genera_butterflies, layout = "circular")+
-  geom_tiplab(size = 3) # Change the size value as needed
+  geom_tiplab(size = 3) # Change the size value as neededw
+ggsave("butterflies/images/cali_full_tree_with_tips.png")
 
 #have already developed the species level tree and loaded above. 
 

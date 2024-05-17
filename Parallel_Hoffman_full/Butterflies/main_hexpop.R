@@ -225,6 +225,8 @@ ggsave(filename = "butterflies/Missing_taxa_proportions_hexagon_california_gener
 saveRDS(pop_hex_stats_butterflies_df_genus, file = "butterflies/raw_hex_stats_from_ranges_genera_butterflies")
 
 
+pop_hex_stats_butterflies_df_genus<- readRDS("butterflies/raw_hex_stats_from_ranges_genera_butterflies")
+
 ######################
 #step 2: assign significance values to hexagon data
 ######################
@@ -355,6 +357,14 @@ polygon_data_full_butterflies_with_eco_genus$mntdSigEco<- unlist(CI_ecoregions_s
 
 #might have messed things up with names. 
 st_write(st_as_sf(polygon_data_full_butterflies_with_eco_genus), "butterflies/polygon_data_full_butterflies_with_eco_genus.shp")
+
+###NOTE:: already saved butterfly data, use original save!
+st_write(st_as_sf(polygon_data_full_butterflies_with_eco_genus),"butterflies/final_output.shp")
+saveRDS(polygon_data_full_butterflies_with_eco_genus, "butterflies/final_output_dataframe")
+#already wrote this! 
+
+###DONE for butterflies. 
+
 #the output of this is 11792 units long. 
 #this is now the updated list that has doubles for reserves that cover at least one ecoregion 
 
@@ -430,7 +440,7 @@ plot_area <- ggplot() +
 
 
 plot_area <- plot_area +
-  geom_sf(data = polygon_full_butterflies_with_eco_nona_genus, aes(fill = factor(mntdSigEco)))
+  geom_sf(data = polygon_full_butterflies_with_eco_nona_genus, aes(fill = factor(pdSigEco)))
 # Customize the legend and color scale
 
 
@@ -441,7 +451,7 @@ plot_area_fin <- plot_area +
                     labels = c("-1", "0", "1"),
                     guide = "legend")
 
-ggsave("butterflies/Ecoregion_genus_level_mntd_distribution.png", plot_area_fin, width = 10, height = 10, dpi = 300)
+ggsave("butterflies/Ecoregion_genus_level_pd_distribution_check.png", plot_area_fin, width = 10, height = 10, dpi = 300)
 
 dev.off()
 

@@ -336,13 +336,19 @@ makejsonstring_weird<- function(ecoregion_id, metric, clade = "birds")
 {
   if(clade == "birds")
   {
-    return(paste("birds/ecoregion_data/", ecoregion_id, "/", metric, "_model_params.json", sep = ""))
+    return(paste("birds/ecoregion_data_2/", ecoregion_id, "/", metric, "_model_params.json", sep = ""))
   }
   else
   {
     return(paste(clade, "/ecoregion_data_2/", ecoregion_id, "/", metric, "_model_params_genus0505.json", sep = ""))
     
   }
+  
+}
+
+makejsonstringGenus<- function(ecoregion_id, metric)
+{
+  return(paste(clade, "/ecoregion_data/", ecoregion_id, "/GENUS", metric, "_model_params.json", sep = ""))
   
 }
 
@@ -362,6 +368,81 @@ getspecies_for_multiple_geogareas<- function(id, sf_object)
 
 
 
+
+###This is a function for dealing with the ecoregion bullllllshit!
+
+
+handle_ecoregions<- function(full_table)
+{
+  #get all duplicates 
+  value_counts <- table(full_table$h3_indx)
+  
+  # Extract values that occur more than twice
+  duplicated_values <- names(value_counts[value_counts > 1])
+  
+  # Filter the dataframe to include only rows with the duplicated values
+  duplicates <- full_table[full_table$h3_indx %in% duplicated_values, ]
+
+  
+  #get consensus labels
+  result <- duplicates %>%
+    group_by(h3_indx) %>%
+    summarize(
+      pdSigEc = case_when(
+        mean(sum(pdSigEc, na.rm = TRUE)) > 0.5 ~ 1,
+        mean(sum(pdSigEc, na.rm = TRUE)) < -0.5 ~ -1,
+        TRUE ~ 0
+      ),
+      mpdSgEc = case_when(
+        mean(sum(mpdSgEc, na.rm = TRUE)) > 0.5 ~ 1,
+        mean(sum(mpdSgEc, na.rm = TRUE)) < -0.5 ~ -1,
+        TRUE ~ 0
+      ),
+      mntdSgE = case_when(
+        mean(sum(mntdSgE, na.rm = TRUE)) > 0.5 ~ 1,
+        mean(sum(mntdSgE, na.rm = TRUE)) < -0.5 ~ -1,
+        TRUE ~ 0
+      ),
+      pdSigCl = case_when(
+        mean(sum(pdSigCl, na.rm = TRUE)) > 0.5 ~ 1,
+        mean(sum(pdSigCl, na.rm = TRUE)) < -0.5 ~ -1,
+        TRUE ~ 0
+      ),
+      mpdSgCl = case_when(
+        mean(sum(mpdSgCl, na.rm = TRUE)) > 0.5 ~ 1,
+        mean(sum(mpdSgCl, na.rm = TRUE)) < -0.5 ~ -1,
+        TRUE ~ 0
+      ),
+      mntdSgC = case_when(
+        mean(sum(mntdSgC, na.rm = TRUE)) > 0.5 ~ 1,
+        mean(sum(mntdSgC, na.rm = TRUE)) < -0.5 ~ -1,
+        TRUE ~ 0
+      )
+      
+    )
+  
+  result$geometry<- NULL
+  
+  joined_table <- left_join(data.frame(full_table), result, by = "h3_indx") %>%
+    mutate(
+      pdSigCl = coalesce(pdSigCl.y, pdSigCl.x),
+      mpdSigCl = coalesce(mpdSgCl.y, mpdSgCl.x),
+      mntdSigCl = coalesce(mntdSgC.y, mntdSgC.x),
+      pdSigEc = coalesce(pdSigEc.y, pdSigEc.x),
+      mpdSgEc = coalesce(mpdSgEc.y, mpdSgEc.x),
+      mntdSgE = coalesce(mntdSgE.y, mntdSgE.x)
+    ) %>%
+    select(-ends_with(".x"), -ends_with(".y"))
+  
+  joined_table<- st_as_sf(joined_table)
+  
+  unique_joined_table <- distinct(joined_table)
+  
+  return(unique_joined_table)
+  
+  
+  
+}
 
 # 
 # 

@@ -156,7 +156,7 @@ saveRDS(pop_hex_stats_plants_df_genus, file = "Plants/raw_hex_stats_from_ranges_
 
 #there are 200 hexagons with missing data. 
 
-pop_hex_stats_plants_df<- readRDS("Plants/raw_hex_stats_from_ranges_genus_0505")
+pop_hex_stats_plants_df_genus<- readRDS("Plants/raw_hex_stats_from_ranges_genus_0505")
 
 ######################
 #step 2: assign significance values to hexagon data
@@ -170,6 +170,8 @@ pop_hex_stats_plants_df<- readRDS("Plants/raw_hex_stats_from_ranges_genus_0505")
 #this is called(hex_data_as_sf in the Cali_Geometry file. )
 
 cali_hexes_as_sf<- polygons
+
+hexes_with_ecoregions<- st_read("Cali_Geometry/hexes_with_ecoregions_joined.shp")
 
 polygon_data_full_plants<- left_join(data.frame(cali_hexes_as_sf), pop_hex_stats_plants_df_genus, by = "h3_index")
 
@@ -341,35 +343,80 @@ polygon_data_full_plants_with_eco<- st_as_sf(polygon_data_full_plants_with_eco)
 #want to make a plot 
 # Assuming you have already loaded the required libraries, such as sf and ggplot2
 
+library(sf)
 library(tidyr)
+
+polygon_data_full_plants_with_eco<-st_read("Plants/final_output.shp")
 polygon_full_plants_with_eco_nona<- st_as_sf(drop_na(polygon_data_full_plants_with_eco))
+
+# Check unique values of pdSigEc
+unique_values <- unique(polygon_full_plants_with_eco_nona$pdSigEc)
+print(unique_values)
+
+#need to extract hexagons 
+#need to figure out a function to do this. 
+
+#step 1: extract polygons that have more than one ecoregion
+
+
+# Print the resulting joined table
+print(joined_table)
+#try to rejoin the tables. 
+
+# Print the resulting dataframe
+print(result)
+
+# Check summary statistics of pdSigEc
+summary(polygon_full_plants_with_eco_nona$pdSigEc)
 #another attempt to plot 
 # Convert NA values to a specific label
 
 # Convert pdSigCal to factor
 
 # 3. Color the hexagons based on pdSigCal values
+
+#this function kind of takes a while
+unique_joined_table<- handle_ecoregions(polygon_full_plants_with_eco_nona)
+
+unique_joined_table_no_eco_labels<- unique_joined_table%>%
+  dplyr::select(h3_indx, pd_vals, mpd_vls, mntd_vl, tree_sz, mssn___, prprtn_, pdSigCl, mpdSigCl, mntdSigCl, pdSigEc, mpdSgEc, mntdSgE)
+
+#this is the actual thing that we want. 
+unique_joined_table<- unique(unique_joined_table_no_eco_labels)
+
+#this still somehow does not work. we should also only have 1099 or something hexagons. 
 library(ggplot2)
+
 plot_area <- ggplot() +
   theme_void() +  # Remove default axes and background
   coord_equal()    # Ensure equal aspect ratio
 
+plot_area <- plot_area + 
+  geom_sf(data = unique_joined_table, aes(fill = factor(mntdSgE), color = factor(mntdSgE)))
 
-plot_area <- plot_area +
-  geom_sf(data = polygon_full_plants_with_eco_nona, aes(fill = factor(pdSigEco)))
+#some of these are not actually correct. 
 # Customize the legend and color scale
-
-
-
-plot_area_fin <- plot_area +
+plot_area_fin <- plot_area+
+scale_color_manual(values = c("-1" = "blue", "0" = "white", "1" = "red"),
+                   name = "O value",
+                   labels = c("< 0.025 ", "insignificant", "> 0.975"),
+                   guide = "none") +
   scale_fill_manual(values = c("-1" = "blue", "0" = "white", "1" = "red"),
-                    name = "Significance",
-                    labels = c("-1", "0", "1"),
+                   name = "P value",
+                    labels = c("< 0.025 ", "insignificant", "> 0.975"),
                     guide = "legend")
 
-ggsave("Plants/images/Ecoregion_genus_level_pd_distribution_0505.png", plot_area_fin, width = 10, height = 10, dpi = 300)
+plot_area_fin<- plot_area_fin + 
+  geom_sf(data = ecoregions,alpha = 0)
 
+
+ggsave("Plants/images/Ecoregion_genus_level_mntd_distribution_white.png", plot_area_fin, width = 10, height = 10, dpi = 300)
 dev.off()
+
+
+st_write(polygon_data_full_plants_with_eco, "Plants/final_output.shp")
+
+saveRDS(data.frame(polygon_data_full_plants_with_eco), file = "Plants/final_output_dataframe")
 
 
 unique(polygon_data_full_plants_with_eco$pdSigCal)

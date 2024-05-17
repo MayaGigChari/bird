@@ -32,49 +32,60 @@ source(Model_gen_path)
 
 #for the ranges: 
 
-pd_data<- read.csv("birds/rangesCI_pd_output_bootstrap_bird.csv")
-mpd_data<- read.csv("birds/rangesCI_mpd_output_bootstrap_bird.csv")
-mntd_data<- read.csv("birds/rangesCI_mntd_output_bootstrap_bird.csv")
+pd_data<- read.csv("birds/0507CI_pd_output_bootstrap.csv")
+mpd_data<- read.csv("birds/0507CI_mpd_output_bootstrap.csv")
+mntd_data<- read.csv("birds/0507CI_mntd_output_bootstrap.csv")
 
 #range models
 #this doesn't work at all. 
 
 #need to figure out how to write this to json. 
+pdf(file="birds/full_model_pd_0507.pdf")
 pd_model<-as_tibble(t(surfaceGen(pd_data, "pd")), rownames = "key") #need to make models. 
+dev.off()
+pdf(file="birds/full_model_mpd_0507.pdf")
 mpd_model<-as_tibble(t(surfaceGen(mpd_data, "mpd")), rownames = "key")
+dev.off()
+pdf(file="birds/genus_full_model_mntdd_0507.pdf")
 mntd_model<-as_tibble(t(surfaceGen(mntd_data, "mntd")), rownames = "key")
-surfaceGen
+dev.off()
 #plot(mpd_model$tree_sizes, mpd_model$low)
 
 #wite model coefficients to csv files for visualization. 
-write.csv(pd_model, "birds/pd_model_params.csv", row.names = TRUE)
-write.csv(mpd_model, "birds/mpd_model_params.csv", row.names = TRUE)
-write.csv(mntd_model, "birds/mntd_model_params.csv", row.names = TRUE)
+write.csv(pd_model, "birds/pd_model_params_0507.csv", row.names = TRUE)
+write.csv(mpd_model, "birds/mpd_model_params_0507.csv", row.names = TRUE)
+write.csv(mntd_model, "birds/mntd_model_params_0507.csv", row.names = TRUE)
 
 json_pd<- toJSON(x = pd_model, dataframe = 'rows', pretty = F)
-write(json_pd, file = "birds/pd_model_params.json")
+write(json_pd, file = "birds/pd_model_params_0507.json")
 
 json_mpd<- toJSON(x = mpd_model, dataframe = 'rows', pretty = F)
-write(json_mpd, file = "birds/mpd_model_params.json")
+write(json_mpd, file = "birds/mpd_model_params_0507.json")
 
 json_mntd<- toJSON(x = mntd_model, dataframe = 'rows', pretty = F)
-write(json_mntd, file = "birds/mntd_model_params.json")
+write(json_mntd, file = "birds/mntd_model_params_0507.json")
 
 
 #surface generation for ecoregions: 
 
-dir_list_ecoregions <- list.dirs("birds/ecoregion_data",recursive = FALSE)  
+dir_list_ecoregions <- list.dirs("birds/ecoregion_data_2",recursive = FALSE)  
 
 #these values have definitely chagned. 
 for(i in dir_list_ecoregions)
 {
-  pd_data_temp<- read.csv(paste(i, "/ecoregionsCI_pd_output_bootstrap_bird.csv", sep = ""))
-  mpd_data_temp<- read.csv(paste(i, "/ecoregionsCI_mpd_output_bootstrap_bird.csv", sep = ""))
-  mntd_data_temp<- read.csv(paste(i,"/ecoregionsCI_mntd_output_bootstrap_bird.csv", sep = ""))
+  pd_data_temp<- read.csv(paste(i, "/0507_ecoregionsCI_pd_output_bootstrap.csv", sep = ""))
+  mpd_data_temp<- read.csv(paste(i, "/0507_ecoregionsCI_mpd_output_bootstrap.csv", sep = ""))
+  mntd_data_temp<- read.csv(paste(i,"/0507_ecoregionsCI_mntd_output_bootstrap.csv", sep = ""))
   
+  pdf(file=paste( i, "/pd_fit.pdf", sep = ""))
   pd_model_temp<-as_tibble(t(surfaceGen(pd_data_temp, "pd")), rownames = "key") #need to make models. 
+  dev.off()
+  pdf(file=paste(i, "/mpd_fit.pdf", sep = ""))
   mpd_model_temp<-as_tibble(t(surfaceGen(mpd_data_temp, "mpd")), rownames = "key")
+  dev.off()
+  pdf(file=paste(i, "/mntd_fit.pdf", sep = ""))
   mntd_model_temp<-as_tibble(t(surfaceGen(mntd_data_temp, "mntd")), rownames = "key")
+  dev.off()
   
   json_pd<- toJSON(x = pd_model_temp, dataframe = 'rows', pretty = F)
   write(json_pd, file = paste(i, "/pd_model_params.json", sep = ""))

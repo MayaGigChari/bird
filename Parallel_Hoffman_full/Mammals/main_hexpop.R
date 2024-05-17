@@ -190,6 +190,8 @@ ggsave(filename = "Mammals/Missing_taxa_proportions_hexagon_california_species.p
 #this just saves the file hex_tree_stats_birds without any geographic information. 
 saveRDS(pop_hex_stats_mammals_df, file = "Mammals/raw_hex_stats_from_ranges")
 
+pop_hex_stats_mammals_df<- readRDS("Mammals/raw_hex_stats_from_ranges") 
+
 ######################
 #step 2: assign significance values to hexagon data
 ######################
@@ -339,7 +341,7 @@ plot_area <- ggplot() +
 
 
 plot_area <- plot_area +
-  geom_sf(data = polygon_full_mammals_with_eco_nona, aes(fill = factor(mntdSigEco)))
+  geom_sf(data = polygon_full_mammals_with_eco_nona, aes(fill = factor(pdSigEco)))
 # Customize the legend and color scale
 
 
@@ -350,9 +352,15 @@ plot_area_fin <- plot_area +
                     labels = c("-1","0", "1"),
                     guide = "legend")
 
-ggsave("Mammals/Ecoregion_species_level_mntd_distribution.png", plot_area_fin, width = 10, height = 10, dpi = 300)
+ggsave("Mammals/Ecoregion_species_level_pd_distribution_check.png", plot_area_fin, width = 10, height = 10, dpi = 300)
 
 dev.off()
+
+##SAVE DATAFRAMES
+
+st_write(polygon_data_full_mammals_with_eco, "Mammals/final_output.shp", append = FALSE)
+
+saveRDS(polygon_data_full_mammals_with_eco, "Mammals/final_output_dataframe")
 
 
 unique(polygon_data_full_plants_with_eco$pdSigCal)

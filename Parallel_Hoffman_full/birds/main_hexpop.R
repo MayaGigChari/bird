@@ -273,9 +273,9 @@ cali_hexes_with_ecoregions<- st_read("Cali_Geometry/hexes_with_ecoregions_joined
 polygon_data_full<- left_join(data.frame(cali_hexes_with_ecoregions), pop_hex_stats_birds_df, by = "h3_index")
 
 #ec_js_pd<- ecoregion_json_filename shortened. 
-polygon_data_full$ec_js_pd<- unlist(lapply(polygon_data_full$US_L3CODE, makejsonstring, metric = "pd"))
-polygon_data_full$ec_js_mpd<- unlist(lapply(polygon_data_full$US_L3CODE, makejsonstring, metric = "mpd"))
-polygon_data_full$ec_js_mntd<- unlist(lapply(polygon_data_full$US_L3CODE, makejsonstring, metric = "mntd"))
+polygon_data_full$ec_js_pd<- unlist(lapply(polygon_data_full$US_L3CODE, makejsonstring_weird, metric = "pd"))
+polygon_data_full$ec_js_mpd<- unlist(lapply(polygon_data_full$US_L3CODE, makejsonstring_weird, metric = "mpd"))
+polygon_data_full$ec_js_mntd<- unlist(lapply(polygon_data_full$US_L3CODE, makejsonstring_weird, metric = "mntd"))
 
 
 #need to determine for each polygon in polygon_data_full if the pd is significant or not, and make a table. similar to what was done in the reserves. 
@@ -286,25 +286,25 @@ polygon_data_full$ec_js_mntd<- unlist(lapply(polygon_data_full$US_L3CODE, makejs
 
 ####THIS WHOLE CHUNK OF CODE IS GENERATING SIGNIFICANCE VALUES. 
 
-polygon_data_CI_ranges_pd_cali<- lapply(polygon_data_full$tree_size, cI_generator, params_json_file = "birds/bird_ranges_wholeCali_pd_model_params.json")
+polygon_data_CI_ranges_pd_cali<- lapply(polygon_data_full$tree_size, cI_generator, params_json_file = "birds/pd_model_params_0507.json")
 CI_cali_significance_polygons_pd<- Map(check_significance_other_metrics, polygon_data_full$pd_values, upper_lower_keyvals = polygon_data_CI_ranges_pd_cali)
 
-png("birds/images/CI_cali_significance_hexes_pd_hist.png", width = 800, height = 600, units = "px", res = 100)
+png("birds/images/CI_cali_significance_hexes_pd_hist_0507.png", width = 800, height = 600, units = "px", res = 100)
 histogram(unlist(CI_cali_significance_polygons_pd), main = "CI_cali_significance_hexes_pd_hist", xlab = "PD", ylab = "Frequency")
 dev.off()
 
-polygon_data_CI_ranges_mpd_cali<- lapply(polygon_data_full$tree_size, cI_generator, params_json_file = "birds/bird_ranges_wholeCali_mpd_model_params.json")
+polygon_data_CI_ranges_mpd_cali<- lapply(polygon_data_full$tree_size, cI_generator, params_json_file = "birds/mpd_model_params_0507.json")
 CI_cali_significance_polygons_mpd<- Map(check_significance_other_metrics, polygon_data_full$mpd_values, upper_lower_keyvals = polygon_data_CI_ranges_mpd_cali)
 
 
-png("birds/images/CI_cali_significance_hexes_mpd_hist.png", width = 800, height = 600, units = "px", res = 100)
+png("birds/images/CI_cali_significance_hexes_mpd_hist_0507.png", width = 800, height = 600, units = "px", res = 100)
 histogram(unlist(CI_cali_significance_polygons_mpd)) #about 95% of all polygons in california have significantly low pd. 
 dev.off()
 
-polygon_data_CI_ranges_mntd_cali<- lapply(polygon_data_full$tree_size, cI_generator, params_json_file = "birds/bird_ranges_wholeCali_mntd_model_params.json")
+polygon_data_CI_ranges_mntd_cali<- lapply(polygon_data_full$tree_size, cI_generator, params_json_file = "birds/mntd_model_params_0507.json")
 CI_cali_significance_polygons_mntd<- Map(check_significance_other_metrics, polygon_data_full$mntd_values, upper_lower_keyvals = polygon_data_CI_ranges_mntd_cali)
 
-png("birds/images/CI_cali_significance_hexes_mntd_hist.png", width = 800, height = 600, units = "px", res = 100)
+png("birds/images/CI_cali_significance_hexes_mntd_hist_0507.png", width = 800, height = 600, units = "px", res = 100)
 histogram(unlist(CI_cali_significance_polygons_mntd)) #about 95% of all polygons in california have significantly low pd. 
 dev.off()
 
@@ -317,7 +317,7 @@ dev.off()
 polygon_data_CI_ranges_pd_ecoregions <- Map(cI_generator, polygon_data_full$tree_size, params_json_file = polygon_data_full$ec_js_pd)
 CI_ecoregions_significance_polygons_pd<- Map(check_significance_other_metrics, polygon_data_full$pd_values, upper_lower_keyvals = polygon_data_CI_ranges_pd_ecoregions)
 
-png("birds/images/CI_cali_significance_hexes_pd_hist_ecoregions.png", width = 800, height = 600, units = "px", res = 100)
+png("birds/images/CI_cali_significance_hexes_pd_hist_ecoregions_0507.png", width = 800, height = 600, units = "px", res = 100)
 histogram(unlist(CI_ecoregions_significance_polygons_pd), main = "CI_cali_significance_hexes_pd_hist", xlab = "PD", ylab = "Frequency")
 dev.off()
 
@@ -325,38 +325,77 @@ dev.off()
 polygon_data_CI_ranges_mpd_ecoregions <- Map(cI_generator, polygon_data_full$tree_size, params_json_file = polygon_data_full$ec_js_mpd)
 CI_ecoregions_significance_polygons_mpd<- Map(check_significance_other_metrics, polygon_data_full$mpd_values, upper_lower_keyvals = polygon_data_CI_ranges_mpd_ecoregions)
 
-png("birds/images/CI_cali_significance_hexes_mpd_hist_ecoregions.png", width = 800, height = 600, units = "px", res = 100)
+png("birds/images/CI_cali_significance_hexes_mpd_hist_ecoregions_0507.png", width = 800, height = 600, units = "px", res = 100)
 histogram(unlist(CI_ecoregions_significance_polygons_mpd), main = "CI_cali_significance_hexes_mpd_hist", xlab = "mpd", ylab = "Frequency")
 dev.off()
 
 
 polygon_data_CI_ranges_mntd_ecoregions <- Map(cI_generator, polygon_data_full$tree_size, params_json_file = polygon_data_full$ec_js_mntd)
-CI_ecoregions_significance_polygons_mntd<- Map(check_significance_other_metrics, polygon_data_full$mpd_values, upper_lower_keyvals = polygon_data_CI_ranges_mntd_ecoregions)
+CI_ecoregions_significance_polygons_mntd<- Map(check_significance_other_metrics, polygon_data_full$mntd_values, upper_lower_keyvals = polygon_data_CI_ranges_mntd_ecoregions)
 
-png("birds/images/CI_cali_significance_hexes_mntd_hist_ecoregions.png", width = 800, height = 600, units = "px", res = 100)
+png("birds/images/CI_cali_significance_hexes_mntd_hist_ecoregions_0507.png", width = 800, height = 600, units = "px", res = 100)
 histogram(unlist(CI_ecoregions_significance_polygons_mntd), main = "CI_cali_significance_hexes_mntd_hist", xlab = "mntd", ylab = "Frequency")
 dev.off()
 
 
 ###ADD ALL THESE SIGNIFICANCE VALUES TO THE DATA STRUCTURE: 
 
-#for some reason there's a dimensionality issue. 
-#need to figure out how to deal with polygons on multuiple ecoregions stat!!
+CI_ecoregions_significance_polygons_pd[sapply(CI_ecoregions_significance_polygons_pd, is.null)] <- NA
+CI_ecoregions_significance_polygons_mpd[sapply(CI_ecoregions_significance_polygons_mpd, is.null)] <- NA
+CI_ecoregions_significance_polygons_mntd[sapply(CI_ecoregions_significance_polygons_mntd, is.null)] <- NA
+
+CI_ecoregions_significance_polygons_pd[sapply(CI_ecoregions_significance_polygons_pd, is.null)] <- NA
+CI_ecoregions_significance_polygons_mpd[sapply(CI_ecoregions_significance_polygons_mpd, is.null)] <- NA
+CI_ecoregions_significance_polygons_mntd[sapply(CI_ecoregions_significance_polygons_mntd, is.null)] <- NA
+
 polygon_data_full$pdSigCal<- unlist(CI_cali_significance_polygons_pd)
 polygon_data_full$mpdSigCal<- unlist(CI_cali_significance_polygons_mpd)
 polygon_data_full$mntdSigCal<- unlist(CI_cali_significance_polygons_mntd)
 
-
-#need to change NULL to NA to make this datastructure work. 
-#make NA's. line = 
-#CI_ecoregions_significance_polygons_mntd[sapply(CI_ecoregions_significance_polygons_mntd, is.null)] <- NA
-
-
 polygon_data_full$pdSigEco<- unlist(CI_ecoregions_significance_polygons_pd)
 polygon_data_full$mpdSigEco<- unlist(CI_ecoregions_significance_polygons_mpd)
-polygon_data_full$mntdSigEco<- unlist(CI_ecoregions_significance_polygons_mntd)
-#the output of this is 11792 units long. 
-#this is now the updated list that has doubles for reserves that cover at least one ecoregion 
+polygon_data_full$mntdSigEco<- unlist(CI_ecoregions_significance_polygons_mntd)#this is now the updated list that has doubles for reserves that cover at least one ecoregion 
+
+
+
+####now going to plot. 
+library(tidyr)
+polygon_full_with_eco_nona<- st_as_sf(drop_na(polygon_data_full))
+
+library(ggplot2)
+plot_area <- ggplot() +
+  theme_void() +  # Remove default axes and background
+  coord_equal()    # Ensure equal aspect ratio
+
+
+plot_area <- plot_area +
+  geom_sf(data = polygon_full_with_eco_nona, aes(fill = factor(mntdSigEco)))
+# Customize the legend and color scale
+
+
+
+plot_area_fin <- plot_area +
+  scale_fill_manual(values = c("-1" = "blue", "0" = "white", "1" = "red"),
+                    name = "Significance",
+                    labels = c("-1", "0", "1"),
+                    guide = "legend")
+
+ggsave("birds/images/Ecoregions_mntd_distribution_0507.png", plot_area_fin, width = 10, height = 10, dpi = 300)
+
+dev.off()
+
+#let us hope this is correct. 
+
+st_write(st_as_sf(polygon_data_full), "birds/final_output.shp")
+
+saveRDS(polygon_data_full, file = "birds/final_output_dataframe")
+
+a<-st_read("birds/final_output.shp")
+
+
+
+
+##################whatever this is is mostly archaic. 
 
 
 #1763 polygons have at least 2 ecoregions 
