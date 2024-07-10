@@ -102,7 +102,9 @@ data_clean_quartiles<- function(data_input, metric)
 #just use LL.4 for simplicity. 
 
 #can change to LL.3 later
-surfaceGen<- function(data_input, metric, outType = "coef", datatype = "normal")
+
+#need to amend surfaceGen to work with baro5. 
+surfaceGen<- function(data_input, metric, outType = "coef", datatype = "normal", func = LL.4())
 {
   
   if(datatype == "quartiles")
@@ -116,22 +118,23 @@ surfaceGen<- function(data_input, metric, outType = "coef", datatype = "normal")
 
   if(metric == "mpd")
   {
-    model_low <- drm(data_sim$Low ~ data_sim$tree_size, fct = LL.4())
-    model_high <- drm(data_sim$High ~ data_sim$tree_size, fct = LL.4())
+    model_low <- drm(data_sim$Low ~ data_sim$tree_size, fct = func)
+    model_high <- drm(data_sim$High ~ data_sim$tree_size, fct = func)
   }
   
   if(metric == "mntd")
   {
-    model_low <- drm(data_sim$Low ~ data_sim$tree_size, fct = LL.4())
-    model_high <- drm(data_sim$High ~ data_sim$tree_size, fct = LL.4 ())
+    model_low <- drm(data_sim$Low ~ data_sim$tree_size, fct = func)
+    model_high <- drm(data_sim$High ~ data_sim$tree_size, fct = func)
   }
   
   if(metric == "pd")
   {
-    model_low <- drc::drm(data_sim$Low ~ data_sim$tree_size, fct = LL.4())
-    model_high <- drc::drm(data_sim$High ~ data_sim$tree_size, fct= LL.4())
+    model_low <- drc::drm(data_sim$Low ~ data_sim$tree_size, fct = func)
+    model_high <- drc::drm(data_sim$High ~ data_sim$tree_size, fct= func)
   }
   
+  print(model_low)
   
   plot(High~tree_size, data = data_sim, ylim = c(min(data_sim$Low), max(data_sim$High)))
   points(Low~tree_size, data = data_sim)
@@ -146,6 +149,7 @@ surfaceGen<- function(data_input, metric, outType = "coef", datatype = "normal")
   #plot(model_high)
   
   summary_low <- model_low$coefficients
+  print(summary_low)
   summary_high <- model_high$coefficients
 
   
@@ -172,7 +176,131 @@ surfaceGen<- function(data_input, metric, outType = "coef", datatype = "normal")
   
 }
 
+evaluate_model <- function(predictions, actual) {
+  mae <- mean(abs(predictions - actual))
+  mse <- mean((predictions - actual)^2)
+  rmse <- sqrt(mse)
+  r_squared <- 1 - sum((actual - predictions)^2) / sum((actual - mean(actual))^2)
+  
+  return(data.frame(MAE = mae, MSE = mse, RMSE = rmse, R_squared = r_squared))
+}
+
+
+prediction_regression<-   function(clade, data_input, metric, func = LL.4())
+{
+  data_sim<- data_clean(data_input, metric)
+  print(data_sim)
+  if(metric == "mpd")
+  {
+    model_low <- drc::drm(data_sim$Low ~ data_sim$tree_size, fct = func)
+    model_high <- drc::drm(data_sim$High ~ data_sim$tree_size, fct = func)
+  }
+  
+  if(metric == "mntd")
+  {
+    model_low <- drm(data_sim$Low ~ data_sim$tree_size, fct = func)
+    model_high <- drm(data_sim$High ~ data_sim$tree_size, fct = func)
+  }
+  
+  if(metric == "pd")
+  {
+    model_low <- drc::drm(data_sim$Low ~ data_sim$tree_size, fct = func)
+    model_high <- drc::drm(data_sim$High ~ data_sim$tree_size, fct= func)
+  }
+  
+  predictions_low<- predict(model_low)
+  predictions_high<- predict(model_high)
+  
+  print("predicted")
+ 
+  data_plot <- data.frame(
+    Predictions_Low = predictions_low,
+    Actual_Low = data_sim$Low,
+    Predictions_High = predictions_high,
+    Actual_High = data_sim$High
+  )
+  
+  # Plot for Low predictions
+  ggplot(data_plot, aes(x = Predictions_Low, y = Actual_Low)) +
+    geom_point(color = 'blue', size = 3) +
+    ggtitle(paste('Low', metric, sep = " ")) +
+    xlab('Actual') +
+    ylab('Predicted') +
+    theme_minimal()+
+    geom_abline()
+  ggsave(paste("images/", clade, "_", metric, "_low_qq.png", sep = ""))
+  
+  # Plot for High predictions
+  ggplot(data_plot, aes(x = Predictions_High, y = Actual_High)) +
+    geom_point(color = 'red', size = 3) +
+    ggtitle(paste('High', metric, sep = " ")) +
+    xlab('Predicted') +
+    ylab('Actual') +
+    theme_minimal()+
+    geom_abline()
+  ggsave(paste("images/", clade, "_", metric, "_high_qq.png", sep = ""))
+  
+  # Evaluate low predictions
+  metrics_low <- data.frame(evaluate_model(predictions_low, data_sim$Low))
+  write.csv(metrics_low, file = paste(clade, "/_", metric, "_low_qq_eval.csv", sep = ""))
+  
+  # Evaluate high predictions
+  metrics_high <- data.frame(evaluate_model(predictions_high, data_sim$High))
+  write.csv(metrics_high, file = paste(clade, "/_", metric, "_high_qq_eval.csv", sep = ""))
+  
+  
+}
+
+prediction_regression_data<-   function(clade, data_input, metric, func = LL.4())
+{
+  data_sim<- data_clean(data_input, metric)
+  print(data_sim)
+  if(metric == "mpd")
+  {
+    model_low <- drc::drm(data_sim$Low ~ data_sim$tree_size, fct = func)
+    model_high <- drc::drm(data_sim$High ~ data_sim$tree_size, fct = func)
+  }
+  
+  if(metric == "mntd")
+  {
+    model_low <- drm(data_sim$Low ~ data_sim$tree_size, fct = func)
+    model_high <- drm(data_sim$High ~ data_sim$tree_size, fct = func)
+  }
+  
+  if(metric == "pd")
+  {
+    model_low <- drc::drm(data_sim$Low ~ data_sim$tree_size, fct = func)
+    model_high <- drc::drm(data_sim$High ~ data_sim$tree_size, fct= func)
+  }
+  
+  predictions_low<- predict(model_low)
+  predictions_high<- predict(model_high)
+  
+  scale_to_01 <- function(x) {
+    (x - min(x)) / (max(x) - min(x))
+  }
+  
+  data_plot <- data.frame(
+    Predictions_Low = scale_to_01(predictions_low),
+    Actual_Low = scale_to_01(data_sim$Low),
+    Predictions_High = scale_to_01(predictions_high),
+    Actual_High = scale_to_01(data_sim$High)
+  )
+  
+  return(data_plot)
+  
+}
+
+
+
+
+#changed func to be baro5. 
+#need to run everything with the baro5 parameters instead. 
+n<- surfaceGen(pd_data_sim_plants, metric = "mntd", func =ll.4())
+
 
 #need to more cohesively fit nonlinear models. 
 
+#need to do this with the baro5 funciton. 
+drm(pd_data_sim_plants$High ~ pd_data_sim_plants$tree_size, fct = baro5())
 

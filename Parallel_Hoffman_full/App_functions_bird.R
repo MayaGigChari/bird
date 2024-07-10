@@ -240,23 +240,140 @@ cI_generator<- function(sample_size, params_json_file)
   return(list("upper_vals" = upper_value, "lower_vals" = lower_value))
 }
 
-artificial_data<- seq(0,250, by = 1)
-ci_s<- lapply(artificial_data,cI_generator,  params_json_file = "birds/ecoregion_data/8/pd_model_params.json")
 
-
-list_uppers<- list()
-list_lowers<- list()
-for(i in 1: length(artificial_data))
-{
-  list_uppers[i] = ci_s[[i]]$upper_vals
-  list_lowers[i] = ci_s[[i]]$lower_vals
+cI_generator_baro5 <- function(sample_size, params_json_file) {
+  library(jsonlite)
+  
+  if (is.null(params_json_file)) {
+    return(NULL)
+  }
+  
+  if (length(params_json_file) > 1) {
+    return(NULL)
+  }
+  
+  if (grepl("NA", params_json_file)) {
+    return(NULL)
+  }
+  
+  params_data <- jsonlite::fromJSON(txt = params_json_file)
+  low_data <- params_data[1,]
+  high_data <- params_data[2,]
+  
+  # Define the function for y as per the formula in the image
+  calculate_y <- function(x, c, d, b1, b2, e) {
+    f <- 1 / (1 + exp((2 * b1 * b2 / abs(b1 + b2)) * (log(x) - log(e))))
+    y <- c + ((d - c) / (1 + f * exp(b1 * (log(x) - log(e))) + (1 - f) * exp(b2 * (log(x) - log(e)))))
+    return(y)
+  }
+  
+  # Calculate the lower and upper values using the new formula
+  lower_value <- calculate_y(sample_size, low_data$`c:(Intercept)`, low_data$`d:(Intercept)`, 
+                             low_data$`b1:(Intercept)`, low_data$`b2:(Intercept)`, low_data$`e:(Intercept)`)
+  
+  upper_value <- calculate_y(sample_size, high_data$`c:(Intercept)`, high_data$`d:(Intercept)`, 
+                             high_data$`b1:(Intercept)`, high_data$`b2:(Intercept)`, high_data$`e:(Intercept)`)
+  
+  return(list("upper_vals" = upper_value, "lower_vals" = lower_value))
 }
 
-list_uppers<- unlist(list_uppers)
-list_lowers<- unlist(list_lowers)
 
-plot(artificial_data,list_uppers) + 
-  points(artificial_data, list_lowers)
+log5 <- function(r, c, d, b, e, f) {
+  y <- c + (d - c) / (1 + exp(b * (log(r) - log(e))))^f
+  return(y)
+}
+
+cI_generator_log5 <- function(sample_size, params_json_file) {
+  library(jsonlite)
+  
+  if (is.null(params_json_file)) {
+    return(NULL)
+  }
+  
+  if (length(params_json_file) > 1) {
+    return(NULL)
+  }
+  
+  if (grepl("NA", params_json_file)) {
+    return(NULL)
+  }
+  
+  params_data <- jsonlite::fromJSON(txt = params_json_file)
+  low_data <- params_data[1,]
+  high_data <- params_data[2,]
+  
+  # Calculate the lower and upper values using the log5 function
+  lower_value <- log5(sample_size, low_data$`c:(Intercept)`, low_data$`d:(Intercept)`, 
+                      low_data$`b:(Intercept)`, low_data$`e:(Intercept)`, low_data$`f:(Intercept)`)
+  
+  upper_value <- log5(sample_size, high_data$`c:(Intercept)`, high_data$`d:(Intercept)`, 
+                      high_data$`b:(Intercept)`, high_data$`e:(Intercept)`, high_data$`f:(Intercept)`)
+  
+  return(list("upper_vals" = upper_value, "lower_vals" = lower_value))
+}
+
+
+#need to run this model. 
+
+#need to test this ci_generator_baro5. 
+
+#curious to see what the actual points look like that are in that ecoregion. 
+#need to redo all of butterflies maybe? who knows. this seems kind of difficult. why is it "Butterflies" and then butterflies? 
+#really just have no idea at all what is going on with butterflies. 
+
+
+#do this check for 14. 
+
+#look at the bird data. 
+#hexes_with_ecoregions_85<- hexes_with_ecoregions %>%
+#  filter(US_L3CODE == 85)
+
+#these all have such a large tree size! something must be up with the ecoregions... 
+#bird_final_data_eco1<- bird_final_data %>%
+#  filter(bird_h3_indx %in% hexes_with_ecoregions_85$h3_index)
+#artificial_data <- seq(0, 330, by = 5)
+
+# Generate confidence intervals
+#ci_s <- lapply(artificial_data, cI_generator_baro5, params_json_file = "birds/pd_model_params_0507_baro5.json")
+
+# Extract upper and lower bounds
+#list_uppers <- sapply(ci_s, function(ci) ci$upper_vals)
+#list_lowers <- sapply(ci_s, function(ci) ci$lower_vals)
+
+# Plot the results
+
+#THESE TREE SIZES ARE JUST WRONG. 
+
+#compare butterfly california and ecoregions.
+
+#butterflies are definitely wrong for at least some ecoregions and need to be redone. 
+
+#this seems like it might be wrong. 
+
+#probably need to redo all of butterflies (except 80 and 85. )
+#plot(artificial_data, list_uppers, type = 'l', col = 'red',ylab = 'Values', xlab = 'Artificial Data', main = 'Confidence Intervals and Butterfly Data')
+#points(bird_final_data$bird_tree_sz,bird_final_data$bird_pd_vals, col = 'green')
+#points(data_temp$tree_size, data_temp$Low, col = 'red')
+#points(data_temp$tree_size, data_temp$High, col = 'blue')
+#lines(artificial_data, list_lowers, col = 'blue')
+
+#dev.off()
+
+#try to plot the actual data too. 
+
+#need to extrac the true values. 
+
+
+#somehow only 22 genera overlap with ecoregion 85
+
+#data_temp<- read.csv("birds/0507CI_pd_output_bootstrap.csv")
+#data_temp<- data_clean(data_temp, metric = "pd")
+
+#need to filter data to just those in the ecoregion. 
+
+#baro5 is a good model. 
+
+
 
 
 check_significance_pd<- function(pd_value, upper_lower_keyvals)
@@ -322,11 +439,11 @@ makejsonstring<- function(ecoregion_id, metric, clade = "birds")
 {
   if(clade == "birds")
   {
-    return(paste("birds/ecoregion_data/", ecoregion_id, "/", metric, "_model_params.json", sep = ""))
+    return(paste("birds/ecoregion_data/", ecoregion_id, "/", metric, "_model_params_baro5.json", sep = ""))
   }
   else
   {
-    return(paste(clade, "/ecoregion_data/", ecoregion_id, "/", metric, "_model_params.json", sep = ""))
+    return(paste(clade, "/ecoregion_data/", ecoregion_id, "/", metric, "_model_params_baro5.json", sep = ""))
     
   }
   
@@ -336,19 +453,19 @@ makejsonstring_weird<- function(ecoregion_id, metric, clade = "birds")
 {
   if(clade == "birds")
   {
-    return(paste("birds/ecoregion_data_2/", ecoregion_id, "/", metric, "_model_params.json", sep = ""))
+    return(paste("birds/ecoregion_data_2/", ecoregion_id, "/", metric, "_model_params_baro5.json", sep = ""))
   }
   else
   {
-    return(paste(clade, "/ecoregion_data_2/", ecoregion_id, "/", metric, "_model_params_genus0505.json", sep = ""))
+    return(paste(clade, "/ecoregion_data_2/", ecoregion_id, "/", metric, "_model_params_baro5.json", sep = ""))
     
   }
   
 }
 
-makejsonstringGenus<- function(ecoregion_id, metric)
+makejsonstringGenus<- function(ecoregion_id, metric, clade)
 {
-  return(paste(clade, "/ecoregion_data/", ecoregion_id, "/GENUS", metric, "_model_params.json", sep = ""))
+  return(paste(clade, "/ecoregion_data/", ecoregion_id, "/GENUS", metric, "_model_params_baro5.json", sep = ""))
   
 }
 
@@ -382,6 +499,8 @@ handle_ecoregions<- function(full_table)
   
   # Filter the dataframe to include only rows with the duplicated values
   duplicates <- full_table[full_table$h3_indx %in% duplicated_values, ]
+  
+  print(1)
 
   
   #get consensus labels
@@ -420,6 +539,7 @@ handle_ecoregions<- function(full_table)
       )
       
     )
+  print(1)
   
   result$geometry<- NULL
   
@@ -431,15 +551,13 @@ handle_ecoregions<- function(full_table)
       pdSigEc = coalesce(pdSigEc.y, pdSigEc.x),
       mpdSgEc = coalesce(mpdSgEc.y, mpdSgEc.x),
       mntdSgE = coalesce(mntdSgE.y, mntdSgE.x)
-    ) %>%
-    select(-ends_with(".x"), -ends_with(".y"))
+    ) #%>%
+    #select(-ends_with(".x"), -ends_with(".y"))
+  print(1)
   
   joined_table<- st_as_sf(joined_table)
   
-  unique_joined_table <- distinct(joined_table)
-  
-  return(unique_joined_table)
-  
+  return(joined_table)
   
   
 }
