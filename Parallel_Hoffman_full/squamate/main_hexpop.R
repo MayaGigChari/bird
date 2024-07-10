@@ -234,28 +234,28 @@ polygon_data_full_squamate_with_eco$ec_js_mntd<- unlist(lapply(polygon_data_full
 #perhaps there is an issue with the CI generation?
 
 
-polygon_data_CI_ranges_pd_cali_squamate<- lapply(polygon_data_full_squamate_with_eco$tree_size, cI_generator, params_json_file = "squamate/pd_model_params.json")
+polygon_data_CI_ranges_pd_cali_squamate<- lapply(polygon_data_full_squamate_with_eco$tree_size, cI_generator_baro5, params_json_file = "squamate/pd_model_params_baro5.json")
 CI_cali_significance_polygons_pd_squamate<- Map(check_significance_other_metrics, polygon_data_full_squamate_with_eco$pd_values, upper_lower_keyvals = polygon_data_CI_ranges_pd_cali_squamate)
 #everything for squamate is significantly negative? 
 
-png("squamate/images/CI_cali_significance_hexes_pd_hist.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_cali_significance_polygons_pd_squamate), main = "CI_cali_significance_hexes_pd_hist", xlab = "PD", ylab = "Frequency")
+png("squamate/images/CI_cali_significance_hexes_pd_hist_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_cali_significance_polygons_pd_squamate), main = "CI_cali_significance_hexes_pd_hist_baro5", xlab = "PD", ylab = "Frequency")
 dev.off()
 
-polygon_data_CI_ranges_mpd_cali_squamate<- lapply(polygon_data_full_squamate_with_eco$tree_size, cI_generator, params_json_file = "squamate/mpd_model_params.json")
+polygon_data_CI_ranges_mpd_cali_squamate<- lapply(polygon_data_full_squamate_with_eco$tree_size, cI_generator_baro5, params_json_file = "squamate/mpd_model_params_baro5.json")
 CI_cali_significance_polygons_mpd_squamate<- Map(check_significance_other_metrics, polygon_data_full_squamate_with_eco$mpd_values, upper_lower_keyvals = polygon_data_CI_ranges_mpd_cali_squamate)
 
 
-png("squamate/images/CI_cali_significance_hexes_mpd_hist.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_cali_significance_polygons_mpd_squamate), main = "CI_cali_significance_hexes_mpd_hist", xlab = "PD", ylab = "Frequency")
+png("squamate/images/CI_cali_significance_hexes_mpd_hist_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_cali_significance_polygons_mpd_squamate), main = "CI_cali_significance_hexes_mpd_hist_baro5", xlab = "MPD", ylab = "Frequency")
 dev.off()
 
-polygon_data_CI_ranges_mntd_cali_squamate<- lapply(polygon_data_full_squamate_with_eco$tree_size, cI_generator, params_json_file = "squamate/mntd_model_params.json")
+polygon_data_CI_ranges_mntd_cali_squamate<- lapply(polygon_data_full_squamate_with_eco$tree_size, cI_generator_baro5, params_json_file = "squamate/mntd_model_params_baro5.json")
 CI_cali_significance_polygons_mntd_squamate<- Map(check_significance_other_metrics, polygon_data_full_squamate_with_eco$mntd_values, upper_lower_keyvals = polygon_data_CI_ranges_mntd_cali_squamate)
 
 
-png("squamate/images/CI_cali_significance_hexes_mntd_hist.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_cali_significance_polygons_mntd_squamate), main = "CI_cali_significance_hexes_mntdd_hist", xlab = "PD", ylab = "Frequency")
+png("squamate/images/CI_cali_significance_hexes_mntd_hist_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_cali_significance_polygons_mntd_squamate), main = "CI_cali_significance_hexes_mntd_hist_baro5", xlab = "MNTD", ylab = "Frequency")
 dev.off()
 
 #for some reason the mean nearest taxon distance is pretty much always insignificant 
@@ -264,31 +264,31 @@ dev.off()
 #need to generate the json file names for each ecoregion. 
 #double check that ecoregions are in the correct order. might be wrong null models. 
 #for ecoregions: 
-polygon_data_CI_ranges_pd_ecoregions_squamate <- Map(cI_generator, polygon_data_full_squamate_with_eco$tree_size, params_json_file = polygon_data_full_squamate_with_eco$ec_js_pd)
+polygon_data_CI_ranges_pd_ecoregions_squamate <- Map(cI_generator_baro5, polygon_data_full_squamate_with_eco$tree_size, params_json_file = polygon_data_full_squamate_with_eco$ec_js_pd)
 CI_ecoregions_significance_polygons_pd_squamate<- Map(check_significance_other_metrics, polygon_data_full_squamate_with_eco$pd_values, upper_lower_keyvals = polygon_data_CI_ranges_pd_ecoregions_squamate)
 
 
 
 #everything somehow becomes significantly negative relative to the ecoregion? not sure how this makes any sense. 
-png("squamate/images/CI_cali_significance_hexes_pd_hist_ecoregions.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_ecoregions_significance_polygons_pd_squamate), main = "CI_cali_significance_hexes_pd_hist", xlab = "PD", ylab = "Frequency")
+png("squamate/images/CI_cali_significance_hexes_pd_hist_ecoregions_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_ecoregions_significance_polygons_pd_squamate), main = "CI_cali_significance_hexes_pd_hist_baro5", xlab = "PD", ylab = "Frequency")
 dev.off()
 
 
-polygon_data_CI_ranges_mpd_ecoregions_squamate <- Map(cI_generator, polygon_data_full_squamate_with_eco$tree_size, params_json_file = polygon_data_full_squamate_with_eco$ec_js_mpd)
+polygon_data_CI_ranges_mpd_ecoregions_squamate <- Map(cI_generator_baro5, polygon_data_full_squamate_with_eco$tree_size, params_json_file = polygon_data_full_squamate_with_eco$ec_js_mpd)
 CI_ecoregions_significance_polygons_mpd_squamate<- Map(check_significance_other_metrics, polygon_data_full_squamate_with_eco$mpd_values, upper_lower_keyvals = polygon_data_CI_ranges_mpd_ecoregions_squamate)
 
 #check them against their own ecoregions. 
-png("squamate/images/CI_cali_significance_hexes_mpd_hist_ecoregions.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_ecoregions_significance_polygons_mpd_squamate), main = "CI_cali_significance_hexes_mpd_hist", xlab = "mpd", ylab = "Frequency")
+png("squamate/images/CI_cali_significance_hexes_mpd_hist_ecoregions_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_ecoregions_significance_polygons_mpd_squamate), main = "CI_cali_significance_hexes_mpd_hist_baro5", xlab = "mpd", ylab = "Frequency")
 dev.off()
 
 
-polygon_data_CI_ranges_mntd_ecoregions_squamate <- Map(cI_generator, polygon_data_full_squamate_with_eco$tree_size, params_json_file = polygon_data_full_squamate_with_eco$ec_js_mntd)
+polygon_data_CI_ranges_mntd_ecoregions_squamate <- Map(cI_generator_baro5, polygon_data_full_squamate_with_eco$tree_size, params_json_file = polygon_data_full_squamate_with_eco$ec_js_mntd)
 CI_ecoregions_significance_polygons_mntd_squamate<- Map(check_significance_other_metrics, polygon_data_full_squamate_with_eco$mntd_values, upper_lower_keyvals = polygon_data_CI_ranges_mntd_ecoregions_squamate)
 
-png("squamate/images/CI_cali_significance_hexes_mntd_hist_ecoregions.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_ecoregions_significance_polygons_mntd_squamate), main = "CI_cali_significance_hexes_mntd_hist", xlab = "mntd", ylab = "Frequency")
+png("squamate/images/CI_cali_significance_hexes_mntd_hist_ecoregions_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_ecoregions_significance_polygons_mntd_squamate), main = "CI_cali_significance_hexes_mntd_hist_baro5", xlab = "mntd", ylab = "Frequency")
 dev.off()
 
 
@@ -360,8 +360,8 @@ dev.off()
 
 ###save final output
 
-st_write(polygon_data_full_squamate_with_eco, "squamate/final_output.shp")
-saveRDS(data.frame(polygon_data_full_squamate_with_eco), file = "squamate/final_output_dataframe")
+st_write(polygon_data_full_squamate_with_eco, "squamate/final_output_baro5.shp",append = FALSE)
+saveRDS(data.frame(polygon_data_full_squamate_with_eco), file = "squamate/final_output_dataframe_baro5")
 
 ###DONE for squamates. 
 

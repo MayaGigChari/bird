@@ -82,10 +82,15 @@ write.csv(matched_species_birds, file = "birds/range_birds_present_phylogeny_050
 
 #path to phylogeny.
 path_to_cali_phylogeny = file.path( clade, "cali_tree_from_range_data.tre")
-phylo_tree<- read.tree(path_to_cali_phylogeny)
+cali_tree<- read.tree(path_to_cali_phylogeny)
 
-#we already have a cali_range_cophen_matrix and stuff. 
+png("birds/images/cali_full_tree_birds.png", width = 10, height = 10, units = "in", res = 300)
 
+# Plot the tree
+plot(cali_tree, type = "fan", cex = 0.4)
+
+# Close the device to save the plot
+dev.off()
 
 #the last two parameters are for naming, for the purpose of the call_cophen function
 call_cophen(phylo_tree, clade = "birds", geog_area = "cali_0507") #generate range matrix for birds

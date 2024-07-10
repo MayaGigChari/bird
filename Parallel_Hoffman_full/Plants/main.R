@@ -62,6 +62,8 @@ genus_complete_phylogeny<- genus_tree_generator(complete_phylogeny)
 write.tree(genus_complete_phylogeny, file = paste(clade, "/full_tree_genus.tre", sep = ""))
 
 
+read.tree("Plants/full_tree_genus.tre")
+
 sf_data_taxa_list_cali_natives<- st_read("Plants/total_combined_range_shapes.shp")
 #this has all the possible taxa. 
 
@@ -119,6 +121,7 @@ write.tree(cali_tree_genus, file = file.path(clade, "cali_genus_tree_0505.tre"))
 #have already developed the species level tree and loaded above
 
 
+read.tree("Plants/cali_genus_tree_0505.tre")
 #there are 352 unmatched genera in the molecular phylogeny and 
 #about 997 unmatched genera in the molecular phylogney
 

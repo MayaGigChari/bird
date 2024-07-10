@@ -169,6 +169,8 @@ pop_hex_stats_plants_df_genus<- readRDS("Plants/raw_hex_stats_from_ranges_genus_
 #use the "polygons" file generated in california-partition. 
 #this is called(hex_data_as_sf in the Cali_Geometry file. )
 
+#need to run this. but should probably check first. 
+
 cali_hexes_as_sf<- polygons
 
 hexes_with_ecoregions<- st_read("Cali_Geometry/hexes_with_ecoregions_joined.shp")
@@ -204,28 +206,28 @@ polygon_data_full_plants_with_eco$ec_js_mntd<- unlist(lapply(polygon_data_full_p
 #perhaps there is an issue with the CI generation?
 
 #pretty much all these freaking plants are overdispersed. 
-polygon_data_CI_ranges_pd_cali_plants<- lapply(polygon_data_full_plants_with_eco$tree_size, cI_generator, params_json_file = "Plants/pd_model_params_genus0505.json")
+polygon_data_CI_ranges_pd_cali_plants<- lapply(polygon_data_full_plants_with_eco$tree_size, cI_generator_baro5, params_json_file = "Plants/pd_model_params_genus_baro5.json")
 CI_cali_significance_polygons_pd_plants<- Map(check_significance_other_metrics, polygon_data_full_plants_with_eco$pd_values, upper_lower_keyvals = polygon_data_CI_ranges_pd_cali_plants)
 
 
-png("Plants/images/CI_cali_significance_hexes_pd_hist_genus0505.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_cali_significance_polygons_pd_plants), main = "CI_cali_significance_hexes_pd_hist_genus0505", xlab = "PD", ylab = "Frequency")
+png("Plants/images/CI_cali_significance_hexes_pd_hist_genus_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_cali_significance_polygons_pd_plants), main = "CI_cali_significance_hexes_pd_hist_genus_baro5", xlab = "PD", ylab = "Frequency")
 dev.off()
 
-polygon_data_CI_ranges_mpd_cali_plants<- lapply(polygon_data_full_plants_with_eco$tree_size, cI_generator, params_json_file = "Plants/mpd_model_params_genus0505.json")
+polygon_data_CI_ranges_mpd_cali_plants<- lapply(polygon_data_full_plants_with_eco$tree_size, cI_generator_baro5, params_json_file = "Plants/mpd_model_params_genus_baro5.json")
 CI_cali_significance_polygons_mpd_plants<- Map(check_significance_other_metrics, polygon_data_full_plants_with_eco$mpd_values, upper_lower_keyvals = polygon_data_CI_ranges_mpd_cali_plants)
 
 
-png("Plants/images/CI_cali_significance_hexes_mpd_hist_genus0505.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_cali_significance_polygons_mpd_plants), main = "CI_cali_significance_hexes_mpd_hist", xlab = "PD", ylab = "Frequency")
+png("Plants/images/CI_cali_significance_hexes_mpd_hist_genus_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_cali_significance_polygons_mpd_plants), main = "CI_cali_significance_hexes_mpd_hist_baro5", xlab = "PD", ylab = "Frequency")
 dev.off()
 
-polygon_data_CI_ranges_mntd_cali_plants<- lapply(polygon_data_full_plants_with_eco$tree_size, cI_generator, params_json_file = "Plants/mntd_model_params_genus0505.json")
+polygon_data_CI_ranges_mntd_cali_plants<- lapply(polygon_data_full_plants_with_eco$tree_size, cI_generator_baro5, params_json_file = "Plants/mntd_model_params_genus_baro5.json")
 CI_cali_significance_polygons_mntd_plants<- Map(check_significance_other_metrics, polygon_data_full_plants_with_eco$mntd_values, upper_lower_keyvals = polygon_data_CI_ranges_mntd_cali_plants)
 
 
-png("Plants/images/CI_cali_significance_hexes_mntd_hist_genus0505.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_cali_significance_polygons_mntd_plants), main = "CI_cali_significance_hexes_mntdd_hist", xlab = "PD", ylab = "Frequency")
+png("Plants/images/CI_cali_significance_hexes_mntd_hist_genus_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_cali_significance_polygons_mntd_plants), main = "CI_cali_significance_hexes_mntd_hist_baro5", xlab = "PD", ylab = "Frequency")
 dev.off()
 
 #for some reason the mean nearest taxon distance is pretty much always insignificant 
@@ -234,28 +236,28 @@ dev.off()
 #need to generate the json file names for each ecoregion. 
 #double check that ecoregions are in the correct order. might be wrong null models. 
 #for ecoregions: 
-polygon_data_CI_ranges_pd_ecoregions_plants <- Map(cI_generator, polygon_data_full_plants_with_eco$tree_size, params_json_file = polygon_data_full_plants_with_eco$ec_js_pd)
+polygon_data_CI_ranges_pd_ecoregions_plants <- Map(cI_generator_baro5, polygon_data_full_plants_with_eco$tree_size, params_json_file = polygon_data_full_plants_with_eco$ec_js_pd)
 CI_ecoregions_significance_polygons_pd_plants<- Map(check_significance_other_metrics, polygon_data_full_plants_with_eco$pd_values, upper_lower_keyvals = polygon_data_CI_ranges_pd_ecoregions_plants)
 
-png("Plants/images/CI_cali_significance_hexes_pd_hist_ecoregions_genus0505.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_ecoregions_significance_polygons_pd_plants), main = "CI_cali_significance_hexes_pd_hist", xlab = "PD", ylab = "Frequency")
+png("Plants/images/CI_cali_significance_hexes_pd_hist_ecoregions_genus_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_ecoregions_significance_polygons_pd_plants), main = "CI_cali_significance_hexes_pd_hist_barot", xlab = "PD", ylab = "Frequency")
 dev.off()
 
 
-polygon_data_CI_ranges_mpd_ecoregions_plants <- Map(cI_generator, polygon_data_full_plants_with_eco$tree_size, params_json_file = polygon_data_full_plants_with_eco$ec_js_mpd)
+polygon_data_CI_ranges_mpd_ecoregions_plants <- Map(cI_generator_baro5, polygon_data_full_plants_with_eco$tree_size, params_json_file = polygon_data_full_plants_with_eco$ec_js_mpd)
 CI_ecoregions_significance_polygons_mpd_plants<- Map(check_significance_other_metrics, polygon_data_full_plants_with_eco$mpd_values, upper_lower_keyvals = polygon_data_CI_ranges_mpd_ecoregions_plants)
 
 #check them against their own ecoregions. 
-png("Plants/images/CI_cali_significance_hexes_mpd_hist_ecoregions_genus0505.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_ecoregions_significance_polygons_mpd_plants), main = "CI_cali_significance_hexes_mpd_hist", xlab = "mpd", ylab = "Frequency")
+png("Plants/images/CI_cali_significance_hexes_mpd_hist_ecoregions_genus_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_ecoregions_significance_polygons_mpd_plants), main = "CI_cali_significance_hexes_mpd_hist_barot", xlab = "mpd", ylab = "Frequency")
 dev.off()
 
 
-polygon_data_CI_ranges_mntd_ecoregions_plants <- Map(cI_generator, polygon_data_full_plants_with_eco$tree_size, params_json_file = polygon_data_full_plants_with_eco$ec_js_mntd)
+polygon_data_CI_ranges_mntd_ecoregions_plants <- Map(cI_generator_baro5, polygon_data_full_plants_with_eco$tree_size, params_json_file = polygon_data_full_plants_with_eco$ec_js_mntd)
 CI_ecoregions_significance_polygons_mntd_plants<- Map(check_significance_other_metrics, polygon_data_full_plants_with_eco$mntd_values, upper_lower_keyvals = polygon_data_CI_ranges_mntd_ecoregions_plants)
 
-png("Plants/images/CI_cali_significance_hexes_mntd_hist_ecoregions_genus0505.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_ecoregions_significance_polygons_mntd_plants), main = "CI_cali_significance_hexes_mntd_hist", xlab = "mntd", ylab = "Frequency")
+png("Plants/images/CI_cali_significance_hexes_mntd_hist_ecoregions_genus_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_ecoregions_significance_polygons_mntd_plants), main = "CI_cali_significance_hexes_mntd_hist_barot", xlab = "mntd", ylab = "Frequency")
 dev.off()
 
 
@@ -358,6 +360,8 @@ print(unique_values)
 
 #step 1: extract polygons that have more than one ecoregion
 
+#need to join the tables. 
+
 
 # Print the resulting joined table
 print(joined_table)
@@ -376,6 +380,8 @@ summary(polygon_full_plants_with_eco_nona$pdSigEc)
 # 3. Color the hexagons based on pdSigCal values
 
 #this function kind of takes a while
+
+#need to colro the map. 
 unique_joined_table<- handle_ecoregions(polygon_full_plants_with_eco_nona)
 
 unique_joined_table_no_eco_labels<- unique_joined_table%>%
@@ -392,7 +398,7 @@ plot_area <- ggplot() +
   coord_equal()    # Ensure equal aspect ratio
 
 plot_area <- plot_area + 
-  geom_sf(data = unique_joined_table, aes(fill = factor(mntdSgE), color = factor(mntdSgE)))
+  geom_sf(data = polygon_full_plants_with_eco_nona, aes(fill = factor(pdSigEco), color = factor(pdSigEco)))
 
 #some of these are not actually correct. 
 # Customize the legend and color scale
@@ -410,13 +416,13 @@ plot_area_fin<- plot_area_fin +
   geom_sf(data = ecoregions,alpha = 0)
 
 
-ggsave("Plants/images/Ecoregion_genus_level_mntd_distribution_white.png", plot_area_fin, width = 10, height = 10, dpi = 300)
+ggsave("Plants/images/Ecoregion_genus_level_mntd_distribution_baro5.png", plot_area_fin, width = 10, height = 10, dpi = 300)
 dev.off()
 
 
-st_write(polygon_data_full_plants_with_eco, "Plants/final_output.shp")
+st_write(polygon_data_full_plants_with_eco, "Plants/final_output_baro5.shp")
 
-saveRDS(data.frame(polygon_data_full_plants_with_eco), file = "Plants/final_output_dataframe")
+saveRDS(data.frame(polygon_data_full_plants_with_eco), file = "Plants/final_output_dataframe_baro5")
 
 
 unique(polygon_data_full_plants_with_eco$pdSigCal)

@@ -242,7 +242,7 @@ cali_hexes_as_sf<- polygons
 
 polygon_data_full_butterflies_genus<- left_join(data.frame(cali_hexes_as_sf), pop_hex_stats_butterflies_df_genus, by = "h3_index")
 
-polygon_data_full_butterflies_with_eco_genus<- left_join(polygon_data_full_butterflies_genus, data.frame(hexes_with_ecoregions))
+polygon_data_full_butterflies_with_eco_genus<- left_join(polygon_data_full_butterflies_genus, data.frame(hexes_with_ecoregions),by = "h3_index")
 
 
 #ec_js_pd<- ecoregion_json_filename shortened. 
@@ -270,30 +270,30 @@ polygon_data_full_butterflies_with_eco_genus$ec_js_mntd<- unlist(lapply(polygon_
 #perhaps there is an issue with the CI generation?
 
 #pretty much all these freaking butterflies are overdispersed. 
-polygon_data_CI_ranges_pd_cali_butterflies_genus<- lapply(polygon_data_full_butterflies_with_eco_genus$tree_size, cI_generator, params_json_file = "butterflies/pd_model_params.json")
+polygon_data_CI_ranges_pd_cali_butterflies_genus<- lapply(polygon_data_full_butterflies_with_eco_genus$tree_size, cI_generator_baro5, params_json_file = "butterflies/GENUSpd_model_params_baro5.json")
 CI_cali_significance_polygons_pd_butterflies_genus<- Map(check_significance_other_metrics, polygon_data_full_butterflies_with_eco_genus$pd_values, upper_lower_keyvals = polygon_data_CI_ranges_pd_cali_butterflies_genus)
 
 
 #HOW THE FUCK IS EVERYTHING SIGNIFICANTLY THE FUCK HIGH!?????
 
-png("butterflies/images/CI_cali_significance_hexes_pd_hist_genus.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_cali_significance_polygons_pd_butterflies_genus), main = "CI_cali_significance_hexes_pd_hist", xlab = "PD", ylab = "Frequency")
+png("butterflies/images/CI_cali_significance_hexes_pd_hist_genus_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_cali_significance_polygons_pd_butterflies_genus), main = "CI_cali_significance_hexes_pd_baro5_hist", xlab = "PD", ylab = "Frequency")
 dev.off()
 
-polygon_data_CI_ranges_mpd_cali_butterflies_genus<- lapply(polygon_data_full_butterflies_with_eco_genus$tree_size, cI_generator, params_json_file = "butterflies/mpd_model_params.json")
+polygon_data_CI_ranges_mpd_cali_butterflies_genus<- lapply(polygon_data_full_butterflies_with_eco_genus$tree_size, cI_generator_baro5, params_json_file = "butterflies/GENUSmpd_model_params_baro5.json")
 CI_cali_significance_polygons_mpd_butterflies_genus<- Map(check_significance_other_metrics, polygon_data_full_butterflies_with_eco_genus$mpd_values, upper_lower_keyvals = polygon_data_CI_ranges_mpd_cali_butterflies_genus)
 
 
-png("butterflies/images/CI_cali_significance_hexes_mpd_hist_genus.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_cali_significance_polygons_mpd_butterflies_genus), main = "CI_cali_significance_hexes_mpd_hist", xlab = "PD", ylab = "Frequency")
+png("butterflies/images/CI_cali_significance_hexes_mpd_hist_genus_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_cali_significance_polygons_mpd_butterflies_genus), main = "CI_cali_significance_hexes_mpd_hist_baro5", xlab = "PD", ylab = "Frequency")
 dev.off()
 
-polygon_data_CI_ranges_mntd_cali_butterflies_genus<- lapply(polygon_data_full_butterflies_with_eco_genus$tree_size, cI_generator, params_json_file = "butterflies/mntd_model_params.json")
+polygon_data_CI_ranges_mntd_cali_butterflies_genus<- lapply(polygon_data_full_butterflies_with_eco_genus$tree_size, cI_generator_baro5, params_json_file = "butterflies/GENUSmntd_model_params_baro5.json")
 CI_cali_significance_polygons_mntd_butterflies_genus<- Map(check_significance_other_metrics, polygon_data_full_butterflies_with_eco_genus$mntd_values, upper_lower_keyvals = polygon_data_CI_ranges_mntd_cali_butterflies_genus)
 
 
-png("butterflies/images/CI_cali_significance_hexes_mntd_hist_genus.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_cali_significance_polygons_mntd_butterflies_genus), main = "CI_cali_significance_hexes_mntdd_hist", xlab = "PD", ylab = "Frequency")
+png("butterflies/images/CI_cali_significance_hexes_mntd_hist_genus_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_cali_significance_polygons_mntd_butterflies_genus), main = "CI_cali_significance_hexes_mntd_hist_baro5", xlab = "PD", ylab = "Frequency")
 dev.off()
 
 #for some reason the mean nearest taxon distance is pretty much always insignificant 
@@ -302,28 +302,28 @@ dev.off()
 #need to generate the json file names for each ecoregion. 
 #double check that ecoregions are in the correct order. might be wrong null models. 
 #for ecoregions: 
-polygon_data_CI_ranges_pd_ecoregions_butterflies_genus <- Map(cI_generator, polygon_data_full_butterflies_with_eco_genus$tree_size, params_json_file = polygon_data_full_butterflies_with_eco_genus$ec_js_pd)
+polygon_data_CI_ranges_pd_ecoregions_butterflies_genus <- Map(cI_generator_baro5, polygon_data_full_butterflies_with_eco_genus$tree_size, params_json_file = polygon_data_full_butterflies_with_eco_genus$ec_js_pd)
 CI_ecoregions_significance_polygons_pd_butterflies_genus<- Map(check_significance_other_metrics, polygon_data_full_butterflies_with_eco_genus$pd_values, upper_lower_keyvals = polygon_data_CI_ranges_pd_ecoregions_butterflies_genus)
 
-png("birds/images/CI_cali_significance_hexes_pd_hist_ecoregions_genus.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_ecoregions_significance_polygons_pd_butterflies_genus), main = "CI_cali_significance_hexes_pd_hist", xlab = "PD", ylab = "Frequency")
+png("butterflies/images/CI_cali_significance_hexes_pd_hist_ecoregions_genus_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_ecoregions_significance_polygons_pd_butterflies_genus), main = "CI_cali_significance_hexes_pd_hist_baro5", xlab = "PD", ylab = "Frequency")
 dev.off()
 
 
-polygon_data_CI_ranges_mpd_ecoregions_butterflies_genus <- Map(cI_generator, polygon_data_full_butterflies_with_eco_genus$tree_size, params_json_file = polygon_data_full_butterflies_with_eco_genus$ec_js_mpd)
+polygon_data_CI_ranges_mpd_ecoregions_butterflies_genus <- Map(cI_generator_baro5, polygon_data_full_butterflies_with_eco_genus$tree_size, params_json_file = polygon_data_full_butterflies_with_eco_genus$ec_js_mpd)
 CI_ecoregions_significance_polygons_mpd_butterflies_genus<- Map(check_significance_other_metrics, polygon_data_full_butterflies_with_eco_genus$mpd_values, upper_lower_keyvals = polygon_data_CI_ranges_mpd_ecoregions_butterflies_genus)
 
 #check them against their own ecoregions. 
-png("butterflies/images/CI_cali_significance_hexes_mpd_hist_ecoregions_genus.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_ecoregions_significance_polygons_mpd_butterflies_genus), main = "CI_cali_significance_hexes_mpd_hist", xlab = "mpd", ylab = "Frequency")
+png("butterflies/images/CI_cali_significance_hexes_mpd_hist_ecoregions_genus_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_ecoregions_significance_polygons_mpd_butterflies_genus), main = "CI_cali_significance_hexes_mpd_hist_baro5", xlab = "mpd", ylab = "Frequency")
 dev.off()
 
 
-polygon_data_CI_ranges_mntd_ecoregions_butterflies_genus <- Map(cI_generator, polygon_data_full_butterflies_with_eco_genus$tree_size, params_json_file = polygon_data_full_butterflies_with_eco_genus$ec_js_mntd)
+polygon_data_CI_ranges_mntd_ecoregions_butterflies_genus <- Map(cI_generator_baro5, polygon_data_full_butterflies_with_eco_genus$tree_size, params_json_file = polygon_data_full_butterflies_with_eco_genus$ec_js_mntd)
 CI_ecoregions_significance_polygons_mntd_butterflies_genus<- Map(check_significance_other_metrics, polygon_data_full_butterflies_with_eco_genus$mntd_values, upper_lower_keyvals = polygon_data_CI_ranges_mntd_ecoregions_butterflies_genus)
 
-png("butterflies/images/CI_cali_significance_hexes_mntd_hist_ecoregions.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_ecoregions_significance_polygons_mntd_butterflies_genus), main = "CI_cali_significance_hexes_mntd_hist", xlab = "mntd", ylab = "Frequency")
+png("butterflies/images/CI_cali_significance_hexes_mntd_hist_ecoregions_genus_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_ecoregions_significance_polygons_mntd_butterflies_genus), main = "CI_cali_significance_hexes_mntd_hist_baro5", xlab = "mntd", ylab = "Frequency")
 dev.off()
 
 
@@ -356,11 +356,11 @@ polygon_data_full_butterflies_with_eco_genus$mntdSigEco<- unlist(CI_ecoregions_s
 
 
 #might have messed things up with names. 
-st_write(st_as_sf(polygon_data_full_butterflies_with_eco_genus), "butterflies/polygon_data_full_butterflies_with_eco_genus.shp")
+st_write(st_as_sf(polygon_data_full_butterflies_with_eco_genus), "butterflies/polygon_data_full_butterflies_with_eco_genus_baro5.shp")
 
 ###NOTE:: already saved butterfly data, use original save!
-st_write(st_as_sf(polygon_data_full_butterflies_with_eco_genus),"butterflies/final_output.shp")
-saveRDS(polygon_data_full_butterflies_with_eco_genus, "butterflies/final_output_dataframe")
+st_write(st_as_sf(polygon_data_full_butterflies_with_eco_genus),"butterflies/final_output_baro5.shp", append = FALSE)
+saveRDS(polygon_data_full_butterflies_with_eco_genus, "butterflies/final_output_dataframe_baro5")
 #already wrote this! 
 
 ###DONE for butterflies. 

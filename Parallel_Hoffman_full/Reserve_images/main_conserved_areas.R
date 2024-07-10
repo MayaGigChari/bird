@@ -99,13 +99,13 @@ plot_area <- ggplot() +
   scale_fill_gradient2(low = "blue", mid = "white", high = "red", 
                        midpoint = 0, 
                        name = "Cumulative Significance", 
-                       breaks = c(-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5),
+                       breaks = c(-5, -4, -3, -2, -5:5, 2, 3, 4, 5),
                        labels = c("-5", "", "", "", "", "0", "", "", "", "", "5"),
                        limits = c(-5, 5)) +
   scale_color_gradient2(low = "blue", mid = "white", high = "red", 
                         midpoint = 0, 
                         name = "Cumulative Significance", 
-                        breaks = c(-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5),
+                        breaks = c(-5, -4, -3, -2, -5:5, 2, 3, 4, 5),
                         labels = c("-5", "", "", "", "", "0", "", "", "", "", "5"),
                         limits = c(-5, 5))+
   geom_sf(data = uc_polygons, color = "green",  fill = "green", alpha = 0.5)
@@ -135,35 +135,92 @@ final_join_plot_CA_df<- data.frame(final_join_plot_CA)
 
 total_hexagonal_info<- data.frame(left_join(conserved_areas_overlapping_polygons, final_join_plot_CA_df, join_by("h3_index" =="bird_h3_indx")))
 
+#total_hexagonal_info<- drop_na(data.frame(left_join(conserved_areas_overlapping_polygons, final_join_plot_CA_df, join_by("h3_index" =="bird_h3_indx"))))
+
 #now want to group by each management agency and count the number of significantly high, significantly low and zero hexagons overlapping. 
 
+#this is 
+
+#NEED TO 
 total_hexgonal_info_props <- total_hexagonal_info %>%
   group_by(MNG_AGNCY) %>%
   summarize(
-    pd_low_Cl = sum(clade_sum_pdSigCl == -1, na.rm = TRUE) / n(),
-    pd_high_Cl = sum(clade_sum_pdSigCl == 1, na.rm = TRUE) / n(), 
-    pd_norm_Cl = sum(clade_sum_pdSigCl == 0, na.rm = TRUE) / n(),
-    mpd_low_Cl = sum(clade_sum_mpdSigCl == -1, na.rm = TRUE) / n(),
-    mpd_high_Cl = sum(clade_sum_mpdSigCl == 1, na.rm = TRUE) / n(),
-    mpd_norm_Cl = sum(clade_sum_mpdSigCl == 0, na.rm = TRUE) / n(),
-    mntd_low_Cl = sum(clade_sum_mntdSigCl == -1, na.rm = TRUE) / n(),
-    mntd_high_Cl = sum(clade_sum_mntdSigCl == 1, na.rm = TRUE) / n(),
-    mntd_norm_Cl = sum(clade_sum_mntdSigCl == 0, na.rm = TRUE) / n(),
-    pd_low_Ec = sum(clade_sum_pdSigEc == -1, na.rm = TRUE) / n(),
-    pd_high_Ec = sum(clade_sum_pdSigEc == 1, na.rm = TRUE) / n(),
-    pd_norm_Ec = sum(clade_sum_pdSigEc == 0, na.rm = TRUE) / n(),
-    mpd_low_Ec = sum(clade_sum_mpdSigEc == -1, na.rm = TRUE) / n(),
-    mpd_high_Ec = sum(clade_sum_mpdSigEc == 1, na.rm = TRUE) / n(),
-    mpd_norm_Ec = sum(clade_sum_mpdSigEc == 0, na.rm = TRUE) / n(),
-    mntd_low_Ec = sum(clade_sum_mntdSigEc == -1, na.rm = TRUE) / n(),
-    mntd_high_Ec = sum(clade_sum_mntdSigEc == 1, na.rm = TRUE) / n(),
-    mntd_norm_Ec = sum(clade_sum_mntdSigEc == 0, na.rm = TRUE) / n()
+    pd_low_Cl = sum(clade_sum_pdSigCl <= -1, na.rm = TRUE) / sum(clade_sum_pdSigCl %in% c(-5:5), na.rm = TRUE),
+    pd_high_Cl = sum(clade_sum_pdSigCl >= 1, na.rm = TRUE) / sum(clade_sum_pdSigCl %in% c(-5:5), na.rm = TRUE), 
+    pd_norm_Cl = sum(clade_sum_pdSigCl == 0, na.rm = TRUE) / sum(clade_sum_pdSigCl %in% c(-5:5), na.rm = TRUE),
+    mpd_low_Cl = sum(clade_sum_mpdSigCl <= -1, na.rm = TRUE) / sum(clade_sum_mpdSigCl %in% c(-5:5), na.rm = TRUE),
+    mpd_high_Cl = sum(clade_sum_mpdSigCl >= 1, na.rm = TRUE) / sum(clade_sum_mpdSigCl %in% c(-5:5), na.rm = TRUE),
+    mpd_norm_Cl = sum(clade_sum_mpdSigCl == 0, na.rm = TRUE) / sum(clade_sum_mpdSigCl %in% c(-5:5), na.rm = TRUE),
+    mntd_low_Cl = sum(clade_sum_mntdSigCl <= -1, na.rm = TRUE) / sum(clade_sum_mntdSigCl %in% c(-5:5), na.rm = TRUE),
+    mntd_high_Cl = sum(clade_sum_mntdSigCl >= 1, na.rm = TRUE) / sum(clade_sum_mntdSigCl %in% c(-5:5), na.rm = TRUE),
+    mntd_norm_Cl = sum(clade_sum_mntdSigCl == 0, na.rm = TRUE) / sum(clade_sum_mntdSigCl %in% c(-5:5), na.rm = TRUE),
+    pd_low_Ec = sum(clade_sum_pdSigEc <= -1, na.rm = TRUE) / sum(clade_sum_pdSigEc %in% c(-5:5), na.rm = TRUE),
+    pd_high_Ec = sum(clade_sum_pdSigEc >= 1, na.rm = TRUE) / sum(clade_sum_pdSigEc %in% c(-5:5), na.rm = TRUE),
+    pd_norm_Ec = sum(clade_sum_pdSigEc == 0, na.rm = TRUE) / sum(clade_sum_pdSigEc %in% c(-5:5), na.rm = TRUE),
+    mpd_low_Ec = sum(clade_sum_mpdSigEc <= -1, na.rm = TRUE) / sum(clade_sum_mpdSigEc %in% c(-5:5), na.rm = TRUE),
+    mpd_high_Ec = sum(clade_sum_mpdSigEc >= 1, na.rm = TRUE) / sum(clade_sum_mpdSigEc %in% c(-5:5), na.rm = TRUE),
+    mpd_norm_Ec = sum(clade_sum_mpdSigEc == 0, na.rm = TRUE) / sum(clade_sum_mpdSigEc %in% c(-5:5), na.rm = TRUE),
+    mntd_low_Ec = sum(clade_sum_mntdSigEc <= -1, na.rm = TRUE) / sum(clade_sum_mntdSigEc %in% c(-5:5), na.rm = TRUE),
+    mntd_high_Ec = sum(clade_sum_mntdSigEc >= 1, na.rm = TRUE) / sum(clade_sum_mntdSigEc %in% c(-5:5), na.rm = TRUE),
+    mntd_norm_Ec = sum(clade_sum_mntdSigEc == 0, na.rm = TRUE) / sum(clade_sum_mntdSigEc %in% c(-5:5), na.rm = TRUE)
   )
+unique(total_hexagonal_info$clade_sum_pdSigCl)
+colMeans(total_hexgonal_info_props[-1])
 
+total_hexgonal_info_props_pd_eco<- total_hexgonal_info_props[c(1,11,12,13)]
+colnames(total_hexgonal_info_props_pd_eco)<- c("MNG_AGNCY", "clustered", "over-dispersed", "expected")
+colMeans(total_hexgonal_info_props_pd_eco[-1])
+total_hexgonal_info_props_mpd_eco<- total_hexgonal_info_props[c(1,14,15,16)]
+colnames(total_hexgonal_info_props_mpd_eco)<- c("MNG_AGNCY", "clustered", "over-dispersed", "expected")
+colMeans(total_hexgonal_info_props_mpd_eco[-1])
+total_hexgonal_info_props_mntd_eco<- total_hexgonal_info_props[c(1,17,18,19)]
+colnames(total_hexgonal_info_props_mntd_eco)<- c("MNG_AGNCY", "clustered", "over-dispersed", "expected")
+colMeans(total_hexgonal_info_props_mntd_eco[-1])
+total_hexgonal_info_props_pd_cal<- total_hexgonal_info_props[c(1,2,3,4)]
+colnames(total_hexgonal_info_props_pd_cal)<- c("MNG_AGNCY", "clustered", "over-dispersed", "expected")
+colMeans(total_hexgonal_info_props_pd_cal[-1])
+total_hexgonal_info_props_mpd_cal<- total_hexgonal_info_props[c(1,5,6,7)]
+colnames(total_hexgonal_info_props_mpd_cal)<- c("MNG_AGNCY", "clustered", "over-dispersed", "expected")
+colMeans(total_hexgonal_info_props_mpd_cal[-1])
+total_hexgonal_info_props_mntd_cal<- total_hexgonal_info_props[c(1,8,9,10)]
+colnames(total_hexgonal_info_props_mntd_cal)<- c("MNG_AGNCY", "clustered", "over-dispersed", "expected")
+colMeans(total_hexgonal_info_props_mntd_cal[-1])
+pd_cal_long <- total_hexgonal_info_props_pd_cal %>%
+  gather(key = "Attribute", value = "Proportion", -MNG_AGNCY)
+
+mpd_cal_long <- total_hexgonal_info_props_mpd_cal %>%
+  gather(key = "Attribute", value = "Proportion", -MNG_AGNCY)
+
+mntd_cal_long <- total_hexgonal_info_props_mntd_cal %>%
+  gather(key = "Attribute", value = "Proportion", -MNG_AGNCY)
+
+
+pd_eco_long <- total_hexgonal_info_props_pd_eco %>%
+  gather(key = "Attribute", value = "Proportion", -MNG_AGNCY)
+
+mpd_eco_long <- total_hexgonal_info_props_mpd_eco %>%
+  gather(key = "Attribute", value = "Proportion", -MNG_AGNCY)
+
+mntd_eco_long <- total_hexgonal_info_props_mntd_eco %>%
+  gather(key = "Attribute", value = "Proportion", -MNG_AGNCY)
+
+# Plot the data
+ggplot(mntd_eco_long, aes(x = MNG_AGNCY, y = Proportion, fill = Attribute)) +
+  geom_bar(stat = "identity") +
+  scale_fill_manual(values = c("blue", "#FFFDD0", "red")) +
+  labs(
+    y = "Proportion",
+    fill = "Attributes"
+  ) +
+  coord_flip() +
+  theme(axis.text.y = element_text(angle = 0, hjust = 1))
+
+ggsave("images/reserve_mntd_vertical_barolot_eco.png", dpi = 500)
 #make graphs for all the ecoregion stuff (bar graphs)
 
 #extract just the ecoregions
-ecoregion_total_hexagonal_info_props<- total_hexgonal_info_props[c(1, 9, 12, 15)]
+ecoregion_total_hexagonal_info_props<- total_hexgonal_info_props[c(1, 10, 13, 16)]
+
 
 library(ggplot2)
 
@@ -171,7 +228,7 @@ library(ggplot2)
 melted_data <- tidyr::pivot_longer(ecoregion_total_hexagonal_info_props, cols = -MNG_AGNCY)
 
 # Create bar plots using ggplot2 and facet_wrap
-melted_data <- tidyr::pivot_longer(total_hexgonal_info_sums, cols = -MNG_AGNCY)
+#melted_data <- tidyr::pivot_longer(total_hexgonal_info_sums, cols = -MNG_AGNCY)
 
 # Modify names for better presentation
 melted_data$name <- gsub("_.*", "", melted_data$name)
@@ -186,7 +243,7 @@ ggplot(melted_data, aes(x = MNG_AGNCY, y = value, fill = name)) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 75, hjust = 1))
 
-ggsave("Reserve_images/reserve_high_histogram.png", width = 11, height = 8.5, units = "in")
+ggsave("Reserve_images/reserve_low_histogram.png", width = 11, height = 8.5, units = "in")
 
 
 
@@ -205,13 +262,13 @@ plot_area <- ggplot() +
   scale_fill_gradient2(low = "blue", mid = "white", high = "red", 
                        midpoint = 0, 
                        name = "Cumulative Significance", 
-                       breaks = c(-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5),
+                       breaks = c(-5, -4, -3, -2, -5:5, 2, 3, 4, 5),
                        labels = c("-5", "", "", "", "", "0", "", "", "", "", "5"),
                        limits = c(-5, 5)) +
   scale_color_gradient2(low = "blue", mid = "white", high = "red", 
                         midpoint = 0, 
                         name = "Cumulative Significance", 
-                        breaks = c(-5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5),
+                        breaks = c(-5, -4, -3, -2, -5:5, 2, 3, 4, 5),
                         labels = c("-5", "", "", "", "", "0", "", "", "", "", "5"),
                         limits = c(-5, 5))
 
@@ -219,4 +276,56 @@ plot_area <- ggplot() +
 # Output the plot
 ggsave("Reserve_images/unoccupied_polygons_mntd_Ec.png", plot_area, width = 10, height = 10, dpi = 300)
 
-  
+
+#something is fundamentally wrong here. 
+#need to count the total hexagons of each type.
+
+#there are 12780 rows in the final join column which is a problem. This shoudl be happening AFTER filtering for ecoregion stuff!
+
+total_hexgonal_allthree_sig <- final_join %>%
+  summarize(
+    low_Cl = sum(clade_sum_pdSigCl <= -1 & clade_sum_mpdSigCl <= -1 & clade_sum_mntdSigCl <= -1, na.rm = TRUE),
+    high_Cl = sum(clade_sum_pdSigCl >= 1 & clade_sum_mpdSigCl >= 1 & clade_sum_mntdSigCl >= 1, na.rm = TRUE),
+    #norm_Cl = sum(clade_sum_pdSigCl == 0 & clade_sum_mpdSigCl == 0 & clade_sum_mntdSigCl == 0, na.rm = TRUE),
+    low_Ec = sum(clade_sum_pdSigEc <= -1 & clade_sum_mpdSigEc <= -1 & clade_sum_mntdSigEc <= -1, na.rm = TRUE),
+    high_Ec = sum(clade_sum_pdSigEc >= 1 & clade_sum_mpdSigEc >= 1 & clade_sum_mntdSigEc >= 1, na.rm = TRUE),
+    #norm_Ec = sum(clade_sum_pdSigEc == 0 & clade_sum_mpdSigEc == 0 & clade_sum_mntdSigEc == 0, na.rm = TRUE)
+  )
+
+
+
+total_hexgonal_anyone <- final_join %>%
+  summarize(
+    low_Cl = sum(clade_sum_pdSigCl <= -1 | clade_sum_mpdSigCl <= -1 | clade_sum_mntdSigCl <= -1, na.rm = TRUE),
+    high_Cl = sum(clade_sum_pdSigCl >= 1 | clade_sum_mpdSigCl >= 1 | clade_sum_mntdSigCl >= 1, na.rm = TRUE),
+    #norm_Cl = sum(clade_sum_pdSigCl == 0 | clade_sum_mpdSigCl == 0 | clade_sum_mntdSigCl == 0, na.rm = TRUE),
+    low_Ec = sum(clade_sum_pdSigEc <= -1 | clade_sum_mpdSigEc <= -1 | clade_sum_mntdSigEc <=-1, na.rm = TRUE),
+    high_Ec = sum(clade_sum_pdSigEc >= 1 | clade_sum_mpdSigEc >= 1 | clade_sum_mntdSigEc >= 1, na.rm = TRUE),
+    #norm_Ec = sum(clade_sum_pdSigEc == 0 | clade_sum_mpdSigEc == 0 | clade_sum_mntdSigEc == 0, na.rm = TRUE)
+  )
+
+overdispersed_hexes_cali<- final_join %>%
+  filter(
+    clade_sum_pdSigEc >= 1 |clade_sum_mpdSigEc >= 1 |
+    clade_sum_mntdSigEc >= 1
+  )
+
+clustered_hexes_cali<- final_join %>%
+  filter(
+    clade_sum_pdSigEc >= -1 |clade_sum_mpdSigEc >= -1 |
+      clade_sum_mntdSigEc >= -1
+  )
+
+neutral_hexes_cali<- final_join %>%
+  filter(
+    clade_sum_pdSigEc >= 0 |clade_sum_mpdSigEc >= 0 |
+      clade_sum_mntdSigEc >= 0
+  )
+
+
+
+length(which(!neutral_hexes_cali$bird_h3_indx%in% conserved_areas_overlapping_polygons_df$h3_index))
+
+
+
+

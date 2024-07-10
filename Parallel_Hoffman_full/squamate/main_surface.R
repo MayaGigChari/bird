@@ -42,25 +42,36 @@ mntd_data<- read.csv("squamate/CI_mntd_output_bootstrap.csv")
 #this doesn't work at all. 
 
 #need to figure out how to write this to json. 
-pd_model<-as_tibble(t(surfaceGen(pd_data, "pd")), rownames = "key") #need to make models. 
-mpd_model<-as_tibble(t(surfaceGen(mpd_data, "mpd")), rownames = "key")
-mntd_model<-as_tibble(t(surfaceGen(mntd_data, "mntd")), rownames = "key")
-surfaceGen
+pdf(file="squamate/images/genus_full_model_pd_baro5.pdf")
+pd_model<-as_tibble(t(surfaceGen(pd_data, "pd", func = baro5())), rownames = "key") #need to make models. 
+dev.off()
+pdf(file="squamate/images/genus_full_model_mpd_baro5.pdf")
+mpd_model<-as_tibble(t(surfaceGen(mpd_data, "mpd", func = baro5())), rownames = "key")
+dev.off()
+pdf(file="squamate/images/genus_full_model_mntd_baro5.pdf")
+mntd_model<-as_tibble(t(surfaceGen(mntd_data, "mntd", func = baro5())), rownames = "key")
+dev.off()
 #plot(mpd_model$tree_sizes, mpd_model$low)
 
 #wite model coefficients to csv files for visualization. 
-write.csv(pd_model, "squamate/pd_model_params.csv", row.names = TRUE)
-write.csv(mpd_model, "squamate/mpd_model_params.csv", row.names = TRUE)
-write.csv(mntd_model, "squamate/mntd_model_params.csv", row.names = TRUE)
+write.csv(pd_model, "squamate/pd_model_params_baro5.csv", row.names = TRUE)
+write.csv(mpd_model, "squamate/mpd_model_params_baro5.csv", row.names = TRUE)
+write.csv(mntd_model, "squamate/mntd_model_params_baro5.csv", row.names = TRUE)
+
+
+prediction_regression(pd_data, metric = "pd", func = baro5(), clade = "squamate")
+prediction_regression(mpd_data, metric = "mpd", func = baro5(), clade = "squamate")
+prediction_regression(mntd_data, metric = "mntd", func = baro5(), clade = "squamate")
+
 
 json_pd<- toJSON(x = pd_model, dataframe = 'rows', pretty = F)
-write(json_pd, file = "squamate/pd_model_params.json")
+write(json_pd, file = "squamate/pd_model_params_baro5.json")
 
 json_mpd<- toJSON(x = mpd_model, dataframe = 'rows', pretty = F)
-write(json_mpd, file = "squamate/mpd_model_params.json")
+write(json_mpd, file = "squamate/mpd_model_params_baro5.json")
 
 json_mntd<- toJSON(x = mntd_model, dataframe = 'rows', pretty = F)
-write(json_mntd, file = "squamate/mntd_model_params.json")
+write(json_mntd, file = "squamate/mntd_model_params_baro5.json")
 
 
 #surface generation for ecoregions: 
@@ -81,18 +92,25 @@ for(i in dir_list_ecoregions)
   
   print(i)
   
-  pd_model_temp_mam<-as_tibble(t(surfaceGen(pd_data_temp_mam, "pd")), rownames = "key") #need to make models. 
-  mpd_model_temp_mam<-as_tibble(t(surfaceGen(mpd_data_temp_mam, "mpd")), rownames = "key")
-  mntd_model_temp_mam<-as_tibble(t(surfaceGen(mntd_data_temp_mam, "mntd")), rownames = "key")
+  
+  pdf(file=paste( i, "/pd_fit_baro5.pdf", sep = ""))
+  pd_model_temp_mam<-as_tibble(t(surfaceGen(pd_data_temp_mam, "pd", func = baro5())), rownames = "key") #need to make models. 
+  dev.off()
+  pdf(file=paste( i, "/mpd_fit_baro5.pdf", sep = ""))
+  mpd_model_temp_mam<-as_tibble(t(surfaceGen(mpd_data_temp_mam, "mpd", func = baro5())), rownames = "key")
+  dev.off()
+  pdf(file=paste( i, "/mntd_fit_baro5.pdf", sep = ""))
+  mntd_model_temp_mam<-as_tibble(t(surfaceGen(mntd_data_temp_mam, "mntd", func = baro5())), rownames = "key")
+  dev.off()
   
   json_pd<- toJSON(x = pd_model_temp_mam, dataframe = 'rows', pretty = F)
-  write(json_pd, file = paste(i, "/pd_model_params.json", sep = ""))
+  write(json_pd, file = paste(i, "/pd_model_params_baro5.json", sep = ""))
   
   json_mpd<- toJSON(x = mpd_model_temp_mam, dataframe = 'rows', pretty = F)
-  write(json_mpd, file = paste(i,"/mpd_model_params.json", sep = ""))
+  write(json_mpd, file = paste(i,"/mpd_model_params_baro5.json", sep = ""))
   
   json_mntd<- toJSON(x =mntd_model_temp_mam, dataframe = 'rows', pretty = F)
-  write(json_mntd, file = paste(i, "/mntd_model_params.json", sep = ""))
+  write(json_mntd, file = paste(i, "/mntd_model_params_baro5.json", sep = ""))
   
 }
 

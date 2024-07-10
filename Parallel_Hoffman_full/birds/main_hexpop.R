@@ -262,7 +262,7 @@ ggsave(filename = "birds/images/Missing_taxa_proportions_hexagon_california_0507
 #this just saves the file hex_tree_stats_birds without any geographic information. 
 saveRDS(pop_hex_stats_birds_df, file = "birds/raw_hex_stats_from_ranges_0507")
 
-pop_hex_stats_birds_df<- readRDS("birds/raw_hex_stats_from_ranges")
+pop_hex_stats_birds_df<- readRDS("birds/raw_hex_stats_from_ranges_0507")
 
 #want to merge this back to the polygon sf object 
 #use the "polygons" file generated in california-partition. 
@@ -286,25 +286,25 @@ polygon_data_full$ec_js_mntd<- unlist(lapply(polygon_data_full$US_L3CODE, makejs
 
 ####THIS WHOLE CHUNK OF CODE IS GENERATING SIGNIFICANCE VALUES. 
 
-polygon_data_CI_ranges_pd_cali<- lapply(polygon_data_full$tree_size, cI_generator, params_json_file = "birds/pd_model_params_0507.json")
+polygon_data_CI_ranges_pd_cali<- lapply(polygon_data_full$tree_size, cI_generator_baro5, params_json_file = "birds/pd_model_params_0507_baro5.json")
 CI_cali_significance_polygons_pd<- Map(check_significance_other_metrics, polygon_data_full$pd_values, upper_lower_keyvals = polygon_data_CI_ranges_pd_cali)
 
-png("birds/images/CI_cali_significance_hexes_pd_hist_0507.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_cali_significance_polygons_pd), main = "CI_cali_significance_hexes_pd_hist", xlab = "PD", ylab = "Frequency")
+png("birds/images/CI_cali_significance_hexes_pd_hist_0507_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_cali_significance_polygons_pd), main = "CI_cali_significance_hexes_pd_hist_baro5", xlab = "PD", ylab = "Frequency")
 dev.off()
 
-polygon_data_CI_ranges_mpd_cali<- lapply(polygon_data_full$tree_size, cI_generator, params_json_file = "birds/mpd_model_params_0507.json")
+polygon_data_CI_ranges_mpd_cali<- lapply(polygon_data_full$tree_size, cI_generator_baro5, params_json_file = "birds/mpd_model_params_0507_baro5.json")
 CI_cali_significance_polygons_mpd<- Map(check_significance_other_metrics, polygon_data_full$mpd_values, upper_lower_keyvals = polygon_data_CI_ranges_mpd_cali)
 
 
-png("birds/images/CI_cali_significance_hexes_mpd_hist_0507.png", width = 800, height = 600, units = "px", res = 100)
+png("birds/images/CI_cali_significance_hexes_mpd_hist_0507_baro5.png", width = 800, height = 600, units = "px", res = 100)
 histogram(unlist(CI_cali_significance_polygons_mpd)) #about 95% of all polygons in california have significantly low pd. 
 dev.off()
 
-polygon_data_CI_ranges_mntd_cali<- lapply(polygon_data_full$tree_size, cI_generator, params_json_file = "birds/mntd_model_params_0507.json")
+polygon_data_CI_ranges_mntd_cali<- lapply(polygon_data_full$tree_size, cI_generator_baro5, params_json_file = "birds/mntd_model_params_0507_baro5.json")
 CI_cali_significance_polygons_mntd<- Map(check_significance_other_metrics, polygon_data_full$mntd_values, upper_lower_keyvals = polygon_data_CI_ranges_mntd_cali)
 
-png("birds/images/CI_cali_significance_hexes_mntd_hist_0507.png", width = 800, height = 600, units = "px", res = 100)
+png("birds/images/CI_cali_significance_hexes_mntd_hist_0507_baro5.png", width = 800, height = 600, units = "px", res = 100)
 histogram(unlist(CI_cali_significance_polygons_mntd)) #about 95% of all polygons in california have significantly low pd. 
 dev.off()
 
@@ -314,27 +314,27 @@ dev.off()
 #need to generate the json file names for each ecoregion. 
 #double check that ecoregions are in the correct order. might be wrong null models. 
 #for ecoregions: 
-polygon_data_CI_ranges_pd_ecoregions <- Map(cI_generator, polygon_data_full$tree_size, params_json_file = polygon_data_full$ec_js_pd)
+polygon_data_CI_ranges_pd_ecoregions <- Map(cI_generator_baro5, polygon_data_full$tree_size, params_json_file = polygon_data_full$ec_js_pd)
 CI_ecoregions_significance_polygons_pd<- Map(check_significance_other_metrics, polygon_data_full$pd_values, upper_lower_keyvals = polygon_data_CI_ranges_pd_ecoregions)
 
-png("birds/images/CI_cali_significance_hexes_pd_hist_ecoregions_0507.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_ecoregions_significance_polygons_pd), main = "CI_cali_significance_hexes_pd_hist", xlab = "PD", ylab = "Frequency")
+png("birds/images/CI_cali_significance_hexes_pd_hist_ecoregions_0507_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_ecoregions_significance_polygons_pd), main = "CI_cali_significance_hexes_pd_hist_baro5", xlab = "PD", ylab = "Frequency")
 dev.off()
 
 
-polygon_data_CI_ranges_mpd_ecoregions <- Map(cI_generator, polygon_data_full$tree_size, params_json_file = polygon_data_full$ec_js_mpd)
+polygon_data_CI_ranges_mpd_ecoregions <- Map(cI_generator_baro5, polygon_data_full$tree_size, params_json_file = polygon_data_full$ec_js_mpd)
 CI_ecoregions_significance_polygons_mpd<- Map(check_significance_other_metrics, polygon_data_full$mpd_values, upper_lower_keyvals = polygon_data_CI_ranges_mpd_ecoregions)
 
-png("birds/images/CI_cali_significance_hexes_mpd_hist_ecoregions_0507.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_ecoregions_significance_polygons_mpd), main = "CI_cali_significance_hexes_mpd_hist", xlab = "mpd", ylab = "Frequency")
+png("birds/images/CI_cali_significance_hexes_mpd_hist_ecoregions_0507_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_ecoregions_significance_polygons_mpd), main = "CI_cali_significance_hexes_mpd_hist_baro5", xlab = "mpd", ylab = "Frequency")
 dev.off()
 
 
-polygon_data_CI_ranges_mntd_ecoregions <- Map(cI_generator, polygon_data_full$tree_size, params_json_file = polygon_data_full$ec_js_mntd)
+polygon_data_CI_ranges_mntd_ecoregions <- Map(cI_generator_baro5, polygon_data_full$tree_size, params_json_file = polygon_data_full$ec_js_mntd)
 CI_ecoregions_significance_polygons_mntd<- Map(check_significance_other_metrics, polygon_data_full$mntd_values, upper_lower_keyvals = polygon_data_CI_ranges_mntd_ecoregions)
 
-png("birds/images/CI_cali_significance_hexes_mntd_hist_ecoregions_0507.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_ecoregions_significance_polygons_mntd), main = "CI_cali_significance_hexes_mntd_hist", xlab = "mntd", ylab = "Frequency")
+png("birds/images/CI_cali_significance_hexes_mntd_hist_ecoregions_0507_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_ecoregions_significance_polygons_mntd), main = "CI_cali_significance_hexes_mntd_hist_baro5", xlab = "mntd", ylab = "Frequency")
 dev.off()
 
 
@@ -386,9 +386,9 @@ dev.off()
 
 #let us hope this is correct. 
 
-st_write(st_as_sf(polygon_data_full), "birds/final_output.shp")
+st_write(st_as_sf(polygon_data_full), "birds/final_output_baro5.shp")
 
-saveRDS(polygon_data_full, file = "birds/final_output_dataframe")
+saveRDS(polygon_data_full, file = "birds/final_output_dataframe_baro5")
 
 a<-st_read("birds/final_output.shp")
 

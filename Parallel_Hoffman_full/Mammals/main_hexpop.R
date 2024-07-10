@@ -204,7 +204,7 @@ cali_hexes_as_sf<- polygons
 
 polygon_data_full_mammals<- left_join(data.frame(cali_hexes_as_sf), pop_hex_stats_mammals_df, by = "h3_index")
 
-polygon_data_full_mammals_with_eco<- left_join(polygon_data_full_mammals, data.frame(hexes_with_ecoregions))
+polygon_data_full_mammals_with_eco<- left_join(polygon_data_full_mammals, data.frame(hexes_with_ecoregions), by = "h3_index")
 
 
 #ec_js_pd<- ecoregion_json_filename shortened. 
@@ -232,28 +232,28 @@ polygon_data_full_mammals_with_eco$ec_js_mntd<- unlist(lapply(polygon_data_full_
 #perhaps there is an issue with the CI generation?
 
 
-polygon_data_CI_ranges_pd_cali_mammals<- lapply(polygon_data_full_mammals_with_eco$tree_size, cI_generator, params_json_file = "Mammals/pd_model_params.json")
+polygon_data_CI_ranges_pd_cali_mammals<- lapply(polygon_data_full_mammals_with_eco$tree_size, cI_generator_baro5, params_json_file = "Mammals/pd_model_params_baro5().json")
 CI_cali_significance_polygons_pd_mammals<- Map(check_significance_other_metrics, polygon_data_full_mammals_with_eco$pd_values, upper_lower_keyvals = polygon_data_CI_ranges_pd_cali_mammals)
 #everything for mammals is significantly negative? 
 
-png("Mammals/images/CI_cali_significance_hexes_pd_hist.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_cali_significance_polygons_pd_mammals), main = "CI_cali_significance_hexes_pd_hist", xlab = "PD", ylab = "Frequency")
+png("Mammals/images/CI_cali_significance_hexes_pd_hist_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_cali_significance_polygons_pd_mammals), main = "CI_cali_significance_hexes_pd_hist_baro5", xlab = "PD", ylab = "Frequency")
 dev.off()
 
-polygon_data_CI_ranges_mpd_cali_mammals<- lapply(polygon_data_full_mammals_with_eco$tree_size, cI_generator, params_json_file = "Mammals/mpd_model_params.json")
+polygon_data_CI_ranges_mpd_cali_mammals<- lapply(polygon_data_full_mammals_with_eco$tree_size, cI_generator_baro5, params_json_file = "Mammals/mpd_model_params_baro5().json")
 CI_cali_significance_polygons_mpd_mammals<- Map(check_significance_other_metrics, polygon_data_full_mammals_with_eco$mpd_values, upper_lower_keyvals = polygon_data_CI_ranges_mpd_cali_mammals)
 
 
-png("Mammals/images/CI_cali_significance_hexes_mpd_hist.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_cali_significance_polygons_mpd_mammals), main = "CI_cali_significance_hexes_mpd_hist", xlab = "PD", ylab = "Frequency")
+png("Mammals/images/CI_cali_significance_hexes_mpd_hist_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_cali_significance_polygons_mpd_mammals), main = "CI_cali_significance_hexes_mpd_hist_baro5", xlab = "MPD", ylab = "Frequency")
 dev.off()
 
-polygon_data_CI_ranges_mntd_cali_mammals<- lapply(polygon_data_full_mammals_with_eco$tree_size, cI_generator, params_json_file = "Mammals/mntd_model_params.json")
+polygon_data_CI_ranges_mntd_cali_mammals<- lapply(polygon_data_full_mammals_with_eco$tree_size, cI_generator_baro5, params_json_file = "Mammals/mntd_model_params_baro5().json")
 CI_cali_significance_polygons_mntd_mammals<- Map(check_significance_other_metrics, polygon_data_full_mammals_with_eco$mntd_values, upper_lower_keyvals = polygon_data_CI_ranges_mntd_cali_mammals)
 
 
-png("Mammals/images/CI_cali_significance_hexes_mntd_hist.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_cali_significance_polygons_mntd_mammals), main = "CI_cali_significance_hexes_mntdd_hist", xlab = "PD", ylab = "Frequency")
+png("Mammals/images/CI_cali_significance_hexes_mntd_hist_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_cali_significance_polygons_mntd_mammals), main = "CI_cali_significance_hexes_mntd_hist_baro5", xlab = "MNTD", ylab = "Frequency")
 dev.off()
 
 #for some reason the mean nearest taxon distance is pretty much always insignificant 
@@ -262,31 +262,31 @@ dev.off()
 #need to generate the json file names for each ecoregion. 
 #double check that ecoregions are in the correct order. might be wrong null models. 
 #for ecoregions: 
-polygon_data_CI_ranges_pd_ecoregions_mammals <- Map(cI_generator, polygon_data_full_mammals_with_eco$tree_size, params_json_file = polygon_data_full_mammals_with_eco$ec_js_pd)
+polygon_data_CI_ranges_pd_ecoregions_mammals <- Map(cI_generator_baro5, polygon_data_full_mammals_with_eco$tree_size, params_json_file = polygon_data_full_mammals_with_eco$ec_js_pd)
 CI_ecoregions_significance_polygons_pd_mammals<- Map(check_significance_other_metrics, polygon_data_full_mammals_with_eco$pd_values, upper_lower_keyvals = polygon_data_CI_ranges_pd_ecoregions_mammals)
 
 
 
 #everything somehow becomes significantly negative relative to the ecoregion? not sure how this makes any sense. 
-png("Mammals/images/CI_cali_significance_hexes_pd_hist_ecoregions.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_ecoregions_significance_polygons_pd_mammals), main = "CI_cali_significance_hexes_pd_hist", xlab = "PD", ylab = "Frequency")
+png("Mammals/images/CI_cali_significance_hexes_pd_hist_ecoregions_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_ecoregions_significance_polygons_pd_mammals), main = "CI_cali_significance_hexes_pd_hist_baro5", xlab = "PD", ylab = "Frequency")
 dev.off()
 
 
-polygon_data_CI_ranges_mpd_ecoregions_mammals <- Map(cI_generator, polygon_data_full_mammals_with_eco$tree_size, params_json_file = polygon_data_full_mammals_with_eco$ec_js_mpd)
+polygon_data_CI_ranges_mpd_ecoregions_mammals <- Map(cI_generator_baro5, polygon_data_full_mammals_with_eco$tree_size, params_json_file = polygon_data_full_mammals_with_eco$ec_js_mpd)
 CI_ecoregions_significance_polygons_mpd_mammals<- Map(check_significance_other_metrics, polygon_data_full_mammals_with_eco$mpd_values, upper_lower_keyvals = polygon_data_CI_ranges_mpd_ecoregions_mammals)
 
 #check them against their own ecoregions. 
-png("Mammals/images/CI_cali_significance_hexes_mpd_hist_ecoregions.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_ecoregions_significance_polygons_mpd_mammals), main = "CI_cali_significance_hexes_mpd_hist", xlab = "mpd", ylab = "Frequency")
+png("Mammals/images/CI_cali_significance_hexes_mpd_hist_ecoregions_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_ecoregions_significance_polygons_mpd_mammals), main = "CI_cali_significance_hexes_mpd_hist_baro5", xlab = "mpd", ylab = "Frequency")
 dev.off()
 
 
-polygon_data_CI_ranges_mntd_ecoregions_mammals <- Map(cI_generator, polygon_data_full_mammals_with_eco$tree_size, params_json_file = polygon_data_full_mammals_with_eco$ec_js_mntd)
+polygon_data_CI_ranges_mntd_ecoregions_mammals <- Map(cI_generator_baro5, polygon_data_full_mammals_with_eco$tree_size, params_json_file = polygon_data_full_mammals_with_eco$ec_js_mntd)
 CI_ecoregions_significance_polygons_mntd_mammals<- Map(check_significance_other_metrics, polygon_data_full_mammals_with_eco$mntd_values, upper_lower_keyvals = polygon_data_CI_ranges_mntd_ecoregions_mammals)
 
-png("Mammals/images/CI_cali_significance_hexes_mntd_hist_ecoregions.png", width = 800, height = 600, units = "px", res = 100)
-histogram(unlist(CI_ecoregions_significance_polygons_mntd_mammals), main = "CI_cali_significance_hexes_mntd_hist", xlab = "mntd", ylab = "Frequency")
+png("Mammals/images/CI_cali_significance_hexes_mntd_hist_ecoregions_baro5.png", width = 800, height = 600, units = "px", res = 100)
+histogram(unlist(CI_ecoregions_significance_polygons_mntd_mammals), main = "CI_cali_significance_hexes_mntd_hist_baro5", xlab = "mntd", ylab = "Frequency")
 dev.off()
 
 
@@ -358,9 +358,9 @@ dev.off()
 
 ##SAVE DATAFRAMES
 
-st_write(polygon_data_full_mammals_with_eco, "Mammals/final_output.shp", append = FALSE)
+st_write(polygon_data_full_mammals_with_eco, "Mammals/final_output_baro5.shp", append = FALSE)
 
-saveRDS(polygon_data_full_mammals_with_eco, "Mammals/final_output_dataframe")
+saveRDS(polygon_data_full_mammals_with_eco, "Mammals/final_output_dataframe_baro5")
 
 
 unique(polygon_data_full_plants_with_eco$pdSigCal)

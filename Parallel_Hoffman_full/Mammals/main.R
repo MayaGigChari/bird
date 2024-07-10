@@ -67,8 +67,10 @@ write.tree(cali_tree_species_mammals, file = file.path(clade, "cali_species_tree
 
 Mammal_tree<- read.tree("Mammals/cali_species_tree.tre")
 
-ggtree(Mammal_tree, layout= "circular")
-ggsave("Mammals/images/california_species_tree.png")
+ggtree(Mammal_tree, layout = "circular")+
+  geom_tiplab(size = 2) # Change the size value as neededw
+ggsave("Mammals/images/cali_full_tree_with_tips.png")
+
 #have already developed the species level tree and loaded above. 
 
 
